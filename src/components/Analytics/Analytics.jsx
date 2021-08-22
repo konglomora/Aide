@@ -74,12 +74,3 @@ export default function Analytics() {
 		</div>
 	)
 }
-
-
-const link = 'http://www.aideindustries.tk:5000/saturationAnalysis/<onion>/<slot>'
-
-const SaturatedOnion = {
-	name: 'KIE',
-	week_comparison: 'D0 vs D7: курьеров +2%, заказов -6%. ',
-	average_saturation: 'Cредняя сатурация в слотах: 12:00 - 13:00: 78% 13:00 - 14:00: 94% 14:00 - 14:30: 108% 14:30 - 15:30: 118%'
-}
