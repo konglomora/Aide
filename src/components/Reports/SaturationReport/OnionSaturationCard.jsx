@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OnionAnalytic = (props) => {
+const OnionSaturationCard = (props) => {
     return (
         <div>
             <h1>{props.city}</h1>
@@ -10,10 +10,10 @@ const OnionAnalytic = (props) => {
             <div>
 
                 <span>{props.area}</span>
-                <span>{props.level_saturation}</span>
+                <span>{props.level_sat}</span>
             </div>
         </div>
     );
 };
 
-export default OnionAnalytic;
+export default OnionSaturationCard;

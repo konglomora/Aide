@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
-import {slots} from './Slots'
-import OnionAnalytic from "./OnionAnalytic";
+import {slots} from '../slots'
+import OnionSaturationCard from "./OnionSaturationCard";
 import {logDOM} from "@testing-library/react";
 
-export default function Analytics() {
+export default function SaturationReportPage() {
     const stateReprort = [{
         city: "DNP",
         difference: "D0 vs D7: курьеров -13%, заказов +35%. ",
@@ -78,7 +78,7 @@ export default function Analytics() {
         let indexofStartSlotsPeriod = slots.indexOf(slotStart)
         let indexofEndSlotsPeriod = slots.indexOf(slotEnd) === 0 ? 10000 : slots.indexOf(slotEnd)
 
-        const todaySaturatedOnions = await getHighSaturatedOnions(weekDataURL)
+        const todaySaturatedOnions = await getHighSaturatedOnions(todayDataURL)
 
         const sturatedOnionsFilteredBySlotsPeriod = todaySaturatedOnions.filter(onion => {
             const saturatedSlotOfOnion = onion.Slot.split(" - ")
@@ -106,9 +106,7 @@ export default function Analytics() {
             const slotStartHour = slotStart.substr(0, 2)
             const slotEndHour = slotEnd.substr(0, 2)
             const onionCode = name.toLowerCase()
-            const report = []
             const onionSaturationReport = await getOnionSaturationInfo(onionCode, slotStartHour, slotEndHour)
-            // console.log(JSON.parse(await onionSaturationReport))
             return JSON.parse(await onionSaturationReport)
         }, []))
 
@@ -152,10 +150,7 @@ export default function Analytics() {
                 </button>
             </form>
 
-            {startPeriodSlotSelected}
-            {endPeriodSlotSelected}
-
-            <div>{saturationPeriodReport.map((onion, id) => <OnionAnalytic {...onion} key={id}/>)}</div>
+            <div>{saturationPeriodReport.map((onion, id) => <OnionSaturationCard {...onion} key={id}/>)}</div>
 
         </div>
     )

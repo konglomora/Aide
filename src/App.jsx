@@ -1,24 +1,25 @@
-import Analytics from './components/Analytics/Analytics.jsx'
+import SaturationReportPage from './components/Reports/SaturationReport/SaturationReportPage.jsx'
 
-import { createGlobalStyle } from 'styled-components';
+import {createGlobalStyle} from 'styled-components';
+import Navbar from "./components/Navbar/Navbar";
 
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    background: black;
-	  color: aliceblue;
-    font-family: Open-Sans, Helvetica, Sans-Serif;
+    background: rgb(61, 45, 108);
+    color: aliceblue;
+    font-family: Sans-Serif;
   }
 `;
 
 function App() {
-	return (
-		<div className="App">
-			<GlobalStyle/>
-			<Analytics />
-		</div>
-	)
+    return (
+        <>
+            <GlobalStyle/>
+            <Navbar/>
+        </>
+    )
 }
 
 export default App
