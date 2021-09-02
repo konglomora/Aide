@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/RTO_Aide/static/js/main.9ba91c9a.chunk.js",
-    "main.js.map": "/RTO_Aide/static/js/main.9ba91c9a.chunk.js.map",
+    "main.js": "/RTO_Aide/static/js/main.c506f0d9.chunk.js",
+    "main.js.map": "/RTO_Aide/static/js/main.c506f0d9.chunk.js.map",
     "runtime-main.js": "/RTO_Aide/static/js/runtime-main.c7523d45.js",
     "runtime-main.js.map": "/RTO_Aide/static/js/runtime-main.c7523d45.js.map",
-    "static/js/2.7931dc44.chunk.js": "/RTO_Aide/static/js/2.7931dc44.chunk.js",
-    "static/js/2.7931dc44.chunk.js.map": "/RTO_Aide/static/js/2.7931dc44.chunk.js.map",
+    "static/js/2.d0226d1b.chunk.js": "/RTO_Aide/static/js/2.d0226d1b.chunk.js",
+    "static/js/2.d0226d1b.chunk.js.map": "/RTO_Aide/static/js/2.d0226d1b.chunk.js.map",
     "index.html": "/RTO_Aide/index.html",
-    "static/js/2.7931dc44.chunk.js.LICENSE.txt": "/RTO_Aide/static/js/2.7931dc44.chunk.js.LICENSE.txt"
+    "static/js/2.d0226d1b.chunk.js.LICENSE.txt": "/RTO_Aide/static/js/2.d0226d1b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c7523d45.js",
-    "static/js/2.7931dc44.chunk.js",
-    "static/js/main.9ba91c9a.chunk.js"
+    "static/js/2.d0226d1b.chunk.js",
+    "static/js/main.c506f0d9.chunk.js"
   ]
 }
