@@ -5,6 +5,7 @@ const StyledSpan = styled.span`
 	color: ${({ color }) => color || 'white'};
 	text-decoration: ${({ decoration }) => decoration || 'none'};
 	font-size: ${({ fSize }) => fSize || '1em'};
+	font-weight: ${({ fWeight }) => fWeight || '300'};
 	width: ${({ width }) => width || '100%'};
 	height: ${({ height }) => height || '100%'};
 	margin: ${({ margin }) => margin || '0'};
