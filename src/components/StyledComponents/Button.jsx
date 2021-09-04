@@ -2,16 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
-	width: ${({ width }) => width || '100px'};
-	background-color: rgb(144, 202, 249);
-	color: rgb(042, 58, 72);
-	font-weight: 500;
-	padding: 5px;
-	border-radius: 2px;
-	border: none;
-	cursor: pointer;
+  width: ${({width}) => width || '100px'};
+  background-color: ${({bColor}) => bColor || 'rgb(0, 0 ,0)'};
+  color: ${({color}) => color || 'white'};
+  font-weight: 500;
+  padding: ${({padding}) => padding || '7px'};
+  border-radius: ${({bRadius}) => bRadius || '5px'};
+  border: ${({border}) => border || '2px solid white'};
+  cursor: pointer;
 `
 
 export default function Button(props) {
-	return <StyledButton type={props.type} {...props} />
+    return <StyledButton type={props.type} {...props} />
 }

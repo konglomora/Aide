@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledTitle = styled.span`
-
 	text-align: ${({ align }) => align || 'center'};
 	margin: ${({ margin }) => margin || '0'};
 	color: ${({ color }) => color || 'white'};

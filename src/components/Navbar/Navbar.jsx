@@ -20,7 +20,7 @@ const stylesForStyledLink = {
 const Navbar = () => {
     return (
         <Flex direction={'column'}>
-            <Flex height={'30%'} bColor={'rgb(61,45,108)'} padding={'7px'} justify={'space-evenly'}
+            <Flex height={'30%'} bColor={'rgb(61,45,108)'} padding={'7px 0px'} justify={'space-evenly'}
                   bBorder={'3px dashed white'}>
                 <StyledNavLink exact {...stylesForStyledLink} link={'/Aide/'} name={'Home'}/>
                 <StyledNavLink exact {...stylesForStyledLink} link={'/Aide/charts'} name={'Charts'}/>

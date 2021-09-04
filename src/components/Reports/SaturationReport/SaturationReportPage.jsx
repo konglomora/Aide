@@ -4,11 +4,14 @@ import {slots} from '../slots'
 import OnionSaturationCard from "./OnionSaturationCard";
 import Flex from "../../StyledComponents/Flex";
 import Title from "../../StyledComponents/Title";
+import Button from "../../StyledComponents/Button";
+import {SelectStyle} from "../../StyledComponents/Select";
+import {aideApiAxios} from "../../../axios/axios";
 
 export default function SaturationReportPage() {
 
-    const ACCESS_TOKEN = '0a4fcce5995c4f7478bd0b891b265a73d0289ba4'
-    const stateReprort = [{
+
+    const stateReport = [{
         city: "",
         difference: "",
         reason_saturation: "",
@@ -17,17 +20,10 @@ export default function SaturationReportPage() {
         level_saturation: " "
     }]
 
-    const todayDataURL = 'http://www.aideindustries.tk:5000/today'
-    const weekDataURL = 'http://www.aideindustries.tk:5000/week'
-    const averageURL = 'http://www.aideindustries.tk:5000/avrg/'
-    const jsonReportURL = 'http://www.aideindustries.tk:8000/analysis/'
-    const newApiJSONLink = 'http://www.aideindustries.tk:8000/search/'
 
-    const dataFilterURL = 'http://www.aideindustries.tk:8000/data/filter/'
-
-    const [startPeriodSlotSelected, setStartPeriodSlotSelected] = useState('10:00')
-    const [endPeriodSlotSelected, setEndPeriodSlotSelected] = useState('12:00')
-    const [saturationPeriodReport, setSaturationPeriodReport] = useState(stateReprort)
+    const [startPeriodSlotSelected, setStartPeriodSlotSelected] = useState('18:00')
+    const [endPeriodSlotSelected, setEndPeriodSlotSelected] = useState('21:00')
+    const [saturationPeriodReport, setSaturationPeriodReport] = useState(stateReport)
     const [sendRequestForReport, setSendRequestForReport] = useState(false)
 
     function selectChangeHandler(e) {
@@ -42,13 +38,7 @@ export default function SaturationReportPage() {
 
     async function getSaturatedOnionsByPeriod(periodStart, periodEnd) {
         try {
-            const response = await axios.get(`${dataFilterURL}?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`,
-                {
-                    headers: {
-                        'Authorization': `Token ${ACCESS_TOKEN}`
-                    }
-                })
-            return response
+            return await aideApiAxios.get(`/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`)
         } catch (error) {
             console.log('Error блин :', error)
             return error
@@ -58,9 +48,8 @@ export default function SaturationReportPage() {
 
     async function getOnionSaturationReportObject(onionName, slotStart, slotEnd) {
         try {
-            const response = await axios.get(`${jsonReportURL}${onionName}/${slotStart}/${slotEnd}`, {
-                headers: {'Authorization': `Token ${ACCESS_TOKEN}`}
-            })
+            const response = await aideApiAxios.get(`/analysis/${onionName}/${slotStart}/${slotEnd}`)
+            console.log(JSON.parse(response.data))
             return await JSON.parse(response.data)
         } catch (error) {
             console.log(error)
@@ -72,12 +61,12 @@ export default function SaturationReportPage() {
         const slotStartHour = slotStart.substr(0, 2)
         const slotEndHour = slotEnd.substr(0, 2)
 
-        const saturatedOnionsFilteredBySlotsPeriod = await getSaturatedOnionsByPeriod(slotStartHour, slotEndHour)
+        const saturatedOnionsFilteredBySlotsPeriod = (await getSaturatedOnionsByPeriod(slotStartHour, slotEndHour)).data
         console.log(saturatedOnionsFilteredBySlotsPeriod)
-        const allCodesOfSaturatedOnionsAtSelectedPeriod = saturatedOnionsFilteredBySlotsPeriod.data.reduce((accum, onion) => {
-
+        const allCodesOfSaturatedOnionsAtSelectedPeriod = saturatedOnionsFilteredBySlotsPeriod.reduce((accum, onion) => {
             if (!accum.some(obj => obj.city === onion.city)) {
                 accum.push(onion.city)
+
             }
             return accum
         }, [])
@@ -94,7 +83,10 @@ export default function SaturationReportPage() {
 
     useEffect(() => {
         async function fetchData() {
-            setSaturationPeriodReport(await getSatReport(startPeriodSlotSelected, endPeriodSlotSelected))
+            const report = await getSatReport(startPeriodSlotSelected, endPeriodSlotSelected)
+            if (report.length > 0) {
+                setSaturationPeriodReport(report)
+            }
         }
 
         fetchData()
@@ -103,10 +95,11 @@ export default function SaturationReportPage() {
 
     return (
         <Flex direction={'column'} align={'center'} margin={'4em 0 0 0'}>
-            <Flex>
+            <Flex justify={'center'}>
                 <form action="#">
 
-                    <select name="slotStartPeriodSelector" id="1" value={startPeriodSlotSelected}
+                    <select style={SelectStyle} name="slotStartPeriodSelector" id="1"
+                            value={startPeriodSlotSelected}
                             onChange={(e) => selectChangeHandler(e)}>
                         {slots.map((slot, id) => (
                             <option value={slot} key={id}>
@@ -114,7 +107,7 @@ export default function SaturationReportPage() {
                             </option>
                         ))}
                     </select>
-                    <select name="slotEndPeriodSelector" id="2" value={endPeriodSlotSelected}
+                    <select style={SelectStyle} name="slotEndPeriodSelector" id="2" value={endPeriodSlotSelected}
                             onChange={(e) => selectChangeHandler(e)}>
                         {slots.map((slot, id) => (
                             <option value={slot} key={id}>
@@ -122,24 +115,37 @@ export default function SaturationReportPage() {
                             </option>
                         ))}
                     </select>
-                    <button
+                    <Button
                         onClick={e => {
                             e.preventDefault()
                             setSendRequestForReport(!sendRequestForReport)
                         }}
+                        bColor={'black'}
+                        color={'white'}
+                        bRadius={'10px'}
+                        border={'3px solid white'}
                     >
                         Get report
-                    </button>
+                    </Button>
                 </form>
             </Flex>
-            <Title align={'center'} fWeight={'800'} >{`Апдейт по сатурации с ${startPeriodSlotSelected} по ${endPeriodSlotSelected}`}</Title>
-            <div>
-                {saturationPeriodReport.map((onion, id) => {
-                    if (onion) {
-                        return <OnionSaturationCard {...onion} key={id}/>
+            <Flex direction={'column'} width={'50%'}>
+                <Title
+                    fWeight={'800'}>{`Апдейт по сатурации с ${startPeriodSlotSelected} по ${endPeriodSlotSelected}`}</Title>
+                <div>
+                    {saturationPeriodReport.length > 0
+                        ? saturationPeriodReport.map((onion, id) => {
+                            if (onion) {
+                                return <OnionSaturationCard {...onion} key={id}/>
+                            }
+                        })
+                        :
+                        <Title> 🦾 Онионов с сатурацией с {startPeriodSlotSelected} по {endPeriodSlotSelected} не было
+                            🦾
+                        </Title>
                     }
-                })}
-            </div>
+                </div>
+            </Flex>
         </Flex>
     )
 }
