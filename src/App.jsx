@@ -1,7 +1,7 @@
 import SaturationReportPage from './components/Reports/SaturationReport/SaturationReportPage.jsx'
 
-import {createGlobalStyle} from 'styled-components';
-import Navbar from "./components/Navbar/Navbar";
+import { createGlobalStyle } from 'styled-components'
+import Navbar from './components/Navbar/Navbar'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -11,13 +11,13 @@ const GlobalStyle = createGlobalStyle`
     color: aliceblue;
     font-family: Sans-Serif;
   }
-`;
+`
 
 function App() {
     return (
         <>
-            <GlobalStyle/>
-            <Navbar/>
+            <GlobalStyle />
+            <Navbar />
         </>
     )
 }
