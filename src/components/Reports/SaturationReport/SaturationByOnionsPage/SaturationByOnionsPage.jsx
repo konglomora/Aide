@@ -1,14 +1,13 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { slotsRegular } from '../slots'
-import OnionSaturationCard from './OnionSaturationCard'
-import Flex from '../../StyledComponents/Flex'
-import Title from '../../StyledComponents/Title'
-import Button from '../../StyledComponents/Button'
-import { SelectStyle } from '../../StyledComponents/Select'
-import { aideApiAxios } from '../../../axios/axios'
+import { aideApiAxios } from '../../../../axios/axios'
+import Flex from '../../../StyledComponents/Flex'
+import { SelectStyle } from '../../../StyledComponents/Select'
+import { slotsRegular } from '../../slots'
+import Button from '../../../StyledComponents/Button'
+import Title from '../../../StyledComponents/Title'
+import OnionSaturationCard from '../OnionSaturationCard'
 
-export default function SaturationReportPage() {
+const SaturationByOnionsPage = () => {
     const stateReport = [
         {
             city: '',
@@ -89,15 +88,13 @@ export default function SaturationReportPage() {
 
         const reportArray = await Promise.all(
             uniqueCodesOfSaturatedOnions.map(async (name) => {
-                const onionCode = name.toLowerCase()
                 return await getOnionSaturationReportObject(
-                    onionCode,
+                    name,
                     slotStartHour,
                     slotEndHour
                 )
             }, [])
         )
-
         return reportArray
     }
 
@@ -149,9 +146,9 @@ export default function SaturationReportPage() {
                             e.preventDefault()
                             setSendRequestForReport(!sendRequestForReport)
                         }}
-                        bColor={'black'}
+                        bcolor={'black'}
                         color={'white'}
-                        bRadius={'10px'}
+                        bradius={'10px'}
                         border={'3px solid white'}
                     >
                         Get report
@@ -185,3 +182,5 @@ export default function SaturationReportPage() {
         </Flex>
     )
 }
+
+export default SaturationByOnionsPage

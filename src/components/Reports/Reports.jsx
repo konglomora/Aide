@@ -1,14 +1,34 @@
-import React from 'react';
-import SaturationReportPage from "./SaturationReport/SaturationReportPage";
-import WeatherActionPlanPage from "./WeatherActionPlanReport/WeatherActionPlanPage";
+import React from 'react'
+import SaturationByPeriodPage from './SaturationReport/SaturationByperiodPage/SaturationByPeriodPage'
+import { Route, Switch, useRouteMatch } from 'react-router-dom'
+import StyledNavLink from '../StyledComponents/StyledLink'
+import Flex from '../StyledComponents/Flex'
+import { stylesForStyledLink } from '../Navbar/Navbar'
+import SaturationByOnionsPage from './SaturationReport/SaturationByOnionsPage/SaturationByOnionsPage'
 
 const Reports = () => {
-    return (
-        <div>
-            <SaturationReportPage />
-            <WeatherActionPlanPage />
-        </div>
-    );
-};
+    const { path, url } = useRouteMatch()
 
-export default Reports;
+    console.log({ path })
+    console.log({ url })
+    return (
+        <Flex>
+            <StyledNavLink
+                exact
+                to={`${url}`}
+                {...stylesForStyledLink}
+                text={'Onions'}
+            />
+            <StyledNavLink
+                to={`${url}/period`}
+                {...stylesForStyledLink}
+                text={'Period'}
+            />
+
+            <Route exact path={`${path}`} component={SaturationByOnionsPage} />
+            <Route path={`${path}/period`} component={SaturationByPeriodPage} />
+        </Flex>
+    )
+}
+
+export default Reports

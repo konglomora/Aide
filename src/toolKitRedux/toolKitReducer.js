@@ -17,5 +17,3 @@ export default createReducer(initialState, {
         state.count = state.count - 1
     },
 })
-
-console.log(decrement)
