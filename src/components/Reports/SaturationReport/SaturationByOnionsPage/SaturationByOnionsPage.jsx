@@ -55,7 +55,7 @@ const SaturationByOnionsPage = () => {
             const response = await aideApiAxios.get(
                 `/analysis/${onionName}/${slotStart}/${slotEnd}`
             )
-            console.log(JSON.parse(response.data))
+            // console.log(JSON.parse(response.data))
             return await JSON.parse(response.data)
         } catch (error) {
             console.log(error)
@@ -69,7 +69,7 @@ const SaturationByOnionsPage = () => {
         const saturatedOnionsFilteredBySlotsPeriod = (
             await getSaturatedOnionsByPeriod(slotStartHour, slotEndHour)
         ).data
-        console.log(saturatedOnionsFilteredBySlotsPeriod)
+        // console.log(saturatedOnionsFilteredBySlotsPeriod)
         const allCodesOfSaturatedOnionsAtSelectedPeriod =
             saturatedOnionsFilteredBySlotsPeriod.reduce((accum, onion) => {
                 if (!accum.some((obj) => obj.city === onion.city)) {

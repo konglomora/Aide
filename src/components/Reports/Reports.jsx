@@ -9,8 +9,6 @@ import SaturationByOnionsPage from './SaturationReport/SaturationByOnionsPage/Sa
 const Reports = () => {
     const { path, url } = useRouteMatch()
 
-    console.log({ path })
-    console.log({ url })
     return (
         <Flex>
             <StyledNavLink

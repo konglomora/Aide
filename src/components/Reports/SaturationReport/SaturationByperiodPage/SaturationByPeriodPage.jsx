@@ -6,6 +6,12 @@ import Title from '../../../StyledComponents/Title'
 import Button from '../../../StyledComponents/Button'
 import { SelectStyle } from '../../../StyledComponents/Select'
 import { aideApiAxios } from '../../../../axios/axios'
+import {
+    axiosGetSaturatedOnionAnalyseObject,
+    getSaturationReport,
+    setPeriodOfReport,
+} from '../../../../toolKitRedux/saturationPeriodReportSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function SaturationByPeriodPage() {
     const stateReport = [
@@ -18,20 +24,32 @@ export default function SaturationByPeriodPage() {
             level_saturation: ' ',
         },
     ]
+    const dispatch = useDispatch()
+    const { status, error, periodStart, periodEnd, periodReport } = useSelector(
+        (state) => state.saturationPeriodReport
+    )
 
-    const [startPeriodSlotSelected, setStartPeriodSlotSelected] =
-        useState('18:00')
-    const [endPeriodSlotSelected, setEndPeriodSlotSelected] = useState('21:00')
     const [saturationPeriodReport, setSaturationPeriodReport] =
         useState(stateReport)
+
     const [sendRequestForReport, setSendRequestForReport] = useState(false)
 
     function selectChangeHandler(e) {
         const name = e.target.name
         if (name === 'slotStartPeriodSelector') {
-            setStartPeriodSlotSelected(e.target.value)
+            dispatch(
+                setPeriodOfReport({
+                    periodStart: e.target.value.substr(0, 2),
+                    periodEnd: periodEnd,
+                })
+            )
         } else if (name === 'slotEndPeriodSelector') {
-            setEndPeriodSlotSelected(e.target.value)
+            dispatch(
+                setPeriodOfReport({
+                    periodStart: periodStart,
+                    periodEnd: e.target.value.substr(0, 2),
+                })
+            )
         }
     }
 
@@ -55,7 +73,6 @@ export default function SaturationByPeriodPage() {
             const response = await aideApiAxios.get(
                 `/analysis/${onionName}/${slotStart}/${slotEnd}`
             )
-            console.log(JSON.parse(response.data))
             return await JSON.parse(response.data)
         } catch (error) {
             console.log(error)
@@ -63,13 +80,9 @@ export default function SaturationByPeriodPage() {
     }
 
     async function getSatReport(slotStart, slotEnd) {
-        const slotStartHour = slotStart.substr(0, 2)
-        const slotEndHour = slotEnd.substr(0, 2)
-
         const saturatedOnionsFilteredBySlotsPeriod = (
-            await getSaturatedOnionsByPeriod(slotStartHour, slotEndHour)
+            await getSaturatedOnionsByPeriod(slotStart, slotEnd)
         ).data
-        console.log(saturatedOnionsFilteredBySlotsPeriod)
         const allCodesOfSaturatedOnionsAtSelectedPeriod =
             saturatedOnionsFilteredBySlotsPeriod.reduce((accum, onion) => {
                 if (!accum.some((obj) => obj.city === onion.city)) {
@@ -90,8 +103,8 @@ export default function SaturationByPeriodPage() {
             uniqueCodesOfSaturatedOnions.map(async (name) => {
                 return await getOnionSaturationReportObject(
                     name,
-                    slotStartHour,
-                    slotEndHour
+                    slotStart,
+                    slotEnd
                 )
             }, [])
         )
@@ -100,16 +113,18 @@ export default function SaturationByPeriodPage() {
 
     useEffect(() => {
         async function fetchData() {
-            const report = await getSatReport(
-                startPeriodSlotSelected,
-                endPeriodSlotSelected
-            )
+            const report = await getSatReport(periodStart, periodEnd)
             if (report.length > 0) {
                 setSaturationPeriodReport(report)
             }
         }
         fetchData()
     }, [sendRequestForReport])
+
+    useEffect(() => {
+        dispatch(getSaturationReport({ periodStart: '00', periodEnd: '03' }))
+        // dispatch(axiosGetSaturatedOnionAnalyseObject({}))
+    }, [])
 
     return (
         <Flex direction={'column'} align={'center'} margin={'4em 0 0 0'}>
@@ -119,7 +134,7 @@ export default function SaturationByPeriodPage() {
                         style={SelectStyle}
                         name="slotStartPeriodSelector"
                         id="1"
-                        value={startPeriodSlotSelected}
+                        value={`${periodStart}:00`}
                         onChange={(e) => selectChangeHandler(e)}
                     >
                         {slotsRegular.map((slot, id) => (
@@ -132,7 +147,7 @@ export default function SaturationByPeriodPage() {
                         style={SelectStyle}
                         name="slotEndPeriodSelector"
                         id="2"
-                        value={endPeriodSlotSelected}
+                        value={`${periodEnd}:00`}
                         onChange={(e) => selectChangeHandler(e)}
                     >
                         {slotsRegular.map((slot, id) => (
@@ -158,27 +173,17 @@ export default function SaturationByPeriodPage() {
             <Flex direction={'column'} width={'50%'}>
                 <Title
                     fWeight={'800'}
-                >{`Апдейт по сатурации с ${startPeriodSlotSelected} по ${endPeriodSlotSelected}`}</Title>
+                >{`Апдейт по сатурации с ${periodStart}:00 по ${periodEnd}:00`}</Title>
                 <div>
-                    {saturationPeriodReport.length > 0 ? (
-                        saturationPeriodReport.map((onion, id) => {
-                            if (onion) {
-                                return (
-                                    <OnionSaturationCard {...onion} key={id} />
-                                )
-                            }
-                        })
-                    ) : (
-                        <Title>
-                            {' '}
-                            🦾 Онионов с сатурацией с {
-                                startPeriodSlotSelected
-                            }{' '}
-                            по {endPeriodSlotSelected} не было 🦾
-                        </Title>
-                    )}
+                    {periodReport.map((onion, id) => {
+                        if (onion) {
+                            return <OnionSaturationCard {...onion} key={id} />
+                        }
+                    })}
                 </div>
             </Flex>
+            {status === 'loading' && <h2>Loading...</h2>}
+            {error && <h2>An error occurred: {error}</h2>}
         </Flex>
     )
 }
