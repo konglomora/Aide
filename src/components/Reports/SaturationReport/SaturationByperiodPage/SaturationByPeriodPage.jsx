@@ -14,23 +14,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function SaturationByPeriodPage() {
-    const stateReport = [
-        {
-            city: '',
-            difference: '',
-            reason_saturation: '',
-            area: '',
-            saturation: [''],
-            level_saturation: ' ',
-        },
-    ]
     const dispatch = useDispatch()
     const { status, error, periodStart, periodEnd, periodReport } = useSelector(
         (state) => state.saturationPeriodReport
     )
-
-    const [saturationPeriodReport, setSaturationPeriodReport] =
-        useState(stateReport)
 
     const [sendRequestForReport, setSendRequestForReport] = useState(false)
 
@@ -53,77 +40,13 @@ export default function SaturationByPeriodPage() {
         }
     }
 
-    async function getSaturatedOnionsByPeriod(periodStart, periodEnd) {
-        try {
-            return await aideApiAxios.get(
-                `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`
-            )
-        } catch (error) {
-            console.log('Error блин :', error)
-            return error
-        }
-    }
-
-    async function getOnionSaturationReportObject(
-        onionName,
-        slotStart,
-        slotEnd
-    ) {
-        try {
-            const response = await aideApiAxios.get(
-                `/analysis/${onionName}/${slotStart}/${slotEnd}`
-            )
-            return await JSON.parse(response.data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    async function getSatReport(slotStart, slotEnd) {
-        const saturatedOnionsFilteredBySlotsPeriod = (
-            await getSaturatedOnionsByPeriod(slotStart, slotEnd)
-        ).data
-        const allCodesOfSaturatedOnionsAtSelectedPeriod =
-            saturatedOnionsFilteredBySlotsPeriod.reduce((accum, onion) => {
-                if (!accum.some((obj) => obj.city === onion.city)) {
-                    accum.push(onion.city)
-                }
-                return accum
-            }, [])
-
-        const uniqueCodesOfSaturatedOnions =
-            await allCodesOfSaturatedOnionsAtSelectedPeriod.filter(
-                (onionCode, index) =>
-                    allCodesOfSaturatedOnionsAtSelectedPeriod.indexOf(
-                        onionCode
-                    ) === index
-            )
-
-        const reportArray = await Promise.all(
-            uniqueCodesOfSaturatedOnions.map(async (name) => {
-                return await getOnionSaturationReportObject(
-                    name,
-                    slotStart,
-                    slotEnd
-                )
-            }, [])
+    useEffect(() => {
+        dispatch(
+            getSaturationReport({
+                periodStart: periodStart,
+                periodEnd: periodEnd,
+            })
         )
-        return reportArray
-    }
-
-    useEffect(() => {
-        async function fetchData() {
-            const report = await getSatReport(periodStart, periodEnd)
-            if (report.length > 0) {
-                setSaturationPeriodReport(report)
-            }
-        }
-        fetchData()
-    }, [sendRequestForReport])
-
-    useEffect(() => {
-        dispatch(getSaturationReport({ periodStart: '00', periodEnd: '03' }))
-        // dispatch(axiosGetSaturatedOnionAnalyseObject({}))
     }, [])
 
     return (
@@ -175,11 +98,11 @@ export default function SaturationByPeriodPage() {
                     fWeight={'800'}
                 >{`Апдейт по сатурации с ${periodStart}:00 по ${periodEnd}:00`}</Title>
                 <div>
-                    {periodReport.map((onion, id) => {
-                        if (onion) {
-                            return <OnionSaturationCard {...onion} key={id} />
-                        }
-                    })}
+                    {/*{periodReport.map((onion, id) => {*/}
+                    {/*    // if (onion) {*/}
+                    {/*    return <OnionSaturationCard {...onion} key={id} />*/}
+                    {/*    // }*/}
+                    {/*})}*/}
                 </div>
             </Flex>
             {status === 'loading' && <h2>Loading...</h2>}

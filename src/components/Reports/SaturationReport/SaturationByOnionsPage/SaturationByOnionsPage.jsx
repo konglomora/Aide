@@ -20,8 +20,8 @@ const SaturationByOnionsPage = () => {
     ]
 
     const [startPeriodSlotSelected, setStartPeriodSlotSelected] =
-        useState('18:00')
-    const [endPeriodSlotSelected, setEndPeriodSlotSelected] = useState('21:00')
+        useState('16:00')
+    const [endPeriodSlotSelected, setEndPeriodSlotSelected] = useState('17:00')
     const [saturationPeriodReport, setSaturationPeriodReport] =
         useState(stateReport)
     const [sendRequestForReport, setSendRequestForReport] = useState(false)
@@ -37,9 +37,10 @@ const SaturationByOnionsPage = () => {
 
     async function getSaturatedOnionsByPeriod(periodStart, periodEnd) {
         try {
-            return await aideApiAxios.get(
+            const response = await aideApiAxios.get(
                 `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`
             )
+            return response.data
         } catch (error) {
             console.log('Error блин :', error)
             return error
@@ -66,10 +67,10 @@ const SaturationByOnionsPage = () => {
         const slotStartHour = slotStart.substr(0, 2)
         const slotEndHour = slotEnd.substr(0, 2)
 
-        const saturatedOnionsFilteredBySlotsPeriod = (
+        const saturatedOnionsFilteredBySlotsPeriod =
             await getSaturatedOnionsByPeriod(slotStartHour, slotEndHour)
-        ).data
-        // console.log(saturatedOnionsFilteredBySlotsPeriod)
+
+        console.log(saturatedOnionsFilteredBySlotsPeriod)
         const allCodesOfSaturatedOnionsAtSelectedPeriod =
             saturatedOnionsFilteredBySlotsPeriod.reduce((accum, onion) => {
                 if (!accum.some((obj) => obj.city === onion.city)) {
@@ -98,17 +99,14 @@ const SaturationByOnionsPage = () => {
         return reportArray
     }
 
-    useEffect(() => {
-        async function fetchData() {
-            const report = await getSatReport(
-                startPeriodSlotSelected,
-                endPeriodSlotSelected
-            )
-            if (report.length > 0) {
-                setSaturationPeriodReport(report)
-            }
+    useEffect(async () => {
+        const report = await getSatReport(
+            startPeriodSlotSelected,
+            endPeriodSlotSelected
+        )
+        if (report.length > 0) {
+            setSaturationPeriodReport(report)
         }
-        fetchData()
     }, [sendRequestForReport])
 
     return (

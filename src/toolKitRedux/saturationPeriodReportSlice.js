@@ -1,16 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../axios/axios'
+import { log10 } from 'chart.js/helpers'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionsByPeriod',
-    async function (
-        { periodStart, periodEnd },
-        { getState, dispatch, rejectWithValue }
-    ) {
+    async function ({ periodStart, periodEnd }, { rejectWithValue }) {
         try {
             const saturatedOnions = await aideApiAxios.get(
-                `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=true`
+                `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`
             )
+            console.log({ saturatedOnions })
             if (saturatedOnions.statusText !== 'OK') {
                 throw new Error('Error братан из сервачка прилетел')
             }
@@ -25,19 +24,19 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionObject',
     async function (
         { onionCode, periodStart, periodEnd },
-        { rejectWithValue, dispatch }
+        { rejectWithValue, dispatch, getState }
     ) {
         try {
             const saturatedOnionData = await aideApiAxios.get(
                 `/analysis/${onionCode}/${periodStart}/${periodEnd}`
             )
 
-            const onionReportObject = saturatedOnionData.data
-            console.log(JSON.parse(onionReportObject))
             if (saturatedOnionData.statusText !== 'OK') {
                 throw new Error('Error братан из сервачка прилетел')
             }
-            return JSON.parse(onionReportObject)
+            const onionReportObject = saturatedOnionData.data
+            dispatch(addOnionObjToPeriodReport(JSON.parse(onionReportObject)))
+            console.log(getState().saturationPeriodReport.periodReport)
         } catch (error) {
             return rejectWithValue(error.message)
         }
@@ -54,22 +53,17 @@ export const getSaturationReport = createAsyncThunk(
 
         const saturatedUniqueOnionCodesArray =
             getState().saturationPeriodReport.saturatedUniqueOnionCodesArray
-        const periodReport = await Promise.all(
-            saturatedUniqueOnionCodesArray.map(async (onionCode) => {
-                console.log(onionCode)
-                await dispatch(
-                    axiosGetSaturatedOnionAnalyseObject({
-                        onionCode,
-                        periodStart,
-                        periodEnd,
-                    })
-                )
-                return getState().saturationPeriodReport.onionReportObject
-            })
-        )
-        console.log()
-        console.log(periodReport)
-        return periodReport
+
+        saturatedUniqueOnionCodesArray.forEach((onionCode) => {
+            dispatch(
+                axiosGetSaturatedOnionAnalyseObject({
+                    onionCode,
+                    periodStart,
+                    periodEnd,
+                })
+            )
+        })
+        console.log(getState().saturationPeriodReport.periodReport)
     }
 )
 // Helper for handling errors from rejectWithValue
@@ -88,8 +82,8 @@ const saturationPeriodReportSlice = createSlice({
     initialState: {
         status: null,
         error: null,
-        periodStart: '00',
-        periodEnd: '01',
+        periodStart: '17',
+        periodEnd: '18',
         saturatedOnionsObjectsArray: [],
         saturatedUniqueOnionCodesArray: [],
         onionReportObject: {},
@@ -127,7 +121,7 @@ const saturationPeriodReportSlice = createSlice({
                 )
         },
         addOnionObjToPeriodReport(state, action) {
-            state.saturationPeriodReport.push(action.payload)
+            state.periodReport.push(action.payload)
         },
     },
     extraReducers: {
@@ -138,7 +132,7 @@ const saturationPeriodReportSlice = createSlice({
         [axiosGetSaturatedOnionsByPeriod.rejected]: setError,
         [axiosGetSaturatedOnionAnalyseObject.fulfilled]: (state, action) => {
             state.status = 'resolved'
-            state.onionReportObject = action.payload
+            state.periodReport = state.periodReport.push(action.payload)
         },
         [axiosGetSaturatedOnionAnalyseObject.rejected]: setError,
         [getSaturationReport.fulfilled]: (state, action) => {
@@ -149,7 +143,10 @@ const saturationPeriodReportSlice = createSlice({
     },
 })
 
-export const { setPeriodOfReport, getUniqueSaturatedOnionCodes } =
-    saturationPeriodReportSlice.actions
+export const {
+    setPeriodOfReport,
+    getUniqueSaturatedOnionCodes,
+    addOnionObjToPeriodReport,
+} = saturationPeriodReportSlice.actions
 
 export default saturationPeriodReportSlice.reducer
