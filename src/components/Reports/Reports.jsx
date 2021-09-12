@@ -1,10 +1,10 @@
 import React from 'react'
-import SaturationByPeriodPage from './SaturationReport/SaturationByperiodPage/SaturationByPeriodPage'
+import SaturationByPeriodPage from './SaturationReport/SaturationByPeriodPage'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import StyledNavLink from '../StyledComponents/StyledLink'
 import Flex from '../StyledComponents/Flex'
 import { stylesForStyledLink } from '../Navbar/Navbar'
-import SaturationByOnionsPage from './SaturationReport/SaturationByOnionsPage/SaturationByOnionsPage'
+import SaturationByOnionsPage from './SaturationReport/SaturationByOnionsPage'
 
 const Reports = () => {
     const { path, url } = useRouteMatch()

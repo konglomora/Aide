@@ -23,7 +23,7 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionObject',
     async function (
         { onionCode, periodStart, periodEnd },
-        { rejectWithValue, dispatch, getState }
+        { rejectWithValue, dispatch }
     ) {
         try {
             const saturatedOnionData = await aideApiAxios.get(
@@ -33,9 +33,8 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
             if (saturatedOnionData.statusText !== 'OK') {
                 throw new Error('Error братан из сервачка прилетел')
             }
-            const onionReportObject = saturatedOnionData.data
-            dispatch(addOnionObjToPeriodReport(JSON.parse(onionReportObject)))
-            console.log(getState().saturationPeriodReport.periodReport)
+            const onionReportObject = await JSON.parse(saturatedOnionData.data)
+            return onionReportObject
         } catch (error) {
             return rejectWithValue(error.message)
         }
@@ -45,6 +44,7 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
 export const getSaturationReport = createAsyncThunk(
     'saturation-period/getSaturationReport',
     async function ({ periodStart, periodEnd }, { dispatch, getState }) {
+        await dispatch(clearReport())
         await dispatch(
             axiosGetSaturatedOnionsByPeriod({ periodStart, periodEnd })
         )
@@ -52,6 +52,8 @@ export const getSaturationReport = createAsyncThunk(
 
         const saturatedUniqueOnionCodesArray =
             getState().saturationPeriodReport.saturatedUniqueOnionCodesArray
+
+        console.log(saturatedUniqueOnionCodesArray)
 
         saturatedUniqueOnionCodesArray.forEach((onionCode) => {
             dispatch(
@@ -81,21 +83,11 @@ const saturationPeriodReportSlice = createSlice({
     initialState: {
         status: null,
         error: null,
-        periodStart: '17',
-        periodEnd: '18',
+        periodStart: '09',
+        periodEnd: '10',
         saturatedOnionsObjectsArray: [],
         saturatedUniqueOnionCodesArray: [],
-        onionReportObject: {},
-        periodReport: [
-            {
-                city: '',
-                difference: '',
-                reason_saturation: '',
-                area: '',
-                saturation: [''],
-                level_saturation: ' ',
-            },
-        ],
+        periodReport: [],
     },
     reducers: {
         setPeriodOfReport(state, action) {
@@ -122,30 +114,28 @@ const saturationPeriodReportSlice = createSlice({
         addOnionObjToPeriodReport(state, action) {
             state.periodReport.push(action.payload)
         },
+        clearReport(state) {
+            state.periodReport = []
+        },
     },
     extraReducers: {
         [axiosGetSaturatedOnionsByPeriod.fulfilled]: (state, action) => {
-            state.status = 'resolved'
             state.saturatedOnionsObjectsArray = action.payload
         },
         [axiosGetSaturatedOnionsByPeriod.rejected]: setError,
         [axiosGetSaturatedOnionAnalyseObject.fulfilled]: (state, action) => {
-            state.status = 'resolved'
-            state.periodReport = state.periodReport.push(action.payload)
+            console.log(action.payload)
+            state.periodReport.push(action.payload)
         },
         [axiosGetSaturatedOnionAnalyseObject.rejected]: setError,
         [getSaturationReport.fulfilled]: (state, action) => {
             state.status = 'resolved'
-            state.periodReport = action.payload
         },
         [getSaturationReport.pending]: setLoading,
     },
 })
 
-export const {
-    setPeriodOfReport,
-    getUniqueSaturatedOnionCodes,
-    addOnionObjToPeriodReport,
-} = saturationPeriodReportSlice.actions
+export const { setPeriodOfReport, getUniqueSaturatedOnionCodes, clearReport } =
+    saturationPeriodReportSlice.actions
 
 export default saturationPeriodReportSlice.reducer

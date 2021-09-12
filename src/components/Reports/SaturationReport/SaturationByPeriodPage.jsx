@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { slotsRegular } from '../../slots'
-import OnionSaturationCard from '../OnionSaturationCard'
-import Flex from '../../../StyledComponents/Flex'
-import Title from '../../../StyledComponents/Title'
-import Button from '../../../StyledComponents/Button'
-import { SelectStyle } from '../../../StyledComponents/Select'
-import { aideApiAxios } from '../../../../axios/axios'
+import { slotsRegular } from '../slots'
+import OnionSaturationCard from './OnionSaturationCard'
+import Flex from '../../StyledComponents/Flex'
+import Title from '../../StyledComponents/Title'
+import Button from '../../StyledComponents/Button'
+import { SelectStyle } from '../../StyledComponents/Select'
+import { aideApiAxios } from '../../../axios/axios'
 import {
     axiosGetSaturatedOnionAnalyseObject,
     getSaturationReport,
     setPeriodOfReport,
-} from '../../../../toolKitRedux/saturationPeriodReportSlice'
+} from '../../../toolKitRedux/saturationPeriodReportSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function SaturationByPeriodPage() {
@@ -41,13 +41,16 @@ export default function SaturationByPeriodPage() {
     }
 
     useEffect(() => {
-        dispatch(
-            getSaturationReport({
-                periodStart: periodStart,
-                periodEnd: periodEnd,
-            })
-        )
-    }, [])
+        async function getReport() {
+            await dispatch(
+                getSaturationReport({
+                    periodStart: periodStart,
+                    periodEnd: periodEnd,
+                })
+            )
+        }
+        getReport()
+    }, [sendRequestForReport])
 
     return (
         <Flex direction={'column'} align={'center'} margin={'4em 0 0 0'}>
@@ -97,12 +100,13 @@ export default function SaturationByPeriodPage() {
                 <Title
                     fWeight={'800'}
                 >{`Апдейт по сатурации с ${periodStart}:00 по ${periodEnd}:00`}</Title>
+
                 <div>
-                    {/*{periodReport.map((onion, id) => {*/}
-                    {/*    // if (onion) {*/}
-                    {/*    return <OnionSaturationCard {...onion} key={id} />*/}
-                    {/*    // }*/}
-                    {/*})}*/}
+                    {periodReport.map((onion, id) => {
+                        if (onion) {
+                            return <OnionSaturationCard {...onion} key={id} />
+                        }
+                    })}
                 </div>
             </Flex>
             {status === 'loading' && <h2>Loading...</h2>}
