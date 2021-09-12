@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../axios/axios'
-import { log10 } from 'chart.js/helpers'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionsByPeriod',
     async function ({ periodStart, periodEnd }, { rejectWithValue }) {
         try {
             const saturatedOnions = await aideApiAxios.get(
-                `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`
+                `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&yesterday=yes`
             )
             console.log({ saturatedOnions })
             if (saturatedOnions.statusText !== 'OK') {
