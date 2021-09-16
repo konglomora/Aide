@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { aideApiAxios } from '../axios/axios'
+import { aideApiAxios } from '../../axios/axios'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionsByPeriod',
@@ -34,6 +34,7 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
                 throw new Error('Error братан из сервачка прилетел')
             }
             const onionReportObject = await JSON.parse(saturatedOnionData.data)
+            console.log(onionReportObject)
             if (onionReportObject.difference.charAt(19) === '+') {
                 onionReportObject['slotFilledStr'] =
                     'Заранее расширяли слоты - постепенно заполнялись.'
@@ -60,6 +61,7 @@ export const getSaturationReport = createAsyncThunk(
         const saturatedUniqueSortedOnionCodesArray =
             getState().saturationPeriodReport
                 .saturatedUniqueSortedOnionCodesArray
+        console.log(saturatedUniqueSortedOnionCodesArray)
         saturatedUniqueSortedOnionCodesArray.forEach((onionCode) => {
             return dispatch(
                 axiosGetSaturatedOnionAnalyseObject({
@@ -69,7 +71,7 @@ export const getSaturationReport = createAsyncThunk(
                 })
             )
         })
-        console.log(getState())
+        // console.log(getState())
         const reportArray = [...getState().saturationPeriodReport.kyiv_report]
     }
 )
@@ -117,7 +119,7 @@ const saturationPeriodReportSlice = createSlice({
                     allSaturatedOnionCodes.indexOf(onionCode) === index
             )
             state.saturatedUniqueSortedOnionCodesArray = uniqueOnionCodes.sort()
-            console.log(state.saturatedUniqueSortedOnionCodesArray)
+            // console.log(state.saturatedUniqueSortedOnionCodesArray)
             state.status = 'loading'
         },
         addOnionObjToPeriodReport(state, action) {
@@ -151,7 +153,7 @@ const saturationPeriodReportSlice = createSlice({
         },
         [axiosGetSaturatedOnionAnalyseObject.pending]: setLoading,
         [axiosGetSaturatedOnionAnalyseObject.rejected]: setError,
-        [getSaturationReport.fulfilled]: (state, action) => {
+        [getSaturationReport.fulfilled]: (state) => {
             state.periodReport = [
                 ...state.kyiv_report,
                 ...state.mio_report,
