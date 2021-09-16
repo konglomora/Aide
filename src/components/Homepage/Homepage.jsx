@@ -16,7 +16,7 @@ const Homepage = () => {
     const todos = useSelector((state) => state.toolkit.todos)
 
     return (
-        <Flex>
+        <Flex width={'90%'}>
             <div>{count}</div>
             <Button onClick={() => dispatch(increment())}>Инкремент</Button>
             <Button onClick={() => dispatch(decrement())}>Декремент</Button>

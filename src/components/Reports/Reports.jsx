@@ -1,40 +1,47 @@
 import React from 'react'
-import SaturationByPeriodPage from './SaturationReport/SaturationByPeriodPage'
+import SaturationByPeriodPage from './SaturationReport/Pages/SaturationByPeriodPage'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import StyledNavLink from '../StyledComponents/StyledLink'
 import Flex from '../StyledComponents/Flex'
-import { stylesForStyledLink } from '../Navbar/Navbar'
-import SaturationByOnionsPage from './SaturationReport/SaturationByOnionsPage'
-import SaturationBySelectedOnionPage from './SaturationReport/SaturationBySelectedOnionPage'
+import SaturationByOnionsPage from './SaturationReport/Pages/SaturationByOnionsPage'
+import SaturationBySelectedOnionPage from './SaturationReport/Pages/SaturationBySelectedOnionPage.jsx'
+
+const stylesForStyledLink = {
+    width: '20%',
+    height: '2em',
+    radius: '15px',
+    text_align: 'center',
+}
 
 const Reports = () => {
     const { path, url } = useRouteMatch()
 
     return (
-        <Flex>
-            {/*<StyledNavLink*/}
-            {/*    exact*/}
-            {/*    to={`${url}`}*/}
-            {/*    {...stylesForStyledLink}*/}
-            {/*    text={'Period(Basic)'}*/}
-            {/*/>*/}
-            <StyledNavLink
-                to={`${url}/period`}
-                {...stylesForStyledLink}
-                text={'Auto-report'}
-            />
-            <StyledNavLink
-                to={`${url}/onion-select`}
-                {...stylesForStyledLink}
-                text={'Report by selected onions'}
-                width={'300px'}
-            />
-
-            {/*<Route*/}
-            {/*    exact*/}
-            {/*    path={`${path}`}*/}
-            {/*    component={SaturationByOnionsPage}*/}
-            {/*/>*/}
+        <Flex direction={'column'} width={'90%'}>
+            <Flex
+                justify={'space-evenly'}
+                bBorder={'3px solid white'}
+                padding={'20px 0px 10px'}
+                bColor={'rgb(24,25,26)'}
+            >
+                <StyledNavLink
+                    to={`${url}/period`}
+                    {...stylesForStyledLink}
+                    text={'Saturation report'}
+                />
+                <StyledNavLink
+                    to={`${url}/onion-select`}
+                    {...stylesForStyledLink}
+                    text={'Onions saturation'}
+                    width={'300px'}
+                />
+                <StyledNavLink
+                    to={`${url}/action-plan`}
+                    {...stylesForStyledLink}
+                    text={'Action plan'}
+                    width={'300px'}
+                />
+            </Flex>
             <Route
                 exact
                 path={`${path}/period`}

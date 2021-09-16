@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { aideApiAxios } from '../../../axios/axios'
-import Flex from '../../StyledComponents/Flex'
-import { SelectStyle } from '../../StyledComponents/Select'
-import { slotsRegular } from '../slots'
-import Button from '../../StyledComponents/Button'
-import Title from '../../StyledComponents/Title'
-import OnionSaturationCard from './OnionSaturationCard'
+import { aideApiAxios } from '../../../../axios/axios'
+import Flex from '../../../StyledComponents/Flex'
+import { SelectStyle } from '../../../StyledComponents/Select'
+import { slotsRegular } from '../../slots'
+import Button from '../../../StyledComponents/Button'
+import Title from '../../../StyledComponents/Title'
+import OnionSaturationCard from '../Cards/OnionSaturationCard'
 
 const SaturationByOnionsPage = () => {
     const stateReport = [

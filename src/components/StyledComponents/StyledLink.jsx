@@ -14,11 +14,11 @@ const SNavLink = styled(NavLink)`
     cursor: ${({ cursor }) => cursor || ''};
     display: ${({ display }) => display || 'inline'};
     text-decoration: ${({ tDecoration }) => tDecoration || 'none'};
-    background-color: ${({ background_color }) => background_color || 'violet'};
+    background-color: ${({ background_color }) => background_color || ''};
     border-radius: ${({ radius }) => radius || '0px'};
     border: ${({ border }) => border || ''};
     &.active {
-        background-color: blueviolet;
+        color: rgb(186, 143, 255);
     }
 `
 

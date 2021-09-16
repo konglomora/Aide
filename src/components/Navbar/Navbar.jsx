@@ -6,50 +6,61 @@ import Reports from '../Reports/Reports'
 import WeatherControlPage from '../WeatherControlPage/WeatherControlPage'
 import Page404 from '../Page404/Page404'
 import StyledNavLink from '../StyledComponents/StyledLink'
-import ChartsPage from '../Reports/Charts/ChartsPage'
+import ChartsPage from '../Charts/ChartsPage'
+import Button from '../StyledComponents/Button'
 
 export const stylesForStyledLink = {
-    width: '10%',
-    padding: '9px',
+    width: '90%',
+    height: '3em',
     radius: '15px',
-    background_color: 'rgb(93,68,165)',
-    border: '3px solid white',
     text_align: 'center',
 }
 
 const Navbar = () => {
     const { path, url } = useRouteMatch()
+    function clearLocalStorage() {
+        localStorage.clear()
+    }
 
     return (
-        <Flex direction={'column'}>
+        <Flex>
             <Flex
-                height={'30%'}
-                bColor={'rgb(61,45,108)'}
-                padding={'7px 0px'}
-                justify={'space-evenly'}
-                bBorder={'3px dashed white'}
+                height={' '}
+                mHeight={'100vh'}
+                width={'10%'}
+                bColor={'rgb(37,37,38)'}
+                padding={' 1em 1.1em'}
+                rBorder={'2px solid white'}
+                align={'center'}
+                direction={'column'}
             >
                 <StyledNavLink
                     exact
                     {...stylesForStyledLink}
                     to={'/Aide/'}
-                    text={'Home'}
+                    text={'Home 🏠'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
                     to={'/Aide/charts'}
-                    text={'Charts'}
+                    text={'Charts 📈'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
                     to={'/Aide/reports'}
-                    text={'Reports'}
+                    text={'Reports 📰'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
                     to={'/Aide/weather'}
-                    text={'Weather'}
+                    text={'Weather ⛈'}
                 />
+                <Button
+                    title={'Delete saved data if app crashes'}
+                    onClick={() => clearLocalStorage()}
+                >
+                    Clear app data
+                </Button>
             </Flex>
 
             <Switch>

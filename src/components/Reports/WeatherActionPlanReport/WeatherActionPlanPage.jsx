@@ -1,11 +1,8 @@
-import React from 'react';
+import React from 'react'
+import Flex from '../../StyledComponents/Flex'
 
 const WeatherActionPlanPage = () => {
-    return (
-        <div>
-            
-        </div>
-    );
-};
+    return <Flex width={'90%'}></Flex>
+}
 
-export default WeatherActionPlanPage;
+export default WeatherActionPlanPage

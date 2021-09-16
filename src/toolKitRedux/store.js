@@ -8,6 +8,7 @@ import saturationSelectedOnionsSlice from './report-slices/saturationSelectedOni
 const persistConfig = {
     key: 'root',
     storage,
+    whitelist: [''],
 }
 
 const rootReducer = combineReducers({

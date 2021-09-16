@@ -1,11 +1,8 @@
-import React from 'react';
+import React from 'react'
+import Flex from '../StyledComponents/Flex'
 
 const WeatherControlPage = () => {
-    return (
-        <div>
-            Camcorders with weather at onions
-        </div>
-    );
-};
+    return <Flex width={'90%'}>Camcorders with weather at onions</Flex>
+}
 
-export default WeatherControlPage;
+export default WeatherControlPage

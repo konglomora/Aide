@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
+import {
+    lessCouriers,
+    lessCouriersAndMoreOrdersOrders,
+    moreOrders,
+} from '../../components/Reports/saturationReasons'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionsByPeriod',
@@ -8,7 +13,6 @@ export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
             const saturatedOnions = await aideApiAxios.get(
                 `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`
             )
-            console.log({ saturatedOnions })
             if (saturatedOnions.statusText !== 'OK') {
                 throw new Error('Error братан из сервачка прилетел')
             }
@@ -34,7 +38,9 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
                 throw new Error('Error братан из сервачка прилетел')
             }
             const onionReportObject = await JSON.parse(saturatedOnionData.data)
-            console.log(onionReportObject)
+
+            onionReportObject['forAutoReport'] = true
+
             if (onionReportObject.difference.charAt(19) === '+') {
                 onionReportObject['slotFilledStr'] =
                     'Заранее расширяли слоты - постепенно заполнялись.'
@@ -42,6 +48,25 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
                 onionReportObject['slotFilledStr'] =
                     'Заранее расширяли слоты - слабо заполнялись.'
             }
+
+            if (
+                onionReportObject.reason_saturation ===
+                'Причина сатурации - уменьшилось количество активных курьеров в разрезе с прошлой неделей. '
+            ) {
+                onionReportObject['saturationReason'] = lessCouriers
+            } else if (
+                onionReportObject.reason_saturation ===
+                'Причина сатурации - прирост количества заказов в разрезе с прошлой неделей. '
+            ) {
+                onionReportObject['saturationReason'] = moreOrders
+            } else if (
+                onionReportObject.reason_saturation ===
+                'Причина сатурации - прирост заказов и уменьшилось количество активных курьеров в сравнении с прошлой неделей. '
+            ) {
+                onionReportObject['saturationReason'] =
+                    lessCouriersAndMoreOrdersOrders
+            }
+
             return onionReportObject
         } catch (error) {
             return rejectWithValue(error.message)
@@ -61,18 +86,28 @@ export const getSaturationReport = createAsyncThunk(
         const saturatedUniqueSortedOnionCodesArray =
             getState().saturationPeriodReport
                 .saturatedUniqueSortedOnionCodesArray
-        console.log(saturatedUniqueSortedOnionCodesArray)
-        saturatedUniqueSortedOnionCodesArray.forEach((onionCode) => {
-            return dispatch(
-                axiosGetSaturatedOnionAnalyseObject({
-                    onionCode,
-                    periodStart,
-                    periodEnd,
-                })
-            )
-        })
-        // console.log(getState())
-        const reportArray = [...getState().saturationPeriodReport.kyiv_report]
+        const getAllAnalyseObjectsAction = await Promise.all(
+            saturatedUniqueSortedOnionCodesArray.map(async (onionCode) => {
+                await dispatch(
+                    axiosGetSaturatedOnionAnalyseObject({
+                        onionCode,
+                        periodStart,
+                        periodEnd,
+                    })
+                )
+            })
+        )
+
+        const saturationReport = [
+            ...getState().saturationPeriodReport.kyiv_report,
+            ...getState().saturationPeriodReport.mio_report,
+            ...getState().saturationPeriodReport.small_report,
+        ]
+        await dispatch(
+            sortReportBySaturationReasons({
+                saturationReport,
+            })
+        )
     }
 )
 // Helper for handling errors from rejectWithValue
@@ -96,6 +131,11 @@ const saturationPeriodReportSlice = createSlice({
         kyiv_report: [],
         mio_report: [],
         small_report: [],
+        sortedReportBySaturationReason: {
+            lessCouriersSaturatedOnions: [],
+            moreOrdersSaturatedOnions: [],
+            lessCouriersAndMoreOrdersOrdersSaturatedOnions: [],
+        },
         saturatedOnionsObjectsArray: [],
         saturatedUniqueSortedOnionCodesArray: [],
         periodReport: [],
@@ -119,14 +159,38 @@ const saturationPeriodReportSlice = createSlice({
                     allSaturatedOnionCodes.indexOf(onionCode) === index
             )
             state.saturatedUniqueSortedOnionCodesArray = uniqueOnionCodes.sort()
-            // console.log(state.saturatedUniqueSortedOnionCodesArray)
             state.status = 'loading'
         },
         addOnionObjToPeriodReport(state, action) {
             state.periodReport.push(action.payload)
         },
+        sortReportBySaturationReasons(state, action) {
+            const { saturationReport } = action.payload
+
+            saturationReport.map((onion) => {
+                if (onion.saturationReason === lessCouriers) {
+                    state.sortedReportBySaturationReason.lessCouriersSaturatedOnions.push(
+                        onion
+                    )
+                } else if (onion.saturationReason === moreOrders) {
+                    state.sortedReportBySaturationReason.moreOrdersSaturatedOnions.push(
+                        onion
+                    )
+                } else if (
+                    onion.saturationReason === lessCouriersAndMoreOrdersOrders
+                ) {
+                    state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersOrdersSaturatedOnions.push(
+                        onion
+                    )
+                }
+            })
+        },
         clearReport(state) {
             state.kyiv_report = state.mio_report = state.small_report = []
+            state.sortedReportBySaturationReason.lessCouriersSaturatedOnions =
+                state.sortedReportBySaturationReason.moreOrdersSaturatedOnions =
+                state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersOrdersSaturatedOnions =
+                    []
         },
     },
     extraReducers: {
@@ -154,18 +218,17 @@ const saturationPeriodReportSlice = createSlice({
         [axiosGetSaturatedOnionAnalyseObject.pending]: setLoading,
         [axiosGetSaturatedOnionAnalyseObject.rejected]: setError,
         [getSaturationReport.fulfilled]: (state) => {
-            state.periodReport = [
-                ...state.kyiv_report,
-                ...state.mio_report,
-                ...state.small_report,
-            ]
             state.status = 'resolved'
         },
         [getSaturationReport.pending]: setLoading,
     },
 })
 
-export const { setPeriodOfReport, getUniqueSaturatedOnionCodes, clearReport } =
-    saturationPeriodReportSlice.actions
+export const {
+    setPeriodOfReport,
+    getUniqueSaturatedOnionCodes,
+    sortReportBySaturationReasons,
+    clearReport,
+} = saturationPeriodReportSlice.actions
 
 export default saturationPeriodReportSlice.reducer

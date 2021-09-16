@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
+import { kyivCodes, mioCodes, smallCodes } from '../../components/Reports/codes'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
     'selected-onions/axiosGetSaturatedOnionObject',
@@ -38,19 +39,19 @@ export const getSaturationReport = createAsyncThunk(
     ) {
         await dispatch(clearReport())
         await dispatch(getUniqueSaturatedOnionCodes(onionCodesArray))
-        console.log(onionCodesArray)
         const saturatedUniqueSortedOnionCodesArray =
             getState().selectedOnionsReport.saturatedUniqueSortedOnionCodesArray
-        saturatedUniqueSortedOnionCodesArray.forEach((onionCode) => {
-            return dispatch(
-                axiosGetSaturatedOnionAnalyseObject({
-                    onionCode,
-                    periodStart,
-                    periodEnd,
-                })
-            )
-        })
-        const reportArray = [...getState().selectedOnionsReport.kyiv_report]
+        const getAllAnaluzeObjectsAction = await Promise.all(
+            saturatedUniqueSortedOnionCodesArray.map(async (onionCode) => {
+                await dispatch(
+                    axiosGetSaturatedOnionAnalyseObject({
+                        onionCode,
+                        periodStart,
+                        periodEnd,
+                    })
+                )
+            })
+        )
     }
 )
 // Helper for handling errors from rejectWithValue
@@ -71,6 +72,8 @@ const selectedOnionsReportSlice = createSlice({
         error: null,
         periodStart: '16',
         periodEnd: '18',
+        areaCodes: [[...kyivCodes], [...mioCodes], [...smallCodes]],
+        selectedOnionCodes: [],
         kyiv_report: [],
         mio_report: [],
         small_report: [],
@@ -93,6 +96,42 @@ const selectedOnionsReportSlice = createSlice({
         },
         addOnionObjToPeriodReport(state, action) {
             state.periodReport.push(action.payload)
+        },
+        selectOnion(state, action) {
+            // Удаляем из списка онионов выбранный онион и добавляем в массив который потом передаем для получения репорта
+            state.areaCodes = state.areaCodes.map((codesArray) =>
+                codesArray.filter((code) => code !== action.payload)
+            )
+            state.selectedOnionCodes.push(action.payload)
+        },
+        deselectOnion(state, action) {
+            const onionCode = action.payload
+            state.selectedOnionCodes = state.selectedOnionCodes.filter(
+                (code) => code !== onionCode
+            )
+
+            if (kyivCodes.includes(onionCode)) {
+                const indexOfCodeAtInitialArray = kyivCodes.indexOf(onionCode)
+                state.areaCodes[0].splice(
+                    indexOfCodeAtInitialArray,
+                    0,
+                    onionCode
+                )
+            } else if (mioCodes.includes(onionCode)) {
+                const indexOfCodeAtInitialArray = mioCodes.indexOf(onionCode)
+                state.areaCodes[1].splice(
+                    indexOfCodeAtInitialArray,
+                    0,
+                    onionCode
+                )
+            } else {
+                const indexOfCodeAtInitialArray = smallCodes.indexOf(onionCode)
+                state.areaCodes[2].splice(
+                    indexOfCodeAtInitialArray,
+                    0,
+                    onionCode
+                )
+            }
         },
         clearReport(state) {
             state.kyiv_report = state.mio_report = state.small_report = []
@@ -130,7 +169,12 @@ const selectedOnionsReportSlice = createSlice({
     },
 })
 
-export const { setPeriodOfReport, getUniqueSaturatedOnionCodes, clearReport } =
-    selectedOnionsReportSlice.actions
+export const {
+    setPeriodOfReport,
+    getUniqueSaturatedOnionCodes,
+    selectOnion,
+    deselectOnion,
+    clearReport,
+} = selectedOnionsReportSlice.actions
 
 export default selectedOnionsReportSlice.reducer
