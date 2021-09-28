@@ -4,6 +4,7 @@ import saturationPeriodReportSlice from './report-slices/saturationPeriodReportS
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import saturationSelectedOnionsSlice from './report-slices/saturationSelectedOnionsSlice'
+import weatherActionPlanSlice from './report-slices/weatherActionPlanSlice'
 
 const persistConfig = {
     key: 'root',
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     toolkit: toolkitSlice,
     saturationPeriodReport: saturationPeriodReportSlice,
     selectedOnionsReport: saturationSelectedOnionsSlice,
+    weatherActionPlan: weatherActionPlanSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
