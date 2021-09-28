@@ -1,10 +1,10 @@
 import React from 'react'
 import SaturationByPeriodPage from './SaturationReport/Pages/SaturationByPeriodPage'
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
+import { Redirect, Route, useRouteMatch } from 'react-router-dom'
 import StyledNavLink from '../StyledComponents/StyledLink'
 import Flex from '../StyledComponents/Flex'
-import SaturationByOnionsPage from './SaturationReport/Pages/SaturationByOnionsPage'
 import SaturationBySelectedOnionPage from './SaturationReport/Pages/SaturationBySelectedOnionPage.jsx'
+import WeatherActionPlan from './WeatherActionPlanReport/Pages/WeatherActionPlan'
 
 const stylesForStyledLink = {
     width: '20%',
@@ -51,6 +51,7 @@ const Reports = () => {
                 path={`${path}/onion-select`}
                 component={SaturationBySelectedOnionPage}
             />
+            <Route path={`${path}/action-plan`} component={WeatherActionPlan} />
             <Route exact path={path}>
                 <Redirect to={`${path}/period`} />
             </Route>

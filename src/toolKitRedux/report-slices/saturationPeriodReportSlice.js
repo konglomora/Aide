@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import {
     lessCouriers,
-    lessCouriersAndMoreOrdersOrders,
+    lessCouriersAndMoreOrders,
     moreOrders,
 } from '../../components/Reports/saturationReasons'
+import { setError, setLoading } from '../setStatusFunctions'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionsByPeriod',
@@ -48,7 +49,7 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
                 onionReportObject['slotFilledStr'] =
                     'Заранее расширяли слоты - слабо заполнялись.'
             }
-
+            // console.log(onionReportObject.reason_saturation)
             if (
                 onionReportObject.reason_saturation ===
                 'Причина сатурации - уменьшилось количество активных курьеров в разрезе с прошлой неделей. '
@@ -56,15 +57,16 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
                 onionReportObject['saturationReason'] = lessCouriers
             } else if (
                 onionReportObject.reason_saturation ===
-                'Причина сатурации - прирост количества заказов в разрезе с прошлой неделей. '
+                'Причина сатурации -  прирост количества заказов в разрезе с прошлой неделей.'
             ) {
                 onionReportObject['saturationReason'] = moreOrders
+                console.log(onionReportObject.reason_saturation)
             } else if (
                 onionReportObject.reason_saturation ===
                 'Причина сатурации - прирост заказов и уменьшилось количество активных курьеров в сравнении с прошлой неделей. '
             ) {
                 onionReportObject['saturationReason'] =
-                    lessCouriersAndMoreOrdersOrders
+                    lessCouriersAndMoreOrders
             }
 
             return onionReportObject
@@ -110,16 +112,6 @@ export const getSaturationReport = createAsyncThunk(
         )
     }
 )
-// Helper for handling errors from rejectWithValue
-const setError = (state, action) => {
-    state.status = 'rejected'
-    state.error = action.payload
-}
-
-const setLoading = (state) => {
-    state.status = 'loading'
-    state.error = null
-}
 
 const saturationPeriodReportSlice = createSlice({
     name: 'saturation-period',
@@ -134,7 +126,7 @@ const saturationPeriodReportSlice = createSlice({
         sortedReportBySaturationReason: {
             lessCouriersSaturatedOnions: [],
             moreOrdersSaturatedOnions: [],
-            lessCouriersAndMoreOrdersOrdersSaturatedOnions: [],
+            lessCouriersAndMoreOrdersSaturatedOnions: [],
         },
         saturatedOnionsObjectsArray: [],
         saturatedUniqueSortedOnionCodesArray: [],
@@ -177,9 +169,9 @@ const saturationPeriodReportSlice = createSlice({
                         onion
                     )
                 } else if (
-                    onion.saturationReason === lessCouriersAndMoreOrdersOrders
+                    onion.saturationReason === lessCouriersAndMoreOrders
                 ) {
-                    state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersOrdersSaturatedOnions.push(
+                    state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersSaturatedOnions.push(
                         onion
                     )
                 }
@@ -189,7 +181,7 @@ const saturationPeriodReportSlice = createSlice({
             state.kyiv_report = state.mio_report = state.small_report = []
             state.sortedReportBySaturationReason.lessCouriersSaturatedOnions =
                 state.sortedReportBySaturationReason.moreOrdersSaturatedOnions =
-                state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersOrdersSaturatedOnions =
+                state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersSaturatedOnions =
                     []
         },
     },

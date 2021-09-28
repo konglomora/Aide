@@ -55,12 +55,6 @@ const Navbar = () => {
                     to={'/Aide/weather'}
                     text={'Weather ⛈'}
                 />
-                <Button
-                    title={'Delete saved data if app crashes'}
-                    onClick={() => clearLocalStorage()}
-                >
-                    Clear app data
-                </Button>
             </Flex>
 
             <Switch>

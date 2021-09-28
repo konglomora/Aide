@@ -22,7 +22,7 @@ export default function SaturationByPeriodPage() {
     const {
         lessCouriersSaturatedOnions,
         moreOrdersSaturatedOnions,
-        lessCouriersAndMoreOrdersOrdersSaturatedOnions,
+        lessCouriersAndMoreOrdersSaturatedOnions,
     } = useSelector(
         (state) => state.saturationPeriodReport.sortedReportBySaturationReason
     )
@@ -54,6 +54,8 @@ export default function SaturationByPeriodPage() {
             })
         )
     }
+
+    console.log(moreOrdersSaturatedOnions)
 
     return (
         <Flex direction={'column'} align={'center'} margin={'4em 0 0 0'}>
@@ -122,6 +124,7 @@ export default function SaturationByPeriodPage() {
                                     Уменьшилось количество активных курьеров в
                                     разрезе с прошлой неделей:
                                 </TextContent>
+                                <div> </div>
                                 {lessCouriersSaturatedOnions.map(
                                     (onionReport, id) => (
                                         <OnionSaturationCard
@@ -150,6 +153,7 @@ export default function SaturationByPeriodPage() {
                                 Прирост количества заказов в разрезе с прошлой
                                 неделей:
                             </TextContent>
+                            <div> </div>
                             {moreOrdersSaturatedOnions.map(
                                 (onionReport, id) => (
                                     <OnionSaturationCard
@@ -157,13 +161,12 @@ export default function SaturationByPeriodPage() {
                                         key={id}
                                     />
                                 )
-                            )}{' '}
+                            )}
                         </Flex>
                     )}
                 </Flex>
                 <Flex>
-                    {lessCouriersAndMoreOrdersOrdersSaturatedOnions.length >
-                        0 && (
+                    {lessCouriersAndMoreOrdersSaturatedOnions.length > 0 && (
                         <Flex
                             wrap={'wrap'}
                             border={'2px solid white'}
@@ -178,8 +181,8 @@ export default function SaturationByPeriodPage() {
                                 Прирост заказов и уменьшилось количество
                                 активных курьеров в сравнении с прошлой неделей:
                             </TextContent>
-
-                            {lessCouriersAndMoreOrdersOrdersSaturatedOnions.map(
+                            <div> </div>
+                            {lessCouriersAndMoreOrdersSaturatedOnions.map(
                                 (onionReport, id) => (
                                     <OnionSaturationCard
                                         {...onionReport}

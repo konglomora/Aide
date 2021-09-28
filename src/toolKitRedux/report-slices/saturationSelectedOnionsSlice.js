@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import { kyivCodes, mioCodes, smallCodes } from '../../components/Reports/codes'
+import { setError, setLoading } from '../setStatusFunctions'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
     'selected-onions/axiosGetSaturatedOnionObject',
@@ -54,16 +55,6 @@ export const getSaturationReport = createAsyncThunk(
         )
     }
 )
-// Helper for handling errors from rejectWithValue
-const setError = (state, action) => {
-    state.status = 'rejected'
-    state.error = action.payload
-}
-
-const setLoading = (state) => {
-    state.status = 'loading'
-    state.error = null
-}
 
 const selectedOnionsReportSlice = createSlice({
     name: 'selected-onions',

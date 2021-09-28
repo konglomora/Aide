@@ -24,14 +24,18 @@ const OnionSaturationCard = (props) => {
                     ))}
                 </div>
                 <div>{props.difference}</div>
-                <div>{props.forAutoReport ? '' : props.reason_saturation}</div>
+                {props.forAutoReport ? (
+                    ''
+                ) : (
+                    <div>{props.reason_saturation}</div>
+                )}
                 <div>{props.slotFilledStr}</div>
                 <div>
                     <span>{props.area}</span>
                     <span>{props.level_sat}</span>
                 </div>
-                <div> </div>
             </div>
+            <div> </div>
         </Flex>
     )
 }
