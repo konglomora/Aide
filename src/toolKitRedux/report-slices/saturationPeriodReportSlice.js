@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import {
+    hasSaturationButBetterThanD7,
     lessCouriers,
     lessCouriersAndMoreOrders,
     moreOrders,
@@ -60,13 +61,15 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
                 'Причина сатурации -  прирост количества заказов в разрезе с прошлой неделей.'
             ) {
                 onionReportObject['saturationReason'] = moreOrders
-                console.log(onionReportObject.reason_saturation)
             } else if (
                 onionReportObject.reason_saturation ===
                 'Причина сатурации - прирост заказов и уменьшилось количество активных курьеров в сравнении с прошлой неделей. '
             ) {
                 onionReportObject['saturationReason'] =
                     lessCouriersAndMoreOrders
+            } else {
+                onionReportObject['saturationReason'] =
+                    hasSaturationButBetterThanD7
             }
 
             return onionReportObject
@@ -127,6 +130,7 @@ const saturationPeriodReportSlice = createSlice({
             lessCouriersSaturatedOnions: [],
             moreOrdersSaturatedOnions: [],
             lessCouriersAndMoreOrdersSaturatedOnions: [],
+            hasSaturationButBetterThanD7: [],
         },
         saturatedOnionsObjectsArray: [],
         saturatedUniqueSortedOnionCodesArray: [],
@@ -174,6 +178,12 @@ const saturationPeriodReportSlice = createSlice({
                     state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersSaturatedOnions.push(
                         onion
                     )
+                } else if (
+                    onion.saturationReason === hasSaturationButBetterThanD7
+                ) {
+                    state.sortedReportBySaturationReason.hasSaturationButBetterThanD7.push(
+                        onion
+                    )
                 }
             })
         },
@@ -182,6 +192,7 @@ const saturationPeriodReportSlice = createSlice({
             state.sortedReportBySaturationReason.lessCouriersSaturatedOnions =
                 state.sortedReportBySaturationReason.moreOrdersSaturatedOnions =
                 state.sortedReportBySaturationReason.lessCouriersAndMoreOrdersSaturatedOnions =
+                state.sortedReportBySaturationReason.hasSaturationButBetterThanD7 =
                     []
         },
     },
