@@ -23,6 +23,7 @@ export default function SaturationByPeriodPage() {
         lessCouriersSaturatedOnions,
         moreOrdersSaturatedOnions,
         lessCouriersAndMoreOrdersSaturatedOnions,
+        hasSaturationButBetterThanD7,
     } = useSelector(
         (state) => state.saturationPeriodReport.sortedReportBySaturationReason
     )
@@ -187,6 +188,34 @@ export default function SaturationByPeriodPage() {
                                     <OnionSaturationCard
                                         {...onionReport}
                                         key={id}
+                                    />
+                                )
+                            )}
+                        </Flex>
+                    )}
+                </Flex>
+                <Flex>
+                    {hasSaturationButBetterThanD7.length > 0 && (
+                        <Flex
+                            wrap={'wrap'}
+                            border={'2px solid white'}
+                            justify={'space-evenly'}
+                            align={'stretch'}
+                            padding={'10px'}
+                            bRadius={'10px'}
+                            bFilter={'blur(2px)'}
+                            margin={'10px 0px'}
+                        >
+                            <TextContent fSize={'1.3em'} fWeight={'800'}>
+                                Ситуация улучилась относительно D-7:
+                            </TextContent>
+                            <div> </div>
+                            {hasSaturationButBetterThanD7.map(
+                                (onionReport, id) => (
+                                    <OnionSaturationCard
+                                        {...onionReport}
+                                        key={id}
+                                        forAutoReport={true}
                                     />
                                 )
                             )}
