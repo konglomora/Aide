@@ -9,7 +9,7 @@ import {
     setDaysOfPlan,
 } from '../../../../store/report-slices/weatherActionPlanSlice'
 import LoaderReact from '../../../StyledComponents/LoaderReact'
-import OnionPrecipitationCard from '../Cards/OnionPrecipitationCard'
+import { OnionPrecipitationCard } from '../Cards/OnionPrecipitationCard.tsx'
 import Title from '../../../StyledComponents/Title'
 import TextContent from '../../../StyledComponents/TextContent'
 

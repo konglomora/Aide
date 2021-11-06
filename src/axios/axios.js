@@ -1,10 +1,11 @@
 import axios from 'axios'
-import { ACCESS_TOKEN2 } from './private/token'
-const apiURL = 'https://aideindustries.ml/'
+console.log(process.env)
 
+const AIP_URL = process.env.REACT_APP_API_URL
+const API_TOKEN = process.env.REACT_APP_API_KEY
 export const aideApiAxios = axios.create({
-    baseURL: apiURL,
+    baseURL: AIP_URL,
     headers: {
-        Authorization: `Token ${ACCESS_TOKEN2}`,
+        Authorization: `Token ${API_TOKEN}`,
     },
 })
