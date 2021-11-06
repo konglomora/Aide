@@ -10,10 +10,11 @@ import {
     getSaturationReport,
     selectOnion,
     setPeriodOfReport,
-} from '../../../../toolKitRedux/report-slices/saturationSelectedOnionsSlice'
+} from '../../../../store/report-slices/saturationSelectedOnionsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
 import Loader from 'react-loader-spinner'
+import LoaderReact from '../../../StyledComponents/LoaderReact'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()
@@ -181,18 +182,13 @@ export default React.memo(function SaturationBySelectedOnion() {
                     })}
                 </Flex>
             )}
-
-            {status === 'loading' && (
-                <Flex justify={'center'} align={'center'} margin={'15% 0 0 0'}>
-                    <Loader
-                        type="ThreeDots"
-                        color="white"
-                        height={200}
-                        width={300}
-                    />
-                </Flex>
-            )}
-            {error && <h2>An error occurred: {error}</h2>}
+            <Flex justify={'center'} align={'center'}>
+                {status === null && <LoaderReact />}
+                {status === 'loading' && (
+                    <LoaderReact animate={{ rotate: 360 }} />
+                )}
+                {error && <h2>An error occurred: {error}</h2>}
+            </Flex>
         </Flex>
     )
 })

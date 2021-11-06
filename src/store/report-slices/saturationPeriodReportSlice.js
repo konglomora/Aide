@@ -198,6 +198,7 @@ const saturationPeriodReportSlice = createSlice({
     },
     extraReducers: {
         [axiosGetSaturatedOnionsByPeriod.fulfilled]: (state, action) => {
+            // Saving returned data from response that axiosGetSaturatedOnionsByPeriod done
             state.saturatedOnionsObjectsArray = action.payload
         },
         [axiosGetSaturatedOnionsByPeriod.rejected]: setError,

@@ -35,12 +35,12 @@ const Reports = () => {
                     text={'Onions saturation'}
                     width={'300px'}
                 />
-                <StyledNavLink
-                    to={`${url}/action-plan`}
-                    {...stylesForStyledLink}
-                    text={'Action plan'}
-                    width={'300px'}
-                />
+                {/*<StyledNavLink*/}
+                {/*    to={`${url}/action-plan`}*/}
+                {/*    {...stylesForStyledLink}*/}
+                {/*    text={'Action plan'}*/}
+                {/*    width={'300px'}*/}
+                {/*/>*/}
             </Flex>
             <Route
                 exact
