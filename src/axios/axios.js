@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ACCESS_TOKEN2 } from './private/token'
-const apiURL = 'https://www.aideindustries.tk'
+const apiURL = 'https://aideindustries.ml/'
 
 export const aideApiAxios = axios.create({
     baseURL: apiURL,

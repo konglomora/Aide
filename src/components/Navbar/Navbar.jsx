@@ -1,13 +1,9 @@
 import React from 'react'
 import Flex from '../StyledComponents/Flex'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
-import Homepage from '../Homepage/Homepage'
 import Reports from '../Reports/Reports'
-import WeatherControlPage from '../WeatherControlPage/WeatherControlPage'
 import Page404 from '../Page404/Page404'
 import StyledNavLink from '../StyledComponents/StyledLink'
-import ChartsPage from '../Charts/ChartsPage'
-import Button from '../StyledComponents/Button'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -47,22 +43,17 @@ const Navbar = () => {
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
-                    to={'/Aide/reports'}
-                    text={'Reports 📰'}
-                />
-                <StyledNavLink
-                    {...stylesForStyledLink}
                     to={'/Aide/weather'}
                     text={'Weather ⛈'}
                 />
+                <StyledNavLink
+                    {...stylesForStyledLink}
+                    to={'/Aide/reports'}
+                    text={'Reports 📰'}
+                />
             </Flex>
-
             <Switch>
-                <Route exact path={'/Aide/'} component={Homepage} />
-                <Route path={'/Aide/charts'} component={ChartsPage} />
                 <Route path={'/Aide/reports'} component={Reports} />
-                <Route path={'/Aide/weather'} component={WeatherControlPage} />
-                <Route path="*" component={Page404} />
             </Switch>
         </Flex>
     )

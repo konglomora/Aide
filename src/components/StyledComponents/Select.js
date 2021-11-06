@@ -7,5 +7,5 @@ export const SelectStyle = {
     width: '3.5rem',
     border: '3px solid white',
     outline: 'none',
-    margin: '0 10px'
+    margin: '0 10px',
 }

@@ -7,11 +7,12 @@ import { SelectStyle } from '../../../StyledComponents/Select'
 import {
     getSaturationReport,
     setPeriodOfReport,
-} from '../../../../toolKitRedux/report-slices/saturationPeriodReportSlice'
+} from '../../../../store/report-slices/saturationPeriodReportSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import TextContent from '../../../StyledComponents/TextContent'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import Loader from 'react-loader-spinner'
+import LoaderReact from '../../../StyledComponents/LoaderReact'
+import React from 'react'
 
 export default function SaturationByPeriodPage() {
     const dispatch = useDispatch()
@@ -59,8 +60,13 @@ export default function SaturationByPeriodPage() {
     console.log(moreOrdersSaturatedOnions)
 
     return (
-        <Flex direction={'column'} align={'center'} margin={'4em 0 0 0'}>
-            <Flex justify={'center'}>
+        <Flex direction={'column'} align={'center'} margin={'0em 0 0 0'}>
+            <Flex
+                justify={'center'}
+                padding={'1em 0'}
+                bBorder={'2px solid white'}
+                bFilter={'blur(2px)'}
+            >
                 <form action="#">
                     <select
                         style={SelectStyle}
@@ -102,6 +108,7 @@ export default function SaturationByPeriodPage() {
                     </Button>
                 </form>
             </Flex>
+
             <Flex direction={'column'} width={'90%'}>
                 <Flex>
                     {lessCouriersSaturatedOnions.length > 0 && (
@@ -207,7 +214,7 @@ export default function SaturationByPeriodPage() {
                             margin={'10px 0px'}
                         >
                             <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                Ситуация улучилась относительно D-7:
+                                Ситуация улучшилась относительно D-7:
                             </TextContent>
                             <div> </div>
                             {hasSaturationButBetterThanD7.map(
@@ -223,16 +230,8 @@ export default function SaturationByPeriodPage() {
                     )}
                 </Flex>
             </Flex>
-            {status === 'loading' && (
-                <Flex justify={'center'} align={'center'} margin={'15% 0 0 0'}>
-                    <Loader
-                        type="Watch"
-                        color="white"
-                        height={200}
-                        width={300}
-                    />
-                </Flex>
-            )}
+            {status === null && <LoaderReact />}
+            {status === 'loading' && <LoaderReact animate={{ rotate: 360 }} />}
             {error && <h2>An error occurred: {error}</h2>}
         </Flex>
     )

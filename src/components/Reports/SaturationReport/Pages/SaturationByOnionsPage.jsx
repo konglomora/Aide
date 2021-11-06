@@ -56,7 +56,6 @@ const SaturationByOnionsPage = () => {
             const response = await aideApiAxios.get(
                 `/analysis/${onionName}/${slotStart}/${slotEnd}`
             )
-            // console.log(JSON.parse(response.data))
             return await JSON.parse(response.data)
         } catch (error) {
             console.log(error)

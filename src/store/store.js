@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import toolkitSlice from './toolkitSlice'
 import saturationPeriodReportSlice from './report-slices/saturationPeriodReportSlice'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -13,7 +12,6 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    toolkit: toolkitSlice,
     saturationPeriodReport: saturationPeriodReportSlice,
     selectedOnionsReport: saturationSelectedOnionsSlice,
     weatherActionPlan: weatherActionPlanSlice,
