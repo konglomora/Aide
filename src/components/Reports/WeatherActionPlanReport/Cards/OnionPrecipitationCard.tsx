@@ -1,4 +1,5 @@
 import React from 'react'
+import { REACT_APP_ONION_SLOTS_LINK } from '../../../../axios/env'
 import Flex from '../../../StyledComponents/Flex'
 import Title from '../../../StyledComponents/Title'
 // tomorrow
@@ -18,8 +19,7 @@ const OnionPrecipitationCard: React.FC<IOnionPrecipitationCardProps> = ({
     tomorrow,
     afterTomorrow,
 }): JSX.Element => {
-    const SLOTS_LINK: string | undefined =
-        process.env.REACT_APP_ONION_SLOTS_LINK
+    const SLOTS_LINK: string | undefined = REACT_APP_ONION_SLOTS_LINK
     const onionSlotsLink: string = `${SLOTS_LINK}${city}/2021-10-15`
 
     return (

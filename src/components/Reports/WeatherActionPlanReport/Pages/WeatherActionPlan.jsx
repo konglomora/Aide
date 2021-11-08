@@ -47,7 +47,6 @@ const WeatherActionPlan = () => {
             })
         })
     }
-    // console.log({ tomorrowUniqueCodes }, { afterTomorrowUniqueCodes })
 
     const afterTomorrowPlanOnionCards = []
     if (afterTomorrowUniqueCodes.length > 0) {
