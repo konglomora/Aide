@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
-import { kyivCodes, mioCodes, smallCodes } from '../../components/Reports/codes'
+import {
+    kyivCodes,
+    mioCodes,
+    smallCodes,
+} from '../../components/Reports/OnionCodes'
 import { setError, setLoading } from '../setStatusFunctions'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(

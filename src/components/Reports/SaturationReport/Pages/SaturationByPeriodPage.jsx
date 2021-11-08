@@ -3,7 +3,7 @@ import OnionSaturationCard from '../Cards/OnionSaturationCard'
 import Flex from '../../../StyledComponents/Flex'
 import Title from '../../../StyledComponents/Title'
 import Button from '../../../StyledComponents/Button'
-import { SelectStyle } from '../../../StyledComponents/Select'
+import { SelectStyle } from '../../../StyledComponents/SelectStyles'
 import {
     getSaturationReport,
     setPeriodOfReport,
@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import TextContent from '../../../StyledComponents/TextContent'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import LoaderReact from '../../../StyledComponents/LoaderReact'
-import React from 'react'
 
 export default function SaturationByPeriodPage() {
     const dispatch = useDispatch()

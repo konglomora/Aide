@@ -1,6 +1,6 @@
-export const kyivCodes = ['KIE', 'KYI']
-export const mioCodes = ['DNP', 'KHA', 'LVI', 'ODS']
-export const smallCodes = [
+export const kyivCodes: string[] = ['KIE', 'KYI']
+export const mioCodes: string[] = ['DNP', 'KHA', 'LVI', 'ODS']
+export const smallCodes: string[] = [
     'BRO',
     'BTA',
     'CHE',

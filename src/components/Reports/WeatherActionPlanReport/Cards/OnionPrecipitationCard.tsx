@@ -1,15 +1,27 @@
 import React from 'react'
+import { REACT_APP_ONION_SLOTS_LINK } from '../../../../axios/env'
 import Flex from '../../../StyledComponents/Flex'
 import Title from '../../../StyledComponents/Title'
-import { onionSlotsLink } from '../../../../axios/private/adminSlotsLink'
 // tomorrow
-const OnionPrecipitationCard = ({
+
+interface IOnionPrecipitationCardProps {
+    city: string
+    last_time_update: string
+    phrase: string
+    tomorrow: string
+    afterTomorrow: string
+}
+
+const OnionPrecipitationCard: React.FC<IOnionPrecipitationCardProps> = ({
     city,
     last_time_update,
     phrase,
     tomorrow,
     afterTomorrow,
-}) => {
+}): JSX.Element => {
+    const SLOTS_LINK: string | undefined = REACT_APP_ONION_SLOTS_LINK
+    const onionSlotsLink: string = `${SLOTS_LINK}${city}/2021-10-15`
+
     return (
         <Flex
             border={'2px solid white'}
@@ -22,10 +34,7 @@ const OnionPrecipitationCard = ({
             bColor={'rgb(24 25 26 / 78%);'}
         >
             <div>
-                <a
-                    href={`${onionSlotsLink}'/'${city}/2021-10-15`}
-                    target={'blank'}
-                >
+                <a href={onionSlotsLink} target={'blank'}>
                     <Title fWeight={'600'} fSize={'1.5em'}>
                         {city}
                     </Title>
@@ -38,5 +47,4 @@ const OnionPrecipitationCard = ({
         </Flex>
     )
 }
-
-export default OnionPrecipitationCard
+export { OnionPrecipitationCard }

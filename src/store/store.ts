@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import {
+    combineReducers,
+    configureStore,
+    EnhancedStore,
+} from '@reduxjs/toolkit'
 import saturationPeriodReportSlice from './report-slices/saturationPeriodReportSlice'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -19,7 +23,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export const store = configureStore({
+export const store: EnhancedStore = configureStore({
     reducer: persistedReducer,
 })
 

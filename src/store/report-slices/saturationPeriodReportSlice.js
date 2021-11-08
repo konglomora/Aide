@@ -5,7 +5,7 @@ import {
     lessCouriers,
     lessCouriersAndMoreOrders,
     moreOrders,
-} from '../../components/Reports/saturationReasons'
+} from '../../components/Reports/SaturationReasons'
 import { setError, setLoading } from '../setStatusFunctions'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
