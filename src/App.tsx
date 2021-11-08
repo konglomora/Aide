@@ -1,11 +1,11 @@
 import { createGlobalStyle } from 'styled-components'
-import Navbar from './components/Navbar/Navbar'
+import Navbar from './components/Pages/Navigation/MainNavbar'
 import img from './assets/img/Background.svg'
 import { Route, Switch } from 'react-router-dom'
-import LoginPage from './components/Authorization/LoginPage'
-import RegisterPage from './components/Authorization/RegisterPage'
+import LoginPage from './components/Pages/Authorization/LoginPage'
+import RegisterPage from './components/Pages/Authorization/RegisterPage'
 import React from 'react'
-import Homepage from './components/Homepage/Homepage'
+import Homepage from './components/Pages/Homepage/Homepage'
 
 const GlobalStyle = createGlobalStyle`
   body {

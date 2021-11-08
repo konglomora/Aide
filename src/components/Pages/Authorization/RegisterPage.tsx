@@ -1,6 +1,6 @@
 import React from 'react'
-import StyledNavLink from '../StyledComponents/StyledLink'
-import { stylesForStyledLink } from '../Navbar/Navbar'
+import StyledNavLink from '../../StyledComponents/StyledLink'
+import { stylesForStyledLink } from '../Navigation/MainNavbar'
 
 const RegisterPage = () => {
     return (

@@ -4,7 +4,7 @@ import {
     kyivCodes,
     mioCodes,
     smallCodes,
-} from '../../components/Reports/OnionCodes'
+} from '../../components/Pages/Reports/OnionCodes'
 import { setError, setLoading } from '../setStatusFunctions'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(

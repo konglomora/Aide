@@ -1,9 +1,8 @@
-import React from 'react'
-import Flex from '../StyledComponents/Flex'
-import { Route, Switch, useRouteMatch } from 'react-router-dom'
-import Reports from '../Reports/Reports'
-import Page404 from '../Page404/Page404'
-import StyledNavLink from '../StyledComponents/StyledLink'
+import Flex from '../../StyledComponents/Flex'
+import { Route, Switch } from 'react-router-dom'
+import ReportsNavigation from './ReportsNavbar'
+import StyledNavLink from '../../StyledComponents/StyledLink'
+import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -13,11 +12,6 @@ export const stylesForStyledLink = {
 }
 
 const Navbar = () => {
-    const { path, url } = useRouteMatch()
-    function clearLocalStorage() {
-        localStorage.clear()
-    }
-
     return (
         <Flex>
             <Flex
@@ -53,7 +47,10 @@ const Navbar = () => {
                 />
             </Flex>
             <Switch>
-                <Route path={'/Aide/reports'} component={Reports} />
+                <Route path={'/Aide/reports'} component={ReportsNavigation} />
+            </Switch>
+            <Switch>
+                <Route path={'/Aide/weather'} component={WeatherActionPlan} />
             </Switch>
         </Flex>
     )

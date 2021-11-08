@@ -1,10 +1,9 @@
-import React from 'react'
-import SaturationByPeriodPage from './SaturationReport/Pages/SaturationByPeriodPage'
+import SaturationByPeriodPage from '../Reports/SaturationReport/Pages/SaturationByPeriodPage'
 import { Redirect, Route, useRouteMatch } from 'react-router-dom'
-import StyledNavLink from '../StyledComponents/StyledLink'
-import Flex from '../StyledComponents/Flex'
-import SaturationBySelectedOnionPage from './SaturationReport/Pages/SaturationBySelectedOnionPage.jsx'
-import WeatherActionPlan from './WeatherActionPlanReport/Pages/WeatherActionPlan'
+import StyledNavLink from '../../StyledComponents/StyledLink'
+import Flex from '../../StyledComponents/Flex'
+import SaturationBySelectedOnionPage from '../Reports/SaturationReport/Pages/SaturationBySelectedOnionPage.jsx'
+import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
 
 const stylesForStyledLink = {
     width: '20%',
@@ -13,7 +12,7 @@ const stylesForStyledLink = {
     text_align: 'center',
 }
 
-const Reports = () => {
+const ReportsNavigation = () => {
     const { path, url } = useRouteMatch()
 
     return (
@@ -59,4 +58,4 @@ const Reports = () => {
     )
 }
 
-export default Reports
+export default ReportsNavigation

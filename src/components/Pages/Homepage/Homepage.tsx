@@ -1,8 +1,8 @@
 import React from 'react'
-import Flex from '../StyledComponents/Flex'
+import Flex from '../../StyledComponents/Flex'
 import { Redirect } from 'react-router-dom'
 import LoginPage from '../Authorization/LoginPage'
-import Navbar from '../Navbar/Navbar'
+import Navbar from '../Navigation/MainNavbar'
 
 const Homepage = () => {
     return (

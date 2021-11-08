@@ -1,19 +1,19 @@
 import React from 'react'
-import { slotsRegular } from '../../slots'
+import { slotsRegular } from '../../Slots'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
-import Flex from '../../../StyledComponents/Flex'
-import Title from '../../../StyledComponents/Title'
-import Button from '../../../StyledComponents/Button'
-import { SelectStyle } from '../../../StyledComponents/SelectStyles'
+import Flex from '../../../../StyledComponents/Flex'
+import Title from '../../../../StyledComponents/Title'
+import Button from '../../../../StyledComponents/Button'
+import { SelectStyle } from '../../../../StyledComponents/SelectStyles'
 import {
     deselectOnion,
     getSaturationReport,
     selectOnion,
     setPeriodOfReport,
-} from '../../../../store/report-slices/saturationSelectedOnionsSlice'
-import { useDispatch, useSelector } from 'react-redux'
+} from '../../../../../store/report-slices/saturationSelectedOnionsSlice'
+import { DefaultRootState, useDispatch, useSelector } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
-import LoaderReact from '../../../StyledComponents/LoaderReact'
+import LoaderReact from '../../../../StyledComponents/LoaderReact'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()

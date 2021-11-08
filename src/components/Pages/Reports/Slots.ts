@@ -1,4 +1,4 @@
-export const slotsRegular = [
+export const slotsRegular: string[] = [
     '00:00',
     '01:00',
     '02:00',
@@ -25,7 +25,7 @@ export const slotsRegular = [
     '23:00',
 ]
 
-export const slotsFlexible = [
+export const slotsFlexible: string[] = [
     '00:00',
     '00:30',
     '01:00',

@@ -1,17 +1,17 @@
-import { slotsRegular } from '../../slots'
+import { slotsRegular } from '../../Slots'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
-import Flex from '../../../StyledComponents/Flex'
-import Title from '../../../StyledComponents/Title'
-import Button from '../../../StyledComponents/Button'
-import { SelectStyle } from '../../../StyledComponents/SelectStyles'
+import Flex from '../../../../StyledComponents/Flex'
+import Title from '../../../../StyledComponents/Title'
+import Button from '../../../../StyledComponents/Button'
+import { SelectStyle } from '../../../../StyledComponents/SelectStyles'
 import {
     getSaturationReport,
     setPeriodOfReport,
-} from '../../../../store/report-slices/saturationPeriodReportSlice'
+} from '../../../../../store/report-slices/saturationPeriodReportSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import TextContent from '../../../StyledComponents/TextContent'
+import TextContent from '../../../../StyledComponents/TextContent'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import LoaderReact from '../../../StyledComponents/LoaderReact'
+import LoaderReact from '../../../../StyledComponents/LoaderReact'
 
 export default function SaturationByPeriodPage() {
     const dispatch = useDispatch()

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Flex from '../../../StyledComponents/Flex'
-import TextContent from '../../../StyledComponents/TextContent'
+import Flex from '../../../../StyledComponents/Flex'
+import TextContent from '../../../../StyledComponents/TextContent'
 
 const OnionCode = ({ code, onClick, value }) => {
     const backgroundColor = 'transparent'
