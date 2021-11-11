@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import nextId from 'react-id-generator'
 import Flex from '../../../StyledComponents/Flex'
 import Button from '../../../StyledComponents/Button'
 import Input from '../../../StyledComponents/Input'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-    getWeatherActionPlan,
-    setDaysOfPlan,
-} from '../../../../store/report-slices/weatherActionPlanSlice'
+import { getWeatherActionPlan } from '../../../../store/report-slices/weatherActionPlanSlice'
 import LoaderReact from '../../../StyledComponents/LoaderReact'
-import { OnionPrecipitationCard } from '../Cards/OnionPrecipitationCard.tsx'
+import { OnionPrecipitationCard } from '../Cards/OnionPrecipitationCard'
 import Title from '../../../StyledComponents/Title'
 import TextContent from '../../../StyledComponents/TextContent'
+import { generatePlanCards } from '../helpers/PlanCardsGenereator'
+import { mockedActionPlans } from '../../../../mocs/WeatherReportMocs'
+import {
+    PrecipitationCard,
+    IOnionPrecipitationCardProps,
+} from '../Cards/PrecipitationCard'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -20,7 +23,7 @@ const WeatherActionPlan = () => {
         error,
         period,
         uniquePrecipitatedPercentageCodes,
-        actionPlan,
+        actionPlans,
     } = useSelector((state) => state.weatherActionPlan)
 
     const {
@@ -33,50 +36,23 @@ const WeatherActionPlan = () => {
     } = period
     const { tomorrowUniqueCodes, afterTomorrowUniqueCodes } =
         uniquePrecipitatedPercentageCodes
-    const { tomorrowPlan, afterTomorrowPlan } = actionPlan
+    const { tomorrowPlan, afterTomorrowPlan } = actionPlans
 
-    const tomorrowPlanOnionCards = []
+    const [tomorrowPlanOnionCards, setTomorrowOnionCards] = useState([])
+    const [afterTomorrowPlanOnionCards, setAfterTomorrowOnionCards] = useState(
+        []
+    )
+    const isTomorrowWithPrecipitation = tomorrowUniqueCodes.length > 0
+    const isAfterTomorrowWithPrecipitation = afterTomorrowUniqueCodes.length > 0
 
-    if (tomorrowUniqueCodes.length > 0) {
-        Object.keys(tomorrowPlan).forEach((plan) => {
-            tomorrow[plan].forEach((planObject) => {
-                console.log(planObject)
-                tomorrowPlanOnionCards.push(
-                    <OnionPrecipitationCard {...planObject} key={nextId()} />
-                )
-            })
-        })
-    }
-
-    const afterTomorrowPlanOnionCards = []
-    if (afterTomorrowUniqueCodes.length > 0) {
-        Object.keys(afterTomorrowPlan).forEach((plan) => {
-            afterTomorrowPlan[plan].forEach((planObject) => {
-                afterTomorrowPlanOnionCards.push(
-                    <OnionPrecipitationCard {...planObject} key={nextId()} />
-                )
-            })
-        })
-    }
-
-    function dayCheckBoxChangeHandler(e) {
-        const name = e.target.name
-        if (name === 'tomorrow') {
-            dispatch(
-                setDaysOfPlan({
-                    tomorrow: e.target.checked,
-                    afterTomorrow: afterTomorrow,
-                })
-            )
-        } else if (name === 'afterTomorrow') {
-            dispatch(
-                setDaysOfPlan({
-                    tomorrow: tomorrow,
-                    afterTomorrow: e.target.checked,
-                })
-            )
-        }
-    }
+    useEffect(() => {
+        isTomorrowWithPrecipitation
+            ? setTomorrowOnionCards(generatePlanCards(tomorrowPlan))
+            : setTomorrowOnionCards([])
+        isAfterTomorrowWithPrecipitation
+            ? setAfterTomorrowOnionCards(generatePlanCards(afterTomorrowPlan))
+            : setAfterTomorrowOnionCards([])
+    }, [tomorrowUniqueCodes, afterTomorrowUniqueCodes])
 
     function sendRequestForReport() {
         dispatch(
@@ -86,80 +62,29 @@ const WeatherActionPlan = () => {
             })
         )
     }
+    useEffect(() => {
+        sendRequestForReport()
+    }, [])
+
+    const propsForPrecipitationCard = {
+        isTomorrowWithPrecipitation,
+        isAfterTomorrowWithPrecipitation,
+        tomorrowDate,
+        afterTomorrowDate,
+        lastTimeUpdateOfTomorrow,
+        lastTimeUpdateOfAfterTomorrow,
+        tomorrowPlanOnionCards,
+        afterTomorrowPlanOnionCards,
+    }
 
     return (
         <Flex direction={'column'} align={'center'}>
             <Flex justify={'center'} align={'center'} margin={'1em'}>
-                <Button onClick={(e) => sendRequestForReport()}>
-                    Get action plan
-                </Button>
-                <label>
-                    <Input
-                        type={'checkbox'}
-                        checked={period.tomorrow}
-                        name="tomorrow"
-                        onChange={(e) => dayCheckBoxChangeHandler(e)}
-                    />
-                    <span>For tomorrow</span>
-                </label>
-                <label>
-                    <Input
-                        type={'checkbox'}
-                        checked={period.afterTomorrow}
-                        name="afterTomorrow"
-                        onChange={(e) => dayCheckBoxChangeHandler(e)}
-                    />
-                    <span>For day after tomorrow</span>
-                </label>
+                <Button onClick={() => sendRequestForReport()}>Refresh</Button>
             </Flex>
 
-            {status === 'resolved' && tomorrowPlanOnionCards.length > 0 && (
-                <Flex>
-                    <Title> Вероятность на завтра({tomorrowDate})</Title>
-                    <TextContent>
-                        Обновление данных было произведено:{' '}
-                        {lastTimeUpdateOfTomorrow}
-                    </TextContent>
-                    {tomorrowPlanOnionCards}
-                </Flex>
-            )}
-            {status === 'resolved' && tomorrowPlanOnionCards.length === 0 && (
-                <Flex>
-                    <Title>
-                        Вероятность на завтра ({tomorrowDate}) отсутствует :)
-                    </Title>
-                    <TextContent>
-                        Обновление данных было произведено:
-                        {lastTimeUpdateOfTomorrow}
-                    </TextContent>
-                    {tomorrowPlanOnionCards}
-                </Flex>
-            )}
-
-            {status === 'resolved' && afterTomorrowPlanOnionCards.length > 0 && (
-                <Flex direction={'column'} align={'center'}>
-                    <Title>
-                        Вероятность на послезавтра ({afterTomorrowDate})
-                    </Title>
-                    <TextContent>
-                        Обновление данных было произведено:
-                        {lastTimeUpdateOfAfterTomorrow}
-                    </TextContent>
-                    {afterTomorrowPlanOnionCards}
-                </Flex>
-            )}
-            {status === 'resolved' && afterTomorrowPlanOnionCards.length === 0 && (
-                <Flex direction={'column'} align={'center'}>
-                    <Title>
-                        Вероятность на послезавтра ({afterTomorrowDate})
-                        отсутствует :)
-                    </Title>
-                    <TextContent>
-                        Обновление данных было произведено:
-                        {lastTimeUpdateOfAfterTomorrow}
-                    </TextContent>
-                    {afterTomorrowPlanOnionCards}
-                </Flex>
+            {status === 'resolved' && (
+                <PrecipitationCard {...propsForPrecipitationCard} />
             )}
             {status === null && <LoaderReact />}
             {status === 'loading' && <LoaderReact animate={{ rotate: 360 }} />}

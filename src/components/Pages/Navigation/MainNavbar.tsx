@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import ReportsNavigation from './ReportsNavbar'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
+import WeatherNavbar from './WeatherNavbar'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -50,7 +51,7 @@ const Navbar = () => {
                 <Route path={'/Aide/reports'} component={ReportsNavigation} />
             </Switch>
             <Switch>
-                <Route path={'/Aide/weather'} component={WeatherActionPlan} />
+                <Route path={'/Aide/weather'} component={WeatherNavbar} />
             </Switch>
         </Flex>
     )

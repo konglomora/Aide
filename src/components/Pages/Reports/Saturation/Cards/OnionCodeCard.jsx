@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import Flex from '../../../../StyledComponents/Flex'
 import TextContent from '../../../../StyledComponents/TextContent'
 

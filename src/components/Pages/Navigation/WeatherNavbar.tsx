@@ -1,8 +1,6 @@
-import SaturationByPeriodPage from '../Reports/SaturationReport/Pages/SaturationByPeriodPage'
 import { Redirect, Route, useRouteMatch } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import Flex from '../../StyledComponents/Flex'
-import SaturationBySelectedOnionPage from '../Reports/SaturationReport/Pages/SaturationBySelectedOnionPage.jsx'
 import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
 
 const stylesForStyledLink = {
@@ -24,35 +22,21 @@ const ReportsNavigation = () => {
                 bColor={'rgb(24,25,26)'}
             >
                 <StyledNavLink
-                    to={`${url}/period`}
+                    to={`${url}/action-plan`}
                     {...stylesForStyledLink}
-                    text={'Saturation report'}
+                    text={'Action plan'}
                 />
                 <StyledNavLink
                     to={`${url}/onion-select`}
                     {...stylesForStyledLink}
-                    text={'Onions saturation'}
+                    text={'Camcorders'}
                     width={'300px'}
                 />
-                {/*<StyledNavLink*/}
-                {/*    to={`${url}/action-plan`}*/}
-                {/*    {...stylesForStyledLink}*/}
-                {/*    text={'Action plan'}*/}
-                {/*    width={'300px'}*/}
-                {/*/>*/}
             </Flex>
-            <Route
-                exact
-                path={`${path}/period`}
-                component={SaturationByPeriodPage}
-            />
-            <Route
-                path={`${path}/onion-select`}
-                component={SaturationBySelectedOnionPage}
-            />
             <Route path={`${path}/action-plan`} component={WeatherActionPlan} />
+            <Route path={`${path}/camcorders`} component={WeatherActionPlan} />
             <Route exact path={path}>
-                <Redirect to={`${path}/period`} />
+                <Redirect to={`${path}/action-plan`} />
             </Route>
         </Flex>
     )
