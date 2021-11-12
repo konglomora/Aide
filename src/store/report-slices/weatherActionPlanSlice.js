@@ -1,7 +1,13 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
+import {
+    createAsyncThunk,
+    createSlice,
+    current,
+    PayloadAction,
+} from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import { setError, setLoading } from '../setStatusFunctions'
 import moment from 'moment'
+import * as _ from 'lodash'
 
 export const axiosGetPrecipitatedOnionsByDay = createAsyncThunk(
     'weather-action-plan/axiosGetPrecipitatedOnionsByDay',
@@ -171,10 +177,10 @@ const weatherActionPlanSlice = createSlice({
         period: {
             tomorrow: true,
             afterTomorrow: true,
-            // tomorrowDate: moment().add(1, 'days').format('DD.MM.YYYY'),
-            // afterTomorrowDate: moment().add(2, 'days').format('DD.MM.YYYY'),
-            // lastTimeUpdateOfTomorrow: '',
-            // lastTimeUpdateOfAfterTomorrow: '',
+            tomorrowDate: moment().add(1, 'days').format('DD.MM.YYYY'),
+            afterTomorrowDate: moment().add(2, 'days').format('DD.MM.YYYY'),
+            lastTimeUpdateOfTomorrow: '',
+            lastTimeUpdateOfAfterTomorrow: '',
         },
         precipitatedOnionsObjects: {
             tomorrow: [],
@@ -184,7 +190,7 @@ const weatherActionPlanSlice = createSlice({
             tomorrowUniqueCodes: [],
             afterTomorrowUniqueCodes: [],
         },
-        actionPlan: {
+        actionPlans: {
             tomorrowPlan: {
                 kyiv_plan: [],
                 mio_plan: [],
@@ -198,17 +204,13 @@ const weatherActionPlanSlice = createSlice({
         },
     },
     reducers: {
-        setDaysOfPlan(state, action) {
-            state.period.tomorrow = action.payload.tomorrow
-            state.period.afterTomorrow = action.payload.afterTomorrow
-        },
         clearPlan(state) {
             state.precipitatedOnionsObjects.tomorrow =
                 state.precipitatedOnionsObjects.afterTomorrow = []
             state.uniquePrecipitatedPercentageCodes.tomorrowUniqueCodes =
                 state.uniquePrecipitatedPercentageCodes.afterTomorrowUniqueCodes =
                     []
-            state.actionPlan = {
+            state.actionPlans = {
                 tomorrowPlan: {
                     kyiv_plan: [],
                     mio_plan: [],
@@ -222,10 +224,6 @@ const weatherActionPlanSlice = createSlice({
             }
         },
         getUniquePrecipitatedOnionCodes(state) {
-            // console.log(
-            //     'current state at getUniquePrecipitatedOnionCodes',
-            //     current(state)
-            // )
             const { tomorrow, afterTomorrow } = state.precipitatedOnionsObjects
 
             if (tomorrow.length > 0 && afterTomorrow.length > 0) {
@@ -323,8 +321,6 @@ const weatherActionPlanSlice = createSlice({
                     )
                 }
             } else if (afterTomorrow) {
-                // state.period.lastTimeUpdateOfAfterTomorrow =
-                //     precipitatedOnionData.last_time_update
                 if (city === 'KIE' || city === 'KYI') {
                     state.actionPlan.afterTomorrowPlan.kyiv_plan.push(
                         precipitatedOnionData
