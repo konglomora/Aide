@@ -12,67 +12,31 @@ import * as _ from 'lodash'
 export const axiosGetPrecipitatedOnionsByDay = createAsyncThunk(
     'weather-action-plan/axiosGetPrecipitatedOnionsByDay',
     async function ({ tomorrow, afterTomorrow }, { rejectWithValue }) {
-        if (tomorrow && afterTomorrow) {
-            try {
-                const tomorrowPrecipitatedOnions = await aideApiAxios.get(
-                    `weather/filter?tomorrow=yes&prep=low`
-                )
-                const afterTomorrowPrecipitatedOnions = await aideApiAxios.get(
-                    `weather/filter?nex_day=yes&prep=low`
-                )
-                if (
-                    tomorrowPrecipitatedOnions.statusText !== 'OK' ||
-                    afterTomorrowPrecipitatedOnions.statusText !== 'OK'
-                ) {
-                    throw new Error('Error from server came up!')
-                }
-                console.log(
-                    'data about prep for tomorrow:',
-                    tomorrowPrecipitatedOnions.data
-                )
-                return {
-                    dataForTomorrow: tomorrowPrecipitatedOnions.data,
-                    dataForAfterTomorrow: afterTomorrowPrecipitatedOnions.data,
-                    tomorrow: tomorrow,
-                    afterTomorrow: afterTomorrow,
-                }
-            } catch (error) {
-                return rejectWithValue(error.message)
+        try {
+            const tomorrowPrecipitatedOnions = await aideApiAxios.get(
+                `weather/filter?tomorrow=yes&prep=low`
+            )
+            const afterTomorrowPrecipitatedOnions = await aideApiAxios.get(
+                `weather/filter?nex_day=yes&prep=low`
+            )
+            if (
+                tomorrowPrecipitatedOnions.statusText !== 'OK' ||
+                afterTomorrowPrecipitatedOnions.statusText !== 'OK'
+            ) {
+                throw new Error('Error from server came up!')
             }
-        } else if (tomorrow && !afterTomorrow) {
-            try {
-                const precipitatedOnions = await aideApiAxios.get(
-                    `weather/filter?tomorrow=yes&prep=low`
-                )
-                if (precipitatedOnions.statusText !== 'OK') {
-                    throw new Error('Error from server came up!')
-                }
-                return {
-                    data: precipitatedOnions.data,
-                    tomorrow: tomorrow,
-                    afterTomorrow: afterTomorrow,
-                }
-            } catch (error) {
-                return rejectWithValue(error.message)
+            console.log(
+                'data about prep for tomorrow:',
+                tomorrowPrecipitatedOnions.data
+            )
+            return {
+                dataForTomorrow: tomorrowPrecipitatedOnions.data,
+                dataForAfterTomorrow: afterTomorrowPrecipitatedOnions.data,
+                tomorrow: tomorrow,
+                afterTomorrow: afterTomorrow,
             }
-        } else if (afterTomorrow && !tomorrow) {
-            try {
-                const precipitatedOnions = await aideApiAxios.get(
-                    `weather/filter?nex_day=yes&prep=low`
-                )
-                if (precipitatedOnions.statusText !== 'OK') {
-                    throw new Error('Error from server came up!')
-                }
-                return {
-                    data: precipitatedOnions.data,
-                    tomorrow: tomorrow,
-                    afterTomorrow: afterTomorrow,
-                }
-            } catch (error) {
-                return rejectWithValue(error.message)
-            }
-        } else if (!tomorrow && !afterTomorrow) {
-            return { tomorrow: tomorrow, afterTomorrow: afterTomorrow }
+        } catch (error) {
+            return rejectWithValue(error.message)
         }
     }
 )
@@ -300,8 +264,8 @@ const weatherActionPlanSlice = createSlice({
             const { city } = action.payload.precipitatedOnionData
             const { precipitatedOnionData } = action.payload
             if (tomorrow) {
-                // state.period.lastTimeUpdateOfTomorrow =
-                //     precipitatedOnionData.last_time_update
+                state.period.lastTimeUpdateOfTomorrow =
+                    precipitatedOnionData.last_time_update
                 if (city === 'KIE' || city === 'KYI') {
                     state.actionPlan.tomorrowPlan.kyiv_plan.push(
                         precipitatedOnionData
@@ -321,6 +285,8 @@ const weatherActionPlanSlice = createSlice({
                     )
                 }
             } else if (afterTomorrow) {
+                state.period.lastTimeUpdateOfAfterTomorrow =
+                    precipitatedOnionData.last_time_update
                 if (city === 'KIE' || city === 'KYI') {
                     state.actionPlan.afterTomorrowPlan.kyiv_plan.push(
                         precipitatedOnionData
