@@ -1,9 +1,6 @@
 import Flex from '../../StyledComponents/Flex'
-import { Route, Switch } from 'react-router-dom'
-import ReportsNavigation from './ReportsNavbar'
+import { Outlet } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
-import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
-import WeatherNavbar from './WeatherNavbar'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -12,9 +9,9 @@ export const stylesForStyledLink = {
     text_align: 'center',
 }
 
-const Navbar = () => {
+const Layout = () => {
     return (
-        <Flex>
+        <>
             <Flex
                 height={' '}
                 mHeight={'100vh'}
@@ -26,35 +23,31 @@ const Navbar = () => {
                 direction={'column'}
             >
                 <StyledNavLink
-                    exact
                     {...stylesForStyledLink}
-                    to={'/Aide/'}
+                    to={'/'}
                     text={'Home 🏠'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
-                    to={'/Aide/charts'}
+                    to={'/charts'}
                     text={'Charts 📈'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
-                    to={'/Aide/weather'}
+                    to={'/weather'}
                     text={'Weather ⛈'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
-                    to={'/Aide/reports'}
+                    to={'/reports'}
                     text={'Reports 📰'}
                 />
             </Flex>
-            <Switch>
-                <Route path={'/Aide/reports'} component={ReportsNavigation} />
-            </Switch>
-            <Switch>
-                <Route path={'/Aide/weather'} component={WeatherNavbar} />
-            </Switch>
-        </Flex>
+            <Flex width="90%">
+                <Outlet />
+            </Flex>
+        </>
     )
 }
 
-export default Navbar
+export default Layout

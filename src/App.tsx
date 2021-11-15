@@ -1,11 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
-import Navbar from './components/Pages/Navigation/MainNavbar'
 import img from './assets/img/Background.svg'
-import { Route, Switch } from 'react-router-dom'
-import LoginPage from './components/Pages/Authorization/LoginPage'
-import RegisterPage from './components/Pages/Authorization/RegisterPage'
-import React from 'react'
-import Homepage from './components/Pages/Homepage/Homepage'
+import Flex from './components/StyledComponents/Flex'
+import { AppRoutes } from './components/Pages/Navigation/AppRoutes'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -21,16 +17,10 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
     return (
-        <>
+        <Flex>
             <GlobalStyle />
-            <Switch>
-                <Route exact path={'/Aide/'} component={Homepage} />
-                {/* <Route path={'/Aide/login'} component={LoginPage} />
-                <Route path={'/Aide/register'} component={RegisterPage} /> */}
-                {/* <Route path="*" component={Page404} /> */}
-            </Switch>
-            <Navbar />
-        </>
+            <AppRoutes />
+        </Flex>
     )
 }
 

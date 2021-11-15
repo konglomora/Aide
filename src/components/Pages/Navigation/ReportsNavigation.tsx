@@ -19,15 +19,15 @@ const ReportsNavigation = () => {
                 bColor={'rgb(24,25,26)'}
             >
                 <StyledNavLink
-                    to="action-plan"
+                    to={`period`}
                     {...stylesForStyledLink}
-                    text="Action plan"
+                    text={'Saturation report'}
                 />
                 <StyledNavLink
-                    to="onion-select"
+                    to={`onion-select`}
                     {...stylesForStyledLink}
-                    text="Camcorders"
-                    width="300px"
+                    text={'Onions saturation'}
+                    width={'300px'}
                 />
             </Flex>
             <Outlet />

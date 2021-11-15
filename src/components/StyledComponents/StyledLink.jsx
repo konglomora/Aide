@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useMatch } from 'react-router-dom'
 
 const SNavLink = styled(NavLink)`
     color: ${({ color }) => color || 'white'};
@@ -22,10 +22,12 @@ const SNavLink = styled(NavLink)`
     }
 `
 
-const StyledNavLink = (props) => {
+const StyledNavLink = ({ to, text, ...props }) => {
+    const match = useMatch(to)
+    console.log({ match })
     return (
-        <SNavLink to={props.to} {...props}>
-            {props.text}
+        <SNavLink to={to} {...props}>
+            {text}
         </SNavLink>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import StyledNavLink from '../../StyledComponents/StyledLink'
-import Navbar, { stylesForStyledLink } from '../Navigation/MainNavbar'
+import Layout, { stylesForStyledLink } from '../Navigation/Layout'
 
 const LoginPage = () => {
     return (
@@ -8,7 +8,6 @@ const LoginPage = () => {
             <h1>Log in</h1>
 
             <StyledNavLink
-                exact
                 {...stylesForStyledLink}
                 to={'/Aide/register'}
                 text={'OR REGISTER ✍'}
