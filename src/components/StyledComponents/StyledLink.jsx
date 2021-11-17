@@ -23,8 +23,6 @@ const SNavLink = styled(NavLink)`
 `
 
 const StyledNavLink = ({ to, text, ...props }) => {
-    const match = useMatch(to)
-    console.log({ match })
     return (
         <SNavLink to={to} {...props}>
             {text}
