@@ -31,12 +31,12 @@ const WeatherNavbar = () => {
                     {...stylesForStyledLink}
                     text="Action plan"
                 />
-                <StyledNavLink
+                {/* <StyledNavLink
                     to="onion-select"
                     {...stylesForStyledLink}
                     text="Camcorders"
                     width="300px"
-                />
+                /> */}
             </Flex>
             <Outlet />
         </Flex>
