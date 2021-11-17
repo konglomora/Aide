@@ -5,7 +5,8 @@ import {
     mioCodes,
     smallCodes,
 } from '../../components/Pages/Reports/OnionCodes'
-import { setError, setLoading } from '../setStatusFunctions'
+import { setError, setLoading } from '../helpers/setStatusFunctions'
+import { codes } from '../helpers/Codes'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
     'selected-onions/axiosGetSaturatedOnionObject',
@@ -81,7 +82,7 @@ const selectedOnionsReportSlice = createSlice({
             state.periodStart = action.payload.periodStart
             state.periodEnd = action.payload.periodEnd
         },
-        // Получаем уникальные имена онионов в которых была сатурация за выбраный период
+
         getUniqueSaturatedOnionCodes(state, action) {
             const { payload } = action
             const uniqueOnionCodes = payload.filter(
@@ -134,20 +135,16 @@ const selectedOnionsReportSlice = createSlice({
     },
     extraReducers: {
         [axiosGetSaturatedOnionAnalyseObject.fulfilled]: (state, action) => {
-            // Сортируем обьекты репортов по соответствующих массивах
-            const { payload } = action
-            const isKyiv = payload.city === 'KIE' || payload.city === 'KYI'
-            const isMio =
-                payload.city === 'DNP' ||
-                payload.city === 'KHA' ||
-                payload.city === 'LVI' ||
-                payload.city === 'ODS'
+            // Sorting report objects by corresponding arrays
+            const { city } = action.payload
+            const isKyiv = codes.kyiv.includes(city)
+            const isMio = codes.mio.includes(city)
             if (isKyiv) {
-                state.kyiv_report.push(payload)
+                state.kyiv_report.push(action.payload)
             } else if (isMio) {
-                state.mio_report.push(payload)
+                state.mio_report.push(action.payload)
             } else {
-                state.small_report.push(payload)
+                state.small_report.push(action.payload)
             }
         },
         [axiosGetSaturatedOnionAnalyseObject.pending]: setLoading,

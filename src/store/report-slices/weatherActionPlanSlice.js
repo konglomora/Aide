@@ -1,13 +1,8 @@
-import {
-    createAsyncThunk,
-    createSlice,
-    current,
-    PayloadAction,
-} from '@reduxjs/toolkit'
-import { aideApiAxios } from '../../axios/axios'
-import { setError, setLoading } from '../setStatusFunctions'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
-import * as _ from 'lodash'
+import { aideApiAxios } from '../../axios/axios'
+import { setError, setLoading } from '../helpers/setStatusFunctions'
+import { codes } from '../helpers/Codes'
 
 export const axiosGetPrecipitatedOnionsByDay = createAsyncThunk(
     'weather-action-plan/axiosGetPrecipitatedOnionsByDay',
@@ -228,7 +223,6 @@ const weatherActionPlanSlice = createSlice({
                     )
                 state.uniquePrecipitatedPercentageCodes.tomorrowUniqueCodes =
                     uniqueTomorrowPrecipitatedOnionCodes.sort()
-                // console.log({ uniqueTomorrowPrecipitatedOnionCodes })
             }
 
             if (afterTomorrow.length > 0) {
@@ -251,7 +245,6 @@ const weatherActionPlanSlice = createSlice({
 
                 state.uniquePrecipitatedPercentageCodes.afterTomorrowUniqueCodes =
                     uniqueAfterTomorrowPrecipitatedOnionCodes.sort()
-                // console.log({ uniqueAfterTomorrowPrecipitatedOnionCodes })
             }
         },
     },
@@ -276,6 +269,9 @@ const weatherActionPlanSlice = createSlice({
             const { tomorrow, afterTomorrow, precipitatedOnionData } =
                 action.payload
             const { city } = precipitatedOnionData
+            const isKyiv = codes.kyiv.includes(city)
+            const isMio = codes.mio.includes(city)
+
             console.log(
                 '[axiosGetPrecipitatedOnionPlanObject.fulfilled] action.payload',
                 action.payload
@@ -283,16 +279,11 @@ const weatherActionPlanSlice = createSlice({
             if (tomorrow) {
                 state.period.lastTimeUpdateOfTomorrow =
                     precipitatedOnionData.last_time_update
-                if (city === 'KIE' || city === 'KYI') {
+                if (isKyiv) {
                     state.actionPlans.tomorrowPlan.kyiv_plan.push(
                         precipitatedOnionData
                     )
-                } else if (
-                    city === 'DNP' ||
-                    city === 'KHA' ||
-                    city === 'LVI' ||
-                    city === 'ODS'
-                ) {
+                } else if (isMio) {
                     state.actionPlans.tomorrowPlan.mio_plan.push(
                         precipitatedOnionData
                     )
@@ -305,16 +296,11 @@ const weatherActionPlanSlice = createSlice({
             if (afterTomorrow) {
                 state.period.lastTimeUpdateOfAfterTomorrow =
                     precipitatedOnionData.last_time_update
-                if (city === 'KIE' || city === 'KYI') {
+                if (isKyiv) {
                     state.actionPlans.afterTomorrowPlan.kyiv_plan.push(
                         precipitatedOnionData
                     )
-                } else if (
-                    city === 'DNP' ||
-                    city === 'KHA' ||
-                    city === 'LVI' ||
-                    city === 'ODS'
-                ) {
+                } else if (isMio) {
                     state.actionPlans.afterTomorrowPlan.mio_plan.push(
                         precipitatedOnionData
                     )
@@ -329,7 +315,6 @@ const weatherActionPlanSlice = createSlice({
         [getWeatherActionPlan.pending]: setLoading,
         [getWeatherActionPlan.fulfilled]: (state) => {
             state.status = 'resolved'
-            // console.log('getWeatherActionPlan.fulfilled')
         },
         [getWeatherActionPlan.rejected]: setError,
     },
