@@ -5,8 +5,8 @@ import Button from '../../../StyledComponents/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWeatherActionPlan } from '../../../../store/report-slices/weatherActionPlanSlice'
 import LoaderReact from '../../../StyledComponents/LoaderReact'
-import { generatePlanCards } from '../helpers/PlanCardsGenereator'
-
+import { generatePlanCards } from '../Generators/PlanCardsGenereator'
+import WeatherNavbar from '../../Navigation/WeatherNavbar'
 import {
     ActionPlanCard,
     IOnionPrecipitationCardProps,
@@ -54,7 +54,14 @@ const WeatherActionPlan = () => {
         isAfterTomorrowWithPrecipitation
             ? setAfterTomorrowOnionCards(generatePlanCards(afterTomorrowPlan))
             : setAfterTomorrowOnionCards([])
-    }, [tomorrowPlan, afterTomorrowPlan])
+    }, [
+        tomorrowPlan,
+        afterTomorrowPlan,
+        afterTomorrowUniqueCodes.length,
+        tomorrowUniqueCodes.length,
+        isAfterTomorrowWithPrecipitation,
+        isTomorrowWithPrecipitation,
+    ])
 
     function sendRequestForReport() {
         dispatch(
@@ -84,18 +91,24 @@ const WeatherActionPlan = () => {
     }
 
     return (
-        <Flex direction={'column'} align={'center'}>
-            <Flex justify={'center'} align={'center'} margin={'1em'}>
-                <Button onClick={() => sendRequestForReport()}>Refresh</Button>
-            </Flex>
+        <>
+            <Flex direction={'column'} align={'center'}>
+                <Flex justify={'center'} align={'center'} margin={'1em'}>
+                    <Button onClick={() => sendRequestForReport()}>
+                        Refresh
+                    </Button>
+                </Flex>
 
-            {status === 'resolved' && (
-                <ActionPlanCard {...propsForPrecipitationCard} />
-            )}
-            {status === null && <LoaderReact />}
-            {status === 'loading' && <LoaderReact animate={{ rotate: 360 }} />}
-            {status === 'error' && <h2>An error occurred: {error}</h2>}
-        </Flex>
+                {status === 'resolved' && (
+                    <ActionPlanCard {...propsForPrecipitationCard} />
+                )}
+                {status === null && <LoaderReact />}
+                {status === 'loading' && (
+                    <LoaderReact animate={{ rotate: 360 }} />
+                )}
+                {status === 'error' && <h2>An error occurred: {error}</h2>}
+            </Flex>
+        </>
     )
 }
 

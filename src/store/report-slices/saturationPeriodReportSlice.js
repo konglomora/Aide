@@ -6,7 +6,8 @@ import {
     lessCouriersAndMoreOrders,
     moreOrders,
 } from '../../components/Pages/Reports/SaturationReasons'
-import { setError, setLoading } from '../setStatusFunctions'
+import { setError, setLoading } from '../helpers/setStatusFunctions'
+import { codes } from '../helpers/Codes'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk(
     'saturation-period/axiosGetSaturatedOnionsByPeriod',
@@ -50,7 +51,7 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
                 onionReportObject['slotFilledStr'] =
                     'Заранее расширяли слоты - слабо заполнялись.'
             }
-            // console.log(onionReportObject.reason_saturation)
+
             if (
                 onionReportObject.reason_saturation ===
                 'Причина сатурации - уменьшилось количество активных курьеров в разрезе с прошлой неделей. '
@@ -141,7 +142,8 @@ const saturationPeriodReportSlice = createSlice({
             state.periodStart = action.payload.periodStart
             state.periodEnd = action.payload.periodEnd
         },
-        // Получаем уникальные имена онионов в которых была сатурация за выбраный период
+
+        // ? Getting unique onion codes that had saturation at selected period
         getUniqueSaturatedOnionCodes(state) {
             const allSaturatedOnionCodes =
                 state.saturatedOnionsObjectsArray.reduce((accum, onion) => {
@@ -204,13 +206,9 @@ const saturationPeriodReportSlice = createSlice({
         [axiosGetSaturatedOnionsByPeriod.rejected]: setError,
         [axiosGetSaturatedOnionAnalyseObject.fulfilled]: (state, action) => {
             // Сортируем обьекты репортов по соответствующих массивах
-            const isKyiv =
-                action.payload.city === 'KIE' || action.payload.city === 'KYI'
-            const isMio =
-                action.payload.city === 'DNP' ||
-                action.payload.city === 'KHA' ||
-                action.payload.city === 'LVI' ||
-                action.payload.city === 'ODS'
+            const isKyiv = codes.kyiv.includes(action.payload.city)
+            const isMio = codes.mio.includes(action.payload.city)
+
             if (isKyiv) {
                 state.kyiv_report.push(action.payload)
             } else if (isMio) {

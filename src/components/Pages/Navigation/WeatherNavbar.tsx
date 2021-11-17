@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import Flex from '../../StyledComponents/Flex'
 import { useEffect } from 'react'
@@ -10,11 +10,14 @@ const stylesForStyledLink = {
     text_align: 'center',
 }
 
-const ReportsNavigation = () => {
+const WeatherNavbar = () => {
+    const url = useLocation()
     const navigate = useNavigate()
+
     useEffect(() => {
-        navigate('action-plan')
-    }, [navigate])
+        if (url.pathname === '/weather') navigate('action-plan')
+    }, [navigate, url.pathname])
+
     return (
         <Flex direction={'column'}>
             <Flex
@@ -40,4 +43,4 @@ const ReportsNavigation = () => {
     )
 }
 
-export default ReportsNavigation
+export default WeatherNavbar
