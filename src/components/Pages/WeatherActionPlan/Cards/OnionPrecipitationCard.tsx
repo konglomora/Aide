@@ -2,8 +2,10 @@ import React from 'react'
 import { REACT_APP_ONION_SLOTS_LINK } from '../../../../axios/env'
 import Flex from '../../../StyledComponents/Flex'
 import Title from '../../../StyledComponents/Title'
+import dayjs from 'dayjs'
 
 export interface IOnionPrecipitationCardProps {
+    date: string
     city: string
     last_time_update: string
     phrase: string
@@ -11,12 +13,19 @@ export interface IOnionPrecipitationCardProps {
     afterTomorrow: string
 }
 const OnionPrecipitationCard: React.FC<IOnionPrecipitationCardProps> = ({
+    date,
     city,
     last_time_update,
     phrase,
 }): JSX.Element => {
+    const tomorrowDate = dayjs().add(1, 'day').format('DD.MM')
+    const dateOfReport =
+        tomorrowDate === date
+            ? dayjs().add(1, 'day').format('YYYY-MM-DD')
+            : dayjs().add(2, 'day').format('YYYY-MM-DD')
+
     const SLOTS_LINK: string | undefined = REACT_APP_ONION_SLOTS_LINK
-    const onionSlotsLink: string = `${SLOTS_LINK}${city}/2021-10-15`
+    const onionSlotsLink: string = `${SLOTS_LINK}${city}/${dateOfReport}`
 
     return (
         <Flex
@@ -35,8 +44,6 @@ const OnionPrecipitationCard: React.FC<IOnionPrecipitationCardProps> = ({
                         {city}
                     </Title>
                 </a>
-
-                <div>{`Last time update: ${last_time_update} `}</div>
                 <div>{phrase}</div>
             </div>
             <div> </div>

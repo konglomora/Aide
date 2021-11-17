@@ -19,6 +19,7 @@ export const generatePlanCards = (dayPlan: DayPlan): React.ReactElement[][] =>
 
 const generatePlanCard = (
     areaOnionPlan: IOnionPrecipitationCardProps
-): React.ReactElement => (
-    <OnionPrecipitationCard {...areaOnionPlan} key={nextId()} />
-)
+): React.ReactElement => {
+    console.log('areaOnionPlan: ', areaOnionPlan)
+    return <OnionPrecipitationCard {...areaOnionPlan} key={nextId()} />
+}
