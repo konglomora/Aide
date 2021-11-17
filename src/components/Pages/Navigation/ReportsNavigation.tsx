@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import Flex from '../../StyledComponents/Flex'
 import { useEffect } from 'react'
@@ -11,10 +11,13 @@ const stylesForStyledLink = {
 }
 
 const ReportsNavigation = () => {
+    const url = useLocation()
     const navigate = useNavigate()
+
     useEffect(() => {
-        navigate('period')
-    }, [navigate])
+        if (url.pathname === '/reports') navigate('period')
+    }, [navigate, url.pathname])
+
     return (
         <Flex direction={'column'}>
             <Flex
