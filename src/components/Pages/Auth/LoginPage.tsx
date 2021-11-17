@@ -1,6 +1,6 @@
 import React from 'react'
 import StyledNavLink from '../../StyledComponents/StyledLink'
-import Layout, { stylesForStyledLink } from '../Navigation/Layout'
+import { stylesForStyledLink } from '../Navigation/Layout'
 
 const LoginPage = () => {
     return (
