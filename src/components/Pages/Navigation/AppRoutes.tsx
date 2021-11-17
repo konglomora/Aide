@@ -1,11 +1,12 @@
 import React from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import LoginPage from '../Authorization/LoginPage'
 import RegisterPage from '../Authorization/RegisterPage'
 import Homepage from '../Homepage/Homepage'
 import Page404 from '../Page404/Page404'
 import SaturationByPeriodPage from '../Reports/Saturation/Pages/SaturationByPeriodPage'
 import SaturationBySelectedOnionPage from '../Reports/Saturation/Pages/SaturationBySelectedOnionPage'
+import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
 import Layout from './Layout'
 import ReportsNavigation from './ReportsNavigation'
 import WeatherNavbar from './WeatherNavbar'
@@ -24,7 +25,13 @@ export const AppRoutes = () => {
                         element={<SaturationBySelectedOnionPage />}
                     />
                 </Route>
-                <Route path="weather" element={<WeatherNavbar />} />
+                <Route path="weather" element={<WeatherNavbar />}>
+                    <Route path="action-plan" element={<WeatherActionPlan />} />
+                    <Route
+                        path="onion-select"
+                        element={<SaturationBySelectedOnionPage />}
+                    />
+                </Route>
                 <Route path="*" element={<Page404 />} />
             </Route>
         </Routes>
