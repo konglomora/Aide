@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react'
-import nextId from 'react-id-generator'
 import Flex from '../../../StyledComponents/Flex'
 import Button from '../../../StyledComponents/Button'
 import { useDispatch, useSelector } from 'react-redux'
-import { getWeatherActionPlan } from '../../../../store/report-slices/weatherActionPlanSlice'
+import { getWeatherActionPlan } from '../../../../store/slices/weatherActionPlanSlice'
 import LoaderReact from '../../../StyledComponents/LoaderReact'
 import { generatePlanCards } from '../Generators/PlanCardsGenereator'
-import WeatherNavbar from '../../Navigation/WeatherNavbar'
-import {
-    ActionPlanCard,
-    IOnionPrecipitationCardProps,
-} from '../Cards/ActionPlanCard'
+
+import { ActionPlanCard } from '../Cards/ActionPlanCard'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()

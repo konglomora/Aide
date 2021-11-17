@@ -7,7 +7,7 @@ import { SelectStyle } from '../../../../StyledComponents/SelectStyles'
 import {
     getSaturationReport,
     setPeriodOfReport,
-} from '../../../../../store/report-slices/saturationPeriodReportSlice'
+} from '../../../../../store/slices/saturationPeriodReportSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import TextContent from '../../../../StyledComponents/TextContent'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'

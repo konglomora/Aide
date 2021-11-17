@@ -1,6 +1,7 @@
 import Flex from '../../StyledComponents/Flex'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
+import { useEffect } from 'react'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -10,6 +11,10 @@ export const stylesForStyledLink = {
 }
 
 const Layout = () => {
+    const navigate = useNavigate()
+    useEffect(() => {
+        navigate('login')
+    }, [])
     return (
         <>
             <Flex

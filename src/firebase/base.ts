@@ -1,13 +1,22 @@
 import { initializeApp } from 'firebase/app'
 import 'firebase/auth'
+import { fromPairs } from 'lodash'
+import {
+    REACT_APP_FIREBASE_API_KEY,
+    REACT_APP_FIREBASE_AUTH_DOMAIN,
+    REACT_APP_FIREBASE_PROJECT_ID,
+    REACT_APP_FIREBASE_STORAGE_BUCKET,
+    REACT_APP_FIREBASE_SENDER_ID,
+    REACT_APP_FIREBASE_APP_ID,
+} from '../axios/env'
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyAYzjcYBshWL0mRNK21lH5kmtwybqySIAY',
-    authDomain: 'aide-application.firebaseapp.com',
-    projectId: 'aide-application',
-    storageBucket: 'aide-application.appspot.com',
-    messagingSenderId: '561150940236',
-    appId: '1:561150940236:web:baf8992cb15c9f6ee850e9',
+    apiKey: REACT_APP_FIREBASE_API_KEY,
+    authDomain: REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: REACT_APP_FIREBASE_SENDER_ID,
+    appId: REACT_APP_FIREBASE_APP_ID,
 }
 
 // Initialize Firebase
