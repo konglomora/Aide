@@ -6,7 +6,7 @@ import {
 } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import { setError, setLoading } from '../setStatusFunctions'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import * as _ from 'lodash'
 
 export const axiosGetPrecipitatedOnionsByDay = createAsyncThunk(
@@ -25,10 +25,6 @@ export const axiosGetPrecipitatedOnionsByDay = createAsyncThunk(
             ) {
                 throw new Error('Error from server came up!')
             }
-            console.log(
-                'data about prep for tomorrow:',
-                tomorrowPrecipitatedOnions.data
-            )
             return {
                 dataForTomorrow: tomorrowPrecipitatedOnions.data,
                 dataForAfterTomorrow: afterTomorrowPrecipitatedOnions.data,
@@ -47,10 +43,14 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk(
         { onionCode, tomorrow, afterTomorrow },
         { rejectWithValue }
     ) {
-        console.log({ onionCode })
+        console.log(
+            '[axiosGetPrecipitatedOnionPlanObject] tomorrow: ',
+            tomorrow,
+            'afterTomorrow',
+            afterTomorrow
+        )
         if (tomorrow) {
             try {
-                console.log({ onionCode })
                 const precipitatedOnionData = await aideApiAxios.get(
                     `weather/report/${onionCode}`
                 )
@@ -58,6 +58,8 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk(
                     throw new Error('Error from server came up!')
                 }
                 const data = await JSON.parse(precipitatedOnionData.data)
+                data['city'] = onionCode
+                console.log('axiosGetPrecipitatedOnionPlanObject data: ', data)
                 return {
                     precipitatedOnionData: data,
                     tomorrow: tomorrow,
@@ -75,6 +77,8 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk(
                     throw new Error('Error from server came up!')
                 }
                 const data = await JSON.parse(precipitatedOnionData.data)
+                data['city'] = onionCode
+
                 return {
                     precipitatedOnionData: data,
                     tomorrow: tomorrow,
@@ -90,26 +94,35 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk(
 export const getWeatherActionPlan = createAsyncThunk(
     'weather-action-plan/getWeatherActionPlan',
     async function ({ tomorrow, afterTomorrow }, { dispatch, getState }) {
-        const currentState = getState().weatherActionPlan
+        console.log('====================================')
+        console.log('getWeatherActionPlan RUN')
+        console.log('====================================')
         await dispatch(clearPlan())
 
         await dispatch(
             axiosGetPrecipitatedOnionsByDay({ tomorrow, afterTomorrow })
         )
         await dispatch(getUniquePrecipitatedOnionCodes())
-
+        console.log(
+            'getWeatherActionPlan : getState().uniquePrecipitatedPercentageCodes ',
+            getState().weatherActionPlan.uniquePrecipitatedPercentageCodes
+        )
         const { tomorrowUniqueCodes, afterTomorrowUniqueCodes } =
-            currentState.uniquePrecipitatedPercentageCodes
+            getState().weatherActionPlan.uniquePrecipitatedPercentageCodes
 
+        console.log(
+            'getWeatherActionPlan : afterTomorrowUniqueCodes ',
+            afterTomorrowUniqueCodes
+        )
         if (tomorrowUniqueCodes.length > 0) {
-            const getActionPlanForAllCodes = await Promise.all(
+            const getActionPlanForTomorrowCodes = await Promise.all(
                 tomorrowUniqueCodes.map(async (onionCode) => {
-                    const afterTomorrowReport = false
+                    const afterTomorrow = false
                     await dispatch(
                         axiosGetPrecipitatedOnionPlanObject({
                             onionCode,
                             tomorrow,
-                            afterTomorrowReport,
+                            afterTomorrow,
                         })
                     )
                 })
@@ -117,19 +130,24 @@ export const getWeatherActionPlan = createAsyncThunk(
         }
 
         if (afterTomorrowUniqueCodes.length > 0) {
-            const getActionPlanForAllCodes = await Promise.all(
+            console.log(afterTomorrowUniqueCodes.length)
+            const getActionPlanForAfterTomorrowCodes = await Promise.all(
                 afterTomorrowUniqueCodes.map(async (onionCode) => {
-                    const tomorrowReport = false
+                    const tomorrow = false
                     await dispatch(
                         axiosGetPrecipitatedOnionPlanObject({
                             onionCode,
-                            tomorrowReport,
+                            tomorrow,
                             afterTomorrow,
                         })
                     )
                 })
             )
         }
+        console.log(getState().weatherActionPlan)
+        console.log('====================================')
+        console.log('getWeatherActionPlan STOP')
+        console.log('====================================')
     }
 )
 
@@ -141,8 +159,8 @@ const weatherActionPlanSlice = createSlice({
         period: {
             tomorrow: true,
             afterTomorrow: true,
-            tomorrowDate: moment().add(1, 'days').format('DD.MM.YYYY'),
-            afterTomorrowDate: moment().add(2, 'days').format('DD.MM.YYYY'),
+            tomorrowDate: dayjs().add(1, 'day').format('DD.MM.YYYY'),
+            afterTomorrowDate: dayjs().add(2, 'day').format('DD.MM.YYYY'),
             lastTimeUpdateOfTomorrow: '',
             lastTimeUpdateOfAfterTomorrow: '',
         },
@@ -210,7 +228,7 @@ const weatherActionPlanSlice = createSlice({
                     )
                 state.uniquePrecipitatedPercentageCodes.tomorrowUniqueCodes =
                     uniqueTomorrowPrecipitatedOnionCodes.sort()
-                console.log({ uniqueTomorrowPrecipitatedOnionCodes })
+                // console.log({ uniqueTomorrowPrecipitatedOnionCodes })
             }
 
             if (afterTomorrow.length > 0) {
@@ -233,41 +251,40 @@ const weatherActionPlanSlice = createSlice({
 
                 state.uniquePrecipitatedPercentageCodes.afterTomorrowUniqueCodes =
                     uniqueAfterTomorrowPrecipitatedOnionCodes.sort()
-                console.log({ uniqueAfterTomorrowPrecipitatedOnionCodes })
+                // console.log({ uniqueAfterTomorrowPrecipitatedOnionCodes })
             }
         },
     },
     extraReducers: {
         [axiosGetPrecipitatedOnionsByDay.fulfilled]: (state, action) => {
-            const { tomorrow, afterTomorrow } = action.payload
+            const { dataForTomorrow, dataForAfterTomorrow } = action.payload
 
-            if (tomorrow && afterTomorrow) {
-                state.precipitatedOnionsObjects.tomorrow =
-                    action.payload.dataForTomorrow
+            state.precipitatedOnionsObjects.tomorrow = dataForTomorrow
 
-                state.precipitatedOnionsObjects.afterTomorrow =
-                    action.payload.dataForAfterTomorrow
-                console.log('payload:', action.payload)
-            } else if (tomorrow && !afterTomorrow) {
-                state.precipitatedOnionsObjects.tomorrow = action.payload.data
-            } else if (afterTomorrow && !tomorrow) {
-                state.precipitatedOnionsObjects.afterTomorrow =
-                    action.payload.data
-            } else if (!tomorrow && !afterTomorrow) {
-                state.precipitatedOnionsObjects.tomorrow = []
-                state.precipitatedOnionsObjects.afterTomorrow = []
-            }
+            state.precipitatedOnionsObjects.afterTomorrow = dataForAfterTomorrow
+            console.log(
+                '[axiosGetPrecipitatedOnionsByDay] dataForTomorrow: ',
+                dataForTomorrow
+            )
+            console.log(
+                '[axiosGetPrecipitatedOnionsByDay] dataForAfterTomorrow: ',
+                dataForAfterTomorrow
+            )
         },
         [axiosGetPrecipitatedOnionsByDay.rejected]: setError,
         [axiosGetPrecipitatedOnionPlanObject.fulfilled]: (state, action) => {
-            const { tomorrow, afterTomorrow } = action.payload
-            const { city } = action.payload.precipitatedOnionData
-            const { precipitatedOnionData } = action.payload
+            const { tomorrow, afterTomorrow, precipitatedOnionData } =
+                action.payload
+            const { city } = precipitatedOnionData
+            console.log(
+                '[axiosGetPrecipitatedOnionPlanObject.fulfilled] action.payload',
+                action.payload
+            )
             if (tomorrow) {
                 state.period.lastTimeUpdateOfTomorrow =
                     precipitatedOnionData.last_time_update
                 if (city === 'KIE' || city === 'KYI') {
-                    state.actionPlan.tomorrowPlan.kyiv_plan.push(
+                    state.actionPlans.tomorrowPlan.kyiv_plan.push(
                         precipitatedOnionData
                     )
                 } else if (
@@ -276,19 +293,20 @@ const weatherActionPlanSlice = createSlice({
                     city === 'LVI' ||
                     city === 'ODS'
                 ) {
-                    state.actionPlan.tomorrowPlan.mio_plan.push(
+                    state.actionPlans.tomorrowPlan.mio_plan.push(
                         precipitatedOnionData
                     )
                 } else {
-                    state.actionPlan.tomorrowPlan.small_plan.push(
+                    state.actionPlans.tomorrowPlan.small_plan.push(
                         precipitatedOnionData
                     )
                 }
-            } else if (afterTomorrow) {
+            }
+            if (afterTomorrow) {
                 state.period.lastTimeUpdateOfAfterTomorrow =
                     precipitatedOnionData.last_time_update
                 if (city === 'KIE' || city === 'KYI') {
-                    state.actionPlan.afterTomorrowPlan.kyiv_plan.push(
+                    state.actionPlans.afterTomorrowPlan.kyiv_plan.push(
                         precipitatedOnionData
                     )
                 } else if (
@@ -297,11 +315,11 @@ const weatherActionPlanSlice = createSlice({
                     city === 'LVI' ||
                     city === 'ODS'
                 ) {
-                    state.actionPlan.afterTomorrowPlan.mio_plan.push(
+                    state.actionPlans.afterTomorrowPlan.mio_plan.push(
                         precipitatedOnionData
                     )
                 } else {
-                    state.actionPlan.afterTomorrowPlan.small_plan.push(
+                    state.actionPlans.afterTomorrowPlan.small_plan.push(
                         precipitatedOnionData
                     )
                 }
@@ -311,6 +329,7 @@ const weatherActionPlanSlice = createSlice({
         [getWeatherActionPlan.pending]: setLoading,
         [getWeatherActionPlan.fulfilled]: (state) => {
             state.status = 'resolved'
+            // console.log('getWeatherActionPlan.fulfilled')
         },
         [getWeatherActionPlan.rejected]: setError,
     },

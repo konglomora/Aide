@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import nextId from 'react-id-generator'
 import Flex from '../../../StyledComponents/Flex'
 import Button from '../../../StyledComponents/Button'
-import Input from '../../../StyledComponents/Input'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWeatherActionPlan } from '../../../../store/report-slices/weatherActionPlanSlice'
 import LoaderReact from '../../../StyledComponents/LoaderReact'
-import { OnionPrecipitationCard } from '../Cards/OnionPrecipitationCard'
-import Title from '../../../StyledComponents/Title'
-import TextContent from '../../../StyledComponents/TextContent'
 import { generatePlanCards } from '../helpers/PlanCardsGenereator'
-import { mockedActionPlans } from '../../../../mocs/WeatherReportMocs'
+
 import {
-    PrecipitationCard,
+    ActionPlanCard,
     IOnionPrecipitationCardProps,
-} from '../Cards/PrecipitationCard'
+} from '../Cards/ActionPlanCard'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -42,17 +38,23 @@ const WeatherActionPlan = () => {
     const [afterTomorrowPlanOnionCards, setAfterTomorrowOnionCards] = useState(
         []
     )
-    const isTomorrowWithPrecipitation = tomorrowUniqueCodes.length > 0
-    const isAfterTomorrowWithPrecipitation = afterTomorrowUniqueCodes.length > 0
+    const [isTomorrowWithPrecipitation, setIsTomorrowWithPrecipitation] =
+        useState(false)
+    const [
+        isAfterTomorrowWithPrecipitation,
+        setIsAfterTomorrowWithPrecipitation,
+    ] = useState(false)
 
     useEffect(() => {
+        setIsTomorrowWithPrecipitation(tomorrowUniqueCodes.length > 0)
+        setIsAfterTomorrowWithPrecipitation(afterTomorrowUniqueCodes.length > 0)
         isTomorrowWithPrecipitation
             ? setTomorrowOnionCards(generatePlanCards(tomorrowPlan))
             : setTomorrowOnionCards([])
         isAfterTomorrowWithPrecipitation
             ? setAfterTomorrowOnionCards(generatePlanCards(afterTomorrowPlan))
             : setAfterTomorrowOnionCards([])
-    }, [tomorrowUniqueCodes, afterTomorrowUniqueCodes])
+    }, [tomorrowPlan, afterTomorrowPlan])
 
     function sendRequestForReport() {
         dispatch(
@@ -66,6 +68,10 @@ const WeatherActionPlan = () => {
         sendRequestForReport()
     }, [])
 
+    useEffect(() => {
+        console.log('WeatherActionPlan tomorrowPlan: ', tomorrowPlan)
+        console.log('WeatherActionPlan afterTomorrowPlan: ', afterTomorrowPlan)
+    }, [tomorrowPlan, afterTomorrowPlan])
     const propsForPrecipitationCard = {
         isTomorrowWithPrecipitation,
         isAfterTomorrowWithPrecipitation,
@@ -84,7 +90,7 @@ const WeatherActionPlan = () => {
             </Flex>
 
             {status === 'resolved' && (
-                <PrecipitationCard {...propsForPrecipitationCard} />
+                <ActionPlanCard {...propsForPrecipitationCard} />
             )}
             {status === null && <LoaderReact />}
             {status === 'loading' && <LoaderReact animate={{ rotate: 360 }} />}

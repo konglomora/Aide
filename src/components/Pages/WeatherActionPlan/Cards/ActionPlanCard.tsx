@@ -14,7 +14,7 @@ export interface IPrecipitationCardProps {
     afterTomorrowPlanOnionCards: React.ReactElement[]
 }
 
-export const PrecipitationCard: React.FC<IPrecipitationCardProps> = (
+export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
     props
 ): React.ReactElement => {
     const {
@@ -28,13 +28,26 @@ export const PrecipitationCard: React.FC<IPrecipitationCardProps> = (
         afterTomorrowPlanOnionCards,
     } = props
 
+    const styleForCard = {
+        direction: 'row',
+        width: '90%',
+        wrap: 'wrap',
+        border: '2px solid white',
+        justify: 'space-evenly',
+        align: 'stretch',
+        padding: '10px',
+        bRadius: '10px',
+        bFilter: 'blur(2px)',
+        margin: '10px 0px',
+    }
+
     if (isTomorrowWithPrecipitation && isAfterTomorrowWithPrecipitation) {
         return (
-            <Flex>
-                <Title fSize={'1.2em'}>
+            <Flex direction="column" align={'center'}>
+                <Title>
                     Согласование действий на завтра и {afterTomorrowDate}
                 </Title>
-                <Flex direction={'column'} align={'center'}>
+                <Flex {...styleForCard}>
                     <Title> Вероятность на завтра ({tomorrowDate})</Title>
                     <TextContent>
                         Обновление данных было произведено:{' '}
@@ -42,7 +55,7 @@ export const PrecipitationCard: React.FC<IPrecipitationCardProps> = (
                     </TextContent>
                     {tomorrowPlanOnionCards}
                 </Flex>
-                <Flex direction={'column'} align={'center'}>
+                <Flex {...styleForCard}>
                     <Title>
                         Вероятность на послезавтра ({afterTomorrowDate})
                     </Title>
