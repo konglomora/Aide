@@ -1,7 +1,7 @@
 import { OnionPrecipitationCard } from '../Cards/OnionPrecipitationCard'
 import { IOnionPrecipitationCardProps } from '../Cards/OnionPrecipitationCard'
 import nextId from 'react-id-generator'
-import { Areas } from './Areas'
+import { Areas } from '../../../../store/helpers/Areas'
 
 interface DayPlan {
     [key: string]: IOnionPrecipitationCardProps[]
