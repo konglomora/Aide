@@ -72,11 +72,13 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         !isAfterTomorrowWithPrecipitation
     ) {
         return (
-            <Flex>
-                <Flex direction={'column'} align={'center'}>
-                    <Title fSize={'1.2em'}>
+            <Flex direction="column" align={'center'}>
+                <Flex {...styleForCard}>
+                    <Title>
                         Согласование действий на завтра и {afterTomorrowDate}
                     </Title>
+                </Flex>
+                <Flex {...styleForCard}>
                     <Title> Вероятность на завтра ({tomorrowDate})</Title>
                     <TextContent>
                         Обновление данных было произведено:{' '}
@@ -84,14 +86,10 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
                     </TextContent>
                     {tomorrowPlanOnionCards}
                 </Flex>
-                <Flex direction={'column'} align={'center'}>
+                <Flex {...styleForCard}>
                     <TextContent>
                         По прогнозу на {afterTomorrowDate} осадков по всем
                         онионам нет.
-                    </TextContent>
-                    <TextContent>
-                        Обновление данных было произведено:
-                        {lastTimeUpdateOfAfterTomorrow}
                     </TextContent>
                 </Flex>
             </Flex>
@@ -101,24 +99,22 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         isAfterTomorrowWithPrecipitation
     ) {
         return (
-            <Flex>
-                <Flex direction={'column'} align={'center'}>
-                    <Title fSize={'1.2em'}>
+            <Flex direction={'column'} align={'center'}>
+                <Flex {...styleForCard}>
+                    <Title>
                         Согласование действий на завтра и {afterTomorrowDate}
                     </Title>
+                </Flex>
+                <Flex {...styleForCard}>
                     <TextContent>
                         По прогнозу на {tomorrowDate} осадков по всем онионам
                         нет.
                     </TextContent>
-                    <TextContent>
-                        Обновление данных было произведено:
-                        {lastTimeUpdateOfAfterTomorrow}
-                    </TextContent>
                 </Flex>
-                <Flex direction={'column'} align={'center'}>
+                <Flex {...styleForCard}>
                     <Title> Вероятность на ({afterTomorrowDate})</Title>
                     <TextContent>
-                        Обновление данных было произведено:{' '}
+                        Обновление данных было произведено:
                         {lastTimeUpdateOfTomorrow}
                     </TextContent>
                     {tomorrowPlanOnionCards}
@@ -140,10 +136,6 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
                 <TextContent>
                     По прогнозу осадков на завтра и {afterTomorrowDate} по всем
                     онионам нет.
-                </TextContent>
-                <TextContent>
-                    Обновление данных было произведено:
-                    {lastTimeUpdateOfAfterTomorrow}
                 </TextContent>
             </Flex>
         )
