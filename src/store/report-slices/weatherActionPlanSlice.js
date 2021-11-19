@@ -203,7 +203,7 @@ const weatherActionPlanSlice = createSlice({
         getUniquePrecipitatedOnionCodes(state) {
             const { tomorrow, afterTomorrow } = state.precipitatedOnionsObjects
 
-            if (tomorrow.length > 0 && afterTomorrow.length > 0) {
+            if (tomorrow.length > 0) {
                 const tomorrowAllPrecipitatedOnionCodes =
                     state.precipitatedOnionsObjects.tomorrow.reduce(
                         (accum, onion) => {
