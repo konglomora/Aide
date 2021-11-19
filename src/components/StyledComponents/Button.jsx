@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const StyledButton = styled.button`
     width: ${({ width }) => width || '100px'};
+    margin: ${({ margin }) => margin || '0'};
     background-color: ${({ bcolor }) => bcolor || 'rgb(0, 0 ,0)'};
     color: ${({ color }) => color || 'white'};
     font-weight: 500;
@@ -13,5 +14,6 @@ const StyledButton = styled.button`
 `
 
 export default function Button(props) {
-    return <StyledButton type={props.type} {...props} />
+    const { type, onClick } = props
+    return <StyledButton onClick={onClick} type={type} {...props} />
 }

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 import Flex from '../../StyledComponents/Flex'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import TextContent from '../../StyledComponents/TextContent'
 import { stylesForStyledLink } from '../Navigation/Layout'
 
-export default function Page404() {
+export const Page404: FC = () => {
     return (
         <Flex margin="auto" justify="center" align="center" direction="column">
             <TextContent textAlign="center" height="10%" fSize="3em">

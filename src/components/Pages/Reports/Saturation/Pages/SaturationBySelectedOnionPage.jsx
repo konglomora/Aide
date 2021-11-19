@@ -10,7 +10,7 @@ import {
     getSaturationReport,
     selectOnion,
     setPeriodOfReport,
-} from '../../../../../store/report-slices/saturationSelectedOnionsSlice'
+} from '../../../../../store/slices/saturationSelectedOnionsSlice'
 import { DefaultRootState, useDispatch, useSelector } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
 import LoaderReact from '../../../../StyledComponents/LoaderReact'
