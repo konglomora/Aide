@@ -1,7 +1,11 @@
-import Flex from '../../StyledComponents/Flex'
 import { Outlet, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import { useEffect } from 'react'
+import Flex from '../../StyledComponents/Flex'
+import { useAuth } from '../../../hooks/use-auth'
+import { removeUser } from '../../../store/slices/userSlice'
+import Button from '../../StyledComponents/Button'
+import { useAppDispatch } from '../../../store/hooks'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -11,14 +15,20 @@ export const stylesForStyledLink = {
 }
 
 const Layout = () => {
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const { isAuth, email } = useAuth()
+
     useEffect(() => {
-        navigate('login')
-    }, [])
+        isAuth ? navigate('/') : navigate('login')
+    }, [isAuth])
+
+    const handleLogout = () => {
+        dispatch(removeUser())
+    }
     return (
         <>
             <Flex
-                height={' '}
                 mHeight={'100vh'}
                 width={'10%'}
                 bColor={'rgb(37,37,38)'}
@@ -47,6 +57,10 @@ const Layout = () => {
                     to={'/reports'}
                     text={'Reports 📰'}
                 />
+
+                <Button margin="10% 0" onClick={handleLogout}>
+                    Log out
+                </Button>
             </Flex>
             <Flex width="90%">
                 <Outlet />

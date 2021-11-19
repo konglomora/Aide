@@ -1,8 +1,9 @@
+import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import LoginPage from '../Auth/LoginPage'
 import RegisterPage from '../Auth/RegisterPage'
 import Homepage from '../Home/Homepage'
-import Page404 from '../Page404/Page404'
+import { Page404 } from '../Page404/Page404'
 import SaturationByPeriodPage from '../Reports/Saturation/Pages/SaturationByPeriodPage'
 import SaturationBySelectedOnionPage from '../Reports/Saturation/Pages/SaturationBySelectedOnionPage'
 import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
@@ -10,7 +11,7 @@ import Layout from './Layout'
 import ReportsNavigation from './ReportsNavigation'
 import WeatherNavbar from './WeatherNavbar'
 
-export const AppRoutes = () => {
+export const AppRoutes: FC = () => {
     return (
         <>
             <Routes>
