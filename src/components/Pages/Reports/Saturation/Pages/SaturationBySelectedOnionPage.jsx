@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
 import LoaderReact from '../../../../StyledComponents/LoaderReact'
-import FRANKS_SUCCESS_GIF from '../../../../../assets/gif/franks-dance.gif'
+import ANIME_SUCCESS_GIF from '../../../../../assets/gif/dancing-cute.gif'
 import LOADER_ANIME from '../../../../../assets/gif/sand-timer-anime.gif'
 import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 
@@ -77,7 +77,7 @@ export default React.memo(function SaturationBySelectedOnion() {
 
     useEffect(() => {
         if (status === 'resolved') {
-            setFormBackGround(`url(${FRANKS_SUCCESS_GIF})`)
+            setFormBackGround(`url(${ANIME_SUCCESS_GIF})`)
         } else if (status === 'loading') {
             setFormBackGround(`url(${LOADER_ANIME})`)
         } else if (status === 'error') {
