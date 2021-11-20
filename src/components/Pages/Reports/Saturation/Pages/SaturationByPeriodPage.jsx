@@ -81,7 +81,7 @@ export default function SaturationByPeriodPage() {
         >
             <Flex
                 justify={'center'}
-                padding={'2em 0 2em 0'}
+                padding={'3em 0 2em 0'}
                 bBorder={'2px solid white'}
                 bFilter={'blur(2px)'}
                 height="4%"

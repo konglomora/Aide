@@ -7,9 +7,15 @@ import LoaderReact from '../../../StyledComponents/LoaderReact'
 import { generatePlanCards } from '../Generators/PlanCardsGenereator'
 
 import { ActionPlanCard } from '../Cards/ActionPlanCard'
+import ESDES_NO_PREP_GIF from '../../../../assets/gif/esdes-no-prep.gif'
+import ESDES_PREP_GIF from '../../../../assets/gif/esdes-prep.gif'
+import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
+import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
+    const [formBackGround, setFormBackGround] = useState('')
+    const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const {
         status,
         error,
@@ -67,14 +73,7 @@ const WeatherActionPlan = () => {
             })
         )
     }
-    useEffect(() => {
-        sendRequestForReport()
-    }, [])
 
-    useEffect(() => {
-        console.log('WeatherActionPlan tomorrowPlan: ', tomorrowPlan)
-        console.log('WeatherActionPlan afterTomorrowPlan: ', afterTomorrowPlan)
-    }, [tomorrowPlan, afterTomorrowPlan])
     const propsForPrecipitationCard = {
         isTomorrowWithPrecipitation,
         isAfterTomorrowWithPrecipitation,
@@ -85,6 +84,36 @@ const WeatherActionPlan = () => {
         tomorrowPlanOnionCards,
         afterTomorrowPlanOnionCards,
     }
+    useEffect(() => {
+        console.log('WeatherActionPlan tomorrowPlan: ', tomorrowPlan)
+        console.log('WeatherActionPlan afterTomorrowPlan: ', afterTomorrowPlan)
+    }, [tomorrowPlan, afterTomorrowPlan])
+
+    useEffect(() => {
+        sendRequestForReport()
+    }, [])
+
+    useEffect(() => {
+        if (
+            (status === 'resolved' && isTomorrowWithPrecipitation) ||
+            isAfterTomorrowWithPrecipitation
+        ) {
+            setFormBackGround(`url(${ESDES_PREP_GIF})`)
+            setFormBackGroundSize('20%')
+        } else if (
+            status === 'resolved' &&
+            !isTomorrowWithPrecipitation &&
+            !isAfterTomorrowWithPrecipitation
+        ) {
+            setFormBackGround(`url(${ESDES_NO_PREP_GIF})`)
+            setFormBackGroundSize('20%')
+        } else if (status === 'loading') {
+            setFormBackGround(`url(${JOJO_LOADER})`)
+            setFormBackGroundSize('20%')
+        } else if (status === 'error') {
+            setFormBackGround(`url(${ERROR_ANIME_GIF})`)
+        }
+    }, [status, isAfterTomorrowWithPrecipitation, isTomorrowWithPrecipitation])
 
     return (
         <Flex
@@ -96,9 +125,18 @@ const WeatherActionPlan = () => {
         >
             <Flex
                 justify={'center'}
-                align={'center'}
-                margin={'1em 0'}
-                width="20%"
+                padding={'3em 0 2em 0'}
+                bBorder={'2px solid white'}
+                bFilter={'blur(2px)'}
+                height="4%"
+                mHeight="3%"
+                top="3em"
+                left="10em"
+                width="100%"
+                position="fixed"
+                zIndex="2"
+                background={formBackGround}
+                backSize={formBackGroundSize}
             >
                 <Button onClick={() => sendRequestForReport()}>Refresh</Button>
             </Flex>

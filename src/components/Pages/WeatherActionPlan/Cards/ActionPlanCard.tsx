@@ -43,7 +43,12 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
 
     if (isTomorrowWithPrecipitation && isAfterTomorrowWithPrecipitation) {
         return (
-            <Flex direction="column" align="center" width="75%">
+            <Flex
+                direction="column"
+                align="center"
+                width="75%"
+                margin="10em 0 0 0"
+            >
                 <Title>
                     Согласование действий на завтра и {afterTomorrowDate}
                 </Title>
@@ -72,7 +77,12 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         !isAfterTomorrowWithPrecipitation
     ) {
         return (
-            <Flex direction="column" align={'center'} width="75%">
+            <Flex
+                direction="column"
+                align={'center'}
+                width="75%"
+                margin="10em 0 0 0"
+            >
                 <Flex {...styleForCard}>
                     <Title>
                         Согласование действий на завтра и {afterTomorrowDate}
@@ -99,7 +109,12 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         isAfterTomorrowWithPrecipitation
     ) {
         return (
-            <Flex direction={'column'} align={'center'} width="75%">
+            <Flex
+                direction={'column'}
+                align={'center'}
+                width="75%"
+                margin="10em 0 0 0"
+            >
                 <Flex {...styleForCard}>
                     <Title>
                         Согласование действий на завтра и {afterTomorrowDate}
@@ -129,6 +144,7 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
                 justify={'space-between'}
                 height={'10em'}
                 width="74%"
+                margin="10em 0 0 0"
             >
                 <Title fSize={'1.2em'}>
                     Согласование действий на завтра и {afterTomorrowDate}
