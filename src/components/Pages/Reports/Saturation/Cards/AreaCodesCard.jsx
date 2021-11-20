@@ -1,4 +1,4 @@
-import Flex from '../../../../StyledComponents/Flex'
+import { Flex } from '../../../../StyledComponents/Flex'
 import TextContent from '../../../../StyledComponents/TextContent'
 import React from 'react'
 import OnionCode from './OnionCodeCard'

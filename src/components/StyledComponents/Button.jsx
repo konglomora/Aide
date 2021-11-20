@@ -11,6 +11,10 @@ const StyledButton = styled.button`
     border-radius: ${({ bradius }) => bradius || '5px'};
     border: ${({ border }) => border || '2px solid white'};
     cursor: pointer;
+    &:active,
+    &:hover {
+        border: '2px solid green';
+    }
 `
 
 export default function Button(props) {

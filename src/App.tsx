@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 import img from './assets/img/Background.svg'
-import Flex from './components/StyledComponents/Flex'
+import { Flex } from './components/StyledComponents/Flex'
 import { AppRoutes } from './components/Pages/Navigation/AppRoutes'
 
 const GlobalStyle = createGlobalStyle`

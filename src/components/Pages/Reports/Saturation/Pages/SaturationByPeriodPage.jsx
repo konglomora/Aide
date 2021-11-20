@@ -1,32 +1,35 @@
+import { useEffect, useState } from 'react'
 import { slotsRegular } from '../../Slots'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
-import Flex from '../../../../StyledComponents/Flex'
-import Title from '../../../../StyledComponents/Title'
+import { Flex } from '../../../../StyledComponents/Flex'
+import { Title } from '../../../../StyledComponents/Title'
 import Button from '../../../../StyledComponents/Button'
 import { SelectStyle } from '../../../../StyledComponents/SelectStyles'
 import {
     getSaturationReport,
     setPeriodOfReport,
 } from '../../../../../store/slices/saturationPeriodReportSlice'
-import { useDispatch, useSelector } from 'react-redux'
 import TextContent from '../../../../StyledComponents/TextContent'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import LoaderReact from '../../../../StyledComponents/LoaderReact'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import ANIME_SUCCESS_GIF from '../../../../../assets/gif/dancing-cute.gif'
+import LOADER_ANIME from '../../../../../assets/gif/regular-clock-anime.gif'
+import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 
 export default function SaturationByPeriodPage() {
-    const dispatch = useDispatch()
-    const { status, error, periodStart, periodEnd } = useSelector(
-        (state) => state.saturationPeriodReport
-    )
+    const dispatch = useAppDispatch()
+    const { saturationPeriodReport } = useAppSelector((state) => state)
+    const [formBackGround, setFormBackGround] = useState('')
+    const [formBackGroundSize, setFormBackGroundSize] = useState('')
+    const { status, error, periodStart, periodEnd } = saturationPeriodReport
 
     const {
         lessCouriersSaturatedOnions,
         moreOrdersSaturatedOnions,
         lessCouriersAndMoreOrdersSaturatedOnions,
         hasSaturationButBetterThanD7,
-    } = useSelector(
-        (state) => state.saturationPeriodReport.sortedReportBySaturationReason
-    )
+    } = saturationPeriodReport.sortedReportBySaturationReason
 
     function selectChangeHandler(e) {
         const name = e.target.name
@@ -56,15 +59,39 @@ export default function SaturationByPeriodPage() {
         )
     }
 
-    console.log(moreOrdersSaturatedOnions)
+    useEffect(() => {
+        if (status === 'resolved') {
+            setFormBackGround(`url(${ANIME_SUCCESS_GIF})`)
+            setFormBackGroundSize('6%')
+        } else if (status === 'loading') {
+            setFormBackGround(`url(${LOADER_ANIME})`)
+            setFormBackGroundSize('10%')
+        } else if (status === 'error') {
+            setFormBackGround(`url(${ERROR_ANIME_GIF})`)
+        }
+    }, [status])
 
     return (
-        <Flex direction={'column'} align={'center'} margin={'0em 0 0 0'}>
+        <Flex
+            direction={'column'}
+            align={'center'}
+            margin={'4% auto'}
+            width="100%"
+        >
             <Flex
                 justify={'center'}
-                padding={'1em 0'}
+                padding={'2em 0 2em 0'}
                 bBorder={'2px solid white'}
                 bFilter={'blur(2px)'}
+                height="4%"
+                mHeight="3%"
+                top="3em"
+                left="10em"
+                width="100%"
+                position="fixed"
+                zIndex="2"
+                background={formBackGround}
+                backSize={formBackGroundSize}
             >
                 <form action="#">
                     <select
@@ -108,7 +135,7 @@ export default function SaturationByPeriodPage() {
                 </form>
             </Flex>
 
-            <Flex direction={'column'} width={'90%'}>
+            <Flex direction={'column'} width={'50%'} margin="10em 0 0 20em">
                 <Flex>
                     {lessCouriersSaturatedOnions.length > 0 && (
                         <Flex wrap={'wrap'}>
@@ -229,9 +256,19 @@ export default function SaturationByPeriodPage() {
                     )}
                 </Flex>
             </Flex>
-            {status === null && <LoaderReact />}
-            {status === 'loading' && <LoaderReact animate={{ rotate: 360 }} />}
-            {error && <h2>An error occurred: {error}</h2>}
+            <Flex
+                direction={'column'}
+                align={'center'}
+                justify="center"
+                width="90%"
+                margin="0 0 0 10em"
+            >
+                {status === null && <LoaderReact animate={undefined} />}
+                {status === 'loading' && (
+                    <LoaderReact animate={{ rotate: 360 }} />
+                )}
+                {status === 'error' && <h2>An error occurred: {error}</h2>}
+            </Flex>
         </Flex>
     )
 }

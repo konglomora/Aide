@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Flex from '../../../StyledComponents/Flex'
+import { Flex } from '../../../StyledComponents/Flex'
 import Button from '../../../StyledComponents/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWeatherActionPlan } from '../../../../store/slices/weatherActionPlanSlice'
@@ -87,24 +87,38 @@ const WeatherActionPlan = () => {
     }
 
     return (
-        <>
-            <Flex direction={'column'} align={'center'}>
-                <Flex justify={'center'} align={'center'} margin={'1em'}>
-                    <Button onClick={() => sendRequestForReport()}>
-                        Refresh
-                    </Button>
-                </Flex>
-
-                {status === 'resolved' && (
-                    <ActionPlanCard {...propsForPrecipitationCard} />
-                )}
+        <Flex
+            direction={'column'}
+            align={'center'}
+            justify="center"
+            margin="4em 0 0 20em"
+            width="100%"
+        >
+            <Flex
+                justify={'center'}
+                align={'center'}
+                margin={'1em 0'}
+                width="20%"
+            >
+                <Button onClick={() => sendRequestForReport()}>Refresh</Button>
+            </Flex>
+            {status === 'resolved' && (
+                <ActionPlanCard {...propsForPrecipitationCard} />
+            )}
+            <Flex
+                direction={'column'}
+                align={'center'}
+                justify="center"
+                width="100%"
+                margin="0 9em 0 0"
+            >
                 {status === null && <LoaderReact />}
                 {status === 'loading' && (
                     <LoaderReact animate={{ rotate: 360 }} />
                 )}
                 {status === 'error' && <h2>An error occurred: {error}</h2>}
             </Flex>
-        </>
+        </Flex>
     )
 }
 

@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import {
+    combineReducers,
+    configureStore,
+    getDefaultMiddleware,
+} from '@reduxjs/toolkit'
 import storageSession from 'redux-persist/lib/storage/session'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -26,6 +30,9 @@ const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 
 export const store = configureStore({
     reducer: persistedReducer,
+    middleware: getDefaultMiddleware({
+        serializableCheck: false,
+    }),
 })
 
 export const persistor = persistStore(store)
