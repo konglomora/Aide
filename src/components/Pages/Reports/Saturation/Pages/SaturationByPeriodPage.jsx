@@ -13,9 +13,8 @@ import TextContent from '../../../../StyledComponents/TextContent'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import LoaderReact from '../../../../StyledComponents/LoaderReact'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-
 import FRANKS_SUCCESS_GIF from '../../../../../assets/gif/franks-dance.gif'
-import LOADER_ANIME from '../../../../../assets/gif/regular-clock-anime.gif'
+import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 
 export default function SaturationByPeriodPage() {
@@ -63,10 +62,10 @@ export default function SaturationByPeriodPage() {
     useEffect(() => {
         if (status === 'resolved') {
             setFormBackGround(`url(${FRANKS_SUCCESS_GIF})`)
-            setFormBackGroundSize('9%')
+            setFormBackGroundSize('15%')
         } else if (status === 'loading') {
-            setFormBackGround(`url(${LOADER_ANIME})`)
-            setFormBackGroundSize('10%')
+            setFormBackGround(`url(${JOJO_LOADER})`)
+            setFormBackGroundSize('20%')
         } else if (status === 'error') {
             setFormBackGround(`url(${ERROR_ANIME_GIF})`)
         }
