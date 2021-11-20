@@ -1,4 +1,4 @@
-import Flex from '../../../../StyledComponents/Flex'
+import { Flex } from '../../../../StyledComponents/Flex'
 import TextContent from '../../../../StyledComponents/TextContent'
 
 const OnionCode = ({ code, onClick, value }) => {

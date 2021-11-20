@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import { useEffect } from 'react'
-import Flex from '../../StyledComponents/Flex'
+import { Flex } from '../../StyledComponents/Flex'
 import { useAuth } from '../../../hooks/use-auth'
 import { removeUser } from '../../../store/slices/userSlice'
 import Button from '../../StyledComponents/Button'
@@ -29,13 +29,14 @@ const Layout = () => {
     return (
         <>
             <Flex
-                mHeight={'100vh'}
-                width={'10%'}
+                width={'em'}
                 bColor={'rgb(37,37,38)'}
-                padding={' 1em 1.1em'}
+                padding={'1em 2em'}
                 rBorder={'2px solid white'}
                 align={'center'}
                 direction={'column'}
+                position="fixed"
+                zIndex="999"
             >
                 <StyledNavLink
                     {...stylesForStyledLink}
@@ -62,9 +63,8 @@ const Layout = () => {
                     Log out
                 </Button>
             </Flex>
-            <Flex width="90%">
-                <Outlet />
-            </Flex>
+
+            <Outlet />
         </>
     )
 }

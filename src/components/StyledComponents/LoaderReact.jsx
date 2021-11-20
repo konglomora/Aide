@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import logo from './../../assets/img/logo.svg'
-import Flex from './Flex'
+import { Flex } from './Flex'
 
 const LoaderReact = ({ animate }) => {
     return (
@@ -9,7 +9,7 @@ const LoaderReact = ({ animate }) => {
             width={'30%'}
             justify={'center'}
             align={'center'}
-            margin={'15% 0 0 0'}
+            margin={'15% 0 0 10em'}
         >
             <motion.img
                 src={logo}

@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
-import Flex from '../../StyledComponents/Flex'
+import { Flex } from '../../StyledComponents/Flex'
 import { useEffect } from 'react'
 
 const stylesForStyledLink = {
@@ -19,12 +19,19 @@ const WeatherNavbar = () => {
     }, [navigate, url.pathname])
 
     return (
-        <Flex direction={'column'}>
+        <>
             <Flex
                 justify={'space-evenly'}
                 bBorder={'3px solid white'}
-                padding={'20px 0px 10px'}
+                padding={'1em 0px 1em'}
                 bColor={'rgb(24,25,26)'}
+                height="3%"
+                mHeight="3%"
+                top="0"
+                left="10em"
+                width="100%"
+                position="fixed"
+                zIndex="3"
             >
                 <StyledNavLink
                     to="action-plan"
@@ -39,7 +46,7 @@ const WeatherNavbar = () => {
                 /> */}
             </Flex>
             <Outlet />
-        </Flex>
+        </>
     )
 }
 

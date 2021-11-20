@@ -1,7 +1,7 @@
 import React from 'react'
-import Flex from '../../../StyledComponents/Flex'
+import { Flex } from '../../../StyledComponents/Flex'
 import TextContent from '../../../StyledComponents/TextContent'
-import Title from '../../../StyledComponents/Title'
+import { Title } from '../../../StyledComponents/Title'
 
 export interface IPrecipitationCardProps {
     isTomorrowWithPrecipitation: boolean
@@ -43,7 +43,7 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
 
     if (isTomorrowWithPrecipitation && isAfterTomorrowWithPrecipitation) {
         return (
-            <Flex direction="column" align={'center'}>
+            <Flex direction="column" align="center" width="75%">
                 <Title>
                     Согласование действий на завтра и {afterTomorrowDate}
                 </Title>
@@ -72,7 +72,7 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         !isAfterTomorrowWithPrecipitation
     ) {
         return (
-            <Flex direction="column" align={'center'}>
+            <Flex direction="column" align={'center'} width="75%">
                 <Flex {...styleForCard}>
                     <Title>
                         Согласование действий на завтра и {afterTomorrowDate}
@@ -99,7 +99,7 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         isAfterTomorrowWithPrecipitation
     ) {
         return (
-            <Flex direction={'column'} align={'center'}>
+            <Flex direction={'column'} align={'center'} width="75%">
                 <Flex {...styleForCard}>
                     <Title>
                         Согласование действий на завтра и {afterTomorrowDate}
@@ -128,6 +128,7 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
                 align={'center'}
                 justify={'space-between'}
                 height={'10em'}
+                width="74%"
             >
                 <Title fSize={'1.2em'}>
                     Согласование действий на завтра и {afterTomorrowDate}

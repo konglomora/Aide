@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { slotsRegular } from '../../Slots'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
-import Flex from '../../../../StyledComponents/Flex'
-import Title from '../../../../StyledComponents/Title'
+import { Flex } from '../../../../StyledComponents/Flex'
+import { Title } from '../../../../StyledComponents/Title'
 import Button from '../../../../StyledComponents/Button'
 import { SelectStyle } from '../../../../StyledComponents/SelectStyles'
 import {
@@ -11,12 +11,17 @@ import {
     selectOnion,
     setPeriodOfReport,
 } from '../../../../../store/slices/saturationSelectedOnionsSlice'
-import { DefaultRootState, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
 import LoaderReact from '../../../../StyledComponents/LoaderReact'
+import FRANKS_SUCCESS_GIF from '../../../../../assets/gif/franks-dance.gif'
+import LOADER_ANIME from '../../../../../assets/gif/sand-timer-anime.gif'
+import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()
+    const [formBackGround, setFormBackGround] = useState('rgb(24,25,26)')
+
     const {
         status,
         error,
@@ -70,21 +75,32 @@ export default React.memo(function SaturationBySelectedOnion() {
         )
     }
 
+    useEffect(() => {
+        if (status === 'resolved') {
+            setFormBackGround(`url(${FRANKS_SUCCESS_GIF})`)
+        } else if (status === 'loading') {
+            setFormBackGround(`url(${LOADER_ANIME})`)
+        } else if (status === 'error') {
+            setFormBackGround(`url(${ERROR_ANIME_GIF})`)
+        }
+    }, [status])
+
     return (
-        <Flex direction={'column'}>
+        <Flex direction="column" width="90%" margin="5em 0 0 10em">
             <Flex
-                width={'95%'}
-                align={'start'}
-                margin={'2em auto'}
-                direction={'column'}
-                border={'2px solid white'}
-                bFilter={'blur(2px)'}
+                width="55%"
+                align="start"
+                margin="2em auto"
+                direction="column"
+                border="2px solid white"
+                bFilter="blur(2px)"
+                bRadius={'10px'}
             >
                 <Flex
-                    direction={'row'}
-                    width={'100%'}
-                    justify={'space-evenly'}
-                    bBorder={'2px dashed white'}
+                    direction="row"
+                    width="100%"
+                    justify="space-evenly"
+                    bBorder="2px dashed white"
                 >
                     {areaCodes.map((onionCodesArray, index) => {
                         const title =
@@ -110,6 +126,8 @@ export default React.memo(function SaturationBySelectedOnion() {
                     justify={'center'}
                     tBorder={'2px solid white'}
                     padding={'15px 0'}
+                    background={formBackGround}
+                    backSize="12%"
                 >
                     <form action="#">
                         <select
@@ -181,7 +199,7 @@ export default React.memo(function SaturationBySelectedOnion() {
                     })}
                 </Flex>
             )}
-            <Flex justify={'center'} align={'center'}>
+            <Flex justify={'center'} align={'start'} width="90%" height="2em">
                 {status === null && <LoaderReact />}
                 {status === 'loading' && (
                     <LoaderReact animate={{ rotate: 360 }} />

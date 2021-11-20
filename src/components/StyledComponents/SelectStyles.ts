@@ -1,7 +1,7 @@
 export const SelectStyle = {
-    background: 'none',
+    background: 'white',
     borderRadius: '10px',
-    color: 'white',
+    color: 'black',
     padding: '8px',
     appearance: 'none',
     width: '3.5rem',

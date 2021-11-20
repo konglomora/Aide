@@ -1,5 +1,46 @@
-import React from 'react'
+import React, { FC, JSXElementConstructor, ReactElement } from 'react'
 import styled from 'styled-components'
+
+// interface PropsFlex {
+//     direction?: string
+//     align?: string
+//     wrap?: string
+//     justify?: string
+//     margin?: string
+//     width?: string
+//     height?: string
+//     mHeight?: string
+//     padding?: string
+//     bColor?: string
+//     background?: string
+//     bFilter?: string
+//     tDecoration?: string
+//     bBorder?: string
+//     tBorder?: string
+//     lBorder?: string
+//     rBorder?: string
+//     border?: string
+//     bRadius?: string
+//     cursor?: string
+//     position?: string
+//     top?: string
+//     left?: string
+//     right?: string
+//     bottom?: string
+//     zIndex?: string
+//     children?: // | string
+//     // | string[]
+//     // | FC
+//     // | FC[]
+//     | ReactElement
+//         | Element
+//         | ReactElement[]
+//         // | ReactElement[][]
+//         // | ReactElement<any, string | JSXElementConstructor<any>>
+//         // | (ReactElement<any, string | JSXElementConstructor<any>> & string)
+//         | (ReactElement<any, string | JSXElementConstructor<any>>[] | Element)[]
+//         | ReactElement<any, string | JSXElementConstructor<any>>
+// }
 
 const StyledFlex = styled.div`
     display: flex;
@@ -14,6 +55,7 @@ const StyledFlex = styled.div`
     padding: ${({ padding }) => padding || '0'};
     background-color: ${({ bColor }) => bColor || 'transparent'};
     background: ${({ background }) => background || ''};
+    background-size: ${({ backSize }) => backSize || ''};
     backdrop-filter: ${({ bFilter }) => bFilter || ''};
     text-decoration: ${({ tDecoration }) => tDecoration || 'none'};
     border-bottom: ${({ bBorder }) => bBorder || ''};
@@ -28,8 +70,9 @@ const StyledFlex = styled.div`
     left: ${({ left }) => left || ''};
     right: ${({ right }) => right || ''};
     bottom: ${({ bottom }) => bottom || ''};
+    z-index: ${({ zIndex }) => zIndex || ''};
 `
 
-export default function Flex(props) {
+export const Flex = (props) => {
     return <StyledFlex {...props} />
 }
