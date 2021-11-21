@@ -1,7 +1,14 @@
+import { FC } from 'react'
 import { Flex } from '../../../../StyledComponents/Flex'
 import TextContent from '../../../../StyledComponents/TextContent'
 
-const OnionCode = ({ code, onClick, value }) => {
+interface PropsOnionCode {
+    code: string
+    onClick: (e: React.ChangeEvent<any>) => void
+}
+
+const OnionCode: FC<PropsOnionCode> = (props) => {
+    const { code, onClick } = props
     const backgroundColor = 'transparent'
     const color = 'white'
     const border = '3px solid white'
@@ -16,7 +23,7 @@ const OnionCode = ({ code, onClick, value }) => {
             justify={'space-around'}
             margin={'5px'}
             bColor={backgroundColor}
-            onClick={(e) => onClick(e)}
+            onClick={(e: React.ChangeEvent<any>) => onClick(e)}
         >
             <TextContent fWeight={400} color={color} textAlign={'center'}>
                 {`${code}`}
