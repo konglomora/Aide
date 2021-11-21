@@ -76,7 +76,7 @@ export default function SaturationByPeriodPage() {
             direction={'column'}
             align={'center'}
             margin={'4% auto'}
-            width="100%"
+            width="90%"
         >
             <Flex
                 justify={'center'}
