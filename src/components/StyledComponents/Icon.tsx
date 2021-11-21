@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 
-const StyledIconWrapper = styled.div`
+interface PropsStyledIconWrapper {
+    src: string
+    background?: string
+    radius?: string
+    margin?: string
+    width?: string
+    padding?: string
+}
+
+const StyledIconWrapper = styled.div<PropsStyledIconWrapper>`
     background-color: ${({ background }) => background || 'transparent'};
     border-radius: ${({ radius }) => radius || '0px'};
     margin: ${({ margin }) => margin || '0'};
@@ -12,7 +21,7 @@ const StyledIconWrapper = styled.div`
     justify-content: center;
 `
 
-export default function Icon(props) {
+export const Icon: FC<PropsStyledIconWrapper> = (props) => {
     return (
         <StyledIconWrapper {...props}>
             <img src={props.src} alt="Icon" />

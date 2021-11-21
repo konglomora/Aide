@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { motion } from 'framer-motion'
 import logo from './../../assets/img/logo.svg'
 import { Flex } from './Flex'
 
-const LoaderReact = ({ animate }) => {
+interface PropsLoaderReact {
+    animate: string
+}
+
+const LoaderReact: FC<PropsLoaderReact> = (props) => {
+    const { animate } = props
     return (
         <Flex
             width={'30%'}

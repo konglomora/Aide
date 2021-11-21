@@ -1,7 +1,22 @@
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 
-const StyledSpan = styled.span`
+export interface PropsStyledSpan {
+    color?: string
+    decoration?: string
+    fSize?: string
+    fWeight?: string | number
+    width?: string
+    height?: string
+    margin?: string
+    textAlign?: string
+    cursor?: string
+    display?: string
+    tDecoration?: string
+    bColor?: string
+}
+
+const StyledSpan = styled.span<PropsStyledSpan>`
     color: ${({ color }) => color || 'white'};
     text-decoration: ${({ decoration }) => decoration || 'none'};
     font-size: ${({ fSize }) => fSize || '1em'};
@@ -16,6 +31,8 @@ const StyledSpan = styled.span`
     background-color: ${({ bColor }) => bColor || 'transparent'};
 `
 
-export default function TextContent(props) {
+const TextContent: FC<PropsStyledSpan> = (props) => {
     return <StyledSpan {...props} />
 }
+
+export default TextContent

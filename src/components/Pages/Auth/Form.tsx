@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import Button from '../../StyledComponents/Button'
 import { Flex } from '../../StyledComponents/Flex'
-import Icon from '../../StyledComponents/Icon'
+import { Icon } from '../../StyledComponents/Icon'
 import { Input } from '../../StyledComponents/Input'
 import TextContent from '../../StyledComponents/TextContent'
 import { Title } from '../../StyledComponents/Title'

@@ -17,7 +17,7 @@ export const stylesForStyledLink = {
 const Layout = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const { isAuth, email } = useAuth()
+    const { isAuth } = useAuth()
 
     useEffect(() => {
         isAuth ? navigate('/') : navigate('login')
