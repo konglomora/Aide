@@ -1,8 +1,27 @@
-import React from 'react'
 import styled from 'styled-components'
-import { NavLink, useMatch } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { FC } from 'react'
 
-const SNavLink = styled(NavLink)`
+interface PropsSNavLink {
+    to: string
+    text?: string
+    color?: string
+    decoration?: string
+    fSize?: string
+    width?: string
+    height?: string
+    padding?: string
+    margin?: string
+    text_align?: string
+    cursor?: string
+    display?: string
+    tDecoration?: string
+    background_color?: string
+    radius?: string
+    border?: string
+}
+
+const SNavLink = styled(NavLink)<PropsSNavLink>`
     color: ${({ color }) => color || 'white'};
     text-decoration: ${({ decoration }) => decoration || 'none'};
     font-size: ${({ fSize }) => fSize || '1em'};
@@ -22,7 +41,7 @@ const SNavLink = styled(NavLink)`
     }
 `
 
-const StyledNavLink = ({ to, text, ...props }) => {
+const StyledNavLink: FC<PropsSNavLink> = ({ to, text, ...props }) => {
     return (
         <SNavLink to={to} {...props}>
             {text}

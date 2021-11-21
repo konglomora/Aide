@@ -1,21 +1,9 @@
-import { createGlobalStyle } from 'styled-components'
-import img from './assets/img/Background.svg'
 import { Flex } from './components/StyledComponents/Flex'
 import { AppRoutes } from './components/Pages/Navigation/AppRoutes'
+import { ReactElement } from 'react'
+import { GlobalStyle } from 'components/StyledComponents/global'
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    background-size: 45%;
-    background-color: rgb(55, 56, 70);
-    background-image: url(${img});
-    color: aliceblue;
-    font-family: Sans-Serif;
-  }
-`
-
-function App() {
+function App(): ReactElement {
     return (
         <Flex>
             <GlobalStyle />

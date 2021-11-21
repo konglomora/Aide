@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 
-const StyledButton = styled.button`
+interface PropsStyledButton {
+    type?: 'button' | 'submit' | 'reset' | undefined
+    onClick?: () => void
+    width?: string
+    margin?: string
+    bcolor?: string
+    color?: string
+    padding?: string
+    bradius?: string
+    border?: string
+}
+
+const StyledButton = styled.button<PropsStyledButton>`
     width: ${({ width }) => width || '100px'};
     margin: ${({ margin }) => margin || '0'};
     background-color: ${({ bcolor }) => bcolor || 'rgb(0, 0 ,0)'};
@@ -17,7 +29,9 @@ const StyledButton = styled.button`
     }
 `
 
-export default function Button(props) {
+const Button: FC<PropsStyledButton> = (props) => {
     const { type, onClick } = props
     return <StyledButton onClick={onClick} type={type} {...props} />
 }
+
+export default Button

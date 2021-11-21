@@ -15,13 +15,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
 import LoaderReact from '../../../../StyledComponents/LoaderReact'
 import ANIME_SUCCESS_GIF from '../../../../../assets/gif/dancing-cute.gif'
-import LOADER_ANIME from '../../../../../assets/gif/sand-timer-anime.gif'
 import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
+import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()
     const [formBackGround, setFormBackGround] = useState('rgb(24,25,26)')
-
+    const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const {
         status,
         error,
@@ -78,8 +78,10 @@ export default React.memo(function SaturationBySelectedOnion() {
     useEffect(() => {
         if (status === 'resolved') {
             setFormBackGround(`url(${ANIME_SUCCESS_GIF})`)
+            setFormBackGroundSize('20%')
         } else if (status === 'loading') {
-            setFormBackGround(`url(${LOADER_ANIME})`)
+            setFormBackGround(`url(${JOJO_LOADER})`)
+            setFormBackGroundSize('20%')
         } else if (status === 'error') {
             setFormBackGround(`url(${ERROR_ANIME_GIF})`)
         }
@@ -127,6 +129,7 @@ export default React.memo(function SaturationBySelectedOnion() {
                     tBorder={'2px solid white'}
                     padding={'15px 0'}
                     background={formBackGround}
+                    backSize={formBackGroundSize}
                     backSize="12%"
                 >
                     <form action="#">

@@ -1,9 +1,16 @@
 import { Flex } from '../../../../StyledComponents/Flex'
 import TextContent from '../../../../StyledComponents/TextContent'
-import React from 'react'
+import { FC } from 'react'
 import OnionCode from './OnionCodeCard'
 
-const AreaCodesCard = ({ cardTitle, codes, onClick }) => {
+interface IAreaCodesCard {
+    cardTitle: string
+    codes: string[]
+    onClick: () => void
+}
+
+const AreaCodesCard: FC<IAreaCodesCard> = (props) => {
+    const { cardTitle, codes, onClick } = props
     return (
         <Flex
             direction={'column'}
@@ -16,7 +23,7 @@ const AreaCodesCard = ({ cardTitle, codes, onClick }) => {
                 {cardTitle}
             </TextContent>
             <Flex justify={'center'} wrap={'wrap'}>
-                {codes.map((code) => (
+                {codes.map((code: string) => (
                     <OnionCode key={code} code={code} onClick={onClick} />
                 ))}
             </Flex>

@@ -1,48 +1,51 @@
-import React, { FC, JSXElementConstructor, ReactElement } from 'react'
+import React, {
+    ChangeEvent,
+    FC,
+    JSXElementConstructor,
+    ReactElement,
+    ReactNode,
+} from 'react'
 import styled from 'styled-components'
 
-// interface PropsFlex {
-//     direction?: string
-//     align?: string
-//     wrap?: string
-//     justify?: string
-//     margin?: string
-//     width?: string
-//     height?: string
-//     mHeight?: string
-//     padding?: string
-//     bColor?: string
-//     background?: string
-//     bFilter?: string
-//     tDecoration?: string
-//     bBorder?: string
-//     tBorder?: string
-//     lBorder?: string
-//     rBorder?: string
-//     border?: string
-//     bRadius?: string
-//     cursor?: string
-//     position?: string
-//     top?: string
-//     left?: string
-//     right?: string
-//     bottom?: string
-//     zIndex?: string
-//     children?: // | string
-//     // | string[]
-//     // | FC
-//     // | FC[]
-//     | ReactElement
-//         | Element
-//         | ReactElement[]
-//         // | ReactElement[][]
-//         // | ReactElement<any, string | JSXElementConstructor<any>>
-//         // | (ReactElement<any, string | JSXElementConstructor<any>> & string)
-//         | (ReactElement<any, string | JSXElementConstructor<any>>[] | Element)[]
-//         | ReactElement<any, string | JSXElementConstructor<any>>
-// }
+interface PropsFlex {
+    direction?: string
+    backSize?: string
+    align?: string
+    wrap?: string
+    justify?: string
+    margin?: string
+    width?: string
+    height?: string
+    mHeight?: string
+    padding?: string
+    bColor?: string
+    background?: string
+    bFilter?: string
+    tDecoration?: string
+    bBorder?: string
+    tBorder?: string
+    lBorder?: string
+    rBorder?: string
+    border?: string
+    bRadius?: string
+    cursor?: string
+    position?: string
+    top?: string
+    left?: string
+    right?: string
+    bottom?: string
+    zIndex?: string
+    children?:
+        | ReactElement
+        | Element
+        | ReactElement[]
+        | ReactNode
+        | (ReactElement<any, string | JSXElementConstructor<any>>[] | Element)[]
+        | ReactElement<any, string | JSXElementConstructor<any>>
+    onClick?: (e: ChangeEvent<any>) => void
+}
 
-const StyledFlex = styled.div`
+const StyledFlex = styled.div<PropsFlex>`
     display: flex;
     flex-direction: ${(props) => props.direction || 'row'};
     align-items: ${({ align }) => align || 'stretch'};
@@ -73,6 +76,6 @@ const StyledFlex = styled.div`
     z-index: ${({ zIndex }) => zIndex || ''};
 `
 
-export const Flex = (props) => {
+export const Flex: FC<PropsFlex> = (props) => {
     return <StyledFlex {...props} />
 }

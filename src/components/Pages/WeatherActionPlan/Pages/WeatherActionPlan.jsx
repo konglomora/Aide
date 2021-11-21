@@ -7,8 +7,7 @@ import LoaderReact from '../../../StyledComponents/LoaderReact'
 import { generatePlanCards } from '../Generators/PlanCardsGenereator'
 
 import { ActionPlanCard } from '../Cards/ActionPlanCard'
-import ESDES_NO_PREP_GIF from '../../../../assets/gif/esdes-no-prep.gif'
-import ESDES_PREP_GIF from '../../../../assets/gif/esdes-prep.gif'
+import ESDES_PREP_GIF from '../../../../assets/gif/esdes-no-prep.gif'
 import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
 
@@ -94,18 +93,8 @@ const WeatherActionPlan = () => {
     }, [])
 
     useEffect(() => {
-        if (
-            (status === 'resolved' && isTomorrowWithPrecipitation) ||
-            isAfterTomorrowWithPrecipitation
-        ) {
+        if (status === 'resolved') {
             setFormBackGround(`url(${ESDES_PREP_GIF})`)
-            setFormBackGroundSize('20%')
-        } else if (
-            status === 'resolved' &&
-            !isTomorrowWithPrecipitation &&
-            !isAfterTomorrowWithPrecipitation
-        ) {
-            setFormBackGround(`url(${ESDES_NO_PREP_GIF})`)
             setFormBackGroundSize('20%')
         } else if (status === 'loading') {
             setFormBackGround(`url(${JOJO_LOADER})`)

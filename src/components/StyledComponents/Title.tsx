@@ -1,4 +1,4 @@
-import { FC, ReactChild, ReactFragment, ReactPortal } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 
 const StyledTitle = styled.span<TitleProps>`
