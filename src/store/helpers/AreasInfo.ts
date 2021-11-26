@@ -1,6 +1,7 @@
+import { OpsManagersTelegramNicks } from './OpsManagersData'
+
 interface IAreasInfo {
     [key: string]: {
-        opsManagerName: string
         opsManagerTelegramNick: string
         areaOnionCodes: string[]
     }
@@ -8,13 +9,11 @@ interface IAreasInfo {
 
 export const areasInfo: IAreasInfo = {
     A1: {
-        opsManagerName: 'Olha Fionova',
-        opsManagerTelegramNick: '@Omorfiya',
+        opsManagerTelegramNick: OpsManagersTelegramNicks.OLHA_FIONOVA,
         areaOnionCodes: ['KHA', 'CHE', 'POL', 'SUM', 'KRM', 'SLV'],
     },
     A2: {
-        opsManagerName: 'Sergey Serezhenko',
-        opsManagerTelegramNick: '@sportsmenserega',
+        opsManagerTelegramNick: OpsManagersTelegramNicks.SERGEY_SEREZHENKO,
         areaOnionCodes: [
             'DNP',
             'KRO',
@@ -27,13 +26,11 @@ export const areasInfo: IAreasInfo = {
         ],
     },
     A3: {
-        opsManagerName: 'Dmitry Tukan',
-        opsManagerTelegramNick: '@Дмитрий',
+        opsManagerTelegramNick: OpsManagersTelegramNicks.DMITRIY_TUKAN,
         areaOnionCodes: ['ODS', 'ODE', 'MKL', 'KHE', 'CHS'],
     },
     A4: {
-        opsManagerName: 'Roman Protsiv',
-        opsManagerTelegramNick: '@protsiv_roman',
+        opsManagerTelegramNick: OpsManagersTelegramNicks.ROMAN_PROTSIV,
         areaOnionCodes: [
             'LVI',
             'IVF',
@@ -47,13 +44,11 @@ export const areasInfo: IAreasInfo = {
         ],
     },
     A5: {
-        opsManagerName: 'Dmitry Tukan',
-        opsManagerTelegramNick: '@Дмитрий',
+        opsManagerTelegramNick: OpsManagersTelegramNicks.DMITRIY_TUKAN,
         areaOnionCodes: ['BTA', 'VNT', 'CHK', 'ZHY', 'KHM', 'UMA', 'KPD'],
     },
     KIEV: {
-        opsManagerName: 'Oleksiy Shulyak',
-        opsManagerTelegramNick: '@Oleksiy',
+        opsManagerTelegramNick: OpsManagersTelegramNicks.SERGEY_SEREZHENKO,
         areaOnionCodes: ['KIE', 'KYI', 'BRO', 'BOR', 'VSG', 'IRP'],
     },
 }
