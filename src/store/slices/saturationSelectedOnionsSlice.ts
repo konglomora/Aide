@@ -1,10 +1,5 @@
-import { useAppDispatch } from './../hooks'
-import {
-    createAsyncThunk,
-    createSlice,
-    Dispatch,
-    ThunkDispatch,
-} from '@reduxjs/toolkit'
+import { RootState } from './../index'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import {
     kyivCodes,
@@ -13,9 +8,6 @@ import {
 } from '../../components/Pages/Reports/OnionCodes'
 import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
-import { AppDispatch, RootState } from 'store'
-import { DispatchForMiddlewares } from '@reduxjs/toolkit/dist/tsHelpers'
-import { ThunkActionDispatch } from 'redux-thunk'
 
 interface PropsAxiosGetSaturatedOnionAnalyseObject {
     onionCode: string
@@ -66,17 +58,17 @@ export const getSaturationReport = createAsyncThunk(
     'selected-onions/getSaturationReport',
     async function (
         { onionCodesArray, periodStart, periodEnd }: PropsGetSaturationReport,
-        thunkAPI
+        { dispatch, getState }
     ) {
-        await thunkAPI.dispatch(clearReport())
-        await thunkAPI.dispatch(getUniqueSaturatedOnionCodes(onionCodesArray))
-        const saturatedUniqueSortedOnionCodesArray =
-            thunkAPI.getState().selectedOnionsReport
-                .saturatedUniqueSortedOnionCodesArray
+        await dispatch(clearReport())
+        await dispatch(getUniqueSaturatedOnionCodes(onionCodesArray))
+        const state = getState() as SaturationSelectedOnionState
+
+        const { saturatedUniqueSortedOnionCodesArray } = state
         const getAllAnaluzeObjectsAction = await Promise.all(
             saturatedUniqueSortedOnionCodesArray.map(
                 async (onionCode: string) => {
-                    await thunkAPI.dispatch(
+                    await dispatch(
                         axiosGetSaturatedOnionAnalyseObject({
                             onionCode,
                             periodStart,
