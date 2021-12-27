@@ -5,7 +5,8 @@ import { Flex } from '../../StyledComponents/Flex'
 import { useAuth } from '../../../hooks/use-auth'
 import { removeUser } from '../../../store/slices/userSlice'
 import Button from '../../StyledComponents/Button'
-import { useAppDispatch } from '../../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { RootState } from 'store'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -22,6 +23,8 @@ const Layout = () => {
     useEffect(() => {
         isAuth ? navigate('/') : navigate('login')
     }, [isAuth])
+
+    const userIsAdmin = useAppSelector((state: RootState) => state.user.isAdmin)
 
     const handleLogout = () => {
         dispatch(removeUser())
@@ -43,16 +46,20 @@ const Layout = () => {
                     to={'/'}
                     text={'Home 🏠'}
                 />
-                <StyledNavLink
-                    {...stylesForStyledLink}
-                    to={'/weather'}
-                    text={'Weather ⛈'}
-                />
-                <StyledNavLink
-                    {...stylesForStyledLink}
-                    to={'/slots'}
-                    text={'Slots 🎣'}
-                />
+                {userIsAdmin && (
+                    <>
+                        <StyledNavLink
+                            {...stylesForStyledLink}
+                            to={'/weather'}
+                            text={'Weather ⛈'}
+                        />
+                        <StyledNavLink
+                            {...stylesForStyledLink}
+                            to={'/slots'}
+                            text={'Slots 🎣'}
+                        />
+                    </>
+                )}
                 <StyledNavLink
                     {...stylesForStyledLink}
                     to={'/reports'}
