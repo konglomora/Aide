@@ -5,7 +5,7 @@ import { setUser } from '../../../store/slices/userSlice'
 import { Form } from './Form'
 import { useAppDispatch } from '../../../store/hooks'
 import { Flex } from '../../StyledComponents/Flex'
-import { userIsAdmin } from './helpers'
+import { getUserRole } from './helpers'
 
 const LoginPage = () => {
     const dispatch = useAppDispatch()
@@ -21,13 +21,13 @@ const LoginPage = () => {
                         id: user.uid,
                         email: user.email,
                         token: user.refreshToken,
-                        isAdmin: userIsAdmin(user.email!),
+                        role: getUserRole(user.email!),
                     })
                 )
 
                 console.log(
-                    '[Login page] Logged in as admin: ',
-                    userIsAdmin(user.email!)
+                    '[Login page] Logged in as: ',
+                    getUserRole(user.email!)
                 )
 
                 navigate('/')

@@ -7,6 +7,7 @@ import { removeUser } from '../../../store/slices/userSlice'
 import Button from '../../StyledComponents/Button'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { RootState } from 'store'
+import { Roles } from '../Auth/helpers'
 
 export const stylesForStyledLink = {
     width: '90%',
@@ -24,7 +25,8 @@ const Layout = () => {
         isAuth ? navigate('/') : navigate('login')
     }, [isAuth])
 
-    const userIsAdmin = useAppSelector((state: RootState) => state.user.isAdmin)
+    const userRole = useAppSelector((state: RootState) => state.user.role)
+    const userIsAdmin = userRole === Roles.admin
 
     const handleLogout = () => {
         dispatch(removeUser())
