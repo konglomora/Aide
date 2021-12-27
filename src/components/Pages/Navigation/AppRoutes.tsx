@@ -17,7 +17,7 @@ import WeatherNavbar from './WeatherNavbar'
 
 export const AppRoutes: FC = () => {
     const userIsAdmin = useAppSelector((state: RootState) => state.user.isAdmin)
-
+    console.log('Hello from sync')
     return (
         <>
             <Routes>
