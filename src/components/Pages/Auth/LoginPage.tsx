@@ -5,6 +5,7 @@ import { setUser } from '../../../store/slices/userSlice'
 import { Form } from './Form'
 import { useAppDispatch } from '../../../store/hooks'
 import { Flex } from '../../StyledComponents/Flex'
+import { userIsAdmin } from './helpers'
 
 const LoginPage = () => {
     const dispatch = useAppDispatch()
@@ -20,8 +21,15 @@ const LoginPage = () => {
                         id: user.uid,
                         email: user.email,
                         token: user.refreshToken,
+                        isAdmin: userIsAdmin(user.email!),
                     })
                 )
+
+                console.log(
+                    '[Login page] Logged in as admin: ',
+                    userIsAdmin(user.email!)
+                )
+
                 navigate('/')
             })
             .catch(() => {
@@ -36,11 +44,6 @@ const LoginPage = () => {
                 handleClick={handleLogin}
                 displaySignInError={displaySignInError}
             />
-            {/* <StyledNavLink
-                {...stylesForStyledLink}
-                to={'/register'}
-                text={'OR REGISTER ✍'}
-            /> */}
         </Flex>
     )
 }

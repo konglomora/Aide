@@ -1,5 +1,7 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { RootState } from 'store'
+import { useAppSelector } from 'store/hooks'
 import LoginPage from '../Auth/LoginPage'
 import RegisterPage from '../Auth/RegisterPage'
 import Homepage from '../Home/Homepage'
@@ -14,6 +16,8 @@ import SlotsNavbar from './SlotsNavbar'
 import WeatherNavbar from './WeatherNavbar'
 
 export const AppRoutes: FC = () => {
+    const userIsAdmin = useAppSelector((state: RootState) => state.user.isAdmin)
+
     return (
         <>
             <Routes>
@@ -29,22 +33,22 @@ export const AppRoutes: FC = () => {
                             element={<SaturationBySelectedOnionPage />}
                         />
                     </Route>
-                    <Route path="weather" element={<WeatherNavbar />}>
-                        <Route
-                            path="action-plan"
-                            element={<WeatherActionPlan />}
-                        />
-                    </Route>
+                    {userIsAdmin && (
+                        <Route path="weather" element={<WeatherNavbar />}>
+                            <Route
+                                path="action-plan"
+                                element={<WeatherActionPlan />}
+                            />
+                        </Route>
+                    )}
                     <Route path="slots" element={<SlotsNavbar />}>
                         <Route path="today" element={<SlotsPage />} />
                         <Route path="tomorrow" element={<SlotsPage />} />
                         <Route path="later" element={<SlotsPage />} />
                     </Route>
-
                     <Route path="*" element={<Page404 />} />
                 </Route>
                 <Route path="login" element={<LoginPage />} />
-                <Route path="register" element={<RegisterPage />} />
             </Routes>
         </>
     )
