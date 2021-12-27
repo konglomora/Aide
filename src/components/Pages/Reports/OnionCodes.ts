@@ -28,3 +28,15 @@ export const smallCodes: string[] = [
     'ZHY',
     'ZPR',
 ]
+
+export interface IOnionCodes {
+    kyiv: string[]
+    mio: string[]
+    small: []
+}
+
+export const OnionCodes = {
+    kyiv: kyivCodes,
+    mio: mioCodes,
+    small: smallCodes,
+}
