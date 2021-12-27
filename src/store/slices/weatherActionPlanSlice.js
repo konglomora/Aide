@@ -9,10 +9,10 @@ export const axiosGetPrecipitatedOnionsByDay = createAsyncThunk(
     async function ({ tomorrow, afterTomorrow }, { rejectWithValue }) {
         try {
             const tomorrowPrecipitatedOnions = await aideApiAxios.get(
-                `weather/filter?tomorrow=yes&prep=low`
+                `weather/filter?tomorrow=yes&prep=mid`
             )
             const afterTomorrowPrecipitatedOnions = await aideApiAxios.get(
-                `weather/filter?nex_day=yes&prep=low`
+                `weather/filter?nex_day=yes&prep=mid`
             )
             if (
                 tomorrowPrecipitatedOnions.statusText !== 'OK' ||
