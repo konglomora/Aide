@@ -45,13 +45,13 @@ const Layout = () => {
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
-                    to={'/charts'}
-                    text={'Charts 📈'}
+                    to={'/weather'}
+                    text={'Weather ⛈'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}
-                    to={'/weather'}
-                    text={'Weather ⛈'}
+                    to={'/slots'}
+                    text={'Slots 🎣'}
                 />
                 <StyledNavLink
                     {...stylesForStyledLink}

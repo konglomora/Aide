@@ -6,9 +6,11 @@ import Homepage from '../Home/Homepage'
 import { Page404 } from '../Page404/Page404'
 import SaturationByPeriodPage from '../Reports/Saturation/Pages/SaturationByPeriodPage'
 import SaturationBySelectedOnionPage from '../Reports/Saturation/Pages/SaturationBySelectedOnionPage'
+import SlotsPage from '../Slots/SlotsPage'
 import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
 import Layout from './Layout'
 import ReportsNavigation from './ReportsNavigation'
+import SlotsNavbar from './SlotsNavbar'
 import WeatherNavbar from './WeatherNavbar'
 
 export const AppRoutes: FC = () => {
@@ -32,10 +34,11 @@ export const AppRoutes: FC = () => {
                             path="action-plan"
                             element={<WeatherActionPlan />}
                         />
-                        <Route
-                            path="onion-select"
-                            element={<SaturationBySelectedOnionPage />}
-                        />
+                    </Route>
+                    <Route path="slots" element={<SlotsNavbar />}>
+                        <Route path="today" element={<SlotsPage />} />
+                        <Route path="tomorrow" element={<SlotsPage />} />
+                        <Route path="later" element={<SlotsPage />} />
                     </Route>
 
                     <Route path="*" element={<Page404 />} />
