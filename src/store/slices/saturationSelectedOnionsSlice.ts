@@ -1,11 +1,7 @@
 import { RootState } from './../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
-import {
-    kyivCodes,
-    mioCodes,
-    smallCodes,
-} from '../../components/Pages/Reports/onionCodes'
+import { kyivCodes, mioCodes, smallCodes } from '../../helpers/onionCodes'
 import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
 import {

@@ -1,7 +1,7 @@
 import { RootState } from '../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
-import { SaturationReasons } from '../../components/Pages/Reports/saturationReasons'
+import { SaturationReasons } from '../../helpers/saturationReasons'
 import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
 import {

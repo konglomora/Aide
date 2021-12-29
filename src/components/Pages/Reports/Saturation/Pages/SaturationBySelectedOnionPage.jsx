@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { slotsRegular } from '../../slots'
+import { slotsRegular } from '../../../../../helpers/slots'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
 import { Flex } from '../../../../StyledComponents/Flex'
 import { Title } from '../../../../StyledComponents/Title'
