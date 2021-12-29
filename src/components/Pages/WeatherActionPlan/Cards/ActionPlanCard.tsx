@@ -130,9 +130,9 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
                     <Title> Вероятность на ({afterTomorrowDate})</Title>
                     <TextContent>
                         Обновление данных было произведено:
-                        {lastTimeUpdateOfTomorrow}
+                        {lastTimeUpdateOfAfterTomorrow}
                     </TextContent>
-                    {tomorrowPlanOnionCards}
+                    {afterTomorrowPlanOnionCards}
                 </Flex>
             </Flex>
         )

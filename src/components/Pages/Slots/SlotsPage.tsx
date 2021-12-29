@@ -3,7 +3,7 @@ import { Flex } from 'components/StyledComponents/Flex'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { OnionCodes } from '../Reports/OnionCodes'
+import { OnionCodes } from '../Reports/onionCodes'
 import OnionSlotsCard from './OnionSlotCard'
 
 const todayDate: string = dayjs().format('YYYY-MM-DD')

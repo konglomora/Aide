@@ -5,21 +5,13 @@ import {
     kyivCodes,
     mioCodes,
     smallCodes,
-} from '../../components/Pages/Reports/OnionCodes'
+} from '../../components/Pages/Reports/onionCodes'
 import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
-
-interface PropsAxiosGetSaturatedOnionAnalyseObject {
-    onionCode: string
-    periodStart: string
-    periodEnd: string
-}
-
-interface PropsGetSaturationReport {
-    onionCodesArray: string[]
-    periodStart: string
-    periodEnd: string
-}
+import {
+    PropsAxiosGetSaturatedOnionAnalyseObject,
+    PropsGetSaturationReport,
+} from './sliceTypes'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
     'selected-onions/axiosGetSaturatedOnionObject',
@@ -62,9 +54,9 @@ export const getSaturationReport = createAsyncThunk(
     ) {
         await dispatch(clearReport())
         await dispatch(getUniqueSaturatedOnionCodes(onionCodesArray))
-        const state = getState() as SaturationSelectedOnionState
-
-        const { saturatedUniqueSortedOnionCodesArray } = state
+        const state = getState() as RootState
+        const { saturatedUniqueSortedOnionCodesArray } =
+            state.selectedOnionsReport
         const getAllAnaluzeObjectsAction = await Promise.all(
             saturatedUniqueSortedOnionCodesArray.map(
                 async (onionCode: string) => {
@@ -77,6 +69,9 @@ export const getSaturationReport = createAsyncThunk(
                     )
                 }
             )
+        )
+        console.log(
+            '[Selected onion saturation slice] getSaturationReport ended'
         )
     }
 )

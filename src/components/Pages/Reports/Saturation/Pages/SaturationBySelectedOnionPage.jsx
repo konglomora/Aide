@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { slotsRegular } from '../../Slots'
+import { slotsRegular } from '../../slots'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
 import { Flex } from '../../../../StyledComponents/Flex'
 import { Title } from '../../../../StyledComponents/Title'
@@ -190,16 +190,9 @@ export default React.memo(function SaturationBySelectedOnion() {
                     <Title
                         fWeight={'800'}
                     >{`Апдейт по сатурации с ${periodStart}:00 по ${periodEnd}:00`}</Title>
-                    {saturationReport.map((onionReport, id) => {
-                        if (status === 'resolved') {
-                            return (
-                                <OnionSaturationCard
-                                    {...onionReport}
-                                    key={id}
-                                />
-                            )
-                        }
-                    })}
+                    {saturationReport.map((onionReport, id) => (
+                        <OnionSaturationCard {...onionReport} key={id} />
+                    ))}
                 </Flex>
             )}
             <Flex justify={'center'} align={'start'} width="90%" height="2em">
