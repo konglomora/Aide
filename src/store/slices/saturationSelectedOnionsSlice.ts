@@ -5,21 +5,13 @@ import {
     kyivCodes,
     mioCodes,
     smallCodes,
-} from '../../components/Pages/Reports/OnionCodes'
+} from '../../components/Pages/Reports/onionCodes'
 import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
-
-interface PropsAxiosGetSaturatedOnionAnalyseObject {
-    onionCode: string
-    periodStart: string
-    periodEnd: string
-}
-
-interface PropsGetSaturationReport {
-    onionCodesArray: string[]
-    periodStart: string
-    periodEnd: string
-}
+import {
+    PropsAxiosGetSaturatedOnionAnalyseObject,
+    PropsGetSaturationReport,
+} from './sliceTypes'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
     'selected-onions/axiosGetSaturatedOnionObject',
