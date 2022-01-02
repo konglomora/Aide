@@ -1,5 +1,5 @@
 const REACT_APP_API_URL: string = 'https://aideindustries.tk/'
-const REACT_APP_API_KEY: string = 'ace68d53680920b040d5e419b048c4d99be6d65f'
+const REACT_APP_API_KEY: string = '740214468f47dc43b178c8c76361cd0e6acdda6b'
 const REACT_APP_ONION_SLOTS_LINK: string =
     'https://beta-admin.glovoapp.com/couriers/schedule/slots/'
 const REACT_APP_FIREBASE_API_KEY = 'AIzaSyAYzjcYBshWL0mRNK21lH5kmtwybqySIAY'
