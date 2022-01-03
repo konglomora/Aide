@@ -9,9 +9,6 @@ import {
     PropsGetSaturationReport,
 } from './sliceTypes'
 import { AxiosResponse } from 'axios'
-
-// TODO : Interfaces for responses from API.
-
 export interface ISaturatedOnionBySlot {
     id: number
     data: string
@@ -136,7 +133,7 @@ export const getSaturationReport = createAsyncThunk(
         const state = getState() as RootState
         const { saturatedUniqueSortedOnionCodesArray } =
             state.saturationPeriodReport
-        const getAllAnalyseObjectsAction = await Promise.all(
+        await Promise.all(
             saturatedUniqueSortedOnionCodesArray.map(async (onionCode) => {
                 await dispatch(
                     axiosGetSaturatedOnionAnalyseObject({

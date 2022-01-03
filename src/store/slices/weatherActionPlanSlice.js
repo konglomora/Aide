@@ -110,7 +110,7 @@ export const getWeatherActionPlan = createAsyncThunk(
             afterTomorrowUniqueCodes
         )
         if (tomorrowUniqueCodes.length > 0) {
-            const getActionPlanForTomorrowCodes = await Promise.all(
+            await Promise.all(
                 tomorrowUniqueCodes.map(async (onionCode) => {
                     const afterTomorrow = false
                     await dispatch(
@@ -126,7 +126,7 @@ export const getWeatherActionPlan = createAsyncThunk(
 
         if (afterTomorrowUniqueCodes.length > 0) {
             console.log(afterTomorrowUniqueCodes.length)
-            const getActionPlanForAfterTomorrowCodes = await Promise.all(
+            await Promise.all(
                 afterTomorrowUniqueCodes.map(async (onionCode) => {
                     const tomorrow = false
                     await dispatch(

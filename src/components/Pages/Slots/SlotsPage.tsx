@@ -15,8 +15,10 @@ export default function Slots() {
     const [date, setDate] = useState<string>(todayDate)
 
     useEffect(() => {
-        if (url.pathname === '/weather/today') setDate(todayDate)
-        if (url.pathname === '/weather/tomorrow') setDate(tomorrowDate)
+        if (url.pathname === '/slots/today') setDate(todayDate)
+        if (url.pathname === '/slots/tomorrow') setDate(tomorrowDate)
+        console.log('url.pathname', url.pathname)
+        console.log('tomorrowDate', tomorrowDate)
     }, [navigate, url.pathname])
     const kyivSlots = OnionCodes.kyiv.map((code) => {
         return (
@@ -45,18 +47,24 @@ export default function Slots() {
 
     return (
         <Flex direction="column" width="90%" margin="5em 0 0 10em">
-            <div>
+            <Flex direction="column" align="center">
                 <h1>Kyiv</h1>
-                {kyivSlots}
-            </div>
-            <div>
+                <Flex wrap="wrap" justify="center">
+                    {kyivSlots}
+                </Flex>
+            </Flex>
+            <Flex direction="column" align="center">
                 <h1>MIO</h1>
-                {mioSlots}
-            </div>
-            <div>
+                <Flex wrap="wrap" justify="center">
+                    {mioSlots}
+                </Flex>
+            </Flex>
+            <Flex direction="column" align="center">
                 <h1>Small</h1>
-                {smallSlots}
-            </div>
+                <Flex wrap="wrap" justify="center" width="70%">
+                    {smallSlots}
+                </Flex>
+            </Flex>
         </Flex>
     )
 }
