@@ -53,7 +53,7 @@ export const getSaturationReport = createAsyncThunk(
         const state = getState() as RootState
         const { saturatedUniqueSortedOnionCodesArray } =
             state.selectedOnionsReport
-        const getAllAnaluzeObjectsAction = await Promise.all(
+        await Promise.all(
             saturatedUniqueSortedOnionCodesArray.map(
                 async (onionCode: string) => {
                     await dispatch(
