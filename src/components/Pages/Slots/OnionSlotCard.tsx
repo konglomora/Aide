@@ -23,7 +23,12 @@ const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
             margin={'5px'}
             bColor={backgroundColor}
         >
-            <a href={link} target={'blank'} style={{ textDecoration: 'none' }}>
+            <a
+                href={link}
+                target={'_blank'}
+                style={{ textDecoration: 'none' }}
+                rel="noreferrer"
+            >
                 <Title
                     fWeight={'600'}
                     fSize={'1.5em'}
