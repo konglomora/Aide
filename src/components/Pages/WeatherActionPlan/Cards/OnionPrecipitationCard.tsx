@@ -4,6 +4,7 @@ import { Flex } from '../../../StyledComponents/Flex'
 import { Title } from '../../../StyledComponents/Title'
 import dayjs from 'dayjs'
 import { areasInfo } from '../../../../store/helpers/AreasInfo'
+import { Colors } from 'helpers/colors'
 export interface IOnionPrecipitationCardProps {
     date: string
     city: string
@@ -59,7 +60,7 @@ const OnionPrecipitationCard: FC<IOnionPrecipitationCardProps> = ({
                     <Title
                         fWeight={'600'}
                         fSize={'1.5em'}
-                        color="rgb(186, 143, 255)"
+                        color={Colors.violet}
                     >
                         {city}
                     </Title>

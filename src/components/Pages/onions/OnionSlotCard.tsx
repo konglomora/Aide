@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Flex } from 'components/StyledComponents/Flex'
 import { Title } from 'components/StyledComponents/Title'
 import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
+import { Colors } from 'helpers/colors'
 
 interface PropsOnionSlotsCard {
     code: string
@@ -24,6 +25,7 @@ const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
             margin={'5px'}
             bColor={transparent}
             hoverable={true}
+            hoverColor=""
         >
             <a
                 href={`${REACT_APP_ONION_SLOTS_LINK}${code}/${date}`}
@@ -31,11 +33,7 @@ const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
                 style={{ textDecoration: 'none' }}
                 rel="noreferrer"
             >
-                <Title
-                    fWeight={'600'}
-                    fSize={'1.5em'}
-                    color="rgb(186, 143, 255)"
-                >
+                <Title fWeight={'600'} fSize={'1.5em'} color={Colors.violet}>
                     {code}
                 </Title>
             </a>

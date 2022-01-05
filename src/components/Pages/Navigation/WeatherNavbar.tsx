@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import { Flex } from '../../StyledComponents/Flex'
 import { useEffect } from 'react'
+import { Colors } from 'helpers/colors'
 
 const stylesForStyledLink = {
     width: '20%',
@@ -24,7 +25,7 @@ const WeatherNavbar = () => {
                 justify={'space-evenly'}
                 bBorder={'3px solid white'}
                 padding={'1em 0px 1em'}
-                bColor={'rgb(24,25,26)'}
+                bColor={Colors.smoothBlack}
                 height="3%"
                 mHeight="3%"
                 top="0"

@@ -9,57 +9,12 @@ import {
     PropsGetSaturationReport,
 } from './sliceTypes'
 import { AxiosResponse } from 'axios'
-export interface ISaturatedOnionBySlot {
-    id: number
-    data: string
-    time: string
-    area_tag: string
-    mio: boolean
-    city: string
-    slot: string
-    start_slot: number
-    end_slot: number
-    avr_orders: number
-    avr_couriers: number
-    avr_saturation: number
-    mp_mode: boolean
-    mp_mode_end: string
-    mp_mode_start: string
-}
-
-interface MyKnownError {
-    errorMessage: string
-}
-
-interface ISaturatedOnionAnalysis {
-    area: string
-    both_reason: boolean
-    city: string
-    difference: string
-    less_courier: boolean
-    level_saturation: string
-    more_orders: boolean
-    block_min: number
-    mp_mode_min: number
-    reason_saturation: string
-    saturation: string[]
-    forAutoReport?: boolean
-    slotFilledStr?: string
-}
-
-export enum ExpansionResult {
-    Gradually = 'Заранее расширяли слоты - постепенно заполнялись.',
-    Weakly = 'Заранее расширяли слоты - слабо заполнялись.',
-}
-
-export const getExpansionResult = (difference: string): string => {
-    if (difference.charAt(19) === '+') {
-        return ExpansionResult.Gradually
-    } else if (difference.charAt(19) === '-') {
-        return ExpansionResult.Weakly
-    }
-    return ''
-}
+import { getExpansionResult } from 'store/helpers/getExpansionResult'
+import {
+    ISaturatedOnionAnalysis,
+    ISaturatedOnionBySlot,
+    MyKnownError,
+} from 'store/helpers/reports/types'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk<
     ISaturatedOnionBySlot[],
@@ -170,18 +125,17 @@ interface SaturationSelectedOnionState {
     error: null | string
     periodStart: string
     periodEnd: string
-    kyiv_report: Object[]
-    mio_report: Object[]
-    small_report: Object[]
+    kyiv_report: ISaturatedOnionAnalysis[]
+    mio_report: ISaturatedOnionAnalysis[]
+    small_report: ISaturatedOnionAnalysis[]
     sortedReportBySaturationReason: {
-        lessCouriersSaturatedOnions: Object[]
-        moreOrdersSaturatedOnions: Object[]
-        lessCouriersAndMoreOrdersSaturatedOnions: Object[]
-        hasSaturationButBetterThanD7: Object[]
+        lessCouriersSaturatedOnions: ISaturatedOnionAnalysis[]
+        moreOrdersSaturatedOnions: ISaturatedOnionAnalysis[]
+        lessCouriersAndMoreOrdersSaturatedOnions: ISaturatedOnionAnalysis[]
+        hasSaturationButBetterThanD7: ISaturatedOnionAnalysis[]
     }
     saturatedOnionsObjectsArray: ISaturatedOnionBySlot[]
     saturatedUniqueSortedOnionCodesArray: string[]
-    periodReport: Object[]
 }
 
 const initialState: SaturationSelectedOnionState = {
@@ -200,7 +154,6 @@ const initialState: SaturationSelectedOnionState = {
     },
     saturatedOnionsObjectsArray: [],
     saturatedUniqueSortedOnionCodesArray: [],
-    periodReport: [],
 }
 
 const saturationPeriodReportSlice = createSlice({
@@ -229,9 +182,6 @@ const saturationPeriodReportSlice = createSlice({
             )
             state.saturatedUniqueSortedOnionCodesArray = uniqueOnionCodes.sort()
             state.status = 'loading'
-        },
-        addOnionObjToPeriodReport(state, action) {
-            state.periodReport.push(action.payload)
         },
         sortReportBySaturationReasons(state, action) {
             const { saturationReport } = action.payload
