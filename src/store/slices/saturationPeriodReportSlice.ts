@@ -32,12 +32,17 @@ interface MyKnownError {
 }
 
 interface ISaturatedOnionAnalysis {
+    area: string
+    both_reason: boolean
     city: string
     difference: string
-    saturation: string[]
+    less_courier: boolean
+    level_saturation: string
+    more_orders: boolean
+    block_min: number
+    mp_mode_min: number
     reason_saturation: string
-    level_sat: string
-    area: string
+    saturation: string[]
     forAutoReport?: boolean
     slotFilledStr?: string
 }
@@ -68,7 +73,7 @@ export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk<
         try {
             const saturatedOnions: AxiosResponse<ISaturatedOnionBySlot[]> =
                 await aideApiAxios.get(
-                    `/data/filter/?sat=low&start=${periodStart}&end=${periodEnd}&today=yes`
+                    `state/data/filters/?sat=true&slot_start=${periodStart}&slot_finish=${periodEnd}&today=true`
                 )
             if (saturatedOnions.statusText !== 'OK') {
                 throw new Error(saturatedOnions.statusText)
@@ -93,24 +98,24 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
         { rejectWithValue }
     ) {
         try {
-            const saturatedOnionData: AxiosResponse<string> =
+            const saturatedOnionResponse: AxiosResponse<ISaturatedOnionAnalysis> =
                 await aideApiAxios.get(
-                    `/analysis/${onionCode}/${periodStart}/${periodEnd}`
+                    `/state/data/analysis/${onionCode}/${periodStart}/${periodEnd}/`
                 )
 
-            if (saturatedOnionData.statusText !== 'OK') {
-                throw new Error(saturatedOnionData.statusText)
+            if (saturatedOnionResponse.statusText !== 'OK') {
+                throw new Error(saturatedOnionResponse.statusText)
             }
-            const onionReportObject: ISaturatedOnionAnalysis = await JSON.parse(
-                saturatedOnionData.data
+            console.log('saturatedOnionData.data', saturatedOnionResponse.data)
+
+            saturatedOnionResponse.data.forAutoReport = true
+            saturatedOnionResponse.data.slotFilledStr = getExpansionResult(
+                saturatedOnionResponse.data.difference
             )
 
-            onionReportObject.forAutoReport = true
-            onionReportObject.slotFilledStr = getExpansionResult(
-                onionReportObject.difference
-            )
-            return onionReportObject
+            return saturatedOnionResponse.data
         } catch (error) {
+            console.log('[saturationPeriodReportSlice] error', error)
             return rejectWithValue(error as MyKnownError)
         }
     }
@@ -182,8 +187,8 @@ interface SaturationSelectedOnionState {
 const initialState: SaturationSelectedOnionState = {
     status: null,
     error: null,
-    periodStart: '16',
-    periodEnd: '18',
+    periodStart: '12',
+    periodEnd: '13',
     kyiv_report: [],
     mio_report: [],
     small_report: [],
@@ -231,7 +236,7 @@ const saturationPeriodReportSlice = createSlice({
         sortReportBySaturationReasons(state, action) {
             const { saturationReport } = action.payload
 
-            saturationReport.map((onion: ISaturatedOnionAnalysis) => {
+            saturationReport.forEach((onion: ISaturatedOnionAnalysis) => {
                 if (
                     onion.reason_saturation === SaturationReasons.lessCouriers
                 ) {

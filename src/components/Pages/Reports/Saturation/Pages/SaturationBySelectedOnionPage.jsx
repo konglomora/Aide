@@ -130,7 +130,6 @@ export default React.memo(function SaturationBySelectedOnion() {
                     padding={'15px 0'}
                     background={formBackGround}
                     backSize={formBackGroundSize}
-                    backSize="12%"
                 >
                     <form action="#">
                         <select

@@ -1,7 +1,7 @@
 import { RootState } from './../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
-import { kyivCodes, mioCodes, smallCodes } from '../../helpers/onionCodes'
+import { OnionCodes } from '../../helpers/onionCodes'
 import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
 import {
@@ -92,7 +92,11 @@ const initialState: SaturationSelectedOnionState = {
     error: null,
     periodStart: '16',
     periodEnd: '18',
-    areaCodes: [[...kyivCodes], [...mioCodes], [...smallCodes]],
+    areaCodes: [
+        [...OnionCodes.kyiv],
+        [...OnionCodes.mio],
+        [...OnionCodes.small],
+    ],
     selectedOnionCodes: [],
     kyiv_report: [],
     mio_report: [],
@@ -135,22 +139,25 @@ const selectedOnionsReportSlice = createSlice({
                 (code) => code !== onionCode
             )
 
-            if (kyivCodes.includes(onionCode)) {
-                const indexOfCodeAtInitialArray = kyivCodes.indexOf(onionCode)
+            if (OnionCodes.kyiv.includes(onionCode)) {
+                const indexOfCodeAtInitialArray =
+                    OnionCodes.kyiv.indexOf(onionCode)
                 state.areaCodes[0].splice(
                     indexOfCodeAtInitialArray,
                     0,
                     onionCode
                 )
-            } else if (mioCodes.includes(onionCode)) {
-                const indexOfCodeAtInitialArray = mioCodes.indexOf(onionCode)
+            } else if (OnionCodes.mio.includes(onionCode)) {
+                const indexOfCodeAtInitialArray =
+                    OnionCodes.mio.indexOf(onionCode)
                 state.areaCodes[1].splice(
                     indexOfCodeAtInitialArray,
                     0,
                     onionCode
                 )
             } else {
-                const indexOfCodeAtInitialArray = smallCodes.indexOf(onionCode)
+                const indexOfCodeAtInitialArray =
+                    OnionCodes.small.indexOf(onionCode)
                 state.areaCodes[2].splice(
                     indexOfCodeAtInitialArray,
                     0,

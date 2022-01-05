@@ -1,30 +1,32 @@
 import { FC } from 'react'
 import { Flex } from 'components/StyledComponents/Flex'
 import { Title } from 'components/StyledComponents/Title'
+import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
 
 interface PropsOnionSlotsCard {
     code: string
-    link: string
+    date: string
 }
 
 const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
-    const { code, link } = props
-    const backgroundColor = 'transparent'
+    const { code, date } = props
+    const transparent = 'transparent'
     const border = '3px solid white'
 
     return (
         <Flex
             cursor={'pointer'}
             border={border}
-            width={'3em'}
+            width={'4em'}
             padding={'3px'}
             bRadius={'5px'}
             justify={'space-around'}
             margin={'5px'}
-            bColor={backgroundColor}
+            bColor={transparent}
+            hoverable={true}
         >
             <a
-                href={link}
+                href={`${REACT_APP_ONION_SLOTS_LINK}${code}/${date}`}
                 target={'_blank'}
                 style={{ textDecoration: 'none' }}
                 rel="noreferrer"
