@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { slotsRegular } from '../../../../../helpers/slots'
-import OnionSaturationCard from '../Cards/OnionSaturationCard'
 import { Flex } from '../../../../StyledComponents/Flex'
 import { Title } from '../../../../StyledComponents/Title'
 import Button from '../../../../StyledComponents/Button'
@@ -16,6 +15,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 import FRANKS_SUCCESS_GIF from '../../../../../assets/gif/franks-dance.gif'
 import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
+import OnionSaturationCard from '../Cards/OnionSaturationCard'
 
 export default function SaturationByPeriodPage() {
     const dispatch = useAppDispatch()
@@ -31,16 +31,21 @@ export default function SaturationByPeriodPage() {
         hasSaturationButBetterThanD7,
     } = saturationPeriodReport.sortedReportBySaturationReason
 
-    function selectChangeHandler(e) {
+    enum PeriodSelectors {
+        start = 'slotStartPeriodSelector',
+        end = 'slotEndPeriodSelector',
+    }
+
+    function selectChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
         const name = e.target.name
-        if (name === 'slotStartPeriodSelector') {
+        if (name === PeriodSelectors.start) {
             dispatch(
                 setPeriodOfReport({
                     periodStart: e.target.value.substr(0, 2),
                     periodEnd: periodEnd,
                 })
             )
-        } else if (name === 'slotEndPeriodSelector') {
+        } else if (name === PeriodSelectors.end) {
             dispatch(
                 setPeriodOfReport({
                     periodStart: periodStart,
@@ -122,7 +127,7 @@ export default function SaturationByPeriodPage() {
                     </select>
                     <Button
                         onClick={(e) => {
-                            e.preventDefault()
+                            e!.preventDefault()
                             sendRequestForReport()
                         }}
                         bcolor={'black'}
@@ -263,7 +268,7 @@ export default function SaturationByPeriodPage() {
                 width="90%"
                 margin="0 0 0 10em"
             >
-                {status === null && <LoaderReact animate={undefined} />}
+                {status === null && <LoaderReact animate={{ rotate: 0 }} />}
                 {status === 'loading' && (
                     <LoaderReact animate={{ rotate: 360 }} />
                 )}
@@ -272,3 +277,9 @@ export default function SaturationByPeriodPage() {
         </Flex>
     )
 }
+
+// import React from 'react'
+
+// export default function SaturationByPeriodPageTS() {
+//     return <div></div>
+// }
