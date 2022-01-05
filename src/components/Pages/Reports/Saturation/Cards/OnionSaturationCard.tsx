@@ -11,7 +11,7 @@ interface PropsOnionSaturationCard {
     forAutoReport: string
     reason_saturation: string
     area: string
-    level_sat: string
+    level_saturation: string
     slotFilledStr: string
 }
 
@@ -23,7 +23,7 @@ const OnionSaturationCard: FC<PropsOnionSaturationCard> = (props) => {
         forAutoReport,
         reason_saturation,
         area,
-        level_sat,
+        level_saturation,
         slotFilledStr,
     } = props
 
@@ -68,7 +68,7 @@ const OnionSaturationCard: FC<PropsOnionSaturationCard> = (props) => {
                 <div>{slotFilledStr}</div>
                 <div>
                     <span>{area}</span>
-                    <span>{level_sat}</span>
+                    <span>{level_saturation}</span>
                 </div>
             </div>
             <div> </div>
