@@ -36,6 +36,7 @@ const SNavLink = styled(NavLink)<PropsSNavLink>`
     background-color: ${({ background_color }) => background_color || ''};
     border-radius: ${({ radius }) => radius || '0px'};
     border: ${({ border }) => border || ''};
+    font-weight: 550;
     &.active {
         color: rgb(186, 143, 255);
     }

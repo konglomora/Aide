@@ -11,6 +11,7 @@ interface PropsStyledButton {
     padding?: string
     bradius?: string
     border?: string
+    alignSelf?: string
 }
 
 const StyledButton = styled.button<PropsStyledButton>`
@@ -18,14 +19,18 @@ const StyledButton = styled.button<PropsStyledButton>`
     margin: ${({ margin }) => margin || '0'};
     background-color: ${({ bcolor }) => bcolor || 'rgb(0, 0 ,0)'};
     color: ${({ color }) => color || 'white'};
-    font-weight: 500;
+    font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};
     border-radius: ${({ bradius }) => bradius || '5px'};
     border: ${({ border }) => border || '2px solid white'};
     cursor: pointer;
-    &:active,
+    align-self: ${({ alignSelf }) => alignSelf || ''};
+    transition: 0.3s linear;
     &:hover {
-        border: '2px solid green';
+        font-weight: 700;
+        transition: 0.4s linear;
+        background-color: rgb(252, 78, 78);
+        color: black;
     }
 `
 
