@@ -5,22 +5,166 @@ import { Title } from '../../../StyledComponents/Title'
 import dayjs from 'dayjs'
 import { areasInfo } from '../../../../store/helpers/AreasInfo'
 import { Colors } from 'helpers/colors'
-export interface IOnionPrecipitationCardProps {
-    date: string
-    city: string
-    last_time_update: string
-    phrase: string
-    tomorrow: string
-    afterTomorrow: string
+import { IOnionWeatherAnalysis } from 'store/slices/weatherActionPlanSlice'
+import { codes } from 'store/helpers/Codes'
+
+export enum Actions {
+    expand = 'Расширяем заполненные слоты с вероятностью на 10%.',
+    notFilled = 'Слоты не заполнены.',
+    addFullBonus = 'Бонус +40BW на  слоты',
+    addHalfBonus = 'Бонус +20BW на  слоты',
 }
-const OnionPrecipitationCard: FC<IOnionPrecipitationCardProps> = ({
+
+interface IOnionCodesForBonus {
+    kyiv: string[]
+    satellites: string[]
+    mio: string[]
+}
+
+const onionCodesForBonus: IOnionCodesForBonus = {
+    kyiv: ['KIE', 'KYI'],
+    satellites: ['BRO', 'BOR', 'IRP', 'KRU'],
+    mio: ['DNP', 'KHA', 'LVI', 'ODS'],
+}
+
+export enum AreasForBonus {
+    kyiv = 'KYIV',
+    satellite = 'SATELLITE',
+    mio = 'MIO',
+    small = 'SMALL',
+}
+
+const getAreaForBonus = (code: string): string => {
+    if (onionCodesForBonus.kyiv.includes(code)) {
+        return AreasForBonus.kyiv
+    } else if (onionCodesForBonus.satellites.includes(code)) {
+        return AreasForBonus.satellite
+    } else if (onionCodesForBonus.mio.includes(code)) {
+        return AreasForBonus.mio
+    }
+    return AreasForBonus.small
+}
+export interface IResourceByArea {
+    KYIV: {
+        bonus: {
+            full: number
+            partial: number
+            rest: number
+        }
+        slots: {
+            high: number
+            medium: number
+            normal: number
+            low: number
+        }
+    }
+    SATELLITE: {
+        bonus: {
+            full: number
+            partial: number
+            rest: number
+        }
+        slots: {
+            high: number
+            medium: number
+            normal: number
+            low: number
+        }
+    }
+    MIO: {
+        bonus: {
+            full: number
+            partial: number
+            rest: number
+        }
+        slots: {
+            high: number
+            medium: number
+            normal: number
+            low: number
+        }
+    }
+    SMALL: {
+        bonus: {
+            full: number
+            partial: number
+            rest: number
+        }
+        slots: {
+            high: number
+            medium: number
+            normal: number
+            low: number
+        }
+    }
+}
+export const ResourceByArea = {
+    KYIV: {
+        bonus: {
+            full: 30,
+            partial: 20,
+            rest: 10,
+        },
+        slots: {
+            high: 15,
+            medium: 10,
+            normal: 5,
+            low: 3,
+        },
+    },
+    SATELLITE: {
+        bonus: {
+            full: 30,
+            partial: 20,
+            rest: 10,
+        },
+        slots: {
+            high: 30,
+            medium: 15,
+            normal: 10,
+            low: 5,
+        },
+    },
+    MIO: {
+        bonus: {
+            full: 40,
+            partial: 20,
+            rest: 20,
+        },
+        slots: {
+            high: 15,
+            medium: 10,
+            normal: 5,
+            low: 3,
+        },
+    },
+    SMALL: {
+        bonus: {
+            full: 40,
+            partial: 20,
+            rest: 20,
+        },
+        slots: {
+            high: 30,
+            medium: 15,
+            normal: 10,
+            low: 5,
+        },
+    },
+}
+
+const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     date,
     city,
-    last_time_update,
-    phrase,
+    percent_capacity_slots,
+    slots,
+    precipitation,
 }) => {
     const [responsibleManagerTelegramNick, setResponsibleManagerTelegramNick] =
         useState<string>('')
+    const [bonusSentence, setBonusSentence] = useState('')
+    const [slotsSentence, setSlotsSentence] = useState('')
+
     const tomorrowDate = dayjs().add(1, 'day').format('DD.MM')
     const dateOfReport: string =
         tomorrowDate === date
@@ -39,7 +183,47 @@ const OnionPrecipitationCard: FC<IOnionPrecipitationCardProps> = ({
                 )
             }
         })
+        const area = getAreaForBonus(city)
+        const slotsEmpty = percent_capacity_slots === 0
+        const slotsPartiallyFilled =
+            percent_capacity_slots <= 55 && percent_capacity_slots > 0
+        const slotsFullFilled = percent_capacity_slots >= 90
+        if (slotsEmpty) {
+            const bonusStr = `Добавить +${
+                ResourceByArea[area as keyof IResourceByArea].bonus.full
+            }% BW на слоты  ${slots}`
+            const slotsStr = `Слоты не заполнены.`
+            setBonusSentence(bonusStr)
+            setSlotsSentence(slotsStr)
+        }
+
+        if (slotsPartiallyFilled) {
+            const bonusStr = `Добавить +${
+                ResourceByArea[area as keyof IResourceByArea].bonus.partial
+            }% RUSH на слоты  ${slots},   по факту осадков добавить +${
+                ResourceByArea[area as keyof IResourceByArea].bonus.rest
+            }% BW.`
+            const slotsStr = `Расширить слоты ${slots} на ${
+                ResourceByArea[area as keyof IResourceByArea].slots.high
+            }%`
+            setBonusSentence(bonusStr)
+            setSlotsSentence(slotsStr)
+        }
+
+        if (slotsFullFilled) {
+            const bonusStr = `Добавить +${
+                ResourceByArea[area as keyof IResourceByArea].bonus.partial
+            }% RUSH на слоты  ${slots},   по факту осадков добавить +${
+                ResourceByArea[area as keyof IResourceByArea].bonus.rest
+            }% BW.`
+            const slotsStr = `Расширить все слоты ${slots} на ${
+                ResourceByArea[area as keyof IResourceByArea].slots.medium
+            }%`
+            setBonusSentence(bonusStr)
+            setSlotsSentence(slotsStr)
+        }
     })
+    const prepStr = `Вероятность осадков на слоты ${slots}: ${precipitation}`
 
     return (
         <Flex
@@ -66,7 +250,9 @@ const OnionPrecipitationCard: FC<IOnionPrecipitationCardProps> = ({
                     </Title>
                 </a>
                 <div>{responsibleManagerTelegramNick}</div>
-                <div>{phrase}</div>
+                <div>{prepStr}</div>
+                <div>{slotsSentence}</div>
+                <div>{bonusSentence}</div>
             </div>
             <div></div>
         </Flex>
