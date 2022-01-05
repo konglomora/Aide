@@ -2,21 +2,11 @@ import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
 import dayjs from 'dayjs'
 import { Colors } from 'helpers/colors'
 import { FC } from 'react'
+import { ISaturatedOnionAnalysis } from 'store/helpers/reports/types'
 import { Flex } from '../../../../StyledComponents/Flex'
 import { Title } from '../../../../StyledComponents/Title'
 
-interface PropsOnionSaturationCard {
-    city: string
-    saturation: string[]
-    difference: string
-    forAutoReport: string
-    reason_saturation: string
-    area: string
-    level_saturation: string
-    slotFilledStr: string
-}
-
-const OnionSaturationCard: FC<PropsOnionSaturationCard> = (props) => {
+const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
     const {
         city,
         saturation,
