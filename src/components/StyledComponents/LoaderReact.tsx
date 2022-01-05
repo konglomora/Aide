@@ -4,7 +4,9 @@ import logo from './../../assets/img/logo.svg'
 import { Flex } from './Flex'
 
 interface PropsLoaderReact {
-    animate: string
+    animate?: {
+        [key: string]: number
+    }
 }
 
 const LoaderReact: FC<PropsLoaderReact> = (props) => {
