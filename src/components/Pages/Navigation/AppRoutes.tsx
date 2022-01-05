@@ -11,8 +11,8 @@ import SaturationBySelectedOnionPage from '../Reports/Saturation/Pages/Saturatio
 import SchedulePage from '../onions/SchedulePage'
 import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
 import Layout from './Layout'
-import ReportsNavigation from './ReportsNavigation'
-import SlotsNavbar from './SlotsNavbar'
+import ReportsNavigation from './ReportsNavbar'
+import SlotsNavbar from './OnionsNavbar'
 import WeatherNavbar from './WeatherNavbar'
 
 export const AppRoutes: FC = () => {
@@ -25,7 +25,7 @@ export const AppRoutes: FC = () => {
     )
     const onionsRoutes = (
         <Route path="onions" element={<SlotsNavbar />}>
-            <Route path="schedule" element={<SchedulePage />} />
+            <Route path="schedules" element={<SchedulePage />} />
         </Route>
     )
     return (
