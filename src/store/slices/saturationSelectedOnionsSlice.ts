@@ -8,36 +8,35 @@ import {
     PropsAxiosGetSaturatedOnionAnalyseObject,
     PropsGetSaturationReport,
 } from './sliceTypes'
+import { ISaturatedOnionAnalysis, MyKnownError } from '../helpers/reports/types'
+import { getExpansionResult } from 'store/helpers/getExpansionResult'
 
-export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk(
+export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
+    ISaturatedOnionAnalysis,
+    PropsAxiosGetSaturatedOnionAnalyseObject,
+    {
+        rejectValue: MyKnownError
+    }
+>(
     'selected-onions/axiosGetSaturatedOnionObject',
     async function (
-        {
-            onionCode,
-            periodStart,
-            periodEnd,
-        }: PropsAxiosGetSaturatedOnionAnalyseObject,
+        { onionCode, periodStart, periodEnd },
         { rejectWithValue }
     ) {
         try {
-            const saturatedOnionData = await aideApiAxios.get(
-                `/analysis/${onionCode}/${periodStart}/${periodEnd}`
-            )
-
+            const saturatedOnionData =
+                await aideApiAxios.get<ISaturatedOnionAnalysis>(
+                    `/state/data/analysis/${onionCode}/${periodStart}/${periodEnd}/`
+                )
             if (saturatedOnionData.statusText !== 'OK') {
-                throw new Error('Error братан из сервачка прилетел')
+                throw new Error(saturatedOnionData.statusText)
             }
-            const onionReportObject = await JSON.parse(saturatedOnionData.data)
-            if (onionReportObject.difference.charAt(19) === '+') {
-                onionReportObject['slotFilledStr'] =
-                    'Заранее расширяли слоты - постепенно заполнялись.'
-            } else if (onionReportObject.difference.charAt(19) === '-') {
-                onionReportObject['slotFilledStr'] =
-                    'Заранее расширяли слоты - слабо заполнялись.'
-            }
-            return onionReportObject
+            saturatedOnionData.data.slotFilledStr = getExpansionResult(
+                saturatedOnionData.data.difference
+            )
+            return saturatedOnionData.data as ISaturatedOnionAnalysis
         } catch (error) {
-            return rejectWithValue(error)
+            return rejectWithValue(error as MyKnownError)
         }
     }
 )
@@ -90,8 +89,8 @@ interface SaturationSelectedOnionState {
 const initialState: SaturationSelectedOnionState = {
     status: null,
     error: null,
-    periodStart: '16',
-    periodEnd: '18',
+    periodStart: '12',
+    periodEnd: '13',
     areaCodes: [
         [...OnionCodes.kyiv],
         [...OnionCodes.mio],
