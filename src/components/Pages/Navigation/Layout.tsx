@@ -48,11 +48,6 @@ const Layout = () => {
                     to={'/'}
                     text={'🏠 Home'}
                 />
-                <StyledNavLink
-                    {...stylesForStyledLink}
-                    to={'/reports'}
-                    text={'📰 Reports '}
-                />
                 {userIsAdmin && (
                     <>
                         <StyledNavLink
@@ -67,7 +62,11 @@ const Layout = () => {
                     to={'/onions'}
                     text={'🌃 Onions'}
                 />
-
+                <StyledNavLink
+                    {...stylesForStyledLink}
+                    to={'/reports'}
+                    text={'📰 Reports '}
+                />
                 <Button alignSelf="end" margin="10% 0" onClick={handleLogout}>
                     Log out
                 </Button>
