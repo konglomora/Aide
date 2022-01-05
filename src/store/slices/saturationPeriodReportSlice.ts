@@ -9,6 +9,11 @@ import {
     PropsGetSaturationReport,
 } from './sliceTypes'
 import { AxiosResponse } from 'axios'
+import { getExpansionResult } from 'store/helpers/getExpansionResult'
+import {
+    ISaturatedOnionAnalysis,
+    MyKnownError,
+} from 'store/helpers/reports/types'
 export interface ISaturatedOnionBySlot {
     id: number
     data: string
@@ -25,40 +30,6 @@ export interface ISaturatedOnionBySlot {
     mp_mode: boolean
     mp_mode_end: string
     mp_mode_start: string
-}
-
-interface MyKnownError {
-    errorMessage: string
-}
-
-interface ISaturatedOnionAnalysis {
-    area: string
-    both_reason: boolean
-    city: string
-    difference: string
-    less_courier: boolean
-    level_saturation: string
-    more_orders: boolean
-    block_min: number
-    mp_mode_min: number
-    reason_saturation: string
-    saturation: string[]
-    forAutoReport?: boolean
-    slotFilledStr?: string
-}
-
-export enum ExpansionResult {
-    Gradually = 'Заранее расширяли слоты - постепенно заполнялись.',
-    Weakly = 'Заранее расширяли слоты - слабо заполнялись.',
-}
-
-export const getExpansionResult = (difference: string): string => {
-    if (difference.charAt(19) === '+') {
-        return ExpansionResult.Gradually
-    } else if (difference.charAt(19) === '-') {
-        return ExpansionResult.Weakly
-    }
-    return ''
 }
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk<
