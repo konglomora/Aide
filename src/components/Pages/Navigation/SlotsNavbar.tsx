@@ -2,8 +2,6 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import { Flex } from '../../StyledComponents/Flex'
 import { useEffect } from 'react'
-import dayjs from 'dayjs'
-import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
 
 const stylesForStyledLink = {
     width: '20%',
@@ -17,7 +15,7 @@ const WeatherNavbar = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (url.pathname === '/slots') navigate('today')
+        if (url.pathname === '/onions') navigate('schedule')
     }, [navigate, url.pathname])
 
     return (
@@ -36,11 +34,11 @@ const WeatherNavbar = () => {
                 zIndex="3"
             >
                 <StyledNavLink
-                    to="today"
+                    to="schedule"
                     {...stylesForStyledLink}
-                    text="Today"
+                    text="Schedule"
                 />
-                <StyledNavLink
+                {/* <StyledNavLink
                     to="tomorrow"
                     {...stylesForStyledLink}
                     text="Tomorrow"
@@ -51,7 +49,7 @@ const WeatherNavbar = () => {
                     {...stylesForStyledLink}
                     text="Later"
                     width="300px"
-                />
+                /> */}
             </Flex>
             <Outlet />
         </>

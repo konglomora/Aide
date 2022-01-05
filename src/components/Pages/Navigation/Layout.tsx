@@ -23,6 +23,7 @@ const Layout = () => {
 
     useEffect(() => {
         isAuth ? navigate('/') : navigate('login')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuth])
 
     const userRole = useAppSelector((state: RootState) => state.user.role)
@@ -34,11 +35,10 @@ const Layout = () => {
     return (
         <>
             <Flex
-                width={'em'}
+                width={'7em'}
                 bColor={'rgb(37,37,38)'}
                 padding={'1em 2em'}
                 rBorder={'2px solid white'}
-                align={'center'}
                 direction={'column'}
                 position="fixed"
                 zIndex="999"
@@ -46,29 +46,29 @@ const Layout = () => {
                 <StyledNavLink
                     {...stylesForStyledLink}
                     to={'/'}
-                    text={'Home 🏠'}
+                    text={'🏠 Home'}
+                />
+                <StyledNavLink
+                    {...stylesForStyledLink}
+                    to={'/reports'}
+                    text={'📰 Reports '}
                 />
                 {userIsAdmin && (
                     <>
                         <StyledNavLink
                             {...stylesForStyledLink}
                             to={'/weather'}
-                            text={'Weather ⛈'}
-                        />
-                        <StyledNavLink
-                            {...stylesForStyledLink}
-                            to={'/slots'}
-                            text={'Slots 🎣'}
+                            text={'⛈ Weather'}
                         />
                     </>
                 )}
                 <StyledNavLink
                     {...stylesForStyledLink}
-                    to={'/reports'}
-                    text={'Reports 📰'}
+                    to={'/onions'}
+                    text={'🌃 Onions'}
                 />
 
-                <Button margin="10% 0" onClick={handleLogout}>
+                <Button alignSelf="end" margin="10% 0" onClick={handleLogout}>
                     Log out
                 </Button>
             </Flex>
