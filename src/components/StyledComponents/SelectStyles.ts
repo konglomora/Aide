@@ -1,4 +1,6 @@
-export const SelectStyle = {
+import CSS from 'csstype'
+
+export const SelectStyle: CSS.Properties = {
     background: 'white',
     borderRadius: '10px',
     color: 'black',
