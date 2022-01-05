@@ -17,10 +17,11 @@ import LoaderReact from '../../../../StyledComponents/LoaderReact'
 import ANIME_SUCCESS_GIF from '../../../../../assets/gif/dancing-cute.gif'
 import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
+import { Colors } from 'helpers/colors'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()
-    const [formBackGround, setFormBackGround] = useState('rgb(24,25,26)')
+    const [formBackGround, setFormBackGround] = useState(Colors.black)
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const {
         status,

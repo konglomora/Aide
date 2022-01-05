@@ -1,3 +1,4 @@
+import { Colors } from 'helpers/colors'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
@@ -17,7 +18,7 @@ interface PropsStyledButton {
 const StyledButton = styled.button<PropsStyledButton>`
     width: ${({ width }) => width || '100px'};
     margin: ${({ margin }) => margin || '0'};
-    background-color: ${({ bcolor }) => bcolor || 'rgb(0, 0 ,0)'};
+    background-color: ${({ bcolor }) => bcolor || Colors.black};
     color: ${({ color }) => color || 'white'};
     font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};

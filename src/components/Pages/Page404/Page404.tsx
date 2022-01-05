@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Flex } from '../../StyledComponents/Flex'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import TextContent from '../../StyledComponents/TextContent'
-import { stylesForStyledLink } from '../Navigation/Layout'
+import { stylesForStyledLink } from '../Navigation/Sidebar'
 
 export const Page404: FC = () => {
     return (

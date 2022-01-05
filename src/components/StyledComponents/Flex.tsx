@@ -36,6 +36,7 @@ interface PropsFlex {
     bottom?: string
     zIndex?: string
     hoverable?: boolean
+    hoverColor?: string
     children?:
         | ReactElement
         | Element
@@ -79,8 +80,14 @@ const StyledFlex = styled.div<PropsFlex>`
 
     &:hover {
         transition: 0.4s linear;
-        background-color: ${({ hoverable }) => (hoverable ? 'white' : '')};
-    }
+        background-color: ${({ hoverable, hoverColor }) => {
+            if (hoverable && hoverColor) {
+                return hoverColor
+            } else if (hoverable) {
+                return 'white'
+            }
+            return ''
+        }}
 `
 
 export const Flex: FC<PropsFlex> = (props) => {

@@ -1,5 +1,6 @@
 import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
 import dayjs from 'dayjs'
+import { Colors } from 'helpers/colors'
 import { FC } from 'react'
 import { Flex } from '../../../../StyledComponents/Flex'
 import { Title } from '../../../../StyledComponents/Title'
@@ -51,7 +52,7 @@ const OnionSaturationCard: FC<PropsOnionSaturationCard> = (props) => {
                     <Title
                         fWeight={'600'}
                         fSize={'1.5em'}
-                        color="rgb(186, 143, 255)"
+                        color={Colors.violet}
                     >
                         {city}
                     </Title>
