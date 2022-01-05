@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 interface PropsStyledButton {
     type?: 'button' | 'submit' | 'reset' | undefined
-    onClick?: () => void
+    onClick?: (e?: React.MouseEvent<HTMLElement>) => void
     width?: string
     margin?: string
     bcolor?: string
