@@ -2,7 +2,6 @@ import { RootState } from '../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import { SaturationReasons } from '../../helpers/saturationReasons'
-import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
 import {
     PropsAxiosGetSaturatedOnionAnalyseObject,
@@ -122,7 +121,7 @@ export const getSaturationReport = createAsyncThunk(
 
 interface ISaturationSelectedOnionState {
     status: null | 'resolved' | 'loading' | 'error'
-    error: null | string
+    error: null | undefined | string | MyKnownError
     periodStart: string
     periodEnd: string
     kyiv_report: ISaturatedOnionAnalysis[]
@@ -230,7 +229,13 @@ const saturationPeriodReportSlice = createSlice({
                 state.saturatedOnionsObjectsArray = action.payload
             }
         )
-        builder.addCase(axiosGetSaturatedOnionsByPeriod.rejected, setError)
+        builder.addCase(
+            axiosGetSaturatedOnionsByPeriod.rejected,
+            (state, action) => {
+                state.status = 'error'
+                state.error = action.payload
+            }
+        )
         builder.addCase(
             axiosGetSaturatedOnionAnalyseObject.fulfilled,
             (state, action) => {
@@ -247,9 +252,24 @@ const saturationPeriodReportSlice = createSlice({
                 }
             }
         )
-        builder.addCase(axiosGetSaturatedOnionAnalyseObject.pending, setLoading)
-        builder.addCase(axiosGetSaturatedOnionAnalyseObject.rejected, setError)
-        builder.addCase(getSaturationReport.pending, setLoading)
+        builder.addCase(
+            axiosGetSaturatedOnionAnalyseObject.pending,
+            (state) => {
+                state.status = 'loading'
+                state.error = null
+            }
+        )
+        builder.addCase(
+            axiosGetSaturatedOnionAnalyseObject.rejected,
+            (state, action) => {
+                state.status = 'error'
+                state.error = action.payload
+            }
+        )
+        builder.addCase(getSaturationReport.pending, (state) => {
+            state.status = 'loading'
+            state.error = null
+        })
         builder.addCase(getSaturationReport.fulfilled, (state) => {
             state.status = 'resolved'
         })
