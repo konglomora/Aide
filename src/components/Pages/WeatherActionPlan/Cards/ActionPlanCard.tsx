@@ -10,8 +10,8 @@ export interface IPrecipitationCardProps {
     afterTomorrowDate: string
     lastTimeUpdateOfTomorrow: string
     lastTimeUpdateOfAfterTomorrow: string
-    tomorrowPlanOnionCards: React.ReactElement[]
-    afterTomorrowPlanOnionCards: React.ReactElement[]
+    tomorrowPlanOnionCards: React.ReactElement[][]
+    afterTomorrowPlanOnionCards: React.ReactElement[][]
 }
 
 export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (

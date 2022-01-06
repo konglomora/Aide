@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { REACT_APP_ONION_SLOTS_LINK } from '../../../../axios/env'
 import { Flex } from '../../../StyledComponents/Flex'
 import { Title } from '../../../StyledComponents/Title'
@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import { areasInfo } from '../../../../store/helpers/AreasInfo'
 import { Colors } from 'helpers/colors'
 import { IOnionWeatherAnalysis } from 'store/slices/weatherActionPlanSlice'
-import { codes } from 'store/helpers/Codes'
 
 export enum Actions {
     expand = 'Расширяем заполненные слоты с вероятностью на 10%.',
@@ -174,6 +173,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     const SLOTS_LINK: string = REACT_APP_ONION_SLOTS_LINK
     const onionSlotsLink: string = `${SLOTS_LINK}${city}/${dateOfReport}`
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const areaCodes = Object.keys(areasInfo)
         areaCodes.forEach((areaCode) => {
