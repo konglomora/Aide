@@ -77,12 +77,12 @@ interface SaturationSelectedOnionState {
     periodEnd: string
     areaCodes: string[][]
     selectedOnionCodes: string[]
-    kyiv_report: Object[]
-    mio_report: Object[]
-    small_report: Object[]
+    kyiv_report: ISaturatedOnionAnalysis[]
+    mio_report: ISaturatedOnionAnalysis[]
+    small_report: ISaturatedOnionAnalysis[]
     selectedOnionsByUser: string[]
     saturatedUniqueSortedOnionCodesArray: string[]
-    periodReport: Object[]
+    periodReport: ISaturatedOnionAnalysis[]
 }
 
 const initialState: SaturationSelectedOnionState = {
