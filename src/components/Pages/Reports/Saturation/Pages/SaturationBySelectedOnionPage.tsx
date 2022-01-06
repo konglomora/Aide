@@ -11,17 +11,18 @@ import {
     selectOnion,
     setPeriodOfReport,
 } from '../../../../../store/slices/saturationSelectedOnionsSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
 import LoaderReact from '../../../../StyledComponents/LoaderReact'
 import ANIME_SUCCESS_GIF from '../../../../../assets/gif/dancing-cute.gif'
 import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
 import { Colors } from 'helpers/colors'
+import { useAppSelector } from 'store/hooks'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()
-    const [formBackGround, setFormBackGround] = useState(Colors.black)
+    const [formBackGround, setFormBackGround] = useState<string>(Colors.black)
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const {
         status,
@@ -33,11 +34,11 @@ export default React.memo(function SaturationBySelectedOnion() {
         small_report,
         areaCodes,
         selectedOnionCodes,
-    } = useSelector((state) => state.selectedOnionsReport)
+    } = useAppSelector((state) => state.selectedOnionsReport)
 
     const saturationReport = [...kyiv_report, ...mio_report, ...small_report]
 
-    function selectChangeHandler(e) {
+    function selectChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
         const name = e.target.name
         if (name === 'slotStartPeriodSelector') {
             dispatch(
@@ -56,12 +57,12 @@ export default React.memo(function SaturationBySelectedOnion() {
         }
     }
 
-    function onionCodesSelectHandler(e) {
+    function onionCodesSelectHandler(e: React.ChangeEvent<HTMLDivElement>) {
         const onionCode = e.target.outerText
         dispatch(selectOnion(onionCode))
     }
 
-    function onionDeselectHandler(e) {
+    function onionDeselectHandler(e: React.ChangeEvent<HTMLDivElement>) {
         const onionCode = e.target.outerText
         dispatch(deselectOnion(onionCode))
     }
@@ -108,10 +109,8 @@ export default React.memo(function SaturationBySelectedOnion() {
                     {areaCodes.map((onionCodesArray, index) => {
                         const title =
                             index === 0 ? 'Kyiv' : index === 1 ? 'MIO' : 'Small'
-                        const width = title === 'Small' ? '60%' : '10%'
                         return (
                             <AreaCodesCard
-                                width={width}
                                 key={title}
                                 cardTitle={title}
                                 codes={onionCodesArray}
@@ -132,46 +131,41 @@ export default React.memo(function SaturationBySelectedOnion() {
                     background={formBackGround}
                     backSize={formBackGroundSize}
                 >
-                    <form action="#">
-                        <select
-                            style={SelectStyle}
-                            name="slotStartPeriodSelector"
-                            id="1"
-                            value={`${periodStart}:00`}
-                            onChange={(e) => selectChangeHandler(e)}
-                        >
-                            {slotsRegular.map((slot, id) => (
-                                <option value={slot} key={id}>
-                                    {slot}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            style={SelectStyle}
-                            name="slotEndPeriodSelector"
-                            id="2"
-                            value={`${periodEnd}:00`}
-                            onChange={(e) => selectChangeHandler(e)}
-                        >
-                            {slotsRegular.map((slot, id) => (
-                                <option value={slot} key={id}>
-                                    {slot}
-                                </option>
-                            ))}
-                        </select>
-                        <Button
-                            onClick={(e) => {
-                                e.preventDefault()
-                                sendRequestForReport()
-                            }}
-                            bcolor={'black'}
-                            color={'white'}
-                            bradius={'10px'}
-                            border={'3px solid white'}
-                        >
-                            Get report
-                        </Button>
-                    </form>
+                    <select
+                        style={SelectStyle}
+                        name="slotStartPeriodSelector"
+                        id="1"
+                        value={`${periodStart}:00`}
+                        onChange={(e) => selectChangeHandler(e)}
+                    >
+                        {slotsRegular.map((slot, id) => (
+                            <option value={slot} key={id}>
+                                {slot}
+                            </option>
+                        ))}
+                    </select>
+                    <select
+                        style={SelectStyle}
+                        name="slotEndPeriodSelector"
+                        id="2"
+                        value={`${periodEnd}:00`}
+                        onChange={(e) => selectChangeHandler(e)}
+                    >
+                        {slotsRegular.map((slot, id) => (
+                            <option value={slot} key={id}>
+                                {slot}
+                            </option>
+                        ))}
+                    </select>
+                    <Button
+                        onClick={sendRequestForReport}
+                        bcolor={'black'}
+                        color={'white'}
+                        bradius={'10px'}
+                        border={'3px solid white'}
+                    >
+                        Get report
+                    </Button>
                 </Flex>
             </Flex>
 

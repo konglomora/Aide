@@ -6,7 +6,7 @@ import OnionCode from './OnionCodeCard'
 interface IAreaCodesCard {
     cardTitle: string
     codes: string[]
-    onClick: () => void
+    onClick: (e: React.ChangeEvent<HTMLDivElement>) => void
 }
 
 const AreaCodesCard: FC<IAreaCodesCard> = (props) => {
