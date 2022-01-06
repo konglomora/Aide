@@ -16,6 +16,7 @@ import FRANKS_SUCCESS_GIF from '../../../../../assets/gif/franks-dance.gif'
 import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
+import { Roles } from 'components/Pages/Auth/helpers'
 
 export default function SaturationByPeriodPage() {
     const dispatch = useAppDispatch()
@@ -23,7 +24,9 @@ export default function SaturationByPeriodPage() {
     const [formBackGround, setFormBackGround] = useState('')
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const { status, error, periodStart, periodEnd } = saturationPeriodReport
-
+    const userIsAdmin = useAppSelector(
+        (state) => state.user.role === Roles.admin
+    )
     const {
         lessCouriersSaturatedOnions,
         moreOrdersSaturatedOnions,
@@ -98,46 +101,41 @@ export default function SaturationByPeriodPage() {
                 background={formBackGround}
                 backSize={formBackGroundSize}
             >
-                <form action="#">
-                    <select
-                        style={SelectStyle}
-                        name="slotStartPeriodSelector"
-                        id="1"
-                        value={`${periodStart}:00`}
-                        onChange={(e) => selectChangeHandler(e)}
-                    >
-                        {slotsRegular.map((slot, id) => (
-                            <option value={slot} key={id}>
-                                {slot}
-                            </option>
-                        ))}
-                    </select>
-                    <select
-                        style={SelectStyle}
-                        name="slotEndPeriodSelector"
-                        id="2"
-                        value={`${periodEnd}:00`}
-                        onChange={(e) => selectChangeHandler(e)}
-                    >
-                        {slotsRegular.map((slot, id) => (
-                            <option value={slot} key={id}>
-                                {slot}
-                            </option>
-                        ))}
-                    </select>
-                    <Button
-                        onClick={(e) => {
-                            e!.preventDefault()
-                            sendRequestForReport()
-                        }}
-                        bcolor={'black'}
-                        color={'white'}
-                        bradius={'10px'}
-                        border={'3px solid white'}
-                    >
-                        Get report
-                    </Button>
-                </form>
+                <select
+                    style={SelectStyle}
+                    name="slotStartPeriodSelector"
+                    id="1"
+                    value={`${periodStart}:00`}
+                    onChange={(e) => selectChangeHandler(e)}
+                >
+                    {slotsRegular.map((slot, id) => (
+                        <option value={slot} key={id}>
+                            {slot}
+                        </option>
+                    ))}
+                </select>
+                <select
+                    style={SelectStyle}
+                    name="slotEndPeriodSelector"
+                    id="2"
+                    value={`${periodEnd}:00`}
+                    onChange={(e) => selectChangeHandler(e)}
+                >
+                    {slotsRegular.map((slot, id) => (
+                        <option value={slot} key={id}>
+                            {slot}
+                        </option>
+                    ))}
+                </select>
+                <Button
+                    onClick={sendRequestForReport}
+                    bcolor={'black'}
+                    color={'white'}
+                    bradius={'10px'}
+                    border={'3px solid white'}
+                >
+                    Get report
+                </Button>
             </Flex>
 
             <Flex direction={'column'} width={'50%'} margin="10em 0 0 20em">
@@ -168,6 +166,7 @@ export default function SaturationByPeriodPage() {
                                     (onionReport, id) => (
                                         <OnionSaturationCard
                                             {...onionReport}
+                                            userIsAdmin={userIsAdmin}
                                             key={id}
                                         />
                                     )
@@ -197,6 +196,7 @@ export default function SaturationByPeriodPage() {
                                 (onionReport, id) => (
                                     <OnionSaturationCard
                                         {...onionReport}
+                                        userIsAdmin={userIsAdmin}
                                         key={id}
                                     />
                                 )
@@ -225,6 +225,7 @@ export default function SaturationByPeriodPage() {
                                 (onionReport, id) => (
                                     <OnionSaturationCard
                                         {...onionReport}
+                                        userIsAdmin={userIsAdmin}
                                         key={id}
                                     />
                                 )
@@ -252,6 +253,7 @@ export default function SaturationByPeriodPage() {
                                 (onionReport, id) => (
                                     <OnionSaturationCard
                                         {...onionReport}
+                                        userIsAdmin={userIsAdmin}
                                         key={id}
                                         forAutoReport={true}
                                     />
@@ -277,9 +279,3 @@ export default function SaturationByPeriodPage() {
         </Flex>
     )
 }
-
-// import React from 'react'
-
-// export default function SaturationByPeriodPageTS() {
-//     return <div></div>
-// }

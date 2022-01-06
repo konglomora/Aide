@@ -6,7 +6,13 @@ import { ISaturatedOnionAnalysis } from 'store/helpers/reports/types'
 import { Flex } from '../../../../StyledComponents/Flex'
 import { Title } from '../../../../StyledComponents/Title'
 
-const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
+export interface IOnionSaturationCardProps {
+    userIsAdmin: boolean
+}
+
+const OnionSaturationCard: FC<
+    ISaturatedOnionAnalysis & IOnionSaturationCardProps
+> = (props) => {
     const {
         city,
         saturation,
@@ -16,7 +22,13 @@ const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
         area,
         level_saturation,
         slotFilledStr,
+        userIsAdmin,
+        block_min,
+        mp_mode_min,
     } = props
+
+    const hadMPMode = mp_mode_min > 0
+    const hadBlock = block_min > 0
 
     const todayDate: string = dayjs().format('YYYY-MM-DD')
     const SLOTS_LINK: string = REACT_APP_ONION_SLOTS_LINK
@@ -57,6 +69,12 @@ const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
                 <div>{difference}</div>
                 {forAutoReport ? '' : <div>{reason_saturation}</div>}
                 <div>{slotFilledStr}</div>
+                {userIsAdmin && (
+                    <div>
+                        {hadMPMode && <div>MP Mode: {mp_mode_min} mins</div>}
+                        {hadBlock && <div>Block: {block_min} mins</div>}
+                    </div>
+                )}
                 <div>
                     <span>{area}</span>
                     <span>{level_saturation}</span>

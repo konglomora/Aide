@@ -19,6 +19,7 @@ import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
 import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
 import { Colors } from 'helpers/colors'
 import { useAppSelector } from 'store/hooks'
+import { Roles } from 'components/Pages/Auth/helpers'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()
@@ -35,6 +36,10 @@ export default React.memo(function SaturationBySelectedOnion() {
         areaCodes,
         selectedOnionCodes,
     } = useAppSelector((state) => state.selectedOnionsReport)
+
+    const userIsAdmin = useAppSelector(
+        (state) => state.user.role === Roles.admin
+    )
 
     const saturationReport = [...kyiv_report, ...mio_report, ...small_report]
 
@@ -185,7 +190,11 @@ export default React.memo(function SaturationBySelectedOnion() {
                         fWeight={'800'}
                     >{`Апдейт по сатурации с ${periodStart}:00 по ${periodEnd}:00`}</Title>
                     {saturationReport.map((onionReport, id) => (
-                        <OnionSaturationCard {...onionReport} key={id} />
+                        <OnionSaturationCard
+                            {...onionReport}
+                            userIsAdmin={userIsAdmin}
+                            key={id}
+                        />
                     ))}
                 </Flex>
             )}
