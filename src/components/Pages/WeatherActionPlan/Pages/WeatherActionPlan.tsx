@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react'
 import { Flex } from '../../../StyledComponents/Flex'
 import Button from '../../../StyledComponents/Button'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getWeatherActionPlan } from '../../../../store/slices/weatherActionPlanSlice'
 import LoaderReact from '../../../StyledComponents/LoaderReact'
 import { generatePlanCards } from '../Generators/PlanCardsGenereator'
@@ -36,10 +36,12 @@ const WeatherActionPlan = () => {
         uniquePrecipitatedPercentageCodes
     const { tomorrowPlan, afterTomorrowPlan } = actionPlans
 
-    const [tomorrowPlanOnionCards, setTomorrowOnionCards] = useState([])
-    const [afterTomorrowPlanOnionCards, setAfterTomorrowOnionCards] = useState(
-        []
-    )
+    const [tomorrowPlanOnionCards, setTomorrowOnionCards] = useState<
+        ReactElement<any, string | JSXElementConstructor<any>>[][]
+    >([])
+    const [afterTomorrowPlanOnionCards, setAfterTomorrowOnionCards] = useState<
+        ReactElement<any, string | JSXElementConstructor<any>>[][]
+    >([])
     const [isTomorrowWithPrecipitation, setIsTomorrowWithPrecipitation] =
         useState(false)
     const [
