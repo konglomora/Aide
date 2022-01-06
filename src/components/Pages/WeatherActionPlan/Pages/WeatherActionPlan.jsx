@@ -10,6 +10,7 @@ import { ActionPlanCard } from '../Cards/ActionPlanCard'
 import ESDES_PREP_GIF from '../../../../assets/gif/esdes-no-prep.gif'
 import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
+import { useAppSelector } from 'store/hooks'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -21,7 +22,7 @@ const WeatherActionPlan = () => {
         period,
         uniquePrecipitatedPercentageCodes,
         actionPlans,
-    } = useSelector((state) => state.weatherActionPlan)
+    } = useAppSelector((state) => state.weatherActionPlan)
 
     const {
         tomorrow,
@@ -87,11 +88,6 @@ const WeatherActionPlan = () => {
         console.log('WeatherActionPlan tomorrowPlan: ', tomorrowPlan)
         console.log('WeatherActionPlan afterTomorrowPlan: ', afterTomorrowPlan)
     }, [tomorrowPlan, afterTomorrowPlan])
-
-    useEffect(() => {
-        sendRequestForReport()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     useEffect(() => {
         if (status === 'resolved') {

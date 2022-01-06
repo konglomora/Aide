@@ -1,5 +1,6 @@
 interface ICodes {
-    [key: string]: string[]
+    kyiv: string[]
+    mio: string[]
 }
 
 const codes: ICodes = {

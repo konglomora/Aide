@@ -120,7 +120,7 @@ export const getSaturationReport = createAsyncThunk(
     }
 )
 
-interface SaturationSelectedOnionState {
+interface ISaturationSelectedOnionState {
     status: null | 'resolved' | 'loading' | 'error'
     error: null | string
     periodStart: string
@@ -138,7 +138,7 @@ interface SaturationSelectedOnionState {
     saturatedUniqueSortedOnionCodesArray: string[]
 }
 
-const initialState: SaturationSelectedOnionState = {
+const initialState: ISaturationSelectedOnionState = {
     status: null,
     error: null,
     periodStart: '12',
