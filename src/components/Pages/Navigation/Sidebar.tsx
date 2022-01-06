@@ -27,8 +27,9 @@ export default function Sidebar() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuth])
 
-    const userRole = useAppSelector((state: RootState) => state.user.role)
-    const userIsAdmin = userRole === Roles.admin
+    const userIsAdmin = useAppSelector(
+        (state: RootState) => state.user.role === Roles.admin
+    )
 
     const handleLogout = () => {
         dispatch(removeUser())
@@ -44,6 +45,11 @@ export default function Sidebar() {
             zIndex="999"
         >
             <StyledNavLink {...stylesForStyledLink} to={'/'} text={'🏠 Home'} />
+            <StyledNavLink
+                {...stylesForStyledLink}
+                to={'/onions'}
+                text={'🌃 Onions'}
+            />
             {userIsAdmin && (
                 <>
                     <StyledNavLink
@@ -55,15 +61,10 @@ export default function Sidebar() {
             )}
             <StyledNavLink
                 {...stylesForStyledLink}
-                to={'/onions'}
-                text={'🌃 Onions'}
-            />
-            <StyledNavLink
-                {...stylesForStyledLink}
                 to={'/reports'}
                 text={'📰 Reports '}
             />
-            <Button alignSelf="end" margin="10% 0" onClick={handleLogout}>
+            <Button margin="auto 0 40% 0" onClick={handleLogout}>
                 Log out
             </Button>
         </Flex>
