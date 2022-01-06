@@ -2,7 +2,6 @@ import { RootState } from './../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../axios/axios'
 import { OnionCodes } from '../../helpers/onionCodes'
-import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
 import {
     PropsAxiosGetSaturatedOnionAnalyseObject,
@@ -73,7 +72,7 @@ export const getSaturationReport = createAsyncThunk(
 
 interface SaturationSelectedOnionState {
     status: null | 'resolved' | 'loading' | 'error'
-    error: null | string
+    error: null | undefined | string | MyKnownError
     periodStart: string
     periodEnd: string
     areaCodes: string[][]
@@ -185,8 +184,20 @@ const selectedOnionsReportSlice = createSlice({
                 }
             }
         )
-        builder.addCase(axiosGetSaturatedOnionAnalyseObject.pending, setLoading)
-        builder.addCase(axiosGetSaturatedOnionAnalyseObject.rejected, setError)
+        builder.addCase(
+            axiosGetSaturatedOnionAnalyseObject.pending,
+            (state) => {
+                state.status = 'loading'
+                state.error = null
+            }
+        )
+        builder.addCase(
+            axiosGetSaturatedOnionAnalyseObject.rejected,
+            (state, action) => {
+                state.status = 'error'
+                state.error = action.payload
+            }
+        )
         builder.addCase(getSaturationReport.fulfilled, (state) => {
             state.periodReport = [
                 ...state.kyiv_report,
@@ -195,7 +206,10 @@ const selectedOnionsReportSlice = createSlice({
             ]
             state.status = 'resolved'
         })
-        builder.addCase(getSaturationReport.pending, setLoading)
+        builder.addCase(getSaturationReport.pending, (state) => {
+            state.status = 'loading'
+            state.error = null
+        })
     },
 })
 

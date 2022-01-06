@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
 import { aideApiAxios } from '../../axios/axios'
-import { setError, setLoading } from '../helpers/setStatusFunctions'
 import { codes } from '../helpers/Codes'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
@@ -206,7 +205,7 @@ export const getWeatherActionPlan = createAsyncThunk(
 
 export interface IWeatherSliceInitState {
     status: null | 'resolved' | 'loading' | 'error'
-    error: null | string
+    error: null | undefined | string | MyKnownError | unknown
     period: {
         tomorrow: boolean
         afterTomorrow: boolean
@@ -368,7 +367,13 @@ const weatherActionPlanSlice = createSlice({
                 )
             }
         )
-        builder.addCase(axiosGetPrecipitatedOnionsByDay.rejected, setError)
+        builder.addCase(
+            axiosGetPrecipitatedOnionsByDay.rejected,
+            (state, action) => {
+                state.status = 'error'
+                state.error = action.payload
+            }
+        )
         builder.addCase(
             axiosGetPrecipitatedOnionPlanObject.fulfilled,
             (state, action) => {
@@ -418,9 +423,21 @@ const weatherActionPlanSlice = createSlice({
                 }
             }
         )
-        builder.addCase(axiosGetPrecipitatedOnionPlanObject.rejected, setError)
-        builder.addCase(getWeatherActionPlan.pending, setLoading)
-        builder.addCase(getWeatherActionPlan.rejected, setError)
+        builder.addCase(
+            axiosGetPrecipitatedOnionPlanObject.rejected,
+            (state, action) => {
+                state.status = 'error'
+                state.error = action.payload
+            }
+        )
+        builder.addCase(getWeatherActionPlan.pending, (state) => {
+            state.status = 'loading'
+            state.error = null
+        })
+        builder.addCase(getWeatherActionPlan.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.payload
+        })
         builder.addCase(getWeatherActionPlan.fulfilled, (state) => {
             state.status = 'resolved'
         })
