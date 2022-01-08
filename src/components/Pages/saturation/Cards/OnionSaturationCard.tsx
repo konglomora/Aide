@@ -3,8 +3,8 @@ import dayjs from 'dayjs'
 import { Colors } from 'helpers/colors'
 import { FC } from 'react'
 import { ISaturatedOnionAnalysis } from 'store/helpers/reports/types'
-import { Flex } from '../../../../StyledComponents/Flex'
-import { Title } from '../../../../StyledComponents/Title'
+import { Flex } from '../../../StyledComponents/Flex'
+import { Title } from '../../../StyledComponents/Title'
 
 export interface IOnionSaturationCardProps {
     userIsAdmin: boolean
@@ -31,8 +31,7 @@ const OnionSaturationCard: FC<
     const hadBlock = block_min > 0
 
     const todayDate: string = dayjs().format('YYYY-MM-DD')
-    const SLOTS_LINK: string = REACT_APP_ONION_SLOTS_LINK
-    const onionSlotsLink: string = `${SLOTS_LINK}${city}/${todayDate}`
+    const onionSlotsLink: string = `${REACT_APP_ONION_SLOTS_LINK}${city}/${todayDate}`
 
     return (
         <Flex

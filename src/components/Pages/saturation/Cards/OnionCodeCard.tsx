@@ -1,7 +1,7 @@
 import { Colors } from 'helpers/colors'
 import { FC } from 'react'
-import { Flex } from '../../../../StyledComponents/Flex'
-import TextContent from '../../../../StyledComponents/TextContent'
+import { Flex } from '../../../StyledComponents/Flex'
+import TextContent from '../../../StyledComponents/TextContent'
 
 interface PropsOnionCode {
     code: string

@@ -6,12 +6,12 @@ import { Roles } from '../Auth/helpers'
 import LoginPage from '../Auth/LoginPage'
 import Homepage from '../Home/Homepage'
 import { Page404 } from '../Page404/Page404'
-import SaturationByPeriodPage from '../Reports/Saturation/Pages/SaturationByPeriodPage'
-import SaturationBySelectedOnionPage from '../Reports/Saturation/Pages/SaturationBySelectedOnionPage'
+import SaturationByPeriodPage from '../saturation/Pages/SaturationByPeriodPage'
+import SaturationBySelectedOnionPage from '../saturation/Pages/SaturationBySelectedOnionPage'
 import SchedulePage from '../onions/SchedulePage'
 import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
 import Layout from './Layout'
-import ReportsNavigation from './ReportsNavbar'
+import SaturationNavigation from './SaturationNavbar'
 import SlotsNavbar from './OnionsNavbar'
 import WeatherNavbar from './WeatherNavbar'
 
@@ -33,7 +33,7 @@ export const AppRoutes: FC = () => {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Homepage />} />
-                    <Route path="reports" element={<ReportsNavigation />}>
+                    <Route path="saturation" element={<SaturationNavigation />}>
                         <Route
                             path="period"
                             element={<SaturationByPeriodPage />}

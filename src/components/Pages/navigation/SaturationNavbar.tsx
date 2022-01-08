@@ -10,12 +10,12 @@ const stylesForStyledLink = {
     text_align: 'center',
 }
 
-const ReportsNavigation = () => {
+const SaturationNavigation = () => {
     const url = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (url.pathname === '/reports') navigate('period')
+        if (url.pathname === '/saturation') navigate('period')
     }, [navigate, url.pathname])
 
     return (
@@ -50,4 +50,4 @@ const ReportsNavigation = () => {
     )
 }
 
-export default ReportsNavigation
+export default SaturationNavigation
