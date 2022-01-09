@@ -2,6 +2,7 @@ import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
 import dayjs from 'dayjs'
 import { Colors } from 'helpers/colors'
 import { FC } from 'react'
+import { onionService } from 'services/OnionService'
 import { ISaturatedOnionAnalysis } from 'store/helpers/reports/types'
 import { Flex } from '../../../StyledComponents/Flex'
 import { Title } from '../../../StyledComponents/Title'
@@ -27,8 +28,9 @@ const OnionSaturationCard: FC<
         mp_mode_min,
     } = props
 
-    const hadMPMode = mp_mode_min > 0
-    const hadBlock = block_min > 0
+    const hadMPMode =
+        mp_mode_min > 0 && onionService.onionHasMPModeSetting(city)
+    const hadBlock = block_min > 0 && onionService.onionHasBlockSetting(city)
 
     const todayDate: string = dayjs().format('YYYY-MM-DD')
     const onionSlotsLink: string = `${REACT_APP_ONION_SLOTS_LINK}${city}/${todayDate}`
