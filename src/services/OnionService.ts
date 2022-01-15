@@ -1,10 +1,4 @@
 interface IOnionService {
-    kyivOnionCodes: string[]
-    satelliteOnionCodes: string[]
-    mioCodes: string[]
-    smallOnionCodes: string[]
-    onionCodesWithMPModeSetting: string[]
-    onionCodesWithBlockSetting: string[]
     onionHasMPModeSetting(onionCode: string): boolean
     onionIsKyiv(onionCode: string): boolean
     onionIsSatellite(onionCode: string): boolean
@@ -12,19 +6,19 @@ interface IOnionService {
 }
 
 class OnionService implements IOnionService {
-    kyivOnionCodes: string[]
-    satelliteOnionCodes: string[]
-    mioCodes: string[]
-    smallOnionCodes: string[]
-    onionCodesWithMPModeSetting: string[]
-    onionCodesWithBlockSetting: string[]
+    private _kyivOnionCodes: string[]
+    private _satelliteOnionCodes: string[]
+    private _mioCodes: string[]
+    private _smallOnionCodes: string[]
+    private _onionCodesWithMPModeSetting: string[]
+    private _onionCodesWithBlockSetting: string[]
     private _scheduleTimeSlots: string[]
 
     constructor() {
-        this.kyivOnionCodes = ['KIE', 'KYI']
-        this.satelliteOnionCodes = ['BOR', 'BRO', 'IRP', 'KRU']
-        this.mioCodes = ['DNP', 'KHA', 'LVI', 'ODS']
-        this.smallOnionCodes = [
+        this._kyivOnionCodes = ['KIE', 'KYI']
+        this._satelliteOnionCodes = ['BOR', 'BRO', 'IRP', 'KRU']
+        this._mioCodes = ['DNP', 'KHA', 'LVI', 'ODS']
+        this._smallOnionCodes = [
             'BDK',
             'BOR',
             'BRO',
@@ -59,7 +53,7 @@ class OnionService implements IOnionService {
             'ZHY',
             'ZPR',
         ]
-        this.onionCodesWithMPModeSetting = ['KIE', 'KYI', 'LVI']
+        this._onionCodesWithMPModeSetting = ['KIE', 'KYI', 'LVI']
         this._scheduleTimeSlots = [
             '00:00',
             '01:00',
@@ -86,34 +80,34 @@ class OnionService implements IOnionService {
             '22:00',
             '23:00',
         ]
-        this.onionCodesWithBlockSetting = [
-            ...this.mioCodes,
-            ...this.smallOnionCodes,
+        this._onionCodesWithBlockSetting = [
+            ...this._mioCodes,
+            ...this._smallOnionCodes,
         ]
     }
 
     onionIsKyiv(onionCode: string) {
-        return this.kyivOnionCodes.includes(onionCode)
+        return this._kyivOnionCodes.includes(onionCode)
     }
 
     onionIsSatellite(onionCode: string) {
-        return this.satelliteOnionCodes.includes(onionCode)
+        return this._satelliteOnionCodes.includes(onionCode)
     }
 
     onionIsMio(onionCode: string) {
-        return this.mioCodes.includes(onionCode)
+        return this._mioCodes.includes(onionCode)
     }
 
     onionIsSmall(onionCode: string) {
-        return this.smallOnionCodes.includes(onionCode)
+        return this._smallOnionCodes.includes(onionCode)
     }
 
     onionHasMPModeSetting(onionCode: string) {
-        return this.onionCodesWithMPModeSetting.includes(onionCode)
+        return this._onionCodesWithMPModeSetting.includes(onionCode)
     }
 
     onionHasBlockSetting(onionCode: string) {
-        return this.onionCodesWithBlockSetting.includes(onionCode)
+        return this._onionCodesWithBlockSetting.includes(onionCode)
     }
 
     get scheduleTimeSlots(): string[] {

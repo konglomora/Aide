@@ -17,6 +17,7 @@ import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
 import { Roles } from 'components/Pages/Auth/helpers'
+import { StateStatus } from 'store/slices/onionsSlotsSlice'
 
 export default function SaturationByPeriodPage() {
     const dispatch = useAppDispatch()
@@ -28,10 +29,10 @@ export default function SaturationByPeriodPage() {
         (state) => state.user.role === Roles.admin
     )
     const {
-        lessCouriersSaturatedOnions,
-        moreOrdersSaturatedOnions,
-        lessCouriersAndMoreOrdersSaturatedOnions,
-        hasSaturationButBetterThanD7,
+        lessCouriers,
+        moreOrders,
+        lessCouriersAndMoreOrders,
+        betterThanD7,
     } = saturationPeriodReport.sortedReportBySaturationReason
 
     enum PeriodSelectors {
@@ -68,7 +69,7 @@ export default function SaturationByPeriodPage() {
     }
 
     useEffect(() => {
-        if (status === 'resolved') {
+        if (status === StateStatus.success) {
             setFormBackGround(`url(${FRANKS_SUCCESS_GIF})`)
             setFormBackGroundSize('15%')
         } else if (status === 'loading') {
@@ -140,7 +141,7 @@ export default function SaturationByPeriodPage() {
 
             <Flex direction={'column'} width={'50%'} margin="10em 0 0 20em">
                 <Flex>
-                    {lessCouriersSaturatedOnions.length > 0 && (
+                    {lessCouriers.length > 0 && (
                         <Flex wrap={'wrap'}>
                             <Title
                                 margin={'10px 0px'}
@@ -162,21 +163,19 @@ export default function SaturationByPeriodPage() {
                                     разрезе с прошлой неделей:
                                 </TextContent>
                                 <div> </div>
-                                {lessCouriersSaturatedOnions.map(
-                                    (onionReport, id) => (
-                                        <OnionSaturationCard
-                                            {...onionReport}
-                                            userIsAdmin={userIsAdmin}
-                                            key={id}
-                                        />
-                                    )
-                                )}
+                                {lessCouriers.map((onionReport, id) => (
+                                    <OnionSaturationCard
+                                        {...onionReport}
+                                        userIsAdmin={userIsAdmin}
+                                        key={id}
+                                    />
+                                ))}
                             </Flex>
                         </Flex>
                     )}
                 </Flex>
                 <Flex>
-                    {moreOrdersSaturatedOnions.length > 0 && (
+                    {moreOrders.length > 0 && (
                         <Flex
                             wrap={'wrap'}
                             border={'2px solid white'}
@@ -192,20 +191,18 @@ export default function SaturationByPeriodPage() {
                                 неделей:
                             </TextContent>
                             <div> </div>
-                            {moreOrdersSaturatedOnions.map(
-                                (onionReport, id) => (
-                                    <OnionSaturationCard
-                                        {...onionReport}
-                                        userIsAdmin={userIsAdmin}
-                                        key={id}
-                                    />
-                                )
-                            )}
+                            {moreOrders.map((onionReport, id) => (
+                                <OnionSaturationCard
+                                    {...onionReport}
+                                    userIsAdmin={userIsAdmin}
+                                    key={id}
+                                />
+                            ))}
                         </Flex>
                     )}
                 </Flex>
                 <Flex>
-                    {lessCouriersAndMoreOrdersSaturatedOnions.length > 0 && (
+                    {lessCouriersAndMoreOrders.length > 0 && (
                         <Flex
                             wrap={'wrap'}
                             border={'2px solid white'}
@@ -221,7 +218,7 @@ export default function SaturationByPeriodPage() {
                                 активных курьеров в сравнении с прошлой неделей:
                             </TextContent>
                             <div> </div>
-                            {lessCouriersAndMoreOrdersSaturatedOnions.map(
+                            {lessCouriersAndMoreOrders.map(
                                 (onionReport, id) => (
                                     <OnionSaturationCard
                                         {...onionReport}
@@ -234,7 +231,7 @@ export default function SaturationByPeriodPage() {
                     )}
                 </Flex>
                 <Flex>
-                    {hasSaturationButBetterThanD7.length > 0 && (
+                    {betterThanD7.length > 0 && (
                         <Flex
                             wrap={'wrap'}
                             border={'2px solid white'}
@@ -249,16 +246,14 @@ export default function SaturationByPeriodPage() {
                                 Ситуация улучшилась относительно D-7:
                             </TextContent>
                             <div> </div>
-                            {hasSaturationButBetterThanD7.map(
-                                (onionReport, id) => (
-                                    <OnionSaturationCard
-                                        {...onionReport}
-                                        userIsAdmin={userIsAdmin}
-                                        key={id}
-                                        forAutoReport={true}
-                                    />
-                                )
-                            )}
+                            {betterThanD7.map((onionReport, id) => (
+                                <OnionSaturationCard
+                                    {...onionReport}
+                                    userIsAdmin={userIsAdmin}
+                                    key={id}
+                                    forAutoReport={true}
+                                />
+                            ))}
                         </Flex>
                     )}
                 </Flex>

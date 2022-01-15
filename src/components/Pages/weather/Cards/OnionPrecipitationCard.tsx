@@ -186,8 +186,9 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
         const area = getAreaForBonus(city)
         const slotsEmpty = percent_capacity_slots === 0
         const slotsPartiallyFilled =
-            percent_capacity_slots <= 55 && percent_capacity_slots > 0
-        const slotsFullFilled = percent_capacity_slots >= 90
+            percent_capacity_slots <= 50 && percent_capacity_slots > 0
+        const slotsFullFilled = percent_capacity_slots >= 55
+
         if (slotsEmpty) {
             const bonusStr = `Добавить +${
                 ResourceByArea[area as keyof IResourceByArea].bonus.full
