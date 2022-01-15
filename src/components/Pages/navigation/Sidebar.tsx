@@ -55,7 +55,7 @@ export default function Sidebar() {
                     <StyledNavLink
                         {...stylesForStyledLink}
                         to={'/weather'}
-                        text={'⛈ weather'}
+                        text={'⛈ Weather'}
                     />
                 </>
             )}

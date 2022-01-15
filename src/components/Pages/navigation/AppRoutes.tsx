@@ -14,18 +14,22 @@ import Layout from './Layout'
 import SaturationNavigation from './SaturationNavbar'
 import SlotsNavbar from './OnionsNavbar'
 import WeatherNavbar from './WeatherNavbar'
+import Slots from '../onions/SlotsPage'
 
 export const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)
     const userIsAdmin = userRole === Roles.admin
+
     const weatherRoutes = (
         <Route path="weather" element={<WeatherNavbar />}>
             <Route path="action-plan" element={<WeatherActionPlan />} />
         </Route>
     )
+
     const onionsRoutes = (
         <Route path="onions" element={<SlotsNavbar />}>
             <Route path="schedules" element={<SchedulePage />} />
+            <Route path="slots" element={<Slots />} />
         </Route>
     )
     return (

@@ -39,13 +39,13 @@ const WeatherNavbar = () => {
                     text="Schedules"
                 />
                 <StyledNavLink
-                    to="tomorrow"
+                    to="slots"
                     {...stylesForStyledLink}
-                    text="Bonuses"
+                    text="Slots"
                     width="300px"
                 />
                 <StyledNavLink
-                    to="tomorrow"
+                    to="communications"
                     {...stylesForStyledLink}
                     text="Communications"
                     width="300px"
