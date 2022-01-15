@@ -11,10 +11,10 @@ import { removeUser } from 'store/slices/userSlice'
 import { Roles } from '../Auth/helpers'
 
 export const stylesForStyledLink = {
-    width: '90%',
+    width: '95%',
     height: '3em',
     radius: '15px',
-    text_align: 'center',
+    text_align: 'left',
 }
 
 export default function Sidebar() {
@@ -61,8 +61,8 @@ export default function Sidebar() {
             )}
             <StyledNavLink
                 {...stylesForStyledLink}
-                to={'/reports'}
-                text={'📰 Reports '}
+                to={'/saturation'}
+                text={'📰 Saturation '}
             />
             <Button margin="auto 0 40% 0" onClick={handleLogout}>
                 Log out

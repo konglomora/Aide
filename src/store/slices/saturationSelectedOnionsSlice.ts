@@ -8,7 +8,7 @@ import {
     PropsGetSaturationReport,
 } from './sliceTypes'
 import { ISaturatedOnionAnalysis, MyKnownError } from '../helpers/reports/types'
-import { getExpansionResult } from 'store/helpers/getExpansionResult'
+import { saturationService } from 'services/SaturationService'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
     ISaturatedOnionAnalysis,
@@ -30,9 +30,10 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
             if (saturatedOnionData.statusText !== 'OK') {
                 throw new Error(saturatedOnionData.statusText)
             }
-            saturatedOnionData.data.slotFilledStr = getExpansionResult(
-                saturatedOnionData.data.difference
-            )
+            saturatedOnionData.data.slotFilledStr =
+                saturationService.getExpansionResult(
+                    saturatedOnionData.data.difference
+                )
             return saturatedOnionData.data as ISaturatedOnionAnalysis
         } catch (error) {
             return rejectWithValue(error as MyKnownError)

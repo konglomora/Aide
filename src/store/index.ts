@@ -11,6 +11,7 @@ import saturationPeriodReportSlice from './slices/saturationPeriodReportSlice'
 import weatherActionPlanSlice from './slices/weatherActionPlanSlice'
 import userSlice from './slices/userSlice'
 import scheduleSlice from './slices/scheduleSlice'
+import onionsSlotsSlice from './slices/onionsSlotsSlice'
 
 const rootPersistConfig = {
     key: 'root',
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     selectedOnionsReport: saturationSelectedOnionsSlice,
     weatherActionPlan: weatherActionPlanSlice,
     schedule: scheduleSlice,
+    onionsSlots: onionsSlotsSlice,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)

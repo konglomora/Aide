@@ -10,7 +10,7 @@ const initialState: ScheduleState = {
 }
 
 const scheduleSlice = createSlice({
-    name: 'user',
+    name: 'schedule',
     initialState,
     reducers: {
         setToday(state) {

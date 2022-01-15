@@ -10,12 +10,12 @@ const stylesForStyledLink = {
     text_align: 'center',
 }
 
-const ReportsNavigation = () => {
+const WeatherNavbar = () => {
     const url = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (url.pathname === '/reports') navigate('period')
+        if (url.pathname === '/onions') navigate('schedules')
     }, [navigate, url.pathname])
 
     return (
@@ -34,15 +34,21 @@ const ReportsNavigation = () => {
                 zIndex="3"
             >
                 <StyledNavLink
-                    to={`period`}
+                    to="schedules"
                     {...stylesForStyledLink}
-                    text={'Saturation report'}
+                    text="Schedules"
                 />
                 <StyledNavLink
-                    to={`onion-select`}
+                    to="slots"
                     {...stylesForStyledLink}
-                    text={'Onions saturation'}
-                    width={'300px'}
+                    text="Slots"
+                    width="300px"
+                />
+                <StyledNavLink
+                    to="communications"
+                    {...stylesForStyledLink}
+                    text="Communications"
+                    width="300px"
                 />
             </Flex>
             <Outlet />
@@ -50,4 +56,4 @@ const ReportsNavigation = () => {
     )
 }
 
-export default ReportsNavigation
+export default WeatherNavbar

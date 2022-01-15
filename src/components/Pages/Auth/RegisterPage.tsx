@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../../store/hooks'
 import { setUser } from '../../../store/slices/userSlice'
 import StyledNavLink from '../../StyledComponents/StyledLink'
-import { stylesForStyledLink } from '../Navigation/Sidebar'
+import { stylesForStyledLink } from '../navigation/Sidebar'
 import { Form } from './Form'
 
 const RegisterPage = () => {

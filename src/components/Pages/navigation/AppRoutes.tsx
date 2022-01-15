@@ -6,26 +6,30 @@ import { Roles } from '../Auth/helpers'
 import LoginPage from '../Auth/LoginPage'
 import Homepage from '../Home/Homepage'
 import { Page404 } from '../Page404/Page404'
-import SaturationByPeriodPage from '../Reports/Saturation/Pages/SaturationByPeriodPage'
-import SaturationBySelectedOnionPage from '../Reports/Saturation/Pages/SaturationBySelectedOnionPage'
+import SaturationByPeriodPage from '../saturation/Pages/SaturationByPeriodPage'
+import SaturationBySelectedOnionPage from '../saturation/Pages/SaturationBySelectedOnionPage'
 import SchedulePage from '../onions/SchedulePage'
-import WeatherActionPlan from '../WeatherActionPlan/Pages/WeatherActionPlan'
+import WeatherActionPlan from '../weather/Pages/WeatherActionPlan'
 import Layout from './Layout'
-import ReportsNavigation from './ReportsNavbar'
+import SaturationNavigation from './SaturationNavbar'
 import SlotsNavbar from './OnionsNavbar'
 import WeatherNavbar from './WeatherNavbar'
+import Slots from '../onions/SlotsPage'
 
 export const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)
     const userIsAdmin = userRole === Roles.admin
+
     const weatherRoutes = (
         <Route path="weather" element={<WeatherNavbar />}>
             <Route path="action-plan" element={<WeatherActionPlan />} />
         </Route>
     )
+
     const onionsRoutes = (
         <Route path="onions" element={<SlotsNavbar />}>
             <Route path="schedules" element={<SchedulePage />} />
+            <Route path="slots" element={<Slots />} />
         </Route>
     )
     return (
@@ -33,7 +37,7 @@ export const AppRoutes: FC = () => {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Homepage />} />
-                    <Route path="reports" element={<ReportsNavigation />}>
+                    <Route path="saturation" element={<SaturationNavigation />}>
                         <Route
                             path="period"
                             element={<SaturationByPeriodPage />}

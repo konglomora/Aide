@@ -1,7 +1,7 @@
 import { Roles } from './../../components/Pages/Auth/helpers'
 import { createSlice } from '@reduxjs/toolkit'
 
-interface UserState {
+interface IUserState {
     status: string | null
     id: string | null
     email: string | null
@@ -16,7 +16,7 @@ interface UserState {
         | null
 }
 
-const initialState: UserState = {
+const initialState: IUserState = {
     status: null,
     id: null,
     email: null,

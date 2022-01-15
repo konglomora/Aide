@@ -1,5 +1,5 @@
 import { Flex } from './components/StyledComponents/Flex'
-import { AppRoutes } from './components/Pages/Navigation/AppRoutes'
+import { AppRoutes } from './components/Pages/navigation/AppRoutes'
 import { ReactElement } from 'react'
 import { GlobalStyle } from 'components/StyledComponents/global'
 

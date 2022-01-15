@@ -87,8 +87,8 @@ const WeatherActionPlan = () => {
         afterTomorrowPlanOnionCards,
     }
     useEffect(() => {
-        console.log('WeatherActionPlan tomorrowPlan: ', tomorrowPlan)
-        console.log('WeatherActionPlan afterTomorrowPlan: ', afterTomorrowPlan)
+        console.log('weather tomorrowPlan: ', tomorrowPlan)
+        console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
     }, [tomorrowPlan, afterTomorrowPlan])
 
     useEffect(() => {

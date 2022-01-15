@@ -10,12 +10,12 @@ const stylesForStyledLink = {
     text_align: 'center',
 }
 
-const WeatherNavbar = () => {
+const SaturationNavigation = () => {
     const url = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (url.pathname === '/onions') navigate('schedules')
+        if (url.pathname === '/saturation') navigate('period')
     }, [navigate, url.pathname])
 
     return (
@@ -34,21 +34,15 @@ const WeatherNavbar = () => {
                 zIndex="3"
             >
                 <StyledNavLink
-                    to="schedules"
+                    to={`period`}
                     {...stylesForStyledLink}
-                    text="Schedules"
+                    text={'Saturation report'}
                 />
                 <StyledNavLink
-                    to="tomorrow"
+                    to={`onion-select`}
                     {...stylesForStyledLink}
-                    text="Bonuses"
-                    width="300px"
-                />
-                <StyledNavLink
-                    to="tomorrow"
-                    {...stylesForStyledLink}
-                    text="Communications"
-                    width="300px"
+                    text={'Onions saturation'}
+                    width={'300px'}
                 />
             </Flex>
             <Outlet />
@@ -56,4 +50,4 @@ const WeatherNavbar = () => {
     )
 }
 
-export default WeatherNavbar
+export default SaturationNavigation

@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { slotsRegular } from '../../../../../helpers/slots'
+import { slotsRegular } from '../../../../helpers/slots'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
-import { Flex } from '../../../../StyledComponents/Flex'
-import { Title } from '../../../../StyledComponents/Title'
-import Button from '../../../../StyledComponents/Button'
-import { SelectStyle } from '../../../../StyledComponents/SelectStyles'
+import { Flex } from '../../../StyledComponents/Flex'
+import { Title } from '../../../StyledComponents/Title'
+import Button from '../../../StyledComponents/Button'
+import { SelectStyle } from '../../../StyledComponents/SelectStyles'
 import {
     deselectOnion,
     getSaturationReport,
     selectOnion,
     setPeriodOfReport,
-} from '../../../../../store/slices/saturationSelectedOnionsSlice'
+} from '../../../../store/slices/saturationSelectedOnionsSlice'
 import { useDispatch } from 'react-redux'
 import AreaCodesCard from '../Cards/AreaCodesCard'
-import LoaderReact from '../../../../StyledComponents/LoaderReact'
-import ANIME_SUCCESS_GIF from '../../../../../assets/gif/dancing-cute.gif'
-import ERROR_ANIME_GIF from '../../../../../assets/gif/500-error.gif'
-import JOJO_LOADER from '../../../../../assets/gif/jojo-loader.gif'
+import LoaderReact from '../../../StyledComponents/LoaderReact'
+import ANIME_SUCCESS_GIF from '../../../../assets/gif/dancing-cute.gif'
+import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
+import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
 import { Colors } from 'helpers/colors'
 import { useAppSelector } from 'store/hooks'
 import { Roles } from 'components/Pages/Auth/helpers'
