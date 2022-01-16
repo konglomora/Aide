@@ -70,7 +70,7 @@ const OnionSaturationCard: FC<
                 <div>{difference}</div>
                 {forAutoReport ? '' : <div>{reason_saturation}</div>}
                 <div>{slotFilledStr}</div>
-                {userIsAdmin && (hadMPMode || hadBlock) && (
+                {(hadMPMode || hadBlock) && (
                     <div>
                         {hadMPMode && <div>MP Mode: {mp_mode_min} mins</div>}
                         {hadBlock && <div>Block: {block_min} mins</div>}
