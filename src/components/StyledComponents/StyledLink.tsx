@@ -24,7 +24,7 @@ interface PropsSNavLink {
 const SNavLink = styled(NavLink)<PropsSNavLink>`
     color: ${({ color }) => color || 'white'};
     text-decoration: ${({ decoration }) => decoration || 'none'};
-    font-size: ${({ fSize }) => fSize || '1em'};
+    font-size: ${({ fSize }) => fSize || '1.2rem'};
     width: ${({ width }) => width || '100%'};
     height: ${({ height }) => height || '100%'};
     padding: ${({ padding }) => padding || '0'};
