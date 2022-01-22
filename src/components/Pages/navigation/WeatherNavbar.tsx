@@ -2,7 +2,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import StyledNavLink from '../../StyledComponents/StyledLink'
 import { Flex } from '../../StyledComponents/Flex'
 import { useEffect } from 'react'
-import { Colors } from 'helpers/colors'
+import { Colors } from 'components/StyledComponents/colors'
 
 const stylesForStyledLink = {
     width: '20%',

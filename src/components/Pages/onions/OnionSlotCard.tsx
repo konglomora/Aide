@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Flex } from 'components/StyledComponents/Flex'
 import { Title } from 'components/StyledComponents/Title'
 import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
-import { Colors } from 'helpers/colors'
+import { Colors } from 'components/StyledComponents/colors'
 
 interface PropsOnionSlotsCard {
     code: string

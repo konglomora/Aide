@@ -1,4 +1,4 @@
-import { Colors } from 'helpers/colors'
+import { Colors } from 'components/StyledComponents/colors'
 import { FC } from 'react'
 import { Flex } from '../../../StyledComponents/Flex'
 import TextContent from '../../../StyledComponents/TextContent'

@@ -1,4 +1,4 @@
-import { Colors } from 'helpers/colors'
+import { Colors } from 'components/StyledComponents/colors'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 

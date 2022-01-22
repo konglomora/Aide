@@ -4,7 +4,7 @@ import { Flex } from '../../../StyledComponents/Flex'
 import { Title } from '../../../StyledComponents/Title'
 import dayjs from 'dayjs'
 import { areasInfo } from '../../../../store/helpers/AreasInfo'
-import { Colors } from 'helpers/colors'
+import { Colors } from 'components/StyledComponents/colors'
 import { IOnionWeatherAnalysis } from 'store/slices/weatherActionPlanSlice'
 
 export enum Actions {
