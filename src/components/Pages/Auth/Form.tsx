@@ -27,36 +27,39 @@ export const Form: FC<FormProps> = (props) => {
     const [pass, setPass] = useState('')
 
     const styleForContainer = {
-        direction: 'row',
-        width: '30%',
-        border: '2px solid white',
-        justify: 'space-evenly',
-        align: 'stretch',
-        padding: '10px',
+        width: '100%',
+        height: '100vh',
+        justify: 'center',
+        align: 'center',
         bRadius: '10px',
         bFilter: 'blur(2px)',
-        margin: '5% auto',
     }
     const stylesForInput = {
-        width: '80%',
-        padding: '8px',
+        width: '20em',
+        padding: '10px',
     }
     return (
         <Flex {...styleForContainer}>
             <Flex
-                width="80%"
                 align="center"
-                margin="15%  auto"
                 direction="column"
+                // background="plum"
+                width="40%"
+                mHeight="25%"
+                height="35%"
             >
                 <Icon
                     padding="25px"
                     background="rgb(186, 143, 255)"
                     radius="50%"
-                    width="13%"
+                    width="50px"
+                    height="50px"
+                    border="5px solid black"
                     src={LOCK_ICON}
                 />
-                <Title margin="20px 0 0 0">{title}</Title>
+                <Title margin="20px 0 0 0" height="1.5 em">
+                    {title}
+                </Title>
                 <TextContent
                     display={displaySignInError}
                     margin="10px auto"
@@ -68,7 +71,8 @@ export const Form: FC<FormProps> = (props) => {
                 </TextContent>
                 <Flex
                     margin="14px"
-                    height="110px"
+                    mHeight="7em"
+                    height="12em"
                     justify="space-around"
                     align="center"
                     direction="column"
@@ -90,11 +94,10 @@ export const Form: FC<FormProps> = (props) => {
                 </Flex>
 
                 <Button
-                    // disabled={!formValid}
                     onClick={() => {
                         handleClick(email, pass)
                     }}
-                    width="50%"
+                    width="7em"
                 >
                     {title}
                 </Button>

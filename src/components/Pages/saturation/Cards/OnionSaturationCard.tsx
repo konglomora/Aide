@@ -1,6 +1,6 @@
 import { REACT_APP_ONION_SLOTS_LINK } from 'axios/env'
 import dayjs from 'dayjs'
-import { Colors } from 'helpers/colors'
+import { Colors } from 'components/StyledComponents/colors'
 import { FC } from 'react'
 import { onionService } from 'services/OnionService'
 import { ISaturatedOnionAnalysis } from 'store/helpers/reports/types'

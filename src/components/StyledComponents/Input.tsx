@@ -1,5 +1,19 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
+interface InputProps {
+    placeholder: string
+    type: string
+    value: string
+    onChange: (e: React.ChangeEvent<any>) => void
+    margin?: string
+    borderColor?: string
+    background?: string
+    width?: string
+    padding?: string
+    'border-radius'?: string
+    'border-color:'?: string
+    border?: string
+}
 
 const StyledInput = styled.input<InputProps>`
     height: 2em;
@@ -16,20 +30,6 @@ const StyledInput = styled.input<InputProps>`
         outline: none;
     }
 `
-interface InputProps {
-    placeholder: string
-    type: string
-    value: string
-    onChange: (e: React.ChangeEvent<any>) => void
-    margin?: string
-    borderColor?: string
-    background?: string
-    width?: string
-    padding?: string
-    'border-radius'?: string
-    'border-color:'?: string
-    border?: string
-}
 
 export const Input: FC<InputProps> = (props) => {
     const { placeholder, type, value, onChange } = props

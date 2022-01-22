@@ -17,7 +17,7 @@ import LoaderReact from '../../../StyledComponents/LoaderReact'
 import ANIME_SUCCESS_GIF from '../../../../assets/gif/dancing-cute.gif'
 import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
 import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
-import { Colors } from 'helpers/colors'
+import { Colors } from 'components/StyledComponents/colors'
 import { useAppSelector } from 'store/hooks'
 import { Roles } from 'components/Pages/Auth/helpers'
 
