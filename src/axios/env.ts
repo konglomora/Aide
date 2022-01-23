@@ -1,6 +1,7 @@
 const REACT_APP_AIDE_API_URL: string = 'https://aideindustries.tk/v2/'
 const REACT_APP_AIDE_API_KEY: string =
     '73277e30f55af17c9d6377d86dce6d244483efdd'
+const REACT_APP_ADMIN_API_GLOVOAPP_URL = 'https://adminapi.glovoapp.com'
 const REACT_APP_ONION_SLOTS_LINK: string =
     'https://beta-admin.glovoapp.com/couriers/schedule/slots/'
 const REACT_APP_FIREBASE_API_KEY = 'AIzaSyAYzjcYBshWL0mRNK21lH5kmtwybqySIAY'
@@ -13,6 +14,7 @@ const REACT_APP_FIREBASE_APP_ID = '1:561150940236:web:baf8992cb15c9f6ee850e9'
 export {
     REACT_APP_AIDE_API_URL,
     REACT_APP_AIDE_API_KEY,
+    REACT_APP_ADMIN_API_GLOVOAPP_URL,
     REACT_APP_ONION_SLOTS_LINK,
     REACT_APP_FIREBASE_API_KEY,
     REACT_APP_FIREBASE_AUTH_DOMAIN,

@@ -20,6 +20,7 @@ import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
 import { Colors } from 'components/StyledComponents/colors'
 import { useAppSelector } from 'store/hooks'
 import { Roles } from 'components/Pages/Auth/helpers'
+import { StateStatus } from 'store/slices/onionsSlotsSlice'
 
 export default React.memo(function SaturationBySelectedOnion() {
     const dispatch = useDispatch()
@@ -83,13 +84,13 @@ export default React.memo(function SaturationBySelectedOnion() {
     }
 
     useEffect(() => {
-        if (status === 'resolved') {
+        if (status === StateStatus.success) {
             setFormBackGround(`url(${ANIME_SUCCESS_GIF})`)
             setFormBackGroundSize('20%')
-        } else if (status === 'loading') {
+        } else if (status === StateStatus.loading) {
             setFormBackGround(`url(${JOJO_LOADER})`)
             setFormBackGroundSize('20%')
-        } else if (status === 'error') {
+        } else if (status === StateStatus.error) {
             setFormBackGround(`url(${ERROR_ANIME_GIF})`)
         }
     }, [status])
@@ -174,7 +175,7 @@ export default React.memo(function SaturationBySelectedOnion() {
                 </Flex>
             </Flex>
 
-            {status === 'resolved' && saturationReport.length > 0 && (
+            {status === StateStatus.success && saturationReport.length > 0 && (
                 <Flex
                     wrap={'wrap'}
                     width={'90%'}
@@ -199,10 +200,8 @@ export default React.memo(function SaturationBySelectedOnion() {
                 </Flex>
             )}
             <Flex justify={'center'} align={'start'} width="90%" height="2em">
-                {status === null && <LoaderReact />}
-                {status === 'loading' && (
-                    <LoaderReact animate={{ rotate: 360 }} />
-                )}
+                <LoaderReact status={status} />
+
                 {error && <h2>An error occurred: {error}</h2>}
             </Flex>
         </Flex>

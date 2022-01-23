@@ -11,6 +11,7 @@ import ESDES_PREP_GIF from '../../../../assets/gif/esdes-no-prep.gif'
 import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
 import { useAppSelector } from 'store/hooks'
+import { StateStatus } from 'store/slices/onionsSlotsSlice'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -92,13 +93,13 @@ const WeatherActionPlan = () => {
     }, [tomorrowPlan, afterTomorrowPlan])
 
     useEffect(() => {
-        if (status === 'resolved') {
+        if (status === StateStatus.success) {
             setFormBackGround(`url(${ESDES_PREP_GIF})`)
             setFormBackGroundSize('20%')
-        } else if (status === 'loading') {
+        } else if (status === StateStatus.loading) {
             setFormBackGround(`url(${JOJO_LOADER})`)
             setFormBackGroundSize('20%')
-        } else if (status === 'error') {
+        } else if (status === StateStatus.error) {
             setFormBackGround(`url(${ERROR_ANIME_GIF})`)
         }
     }, [status, isAfterTomorrowWithPrecipitation, isTomorrowWithPrecipitation])
@@ -128,7 +129,7 @@ const WeatherActionPlan = () => {
             >
                 <Button onClick={() => sendRequestForReport()}>Refresh</Button>
             </Flex>
-            {status === 'resolved' && (
+            {status === StateStatus.success && (
                 <ActionPlanCard {...propsForPrecipitationCard} />
             )}
             <Flex
@@ -138,11 +139,11 @@ const WeatherActionPlan = () => {
                 width="100%"
                 margin="0 9em 0 0"
             >
-                {status === null && <LoaderReact />}
-                {status === 'loading' && (
-                    <LoaderReact animate={{ rotate: 360 }} />
+                <LoaderReact status={status} />
+
+                {status === StateStatus.error && (
+                    <h2>An error occurred: {error}</h2>
                 )}
-                {status === 'error' && <h2>An error occurred: {error}</h2>}
             </Flex>
         </Flex>
     )

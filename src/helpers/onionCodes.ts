@@ -43,3 +43,9 @@ export const OnionCodes = {
         'ZPR',
     ],
 }
+
+export const allOnionCodes: string[] = [
+    ...OnionCodes.kyiv,
+    ...OnionCodes.mio,
+    ...OnionCodes.small,
+]

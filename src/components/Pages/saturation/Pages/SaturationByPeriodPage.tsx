@@ -19,6 +19,11 @@ import OnionSaturationCard from '../Cards/OnionSaturationCard'
 import { Roles } from 'components/Pages/Auth/helpers'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 
+export enum PeriodSelectors {
+    start = 'start',
+    end = 'end',
+}
+
 export default function SaturationByPeriodPage() {
     const dispatch = useAppDispatch()
     const { saturationPeriodReport } = useAppSelector((state) => state)
@@ -34,11 +39,6 @@ export default function SaturationByPeriodPage() {
         lessCouriersAndMoreOrders,
         betterThanD7,
     } = saturationPeriodReport.sortedReportBySaturationReason
-
-    enum PeriodSelectors {
-        start = 'slotStartPeriodSelector',
-        end = 'slotEndPeriodSelector',
-    }
 
     function selectChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
         const name = e.target.name
@@ -104,7 +104,7 @@ export default function SaturationByPeriodPage() {
             >
                 <select
                     style={SelectStyle}
-                    name="slotStartPeriodSelector"
+                    name={PeriodSelectors.start}
                     id="1"
                     value={`${periodStart}:00`}
                     onChange={(e) => selectChangeHandler(e)}
@@ -117,7 +117,7 @@ export default function SaturationByPeriodPage() {
                 </select>
                 <select
                     style={SelectStyle}
-                    name="slotEndPeriodSelector"
+                    name={PeriodSelectors.end}
                     id="2"
                     value={`${periodEnd}:00`}
                     onChange={(e) => selectChangeHandler(e)}
@@ -265,10 +265,8 @@ export default function SaturationByPeriodPage() {
                 width="90%"
                 margin="0 0 0 10em"
             >
-                {status === null && <LoaderReact animate={{ rotate: 0 }} />}
-                {status === 'loading' && (
-                    <LoaderReact animate={{ rotate: 360 }} />
-                )}
+                <LoaderReact status={status} />
+
                 {status === 'error' && <h2>An error occurred: {error}</h2>}
             </Flex>
         </Flex>

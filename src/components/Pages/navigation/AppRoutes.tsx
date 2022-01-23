@@ -14,7 +14,7 @@ import Layout from './Layout'
 import SaturationNavigation from './SaturationNavbar'
 import SlotsNavbar from './OnionsNavbar'
 import WeatherNavbar from './WeatherNavbar'
-import Slots from '../onions/SlotsPage'
+import Slots from '../onions/slots/SlotsPage'
 
 export const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)
