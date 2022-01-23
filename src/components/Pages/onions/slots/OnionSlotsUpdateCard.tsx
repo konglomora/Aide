@@ -40,7 +40,6 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
     const [finishSlot, setFinishSlot] = useState<string>(
         getValidSlotFormat(onionScheduleFinishSlots[0])
     )
-    const tomorrow = dayjs().add(1, 'day').format('YYYY-MM-DD')
 
     const dispatch = useAppDispatch()
     useEffect(() => {
