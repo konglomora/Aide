@@ -29,9 +29,7 @@ export default function Slots() {
 
     return (
         <Flex direction="column" width="100%" margin="15em 0 0 15em">
-            <OnionSlotsUpdateCard
-                activeScheduleDates={activeScheduleDates}
-            ></OnionSlotsUpdateCard>
+            <OnionSlotsUpdateCard />
         </Flex>
     )
 }

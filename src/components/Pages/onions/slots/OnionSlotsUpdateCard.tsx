@@ -11,13 +11,19 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
     axiosGetOnionScheduleSlots,
-    StateStatus,
+    BonusReasons,
+    updateBonusReason,
+    updateBonusSize,
+    updateOnionSlots,
+    updatePeriodEndTime,
+    updatePeriodStartTime,
+    updateSelectedOnionCode,
+    updateSelectedScheduleDate,
 } from 'store/slices/onionsSlotsSlice'
 import { allOnionCodes } from '../../../../helpers/onionCodes'
+import nextId from 'react-id-generator'
 
-export interface IOnionSlotsUpdateCard {
-    activeScheduleDates: string[]
-}
+export interface IOnionSlotsUpdateCard {}
 
 export const getValidSlotFormat = (str: string): string => {
     return str ? str.split(' ')[1].slice(0, 5) : ''
@@ -26,19 +32,17 @@ export const getValidSlotFormat = (str: string): string => {
 export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
     const {
         status,
+        selectedOnionCode,
+        startTimeOfPeriod,
+        endTimeOfPeriod,
         activeScheduleDates,
         onionScheduleStartSlots,
         onionScheduleFinishSlots,
+        bonusReason,
+        bonusSize,
     } = useAppSelector((state) => state.onionsSlots)
 
-    const [onionCode, setOnionCode] = useState<string>('KIE')
     const [date, setDate] = useState<string>(activeScheduleDates[0])
-    const [startSlot, setStartSlot] = useState<string>(
-        getValidSlotFormat(onionScheduleStartSlots[0])
-    )
-    const [finishSlot, setFinishSlot] = useState<string>(
-        getValidSlotFormat(onionScheduleFinishSlots[0])
-    )
 
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -47,8 +51,15 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
             '[OnionSlotsUpdateCard] activeScheduleDates',
             activeScheduleDates
         )
-        dispatch(axiosGetOnionScheduleSlots({ onionCode, date }))
-    }, [date, onionCode])
+        dispatch(
+            axiosGetOnionScheduleSlots({ onionCode: selectedOnionCode, date })
+        )
+        dispatch(updateSelectedScheduleDate(date))
+    }, [date, selectedOnionCode])
+
+    const bonusSizeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(updateBonusSize(+e.target.value))
+    }
 
     const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const name = e.target.name
@@ -62,16 +73,22 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
         }
 
         if (name === 'onionCodeSelect') {
-            setOnionCode(e.target.value)
+            dispatch(updateSelectedOnionCode(e.target.value))
             console.log(
-                '[OnionSlotsUpdateCard] Onion code select vale: ',
+                '[OnionSlotsUpdateCard] Onion code select value: ',
                 e.target.value
             )
         }
         if (name === PeriodSelectors.start) {
             console.log(
-                '[OnionSlotsUpdateCard] First slot of schedule: ',
+                `[OnionSlotsUpdateCard] Start slot of schedule: `,
                 e.target.value
+            )
+
+            dispatch(
+                updatePeriodStartTime({
+                    startTimeOfPeriod: e.target.value,
+                })
             )
         }
         if (name === PeriodSelectors.end) {
@@ -79,14 +96,21 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                 '[OnionSlotsUpdateCard] Last slot of schedule: ',
                 e.target.value
             )
+            dispatch(
+                updatePeriodEndTime({
+                    endTimeOfPeriod: e.target.value,
+                })
+            )
         }
-        if (name === 'bonusTypeSelect') {
+        if (name === 'bonusReasonSelect') {
             console.log('[OnionSlotsUpdateCard] Bonus type: ', e.target.value)
+            dispatch(updateBonusReason(e.target.value))
         }
     }
 
-    const submitUpdateSlots = () => {
+    const submitUpdateSlots = async () => {
         console.log('[OnionSlotsUpdateCard] Slots update submitted')
+        await dispatch(updateOnionSlots())
     }
 
     return (
@@ -113,11 +137,11 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                         style={dateSelectStyle}
                         name="dateSelect"
                         value={date}
-                        id="0"
+                        id={nextId()}
                         onChange={selectChangeHandler}
                     >
-                        {activeScheduleDates.map((date: string, id: number) => (
-                            <option value={date} key={id}>
+                        {activeScheduleDates.map((date: string) => (
+                            <option value={date} key={nextId()}>
                                 {date}
                             </option>
                         ))}
@@ -131,13 +155,13 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                     <select
                         style={SelectStyle}
                         name="onionCodeSelect"
-                        value={onionCode}
-                        id="1"
+                        value={selectedOnionCode}
+                        id={nextId()}
                         onChange={selectChangeHandler}
                     >
-                        {allOnionCodes.map((code, id) => {
+                        {allOnionCodes.map((code) => {
                             return (
-                                <option value={code} key={id}>
+                                <option value={code} key={nextId()}>
                                     {code}
                                 </option>
                             )
@@ -152,12 +176,12 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                     <select
                         style={SelectStyle}
                         name={PeriodSelectors.start}
-                        id="2"
-                        value={startSlot}
-                        onChange={(e) => selectChangeHandler(e)}
+                        id={nextId()}
+                        value={startTimeOfPeriod}
+                        onChange={selectChangeHandler}
                     >
-                        {onionScheduleStartSlots.map((slot, id) => (
-                            <option value={slot} key={id}>
+                        {onionScheduleStartSlots.map((slot) => (
+                            <option value={slot} key={nextId()}>
                                 {getValidSlotFormat(slot)}
                             </option>
                         ))}
@@ -168,34 +192,43 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                     <select
                         style={SelectStyle}
                         name={PeriodSelectors.end}
-                        value={finishSlot}
-                        id="3"
+                        value={endTimeOfPeriod}
+                        id={nextId()}
                         onChange={(e) => selectChangeHandler(e)}
                     >
-                        {onionScheduleFinishSlots.map((slot, id) => (
-                            <option value={slot} key={id}>
+                        {onionScheduleFinishSlots.map((slot) => (
+                            <option value={slot} key={nextId()}>
                                 {getValidSlotFormat(slot)}
                             </option>
                         ))}
                     </select>
                 </Flex>
 
-                <Flex width="13em" mHeight="50%" height="50%" align="center">
+                <Flex width="16em" mHeight="50%" height="50%" align="center">
                     <TextContent fWeight="600" height="1em" textAlign="center">
                         Bonus: +
                     </TextContent>
-                    <input type="number" style={{ width: '3em' }} />
+
+                    <input
+                        value={bonusSize}
+                        type="number"
+                        style={{ width: '5em' }}
+                        onChange={bonusSizeHandler}
+                        min="-100"
+                        max="100"
+                    />
                     <select
                         style={SelectStyle}
-                        name="bonusTypeSelect"
-                        id="11"
+                        name="bonusReasonSelect"
+                        id={nextId()}
+                        value={bonusReason}
                         onChange={selectChangeHandler}
                     >
-                        <option value="RUSH" key={12}>
-                            RUSH
+                        <option value={BonusReasons.RUSH} key={12}>
+                            {BonusReasons.rush}
                         </option>
-                        <option value="BW" key={13}>
-                            BW
+                        <option value={BonusReasons.BW} key={13}>
+                            {BonusReasons.bad_weather}
                         </option>
                     </select>
                 </Flex>
