@@ -7,7 +7,6 @@ import {
     SelectStyle,
 } from 'components/StyledComponents/SelectStyles'
 import TextContent from 'components/StyledComponents/TextContent'
-import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
