@@ -47,7 +47,7 @@ export const AppRoutes: FC = () => {
                             element={<SaturationBySelectedOnionPage />}
                         />
                     </Route>
-                    {userIsAdmin && weatherRoutes}
+                    {weatherRoutes}
                     {onionsRoutes}
                     <Route path="*" element={<Page404 />} />
                 </Route>
