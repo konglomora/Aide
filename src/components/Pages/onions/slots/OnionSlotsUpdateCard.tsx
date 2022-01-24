@@ -258,10 +258,8 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                 </Flex>
 
                 <Button width="9em" onClick={() => submitUpdateSlots()}>
-                    Update slots!
+                    Apply update
                 </Button>
-
-                <Button onClick={() => alertError('Hello')}>Alert</Button>
             </Flex>
         </>
     )

@@ -298,6 +298,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                     authorization: authorization,
                     'content-type': content_type,
                 },
+                // proxy: { host: 'https://adminapi.glovoapp.com' },
                 params: {
                     cityCode: onionCode,
                     date: date,
@@ -555,8 +556,8 @@ const initialState: IOnionSlotsState = {
     startTimeOfPeriod: '',
     endTimeOfPeriod: '',
     bonusReason: BonusReasons.BW,
-    bonusSize: 1,
-    capacityPercentage: 1,
+    bonusSize: 20,
+    capacityPercentage: 10,
     activeScheduleDates: [dayjs().format('YYYY-MM-DD')],
     onionScheduleStartSlots: [],
     onionScheduleFinishSlots: [],
