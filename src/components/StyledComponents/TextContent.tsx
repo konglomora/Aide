@@ -10,6 +10,7 @@ export interface PropsStyledSpan {
     height?: string
     margin?: string
     textAlign?: string
+    verticalAlign?: string
     cursor?: string
     display?: string
     tDecoration?: string
@@ -25,6 +26,7 @@ const StyledSpan = styled.span<PropsStyledSpan>`
     height: ${({ height }) => height || '100%'};
     margin: ${({ margin }) => margin || '0'};
     text-align: ${({ textAlign }) => textAlign || 'center'};
+    vertical-align: ${({ verticalAlign }) => verticalAlign || 'middle'};
     cursor: ${({ cursor }) => cursor || ''};
     display: ${({ display }) => display || 'inline'};
     text-decoration: ${({ tDecoration }) => tDecoration || 'none'};

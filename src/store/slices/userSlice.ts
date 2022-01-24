@@ -6,6 +6,8 @@ interface IUserState {
     id: string | null
     email: string | null
     token: string | null
+    name: string | null
+    surname: string | null
     role:
         | Roles.admin
         | Roles.dash
@@ -22,6 +24,8 @@ const initialState: IUserState = {
     email: null,
     token: null,
     role: null,
+    name: null,
+    surname: null,
 }
 
 const userSlice = createSlice({
@@ -29,15 +33,19 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, action) {
-            const { email, token, id, role } = action.payload
+            const { email, name, surname, token, id, role } = action.payload
             state.id = id
             state.email = email
+            state.name = name
+            state.surname = surname
             state.token = token
             state.role = role
         },
         removeUser(state) {
             state.id = null
             state.email = null
+            state.name = null
+            state.surname = null
             state.token = null
             state.role = null
         },

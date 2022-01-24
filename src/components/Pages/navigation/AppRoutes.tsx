@@ -14,7 +14,7 @@ import Layout from './Layout'
 import SaturationNavigation from './SaturationNavbar'
 import SlotsNavbar from './OnionsNavbar'
 import WeatherNavbar from './WeatherNavbar'
-import Slots from '../onions/SlotsPage'
+import Slots from '../onions/slots/SlotsPage'
 
 export const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)
@@ -28,8 +28,8 @@ export const AppRoutes: FC = () => {
 
     const onionsRoutes = (
         <Route path="onions" element={<SlotsNavbar />}>
-            <Route path="schedules" element={<SchedulePage />} />
             <Route path="slots" element={<Slots />} />
+            <Route path="schedules" element={<SchedulePage />} />
         </Route>
     )
     return (
@@ -47,7 +47,7 @@ export const AppRoutes: FC = () => {
                             element={<SaturationBySelectedOnionPage />}
                         />
                     </Route>
-                    {userIsAdmin && weatherRoutes}
+                    {weatherRoutes}
                     {onionsRoutes}
                     <Route path="*" element={<Page404 />} />
                 </Route>

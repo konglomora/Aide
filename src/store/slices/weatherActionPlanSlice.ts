@@ -4,6 +4,7 @@ import { aideApiAxios } from '../../axios/axios'
 import { codes } from '../helpers/Codes'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
+import { StateStatus } from './onionsSlotsSlice'
 
 export interface PropsGetPrecipitatedOnionsByDay {
     onionCode: string
@@ -204,7 +205,7 @@ export const getWeatherActionPlan = createAsyncThunk(
 )
 
 export interface IWeatherSliceInitState {
-    status: null | 'resolved' | 'loading' | 'error'
+    status: StateStatus.success | StateStatus.loading | StateStatus.error | null
     error: null | undefined | string | MyKnownError | unknown
     period: {
         tomorrow: boolean
@@ -370,7 +371,7 @@ const weatherActionPlanSlice = createSlice({
         builder.addCase(
             axiosGetPrecipitatedOnionsByDay.rejected,
             (state, action) => {
-                state.status = 'error'
+                state.status = StateStatus.error
                 state.error = action.payload
             }
         )
@@ -426,20 +427,20 @@ const weatherActionPlanSlice = createSlice({
         builder.addCase(
             axiosGetPrecipitatedOnionPlanObject.rejected,
             (state, action) => {
-                state.status = 'error'
+                state.status = StateStatus.error
                 state.error = action.payload
             }
         )
         builder.addCase(getWeatherActionPlan.pending, (state) => {
-            state.status = 'loading'
+            state.status = StateStatus.loading
             state.error = null
         })
         builder.addCase(getWeatherActionPlan.rejected, (state, action) => {
-            state.status = 'error'
+            state.status = StateStatus.error
             state.error = action.payload
         })
         builder.addCase(getWeatherActionPlan.fulfilled, (state) => {
-            state.status = 'resolved'
+            state.status = StateStatus.success
         })
     },
 })

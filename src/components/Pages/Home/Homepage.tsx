@@ -2,7 +2,7 @@ import { capitalizeFirstLetter } from 'helpers/strings'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from 'store/hooks'
 import { Flex } from '../../StyledComponents/Flex'
-
+import welcomeImage from '../../../assets/gif/madara-naruto.gif'
 const Homepage = () => {
     const [userName, setUserName] = useState<string>('')
     const email: string | null = useAppSelector((state) => state.user.email)
@@ -26,9 +26,9 @@ const Homepage = () => {
             <h1> 🙃 Welcome, {userName} 🙂</h1>
 
             <img
-                src="https://i.gifer.com/Skj2.gif"
-                alt="Bender"
-                style={{ borderRadius: '20px' }}
+                src={welcomeImage}
+                alt="Welcome"
+                style={{ borderRadius: '30px', width: '50%' }}
             />
         </Flex>
     )

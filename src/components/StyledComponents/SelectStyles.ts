@@ -6,8 +6,13 @@ export const SelectStyle: CSS.Properties = {
     color: 'black',
     padding: '8px',
     appearance: 'none',
-    width: '3.5rem',
+    width: '4rem',
     border: '3px solid white',
     outline: 'none',
     margin: '0 10px',
+}
+
+export const dateSelectStyle: CSS.Properties = {
+    ...SelectStyle,
+    width: '9rem',
 }

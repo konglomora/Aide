@@ -9,6 +9,7 @@ import {
 } from './sliceTypes'
 import { ISaturatedOnionAnalysis, MyKnownError } from '../helpers/reports/types'
 import { saturationService } from 'services/SaturationService'
+import { StateStatus } from './onionsSlotsSlice'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
     ISaturatedOnionAnalysis,
@@ -72,7 +73,7 @@ export const getSaturationReport = createAsyncThunk(
 )
 
 interface SaturationSelectedOnionState {
-    status: null | 'resolved' | 'loading' | 'error'
+    status: StateStatus.success | StateStatus.loading | StateStatus.error | null
     error: null | undefined | string | MyKnownError
     periodStart: string
     periodEnd: string
@@ -188,14 +189,14 @@ const selectedOnionsReportSlice = createSlice({
         builder.addCase(
             axiosGetSaturatedOnionAnalyseObject.pending,
             (state) => {
-                state.status = 'loading'
+                state.status = StateStatus.loading
                 state.error = null
             }
         )
         builder.addCase(
             axiosGetSaturatedOnionAnalyseObject.rejected,
             (state, action) => {
-                state.status = 'error'
+                state.status = StateStatus.error
                 state.error = action.payload
             }
         )
@@ -205,10 +206,10 @@ const selectedOnionsReportSlice = createSlice({
                 ...state.mio_report,
                 ...state.small_report,
             ]
-            state.status = 'resolved'
+            state.status = StateStatus.success
         })
         builder.addCase(getSaturationReport.pending, (state) => {
-            state.status = 'loading'
+            state.status = StateStatus.loading
             state.error = null
         })
     },

@@ -28,7 +28,16 @@ export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk<
         try {
             const saturatedOnions: AxiosResponse<ISaturatedOnionBySlot[]> =
                 await aideApiAxios.get(
-                    `state/data/filters/?sat=true&slot_start=${periodStart}&slot_finish=${periodEnd}&today=true`
+                    'state/data/filters/',
+                    {
+                        params: {
+                            sat: true,
+                            slot_start: periodStart,
+                            slot_finish: periodEnd,
+                            today: true,
+                        },
+                    }
+                    // `state/data/filters/?sat=true&slot_start=${periodStart}&slot_finish=${periodEnd}&today=true`
                 )
             if (saturatedOnions.statusText !== 'OK') {
                 throw new Error(saturatedOnions.statusText)

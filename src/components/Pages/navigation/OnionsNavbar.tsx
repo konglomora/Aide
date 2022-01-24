@@ -15,7 +15,7 @@ const WeatherNavbar = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (url.pathname === '/onions') navigate('schedules')
+        if (url.pathname === '/onions') navigate('slots')
     }, [navigate, url.pathname])
 
     return (
@@ -34,15 +34,15 @@ const WeatherNavbar = () => {
                 zIndex="3"
             >
                 <StyledNavLink
-                    to="schedules"
-                    {...stylesForStyledLink}
-                    text="Schedules"
-                />
-                <StyledNavLink
                     to="slots"
                     {...stylesForStyledLink}
                     text="Slots"
                     width="300px"
+                />
+                <StyledNavLink
+                    to="schedules"
+                    {...stylesForStyledLink}
+                    text="Schedules"
                 />
                 <StyledNavLink
                     to="communications"
