@@ -44,6 +44,8 @@ const userSlice = createSlice({
         removeUser(state) {
             state.id = null
             state.email = null
+            state.name = null
+            state.surname = null
             state.token = null
             state.role = null
         },
