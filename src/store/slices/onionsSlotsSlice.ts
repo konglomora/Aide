@@ -291,12 +291,16 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
             const { user_agent, accept, authorization, content_type } =
                 state.onionsSlots.glovoAdminHeaders[0]
 
-            const config = {
+            const config: AxiosRequestConfig = {
+                // withCredentials: true,
+
                 headers: {
-                    'user-agent': user_agent,
+                    // 'user-agent': user_agent,
                     accept: accept,
                     authorization: authorization,
                     'content-type': content_type,
+                    // 'Access-Control-Allow-Origin':
+                    //     'https://beta-admin.glovoapp.com',
                 },
                 // proxy: { host: 'https://adminapi.glovoapp.com' },
                 params: {

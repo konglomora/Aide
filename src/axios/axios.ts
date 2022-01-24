@@ -14,5 +14,5 @@ export const aideApiAxios = axios.create({
 })
 
 export const adminApiGlovoappAxios = axios.create({
-    baseURL: REACT_APP_ADMIN_API_GLOVOAPP_URL,
+    baseURL: REACT_APP_CORS_ADMIN_API_GLOVOAPP_URL,
 })
