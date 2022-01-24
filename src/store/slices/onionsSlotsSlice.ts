@@ -2,9 +2,37 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { adminApiGlovoappAxios, aideApiAxios } from 'axios/axios'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { RootState } from 'store'
+import { GoogleSpreadsheet } from 'google-spreadsheet'
+import {
+    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
+    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
+    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID,
+} from 'axios/env'
+import { toast } from 'react-toastify'
+import { getValidSlotFormat } from 'components/Pages/onions/slots/OnionSlotsUpdateCard'
 
+export enum Errors {
+    expiredGlovoAdminApiToken_401 = 'Request failed with status code 401',
+}
+
+export enum Recommendations {
+    expiredGlovoAdminApiToken_401 = 'Token for adminapi.glovoapp expired! Drink some coffee and come back! :)',
+}
+
+export enum StateStatus {
+    success = 'success',
+    error = 'error',
+    loading = 'loading',
+}
+
+export enum BonusReasons {
+    BW = 'bad_weather',
+    RUSH = 'rush',
+    bad_weather = 'BW',
+    rush = 'RUSH',
+}
 export interface IGlovoAdminHeaders {
     id: number
     user_agent: string
@@ -12,6 +40,110 @@ export interface IGlovoAdminHeaders {
     authorization: string
     content_type: string
 }
+
+export const alertError = (msg: string) => {
+    toast.error(msg, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+    })
+}
+
+export const alertSuccess = (msg: string) => {
+    toast.success(msg, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+    })
+}
+
+export interface IDataForScheduleActionLog {
+    actionTime: string
+    userName: string
+    onionCode: string
+    period: string
+    bonusSize: number
+    bonusType: string
+    dateOfSchedule: string
+}
+
+export const logScheduleActionToSheet = createAsyncThunk<
+    void,
+    IDataForScheduleActionLog,
+    {
+        rejectValue: MyKnownError
+    }
+>(
+    'onionsSlots/logScheduleActionToSheet',
+    async function (
+        {
+            actionTime,
+            userName,
+            onionCode,
+            period,
+            bonusSize,
+            bonusType,
+            dateOfSchedule,
+        },
+        { rejectWithValue, dispatch }
+    ) {
+        const doc = new GoogleSpreadsheet(
+            REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
+        )
+
+        await doc.useServiceAccountAuth({
+            client_email:
+                REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
+            private_key:
+                REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
+        })
+
+        await doc.loadInfo() // loads document properties and worksheets
+
+        const logRow = {
+            'Action time': actionTime,
+            Name: userName,
+            Onion: onionCode,
+            Slots: period,
+            'Bonus size': bonusSize,
+            'Bonus type': bonusType,
+            'Date of schedule': dateOfSchedule,
+        }
+
+        if (!doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]) {
+            const todaySheet = await doc.addSheet({
+                title: dayjs().format('DD.MM.YYYY'),
+                headerValues: [
+                    'Action time',
+                    'Name',
+                    'Onion',
+                    'Slots',
+                    'Bonus size',
+                    'Bonus type',
+                    'Date of schedule',
+                ],
+            })
+
+            await todaySheet.addRow(logRow)
+        } else {
+            const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
+            await todaySheet.addRow(logRow)
+        }
+
+        console.log('Logged to sheet!')
+        alertSuccess('Success! Logged action to sheet.')
+    }
+)
 
 export const axiosGetGlovoApiRefreshToken = createAsyncThunk<
     IGlovoAdminHeaders[],
@@ -23,18 +155,19 @@ export const axiosGetGlovoApiRefreshToken = createAsyncThunk<
     'onionsSlots/axiosGetGlovoApiRefreshToken',
     async function (_, { rejectWithValue }) {
         try {
-            const saturatedOnions: AxiosResponse<IGlovoAdminHeaders[]> =
+            const glovoAdminHeaders: AxiosResponse<IGlovoAdminHeaders[]> =
                 await aideApiAxios.get(`/refresh_token/`)
-            if (saturatedOnions.statusText !== 'OK') {
-                throw new Error(saturatedOnions.statusText)
+            if (glovoAdminHeaders.statusText !== 'OK') {
+                alertError(glovoAdminHeaders.statusText)
+                throw new Error(glovoAdminHeaders.statusText)
             }
-            return saturatedOnions.data as IGlovoAdminHeaders[]
-        } catch (error) {
+            return glovoAdminHeaders.data as IGlovoAdminHeaders[]
+        } catch (error: Error | any) {
             console.log(
                 '[onionsSlots/axiosGetGlovoApiRefreshToken] error',
                 error
             )
-
+            alertError(error.message)
             return rejectWithValue(error as MyKnownError)
         }
     }
@@ -111,6 +244,8 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
                 onionScheduleSlotsResponse
             )
             if (onionScheduleSlotsResponse.status !== 200) {
+                alertError(onionScheduleSlotsResponse.statusText)
+                console.log('Erro blyad!!!!', onionScheduleSlotsResponse)
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
             const workingSlots = onionScheduleSlotsResponse.data.filter(
@@ -118,12 +253,16 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
             )
 
             return workingSlots
-        } catch (error) {
+        } catch (error: Error | any) {
             console.log(
                 '[onionsSlots/axiosGetOnionScheduleActiveDates] error',
                 error
             )
-
+            if (error.message === Errors.expiredGlovoAdminApiToken_401) {
+                alertError(Recommendations.expiredGlovoAdminApiToken_401)
+            } else {
+                alertError(error.message)
+            }
             return rejectWithValue(error as MyKnownError)
         }
     }
@@ -166,12 +305,14 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 '/admin/scheduling/slots',
                 config
             )
+
             // https://adminapi.glovoapp.com/admin/scheduling/slots?cityCode=KIE&date=2022-01-23
             console.log(
                 'onionScheduleSlotsResponse',
                 onionScheduleSlotsResponse
             )
             if (onionScheduleSlotsResponse.status !== 200) {
+                alertError(onionScheduleSlotsResponse.statusText)
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
             const workingSlots = onionScheduleSlotsResponse.data.filter(
@@ -199,11 +340,13 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 onionScheduleStartSlots,
                 onionScheduleFinishSlots,
             }
-        } catch (error) {
-            console.log(
-                '[onionsSlots/axiosGetOnionScheduleActiveDates] error',
-                error
-            )
+        } catch (error: Error | any) {
+            console.log(error)
+            if (error.message === Errors.expiredGlovoAdminApiToken_401) {
+                alertError(Recommendations.expiredGlovoAdminApiToken_401)
+            } else {
+                alertError(error.message)
+            }
 
             return rejectWithValue(error as MyKnownError)
         }
@@ -324,6 +467,34 @@ export const updateOnionSlots = createAsyncThunk<
                 'onionScheduleSlotsResponse',
                 onionScheduleSlotsResponse
             )
+
+            if (onionScheduleSlotsResponse.status === 200) {
+                const currentMoment = dayjs().format('HH:mm:ss DD.MM.YYYY')
+                const state = getState() as RootState
+                const {
+                    date,
+                    selectedOnionCode,
+                    startTimeOfPeriod,
+                    endTimeOfPeriod,
+                    bonusReason,
+                    bonusSize,
+                } = state.onionsSlots
+                const { name, surname } = state.user
+                const startPeriodSlot = getValidSlotFormat(startTimeOfPeriod)
+                const endPeriodSlot = getValidSlotFormat(endTimeOfPeriod)
+
+                const logData: IDataForScheduleActionLog = {
+                    actionTime: currentMoment,
+                    userName: `${name} ${surname}`,
+                    onionCode: selectedOnionCode,
+                    period: `${startPeriodSlot} - ${endPeriodSlot}`,
+                    bonusSize: bonusSize,
+                    bonusType: BonusReasons[bonusReason],
+                    dateOfSchedule: date,
+                }
+                await dispatch(logScheduleActionToSheet(logData))
+            }
+
             await dispatch(
                 axiosGetOnionScheduleSlots({
                     onionCode: selectedOnionCode,
@@ -333,29 +504,18 @@ export const updateOnionSlots = createAsyncThunk<
             if (onionScheduleSlotsResponse.status !== 200) {
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
-        } catch (error) {
+        } catch (error: Error | any) {
             console.log(
                 '[onionsSlots/axiosGetOnionScheduleActiveDates] error',
                 error
             )
-
+            alertError(
+                `[onionsSlots/axiosGetOnionScheduleActiveDates]: ${error.message}`
+            )
             return rejectWithValue(error as MyKnownError)
         }
     }
 )
-
-export enum StateStatus {
-    success = 'success',
-    error = 'error',
-    loading = 'loading',
-}
-
-export enum BonusReasons {
-    BW = 'bad_weather',
-    RUSH = 'rush',
-    bad_weather = 'BW',
-    rush = 'RUSH',
-}
 
 interface IOnionSlotsState {
     status: StateStatus.success | StateStatus.loading | StateStatus.error | null
@@ -459,6 +619,15 @@ const userSlice = createSlice({
                 state.status = StateStatus.success
             }
         )
+        builder.addCase(logScheduleActionToSheet.rejected, (state) => {
+            state.status = StateStatus.error
+        })
+        builder.addCase(logScheduleActionToSheet.pending, (state) => {
+            state.status = StateStatus.loading
+        })
+        builder.addCase(logScheduleActionToSheet.fulfilled, (state) => {
+            state.status = StateStatus.success
+        })
     },
 })
 

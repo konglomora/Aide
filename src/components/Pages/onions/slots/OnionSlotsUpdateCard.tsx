@@ -10,6 +10,7 @@ import TextContent from 'components/StyledComponents/TextContent'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
+    alertError,
     axiosGetOnionScheduleSlots,
     BonusReasons,
     updateBonusReason,
@@ -236,6 +237,8 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                 <Button width="9em" onClick={() => submitUpdateSlots()}>
                     Update slots!
                 </Button>
+
+                <Button onClick={() => alertError('Hello')}>Alert</Button>
             </Flex>
         </>
     )
