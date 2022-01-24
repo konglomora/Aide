@@ -2,8 +2,8 @@
     "name": "aide",
     "version": "0.1.0",
     "private": true,
-    "proxy": "https://adminapi.glovoapp.com",
     "dependencies": {
+        "@base-sdk/base": "^0.1.0-5",
         "@reduxjs/toolkit": "^1.6.1",
         "@testing-library/jest-dom": "^5.14.1",
         "@testing-library/react": "^11.2.7",
