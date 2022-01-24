@@ -434,7 +434,7 @@ export const updateOnionSlots = createAsyncThunk<
 
             const dataForUpdate: ISlotForUpdate[] = slotsOfPeriodToUpdate.map(
                 (slot) => {
-                    const newBonus = slot.capacity + bonusSize
+                    const newBonus = slot.bonus + bonusSize
                     const newCapacity =
                         slot.capacity +
                         slot.capacity * (capacityPercentage / 100)
