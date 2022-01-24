@@ -28,8 +28,8 @@ export const AppRoutes: FC = () => {
 
     const onionsRoutes = (
         <Route path="onions" element={<SlotsNavbar />}>
-            <Route path="schedules" element={<SchedulePage />} />
             <Route path="slots" element={<Slots />} />
+            <Route path="schedules" element={<SchedulePage />} />
         </Route>
     )
     return (

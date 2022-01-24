@@ -15,6 +15,7 @@ import {
     BonusReasons,
     updateBonusReason,
     updateBonusSize,
+    updateCapacityPercentage,
     updateOnionSlots,
     updatePeriodEndTime,
     updatePeriodStartTime,
@@ -41,6 +42,7 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
         onionScheduleFinishSlots,
         bonusReason,
         bonusSize,
+        capacityPercentage,
     } = useAppSelector((state) => state.onionsSlots)
 
     const [date, setDate] = useState<string>(activeScheduleDates[0])
@@ -60,6 +62,12 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
 
     const bonusSizeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(updateBonusSize(+e.target.value))
+    }
+
+    const capacityPercentageHandler = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        dispatch(updateCapacityPercentage(+e.target.value))
     }
 
     const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -232,6 +240,21 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                             {BonusReasons.bad_weather}
                         </option>
                     </select>
+                </Flex>
+
+                <Flex width="16em" mHeight="50%" height="50%" align="center">
+                    <TextContent fWeight="600" height="1em" textAlign="center">
+                        Capacity: +%
+                    </TextContent>
+
+                    <input
+                        value={capacityPercentage}
+                        type="number"
+                        style={{ width: '5em' }}
+                        onChange={capacityPercentageHandler}
+                        min="-100"
+                        max="100"
+                    />
                 </Flex>
 
                 <Button width="9em" onClick={() => submitUpdateSlots()}>

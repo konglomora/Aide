@@ -74,6 +74,7 @@ export interface IDataForScheduleActionLog {
     period: string
     bonusSize: number
     bonusType: string
+    capacityPercentage: number
     dateOfSchedule: string
 }
 
@@ -93,6 +94,7 @@ export const logScheduleActionToSheet = createAsyncThunk<
             period,
             bonusSize,
             bonusType,
+            capacityPercentage,
             dateOfSchedule,
         },
         { rejectWithValue, dispatch }
@@ -117,6 +119,7 @@ export const logScheduleActionToSheet = createAsyncThunk<
             Slots: period,
             'Bonus size': bonusSize,
             'Bonus type': bonusType,
+            'Capacity +%': capacityPercentage,
             'Date of schedule': dateOfSchedule,
         }
 
@@ -130,6 +133,7 @@ export const logScheduleActionToSheet = createAsyncThunk<
                     'Slots',
                     'Bonus size',
                     'Bonus type',
+                    'Capacity +%',
                     'Date of schedule',
                 ],
             })
@@ -388,6 +392,7 @@ export const updateOnionSlots = createAsyncThunk<
                 endTimeOfPeriod,
                 bonusReason,
                 bonusSize,
+                capacityPercentage,
                 workingSlots,
             } = state.onionsSlots
             console.log('workingSlots', workingSlots)
@@ -429,11 +434,16 @@ export const updateOnionSlots = createAsyncThunk<
 
             const dataForUpdate: ISlotForUpdate[] = slotsOfPeriodToUpdate.map(
                 (slot) => {
+                    const newBonus = slot.capacity + bonusSize
+                    const newCapacity =
+                        slot.capacity +
+                        slot.capacity * (capacityPercentage / 100)
+
                     return {
                         id: slot.id,
-                        bonus: slot.bonus + bonusSize,
+                        bonus: newBonus,
                         bonusReasons: [bonusReason],
-                        capacity: slot.capacity,
+                        capacity: newCapacity,
                         excellence: slot.excellence,
                         guarantee: slot.guarantee,
                     }
@@ -490,6 +500,7 @@ export const updateOnionSlots = createAsyncThunk<
                     period: `${startPeriodSlot} - ${endPeriodSlot}`,
                     bonusSize: bonusSize,
                     bonusType: BonusReasons[bonusReason],
+                    capacityPercentage: capacityPercentage,
                     dateOfSchedule: date,
                 }
                 await dispatch(logScheduleActionToSheet(logData))
@@ -527,6 +538,7 @@ interface IOnionSlotsState {
     endTimeOfPeriod: string
     bonusReason: BonusReasons.BW | BonusReasons.RUSH
     bonusSize: number
+    capacityPercentage: number
     activeScheduleDates: string[]
     onionScheduleStartSlots: string[]
     onionScheduleFinishSlots: string[]
@@ -544,6 +556,7 @@ const initialState: IOnionSlotsState = {
     endTimeOfPeriod: '',
     bonusReason: BonusReasons.BW,
     bonusSize: 1,
+    capacityPercentage: 1,
     activeScheduleDates: [dayjs().format('YYYY-MM-DD')],
     onionScheduleStartSlots: [],
     onionScheduleFinishSlots: [],
@@ -581,6 +594,9 @@ const userSlice = createSlice({
         },
         updateBonusSize(state, action) {
             state.bonusSize = action.payload
+        },
+        updateCapacityPercentage(state, action) {
+            state.capacityPercentage = action.payload
         },
     },
     extraReducers: (builder) => {
@@ -639,6 +655,7 @@ export const {
     updatePeriodEndTime,
     updateBonusReason,
     updateBonusSize,
+    updateCapacityPercentage,
 } = userSlice.actions
 
 export default userSlice.reducer
