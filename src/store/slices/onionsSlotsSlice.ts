@@ -136,16 +136,118 @@ export const logScheduleActionToSheet = createAsyncThunk<
                     'Capacity +%',
                     'Date of schedule',
                 ],
+                gridProperties: {
+                    frozenRowCount: 1,
+                    rowCount: 300,
+                    columnCount: 8,
+                },
             })
 
+            await todaySheet.loadCells('A1:H1')
+
+            const columnCount = todaySheet.columnCount - 1
+            for (let i = 0; i <= columnCount; i++) {
+                const cell = todaySheet.getCell(0, i)
+                cell.backgroundColor = {
+                    red: 186,
+                    green: 143,
+                    blue: 255,
+                    alpha: 1,
+                }
+                cell.horizontalAlignment = 'CENTER'
+                cell.textFormat = {
+                    fontSize: 11,
+                    bold: true,
+                }
+                todaySheet.saveUpdatedCells()
+            }
+            todaySheet.updateDimensionProperties(
+                'COLUMNS',
+                {
+                    pixelSize: 160,
+                    hiddenByUser: false,
+                    hiddenByFilter: false,
+                    developerMetadata: [],
+                },
+                {
+                    startIndex: 0,
+                    endIndex: 2,
+                }
+            )
+            todaySheet.updateDimensionProperties(
+                'COLUMNS',
+                {
+                    pixelSize: 90,
+                    hiddenByUser: false,
+                    hiddenByFilter: false,
+                    developerMetadata: [],
+                },
+                {
+                    startIndex: 3,
+                    endIndex: 7,
+                }
+            )
+            todaySheet.updateDimensionProperties(
+                'COLUMNS',
+                {
+                    pixelSize: 160,
+                    hiddenByUser: false,
+                    hiddenByFilter: false,
+                    developerMetadata: [],
+                },
+                {
+                    startIndex: 7,
+                    endIndex: 8,
+                }
+            )
             await todaySheet.addRow(logRow)
+
+            const lastRowIndex = (await todaySheet.getRows()).length
+            console.log('lastRowIndex', lastRowIndex)
+
+            await todaySheet.loadCells({
+                startRowIndex: lastRowIndex,
+                endRowIndex: lastRowIndex + 1,
+                startColumnIndex: 0,
+                endColumnIndex: columnCount + 1,
+            })
+
+            for (let i = 0; i <= columnCount + 1; i++) {
+                const cell = todaySheet.getCell(lastRowIndex, i)
+                cell.horizontalAlignment = 'CENTER'
+                cell.textFormat = {
+                    fontSize: 11,
+                }
+                todaySheet.saveUpdatedCells()
+            }
+            console.log('Logged to sheet!')
+            alertSuccess('Success! Logged action to sheet.')
         } else {
             const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
             await todaySheet.addRow(logRow)
-        }
+            const columnCount = todaySheet.columnCount
+            const lastRowIndex = (await todaySheet.getRows()).length
+            console.log('lastRowIndex', lastRowIndex)
 
-        console.log('Logged to sheet!')
-        alertSuccess('Success! Logged action to sheet.')
+            await todaySheet.loadCells({
+                startRowIndex: lastRowIndex,
+                endRowIndex: lastRowIndex + 1,
+                startColumnIndex: 0,
+                endColumnIndex: columnCount + 1,
+            })
+
+            for (let i = 0; i <= columnCount + 1; i++) {
+                const cell = todaySheet.getCell(lastRowIndex, i)
+                cell.horizontalAlignment = 'CENTER'
+                cell.textFormat = {
+                    fontSize: 11,
+                }
+                todaySheet.saveUpdatedCells()
+                console.log(`Cell ${cell} UPDATEd`)
+            }
+            console.log('Logged to sheet!')
+            alertSuccess('Success! Logged action to sheet.')
+        }
     }
 )
 
@@ -295,7 +397,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 // withCredentials: true,
 
                 headers: {
-                    // 'user-agent': user_agent,
+                    'user-agent': user_agent,
                     accept: accept,
                     authorization: authorization,
                     'content-type': content_type,
