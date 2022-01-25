@@ -40,6 +40,16 @@ export default function Sidebar() {
         (state: RootState) => state.user.role === Roles.admin
     )
 
+    const adminNavLinks = userIsAdmin && (
+        <>
+            <StyledNavLink
+                {...stylesForStyledLink}
+                to={'/experiments'}
+                text={'🔬 Experiments '}
+            />
+        </>
+    )
+
     const handleLogout = () => {
         dispatch(removeUser())
     }
@@ -72,20 +82,19 @@ export default function Sidebar() {
                     to={'/onions'}
                     text={'🌃 Onions'}
                 />
-                {userIsAdmin && (
-                    <>
-                        <StyledNavLink
-                            {...stylesForStyledLink}
-                            to={'/weather'}
-                            text={'⛈ Weather'}
-                        />
-                    </>
-                )}
+
+                <StyledNavLink
+                    {...stylesForStyledLink}
+                    to={'/weather'}
+                    text={'⛈ Weather'}
+                />
+
                 <StyledNavLink
                     {...stylesForStyledLink}
                     to={'/saturation'}
                     text={'📰 Saturation '}
                 />
+                {adminNavLinks}
             </Flex>
             <Flex
                 hoverable={true}
