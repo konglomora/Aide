@@ -2,6 +2,7 @@ import Button from 'components/StyledComponents/Button'
 import { Flex } from 'components/StyledComponents/Flex'
 import dayjs from 'dayjs'
 import React from 'react'
+import { alertService } from 'services/AlertService'
 import { useAppDispatch } from 'store/hooks'
 import {
     IDataForScheduleActionLog,
@@ -23,12 +24,39 @@ const Experiments = () => {
             dateOfSchedule: dayjs().format('HH:mm:ss DD.MM.YY'),
         }
 
-        dispatch(logScheduleActionToSheet(data))
+        alertService.loading(dispatch(logScheduleActionToSheet(data)), {
+            pending: 'Sheet processing',
+            success: 'Done!',
+            error: 'Rejected',
+        })
+    }
+
+    const showAlert = () => {
+        alertService.success('Experiment success!')
+        alertService.error('Experiment error!')
+        alertService.warning('Experiment warning!')
+
+        const promise = () => {
+            const resolveA = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(() => {
+                        console.log('RSLOVED')
+                    })
+                }, 3000)
+            })
+            return resolveA
+        }
+        alertService.loading(promise, {
+            pending: 'pending',
+            success: 'success!',
+            error: 'error',
+        })
     }
 
     return (
         <Flex direction="column" width="100%" margin="15em 0 0 15em">
             <Button onClick={sheetLog}>Log to sheet</Button>
+            <Button onClick={showAlert}>Show Alert</Button>
         </Flex>
     )
 }

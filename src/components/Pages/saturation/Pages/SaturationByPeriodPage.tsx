@@ -2,15 +2,20 @@ import { useEffect, useState } from 'react'
 import { slotsRegular } from '../../../../helpers/slots'
 import { Flex } from '../../../StyledComponents/Flex'
 import { Title } from '../../../StyledComponents/Title'
-import Button from '../../../StyledComponents/Button'
-import { SelectStyle } from '../../../StyledComponents/SelectStyles'
+import {
+    AnimationControls,
+    motion,
+    TargetAndTransition,
+    Transition,
+    VariantLabels,
+} from 'framer-motion'
+
 import {
     getSaturationReport,
     setPeriodOfReport,
 } from '../../../../store/slices/saturationPeriodReportSlice'
 import TextContent from '../../../StyledComponents/TextContent'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import LoaderReact from '../../../StyledComponents/LoaderReact'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import FRANKS_SUCCESS_GIF from '../../../../assets/gif/franks-dance.gif'
 import JOJO_LOADER from '../../../../assets/gif/jojo-loader.gif'
@@ -18,10 +23,15 @@ import ERROR_ANIME_GIF from '../../../../assets/gif/500-error.gif'
 import OnionSaturationCard from '../Cards/OnionSaturationCard'
 import { Roles } from 'components/Pages/Auth/helpers'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
+import {
+    PeriodSelectors,
+    ReportPeriodSelectCard,
+} from '../Cards/ReportPeriodSelectCard'
 
-export enum PeriodSelectors {
-    start = 'start',
-    end = 'end',
+export const transitionForElements: Transition = {
+    delay: 0.15,
+    duration: 0.8,
+    type: 'spring',
 }
 
 export default function SaturationByPeriodPage() {
@@ -80,6 +90,17 @@ export default function SaturationByPeriodPage() {
         }
     }, [status])
 
+    const [animation, setanimation] = useState<
+        AnimationControls | TargetAndTransition | VariantLabels | boolean
+    >({ y: 0 })
+
+    const defaultPlace = { y: 0 }
+    const bottomHidden = { y: 550 }
+    useEffect(() => {
+        status === StateStatus.success && setanimation(defaultPlace)
+        status === StateStatus.loading && setanimation(bottomHidden)
+    }, [status])
+
     return (
         <Flex
             direction={'column'}
@@ -87,60 +108,26 @@ export default function SaturationByPeriodPage() {
             margin={'4% auto'}
             width="90%"
         >
-            <Flex
-                justify={'center'}
-                padding={'3em 0 2em 0'}
-                bBorder={'2px solid white'}
-                bFilter={'blur(2px)'}
-                height="4%"
-                mHeight="3%"
-                top="3em"
-                left="10em"
-                width="100%"
-                position="fixed"
-                zIndex="2"
-                background={formBackGround}
-                backSize={formBackGroundSize}
+            <ReportPeriodSelectCard
+                formBackGround={formBackGround}
+                formBackGroundSize={formBackGroundSize}
+                periodStart={periodStart}
+                periodEnd={periodEnd}
+                slotsRegular={slotsRegular}
+                status={status}
+                selectChangeHandler={selectChangeHandler}
+                sendRequestForReport={sendRequestForReport}
+            />
+            <motion.div
+                initial={StateStatus.success ? defaultPlace : bottomHidden}
+                animate={animation}
+                transition={transitionForElements}
+                style={{
+                    width: '50%',
+                    margin: '10em 0 0 20em',
+                }}
             >
-                <select
-                    style={SelectStyle}
-                    name={PeriodSelectors.start}
-                    id="1"
-                    value={`${periodStart}:00`}
-                    onChange={(e) => selectChangeHandler(e)}
-                >
-                    {slotsRegular.map((slot, id) => (
-                        <option value={slot} key={id}>
-                            {slot}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    style={SelectStyle}
-                    name={PeriodSelectors.end}
-                    id="2"
-                    value={`${periodEnd}:00`}
-                    onChange={(e) => selectChangeHandler(e)}
-                >
-                    {slotsRegular.map((slot, id) => (
-                        <option value={slot} key={id}>
-                            {slot}
-                        </option>
-                    ))}
-                </select>
-                <Button
-                    onClick={sendRequestForReport}
-                    bcolor={'black'}
-                    color={'white'}
-                    bradius={'10px'}
-                    border={'3px solid white'}
-                >
-                    Get report
-                </Button>
-            </Flex>
-
-            <Flex direction={'column'} width={'50%'} margin="10em 0 0 20em">
-                <Flex>
+                <Flex direction={'column'}>
                     {lessCouriers.length > 0 && (
                         <Flex wrap={'wrap'}>
                             <Title
@@ -257,18 +244,7 @@ export default function SaturationByPeriodPage() {
                         </Flex>
                     )}
                 </Flex>
-            </Flex>
-            <Flex
-                direction={'column'}
-                align={'center'}
-                justify="center"
-                width="90%"
-                margin="0 0 0 10em"
-            >
-                <LoaderReact status={status} />
-
-                {status === 'error' && <h2>An error occurred: {error}</h2>}
-            </Flex>
+            </motion.div>
         </Flex>
     )
 }

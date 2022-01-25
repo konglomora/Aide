@@ -1,3 +1,4 @@
+import { alertService } from 'services/AlertService'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { adminApiGlovoappAxios, aideApiAxios } from 'axios/axios'
@@ -233,7 +234,7 @@ export const logScheduleActionToSheet = createAsyncThunk<
             const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
             const row = await todaySheet.addRow(logRow)
 
-            alertSuccess('Success! Logged action to sheet.')
+            alertService.success('Success! Logged action to sheet.')
             const columnCount = todaySheet.columnCount
 
             console.log(
