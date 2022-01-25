@@ -3,7 +3,7 @@ import styled from 'styled-components'
 interface InputProps {
     placeholder: string
     type: string
-    value: string
+    value: string | number
     onChange: (e: React.ChangeEvent<any>) => void
     margin?: string
     borderColor?: string
@@ -13,6 +13,8 @@ interface InputProps {
     'border-radius'?: string
     'border-color:'?: string
     border?: string
+    min?: string
+    max?: string
 }
 
 const StyledInput = styled.input<InputProps>`

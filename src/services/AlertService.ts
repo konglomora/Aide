@@ -9,13 +9,13 @@ export interface AlertPromiseParams {
 export default class AlertService {
     styleForToast: ToastOptions = {
         position: 'bottom-right',
-        autoClose: 5000,
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'dark',
+        theme: 'colored',
     }
 
     success(msg: string) {
@@ -39,8 +39,8 @@ export default class AlertService {
         params: AlertPromiseParams,
         options?: ToastOptions
     ) {
-        const styleWithoptions = { ...this.styleForToast, ...options }
-        toast.promise(promise, params, styleWithoptions)
+        const styleWithOptions = { ...this.styleForToast, ...options }
+        toast.promise(promise, params, styleWithOptions)
     }
 }
 
