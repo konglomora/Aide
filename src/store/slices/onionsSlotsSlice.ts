@@ -399,17 +399,13 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 state.onionsSlots.glovoAdminHeaders[0]
 
             const config: AxiosRequestConfig = {
-                // withCredentials: true,
-
                 headers: {
                     'user-agent': user_agent,
                     accept: accept,
                     authorization: authorization,
                     'content-type': content_type,
-                    // 'Access-Control-Allow-Origin':
-                    //     'https://beta-admin.glovoapp.com',
                 },
-                // proxy: { host: 'https://adminapi.glovoapp.com' },
+
                 params: {
                     cityCode: onionCode,
                     date: date,
@@ -422,7 +418,6 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 config
             )
 
-            // https://adminapi.glovoapp.com/admin/scheduling/slots?cityCode=KIE&date=2022-01-23
             console.log(
                 'onionScheduleSlotsResponse',
                 onionScheduleSlotsResponse

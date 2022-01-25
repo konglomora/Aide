@@ -24,6 +24,8 @@ import { allOnionCodes } from '../../../../helpers/onionCodes'
 import nextId from 'react-id-generator'
 import { alertService } from 'services/AlertService'
 import { PeriodSelectors } from 'components/Pages/saturation/Cards/ReportPeriodSelectCard'
+import { Colors } from 'components/StyledComponents/colors'
+import { Input } from 'components/StyledComponents/Input'
 
 export interface IOnionSlotsUpdateCard {}
 
@@ -140,7 +142,7 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
         alertService.loading(
             dispatch(updateOnionSlots()),
             {
-                pending: `Applying ${bonusSize}% ${bonusReason} for ${selectedOnionCode} at ${validSlots[0]}:${validSlots[0]} of ${date} `,
+                pending: `Applying ${bonusSize}% ${bonusReason} for ${selectedOnionCode} at ${validSlots[0]}:${validSlots[1]} of ${date} `,
                 success: `Applied and logged`,
                 error: `Error while Applying ${bonusSize}% ${bonusReason} for ${selectedOnionCode} at ${validSlots[0]}:${validSlots[0]} of ${date} `,
             },
@@ -153,11 +155,13 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
     return (
         <>
             <Flex
-                width="90%"
+                width="100%"
                 height="5em"
+                mHeight="4em"
                 bColor={'rgb(24 25 26 / 78%);'}
                 border="1px solid white"
                 bRadius="10px"
+                background={Colors.lightBlack}
                 align="center"
                 padding="0 1em"
                 justify="space-evenly"
@@ -202,7 +206,7 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                     </select>
                 </Flex>
 
-                <Flex width="18em" mHeight="50%" height="50%" align="center">
+                <Flex width="15em" mHeight="50%" height="50%" align="center">
                     <TextContent fWeight="600" height="1em" textAlign="center">
                         Start:
                     </TextContent>
@@ -237,19 +241,24 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                     </select>
                 </Flex>
 
-                <Flex width="16em" mHeight="50%" height="50%" align="center">
+                <Flex width="14em" mHeight="50%" height="50%" align="center">
                     <TextContent fWeight="600" height="1em" textAlign="center">
-                        Bonus: +
+                        Bonus:
                     </TextContent>
 
-                    <input
+                    <Input
                         value={bonusSize}
                         type="number"
-                        style={{ width: '5em' }}
                         onChange={bonusSizeHandler}
                         min="-100"
                         max="100"
+                        placeholder="%"
+                        padding={'4px'}
+                        margin={'0 5px'}
                     />
+                    <TextContent fWeight="600" height="1em" textAlign="start">
+                        %
+                    </TextContent>
                     <select
                         style={SelectStyle}
                         name="bonusReasonSelect"
@@ -266,19 +275,24 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                     </select>
                 </Flex>
 
-                <Flex width="16em" mHeight="50%" height="50%" align="center">
+                <Flex width="10em" mHeight="50%" height="50%" align="center">
                     <TextContent fWeight="600" height="1em" textAlign="center">
-                        Capacity: +%
+                        Capacity:
                     </TextContent>
 
-                    <input
+                    <Input
                         value={capacityPercentage}
                         type="number"
-                        style={{ width: '5em' }}
                         onChange={capacityPercentageHandler}
                         min="-100"
                         max="100"
+                        placeholder="%"
+                        padding={'4px'}
+                        margin={'0 5px'}
                     />
+                    <TextContent fWeight="600" height="1em" textAlign="center">
+                        %
+                    </TextContent>
                 </Flex>
 
                 <Button width="9em" onClick={() => submitUpdateSlots()}>
