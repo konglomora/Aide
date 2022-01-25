@@ -1,4 +1,3 @@
-import { PeriodSelectors } from 'components/Pages/saturation/Pages/SaturationByPeriodPage'
 import Button from 'components/StyledComponents/Button'
 import { Flex } from 'components/StyledComponents/Flex'
 import LoaderReact from 'components/StyledComponents/LoaderReact'
@@ -23,6 +22,8 @@ import {
 } from 'store/slices/onionsSlotsSlice'
 import { allOnionCodes } from '../../../../helpers/onionCodes'
 import nextId from 'react-id-generator'
+import { alertService } from 'services/AlertService'
+import { PeriodSelectors } from 'components/Pages/saturation/Cards/ReportPeriodSelectCard'
 
 export interface IOnionSlotsUpdateCard {}
 
@@ -32,7 +33,6 @@ export const getValidSlotFormat = (str: string): string => {
 
 export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
     const {
-        status,
         selectedOnionCode,
         startTimeOfPeriod,
         endTimeOfPeriod,
@@ -53,9 +53,24 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
             '[OnionSlotsUpdateCard] activeScheduleDates',
             activeScheduleDates
         )
-        dispatch(
-            axiosGetOnionScheduleSlots({ onionCode: selectedOnionCode, date })
+
+        alertService.loading(
+            dispatch(
+                axiosGetOnionScheduleSlots({
+                    onionCode: selectedOnionCode,
+                    date,
+                })
+            ),
+            {
+                pending: `Loading  schedule for ${selectedOnionCode} at ${date}`,
+                success: `Completed loading schedule for ${selectedOnionCode} at ${date} `,
+                error: `Error while loading  schedule for ${selectedOnionCode} at ${date}`,
+            },
+            {
+                autoClose: 1000,
+            }
         )
+
         dispatch(updateSelectedScheduleDate(date))
     }, [date, selectedOnionCode])
 
@@ -118,7 +133,21 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
 
     const submitUpdateSlots = async () => {
         console.log('[OnionSlotsUpdateCard] Slots update submitted')
-        await dispatch(updateOnionSlots())
+        const validSlots = [
+            getValidSlotFormat(startTimeOfPeriod),
+            getValidSlotFormat(endTimeOfPeriod),
+        ]
+        alertService.loading(
+            dispatch(updateOnionSlots()),
+            {
+                pending: `Applying ${bonusSize}% ${bonusReason} for ${selectedOnionCode} at ${validSlots[0]}:${validSlots[0]} of ${date} `,
+                success: `Applied and logged`,
+                error: `Error while Applying ${bonusSize}% ${bonusReason} for ${selectedOnionCode} at ${validSlots[0]}:${validSlots[0]} of ${date} `,
+            },
+            {
+                autoClose: 2000,
+            }
+        )
     }
 
     return (
@@ -126,17 +155,13 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
             <Flex
                 width="90%"
                 height="5em"
-                background="black"
+                bColor={'rgb(24 25 26 / 78%);'}
                 border="1px solid white"
                 bRadius="10px"
                 align="center"
+                padding="0 1em"
                 justify="space-evenly"
             >
-                <LoaderReact
-                    status={status}
-                    style={{ margin: '0', width: '6em' }}
-                />
-
                 <Flex width="8em" mHeight="50%" height="50%" align="center">
                     <TextContent fWeight="600" height="1em" textAlign="center">
                         Date:

@@ -1,4 +1,3 @@
-import Button from 'components/StyledComponents/Button'
 import { Flex } from 'components/StyledComponents/Flex'
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
@@ -6,6 +5,7 @@ import {
     axiosGetGlovoApiRefreshToken,
     getActiveScheduleDates,
 } from 'store/slices/onionsSlotsSlice'
+import Schedule from '../SchedulePage'
 
 import OnionSlotsUpdateCard from './OnionSlotsUpdateCard'
 
@@ -28,8 +28,11 @@ export default function Slots() {
     }, [dispatch])
 
     return (
-        <Flex direction="column" width="100%" margin="15em 0 0 15em">
-            <OnionSlotsUpdateCard />
-        </Flex>
+        <>
+            <Flex direction="column" width="100%" margin="15em 0 0 15em">
+                <OnionSlotsUpdateCard />
+                <Schedule />
+            </Flex>
+        </>
     )
 }
