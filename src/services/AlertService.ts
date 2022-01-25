@@ -1,5 +1,10 @@
-import { toast, ToastOptions } from 'react-toastify'
-import { ToastPromiseParams } from 'react-toastify/dist/core'
+import { toast, ToastOptions, UpdateOptions } from 'react-toastify'
+
+export interface AlertPromiseParams {
+    pending?: string | UpdateOptions
+    success?: string | UpdateOptions
+    error?: string | UpdateOptions
+}
 
 export default class AlertService {
     styleForToast: ToastOptions = {
@@ -31,7 +36,7 @@ export default class AlertService {
 
     loading<T>(
         promise: Promise<T> | (() => Promise<T>),
-        params: ToastPromiseParams,
+        params: AlertPromiseParams,
         options?: ToastOptions
     ) {
         const styleWithoptions = { ...this.styleForToast, ...options }

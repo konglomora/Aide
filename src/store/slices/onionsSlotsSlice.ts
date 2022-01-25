@@ -233,8 +233,6 @@ export const logScheduleActionToSheet = createAsyncThunk<
             }
             const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
             const row = await todaySheet.addRow(logRow)
-
-            alertService.success('Success! Logged action to sheet.')
             const columnCount = todaySheet.columnCount
 
             console.log(
