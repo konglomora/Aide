@@ -25,7 +25,22 @@ const LoaderReact: FC<PropsLoaderReact> = ({ style, status }) => {
             align={'center'}
             margin={style ? style.margin : '15% 0 0 10em'}
         >
-            {status === StateStatus.loading && (
+            {status === StateStatus.success ? (
+                <motion.img
+                    src={logo}
+                    alt={'logo'}
+                    initial={'static'}
+                    animate={'static'}
+                    transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        repeatDelay: 0.2,
+                        repeatType: 'loop',
+                        ease: 'easeInOut',
+                    }}
+                    variants={variants}
+                />
+            ) : (
                 <motion.img
                     src={logo}
                     alt={'logo'}
@@ -35,12 +50,26 @@ const LoaderReact: FC<PropsLoaderReact> = ({ style, status }) => {
                         duration: 1,
                         repeat: Infinity,
                         repeatDelay: 0.2,
-                        repeatType: 'reverse',
+                        repeatType: 'loop',
                         ease: 'easeInOut',
                     }}
                     variants={variants}
                 />
             )}
+            {/* <motion.img
+                src={logo}
+                alt={'logo'}
+                initial={'static'}
+                animate={status === StateStatus.success ? 'static' : 'motion'}
+                transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    repeatDelay: 0.2,
+                    repeatType: 'loop',
+                    ease: 'easeInOut',
+                }}
+                variants={variants}
+            /> */}
         </Flex>
     )
 }
