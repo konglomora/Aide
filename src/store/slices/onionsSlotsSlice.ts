@@ -4,7 +4,11 @@ import { adminApiGlovoappAxios, aideApiAxios } from 'axios/axios'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
 import { RootState } from 'store'
-import { GoogleSpreadsheet } from 'google-spreadsheet'
+import {
+    GoogleSpreadsheet,
+    GoogleSpreadsheetWorksheet,
+    WorksheetGridRange,
+} from 'google-spreadsheet'
 import {
     REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
     REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
@@ -99,154 +103,156 @@ export const logScheduleActionToSheet = createAsyncThunk<
         },
         { rejectWithValue, dispatch }
     ) {
-        const doc = new GoogleSpreadsheet(
-            REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
-        )
+        const updateRangeFormatting = async (
+            sheet: GoogleSpreadsheetWorksheet,
+            range: string | WorksheetGridRange | string[] | WorksheetGridRange[]
+        ): Promise<void> => {
+            await sheet.loadCells(range)
+            const lastRowIndex = (await sheet.getRows()).length
+            const columnCount = sheet.columnCount
 
-        await doc.useServiceAccountAuth({
-            client_email:
-                REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
-            private_key:
-                REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
-        })
+            console.log('last row: ', lastRowIndex)
+            console.log('columnCount: ', columnCount)
 
-        await doc.loadInfo() // loads document properties and worksheets
-
-        const logRow = {
-            'Action time': actionTime,
-            Name: userName,
-            Onion: onionCode,
-            Slots: period,
-            'Bonus size': bonusSize,
-            'Bonus type': bonusType,
-            'Capacity +%': capacityPercentage,
-            'Date of schedule': dateOfSchedule,
+            for (let i = 0; i < columnCount; i++) {
+                console.log(
+                    `Updating style of column ${i} and row ${lastRowIndex}`
+                )
+                const cell = sheet.getCell(lastRowIndex, i)
+                cell.horizontalAlignment = 'CENTER'
+                cell.textFormat = {
+                    fontSize: 11,
+                }
+            }
+            await sheet.saveUpdatedCells()
         }
 
-        if (!doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]) {
-            const todaySheet = await doc.addSheet({
-                title: dayjs().format('DD.MM.YYYY'),
-                headerValues: [
-                    'Action time',
-                    'Name',
-                    'Onion',
-                    'Slots',
-                    'Bonus size',
-                    'Bonus type',
-                    'Capacity +%',
-                    'Date of schedule',
-                ],
-                gridProperties: {
-                    frozenRowCount: 1,
-                    rowCount: 300,
-                    columnCount: 8,
-                },
+        try {
+            const doc = new GoogleSpreadsheet(
+                REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
+            )
+
+            await doc.useServiceAccountAuth({
+                client_email:
+                    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
+                private_key:
+                    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
             })
 
-            await todaySheet.loadCells('A1:H1')
+            await doc.loadInfo() // loads document properties and worksheets
 
-            const columnCount = todaySheet.columnCount - 1
-            for (let i = 0; i <= columnCount; i++) {
-                const cell = todaySheet.getCell(0, i)
-                cell.backgroundColor = {
-                    red: 186,
-                    green: 143,
-                    blue: 255,
-                    alpha: 1,
-                }
-                cell.horizontalAlignment = 'CENTER'
-                cell.textFormat = {
-                    fontSize: 11,
-                    bold: true,
-                }
-                todaySheet.saveUpdatedCells()
+            const logRow = {
+                'Action time': actionTime,
+                Name: userName,
+                Onion: onionCode,
+                Slots: period,
+                'Bonus size': bonusSize,
+                'Bonus type': bonusType,
+                'Capacity +%': capacityPercentage,
+                'Date of schedule': dateOfSchedule,
             }
-            todaySheet.updateDimensionProperties(
-                'COLUMNS',
-                {
-                    pixelSize: 160,
-                    hiddenByUser: false,
-                    hiddenByFilter: false,
-                    developerMetadata: [],
-                },
-                {
-                    startIndex: 0,
-                    endIndex: 2,
-                }
-            )
-            todaySheet.updateDimensionProperties(
-                'COLUMNS',
-                {
-                    pixelSize: 90,
-                    hiddenByUser: false,
-                    hiddenByFilter: false,
-                    developerMetadata: [],
-                },
-                {
-                    startIndex: 3,
-                    endIndex: 7,
-                }
-            )
-            todaySheet.updateDimensionProperties(
-                'COLUMNS',
-                {
-                    pixelSize: 160,
-                    hiddenByUser: false,
-                    hiddenByFilter: false,
-                    developerMetadata: [],
-                },
-                {
-                    startIndex: 7,
-                    endIndex: 8,
-                }
-            )
-            await todaySheet.addRow(logRow)
 
-            const lastRowIndex = (await todaySheet.getRows()).length
-            console.log('lastRowIndex', lastRowIndex)
+            if (!doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]) {
+                const todaySheet = await doc.addSheet({
+                    title: dayjs().format('DD.MM.YYYY'),
+                    headerValues: [
+                        'Action time',
+                        'Name',
+                        'Onion',
+                        'Slots',
+                        'Bonus size',
+                        'Bonus type',
+                        'Capacity +%',
+                        'Date of schedule',
+                    ],
+                    gridProperties: {
+                        frozenRowCount: 1,
+                        rowCount: 300,
+                        columnCount: 8,
+                    },
+                })
 
-            await todaySheet.loadCells({
-                startRowIndex: lastRowIndex,
-                endRowIndex: lastRowIndex + 1,
-                startColumnIndex: 0,
-                endColumnIndex: columnCount + 1,
-            })
+                await todaySheet.loadCells('A1:H1')
 
-            for (let i = 0; i <= columnCount + 1; i++) {
-                const cell = todaySheet.getCell(lastRowIndex, i)
-                cell.horizontalAlignment = 'CENTER'
-                cell.textFormat = {
-                    fontSize: 11,
+                const columnCount = todaySheet.columnCount
+                for (let i = 0; i < columnCount; i++) {
+                    const cell = todaySheet.getCell(0, i)
+                    cell.backgroundColor = {
+                        red: 0.3,
+                        green: 0.4,
+                        blue: 0.8,
+                        alpha: 0.5,
+                    }
+                    cell.horizontalAlignment = 'CENTER'
+                    cell.textFormat = {
+                        fontSize: 11,
+                        bold: true,
+                    }
+                    await todaySheet.saveUpdatedCells()
                 }
-                todaySheet.saveUpdatedCells()
+                todaySheet.updateDimensionProperties(
+                    'COLUMNS',
+                    {
+                        pixelSize: 160,
+                        hiddenByUser: false,
+                        hiddenByFilter: false,
+                        developerMetadata: [],
+                    },
+                    {
+                        startIndex: 0,
+                        endIndex: 2,
+                    }
+                )
+                todaySheet.updateDimensionProperties(
+                    'COLUMNS',
+                    {
+                        pixelSize: 90,
+                        hiddenByUser: false,
+                        hiddenByFilter: false,
+                        developerMetadata: [],
+                    },
+                    {
+                        startIndex: 3,
+                        endIndex: 7,
+                    }
+                )
+                todaySheet.updateDimensionProperties(
+                    'COLUMNS',
+                    {
+                        pixelSize: 160,
+                        hiddenByUser: false,
+                        hiddenByFilter: false,
+                        developerMetadata: [],
+                    },
+                    {
+                        startIndex: 7,
+                        endIndex: 8,
+                    }
+                )
             }
-            console.log('Logged to sheet!')
-            alertSuccess('Success! Logged action to sheet.')
-        } else {
             const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
-            await todaySheet.addRow(logRow)
-            const columnCount = todaySheet.columnCount
-            const lastRowIndex = (await todaySheet.getRows()).length
-            console.log('lastRowIndex', lastRowIndex)
+            const row = await todaySheet.addRow(logRow)
 
-            await todaySheet.loadCells({
-                startRowIndex: lastRowIndex,
-                endRowIndex: lastRowIndex + 1,
-                startColumnIndex: 0,
-                endColumnIndex: columnCount + 1,
-            })
-
-            for (let i = 0; i <= columnCount + 1; i++) {
-                const cell = todaySheet.getCell(lastRowIndex, i)
-                cell.horizontalAlignment = 'CENTER'
-                cell.textFormat = {
-                    fontSize: 11,
-                }
-                todaySheet.saveUpdatedCells()
-                console.log(`Cell ${cell} UPDATEd`)
-            }
-            console.log('Logged to sheet!')
             alertSuccess('Success! Logged action to sheet.')
+            const columnCount = todaySheet.columnCount
+
+            console.log(
+                '[logScheduleActionToSheet] Row for updating formatting:',
+                row.rowIndex
+            )
+            const lastRow = {
+                startRowIndex: row.rowIndex - 1,
+                endRowIndex: row.rowIndex,
+                startColumnIndex: 0,
+                endColumnIndex: columnCount,
+            }
+            console.log('property', lastRow)
+            await todaySheet.loadCells(lastRow)
+
+            await updateRangeFormatting(todaySheet, lastRow)
+        } catch (error: any) {
+            console.log('Error', error)
+            alertError(`[logScheduleActionToSheet] \n ${error.message}`)
         }
     }
 )
