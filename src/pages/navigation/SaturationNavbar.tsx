@@ -2,7 +2,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { StyledNavLink, stylesForStyledLink, Flex } from 'components/styled'
 
-const SaturationNavigation = () => {
+const SaturationNavbar = () => {
     const url = useLocation()
     const navigate = useNavigate()
 
@@ -42,4 +42,4 @@ const SaturationNavigation = () => {
     )
 }
 
-export default SaturationNavigation
+export default SaturationNavbar

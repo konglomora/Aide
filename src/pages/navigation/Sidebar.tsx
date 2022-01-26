@@ -22,7 +22,7 @@ export const stylesForStyledLink = {
     text_align: 'left',
 }
 
-export default function Sidebar() {
+const Sidebar = () => {
     const dispatch = useAppDispatch()
 
     const location = useLocation()
@@ -131,3 +131,5 @@ export default function Sidebar() {
         </Flex>
     )
 }
+
+export default Sidebar

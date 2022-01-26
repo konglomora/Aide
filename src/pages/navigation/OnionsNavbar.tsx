@@ -9,7 +9,7 @@ const stylesForStyledLink = {
     text_align: 'center',
 }
 
-const WeatherNavbar = () => {
+const OnionsNavbar = () => {
     const url = useLocation()
     const navigate = useNavigate()
 
@@ -55,4 +55,4 @@ const WeatherNavbar = () => {
     )
 }
 
-export default WeatherNavbar
+export default OnionsNavbar
