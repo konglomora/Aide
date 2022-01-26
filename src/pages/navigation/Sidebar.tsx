@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom'
 import { RootState } from 'store'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { removeUser } from 'store/slices/userSlice'
-import { Roles } from 'pages/auth/userRoles'
+import { Roles } from 'pages/authentication/userRoles'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import LogOutIcon from 'assets/icons/log-out.svg'
 

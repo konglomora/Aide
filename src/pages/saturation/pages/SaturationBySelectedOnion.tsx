@@ -16,7 +16,7 @@ import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import { Colors } from 'components/styled'
 import { useAppSelector } from 'store/hooks'
-import { Roles } from 'pages/auth/userRoles'
+import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 
 const SaturationBySelectedOnion = () => {

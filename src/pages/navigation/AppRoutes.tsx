@@ -2,8 +2,8 @@ import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { RootState } from 'store'
 import { useAppSelector } from 'store/hooks'
-import { Roles } from 'pages/auth/userRoles'
-import { LoginPage } from 'pages/auth'
+import { Roles } from 'pages/authentication/userRoles'
+import { LoginPage } from 'pages/authentication'
 import {
     Page404,
     ProtectedRoutes,
