@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
-import { aideApiAxios } from '../../axios/axios'
+import { aideApiAxios } from '../../api/api'
 import { codes } from '../helpers/Codes'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
@@ -138,15 +138,12 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
     }
 )
 
-export const getWeatherActionPlan = createAsyncThunk(
+export const getWeatherActionPlan = createAsyncThunk<
+    void,
+    Omit<PropsGetPrecipitatedOnionsByDay, 'onionCode'>
+>(
     'weather-action-plan/getWeatherActionPlan',
-    async function (
-        {
-            tomorrow,
-            afterTomorrow,
-        }: Omit<PropsGetPrecipitatedOnionsByDay, 'onionCode'>,
-        { dispatch, getState }
-    ) {
+    async function ({ tomorrow, afterTomorrow }, { dispatch, getState }) {
         console.log('====================================')
         console.log('getWeatherActionPlan RUN')
         console.log('====================================')

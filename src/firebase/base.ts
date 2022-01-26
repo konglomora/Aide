@@ -8,7 +8,7 @@ import {
     REACT_APP_FIREBASE_STORAGE_BUCKET,
     REACT_APP_FIREBASE_SENDER_ID,
     REACT_APP_FIREBASE_APP_ID,
-} from '../axios/env'
+} from '../api/env'
 
 const firebaseConfig = {
     apiKey: REACT_APP_FIREBASE_API_KEY,

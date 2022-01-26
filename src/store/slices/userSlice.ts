@@ -1,4 +1,4 @@
-import { Roles } from './../../components/Pages/Auth/helpers'
+import { Roles } from '../../pages/Auth/userRoles'
 import { createSlice } from '@reduxjs/toolkit'
 
 interface IUserState {

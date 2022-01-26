@@ -1,7 +1,6 @@
-import { alertService } from 'services/AlertService'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { MyKnownError } from 'store/helpers/reports/types'
-import { adminApiGlovoappAxios, aideApiAxios } from 'axios/axios'
+
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
 import { RootState } from 'store'
@@ -14,9 +13,10 @@ import {
     REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
     REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
     REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID,
-} from 'axios/env'
+} from 'api/env'
 import { toast } from 'react-toastify'
-import { getValidSlotFormat } from 'components/Pages/onions/slots/OnionSlotsUpdateCard'
+import { getValidSlotFormat } from 'pages/onions/slots/OnionSlotsUpdateCard'
+import { aideApiAxios, adminApiGlovoappAxios } from 'api/api'
 
 export enum Errors {
     expiredGlovoAdminApiToken_401 = 'Request failed with status code 401',
