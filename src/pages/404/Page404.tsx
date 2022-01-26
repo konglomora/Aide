@@ -1,9 +1,8 @@
-import Button from 'components/styled/Button'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Flex, TextContent } from 'components/styled'
+import { Flex, TextContent, Button } from 'components/styled'
 
-const Page404: FC = () => {
+export const Page404: FC = () => {
     const navigate = useNavigate()
 
     return (
@@ -20,5 +19,3 @@ const Page404: FC = () => {
         </Flex>
     )
 }
-
-export default Page404
