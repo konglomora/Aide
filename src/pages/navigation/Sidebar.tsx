@@ -5,7 +5,7 @@ import {
     TextContent,
     Colors,
 } from 'components/styled'
-import { useAuth } from 'hooks/use-auth'
+import { useAuth } from 'hooks/useAuth'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { RootState } from 'store'
