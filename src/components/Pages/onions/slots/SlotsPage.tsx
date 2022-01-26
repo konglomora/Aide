@@ -75,7 +75,7 @@ export default function Slots() {
                         rel="noreferrer"
                     >
                         <Flex
-                            height="4.8em"
+                            height="5em"
                             mHeight="1em"
                             background={Colors.lightBlack}
                             border="2px solid white"
