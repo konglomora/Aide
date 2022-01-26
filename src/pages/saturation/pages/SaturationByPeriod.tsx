@@ -11,7 +11,6 @@ import {
     getSaturationReport,
     setPeriodOfReport,
 } from 'store/slices/saturationPeriodReportSlice'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import FRANKS_SUCCESS_GIF from 'assets/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
