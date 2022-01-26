@@ -16,7 +16,7 @@ import FRANKS_SUCCESS_GIF from 'assets/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import OnionSaturationCard from '../cards/OnionSaturationCard'
-import { Roles } from 'pages/auth/userRoles'
+import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 import {
     PeriodSelectors,
