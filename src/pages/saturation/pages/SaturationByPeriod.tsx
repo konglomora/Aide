@@ -11,13 +11,12 @@ import {
     getSaturationReport,
     setPeriodOfReport,
 } from 'store/slices/saturationPeriodReportSlice'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import FRANKS_SUCCESS_GIF from 'assets/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import OnionSaturationCard from '../cards/OnionSaturationCard'
-import { Roles } from 'pages/Auth/userRoles'
+import { Roles } from 'pages/auth/userRoles'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 import {
     PeriodSelectors,

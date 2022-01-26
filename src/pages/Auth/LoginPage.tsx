@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setUser } from 'store/slices/userSlice'
-import { Form } from 'pages/Auth'
+import { Form } from 'pages/auth'
 import { useAppDispatch } from 'store/hooks'
 import { capitalizeFirstLetter } from 'helpers/strings'
-import { getUserRole } from 'pages/Auth'
+import { getUserRole } from 'pages/auth'
 import { Flex } from 'components/styled'
 
 const LoginPage = () => {

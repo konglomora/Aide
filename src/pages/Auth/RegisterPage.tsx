@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from 'store/hooks'
 import { setUser } from 'store/slices/userSlice'
 import { StyledNavLink, stylesForStyledLink } from 'components/styled'
-import { Form } from 'pages/Auth'
+import { Form } from 'pages/auth'
 
 const RegisterPage = () => {
     const dispatch = useAppDispatch()
