@@ -35,7 +35,7 @@ export default class AlertService {
     }
 
     loading<T>(
-        promise: Promise<T> | (() => Promise<T>),
+        promise: Promise<T> | (() => Promise<T>) | any,
         params: AlertPromiseParams,
         options?: ToastOptions
     ) {
