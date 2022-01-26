@@ -106,7 +106,7 @@ export default function Sidebar() {
                 margin="auto 0 0 0"
                 justify="center"
                 align="center"
-                tBorder="2px solid white"
+                border="2px solid white"
             >
                 <Icon
                     padding="0 0 0 2em"
