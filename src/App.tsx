@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { Flex } from './components/styled'
-import { AppRoutes } from './pages/navigation/AppRoutes'
+import { AppRoutes } from './pages/navigation'
 
 function App(): ReactElement {
     const url = useLocation()

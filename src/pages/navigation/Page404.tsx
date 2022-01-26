@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Flex, TextContent } from 'components/styled'
 
-export const UnknownRouteHandler: FC = () => {
+const Page404: FC = () => {
     const navigate = useNavigate()
 
     return (
@@ -20,3 +20,5 @@ export const UnknownRouteHandler: FC = () => {
         </Flex>
     )
 }
+
+export default Page404
