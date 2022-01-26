@@ -20,7 +20,7 @@ import Layout from './Layout'
 import SaturationNavigation from './SaturationNavbar'
 import Slots from '../onions/slots/SlotsPage'
 import Experiments from '../experiments/Experiments'
-import Homepage from '../home/Homepage'
+import { Homepage } from 'pages/home'
 
 const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)
