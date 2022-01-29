@@ -1,4 +1,4 @@
-import { OnionPrecipitationCard } from '../Cards/OnionPrecipitationCard'
+import { OnionPrecipitationCard } from '../cards/OnionPrecipitationCard'
 import nextId from 'react-id-generator'
 import { Areas } from 'store/helpers/Areas'
 import { IOnionWeatherAnalysis } from 'store/slices/weatherActionPlanSlice'

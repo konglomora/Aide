@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { slotsRegular } from 'helpers/slots'
-import OnionSaturationCard from '../cards/OnionSaturationCard'
+import OnionSaturationCard from '../cards/OnionSaturation'
 import { Flex, Title, Button, SelectStyle } from 'components/styled'
 import {
     deselectOnion,
@@ -9,8 +9,7 @@ import {
     selectOnion,
     setPeriodOfReport,
 } from 'store/slices/saturationSelectedOnionsSlice'
-import AreaCodesCard from '../cards/AreaCodesCard'
-import LoaderReact from 'components/animated/LoaderReact'
+import AreaCodesCard from '../cards/AreaCodes'
 import ANIME_SUCCESS_GIF from 'assets/gif/dancing-cute.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
@@ -25,7 +24,6 @@ const SaturationBySelectedOnion = () => {
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const {
         status,
-        error,
         periodStart,
         periodEnd,
         kyiv_report,
@@ -196,11 +194,6 @@ const SaturationBySelectedOnion = () => {
                     ))}
                 </Flex>
             )}
-            <Flex justify={'center'} align={'start'} width="90%" height="2em">
-                <LoaderReact status={status} />
-
-                {error && <h2>An error occurred: {error}</h2>}
-            </Flex>
         </Flex>
     )
 }

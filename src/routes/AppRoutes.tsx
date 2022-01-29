@@ -10,10 +10,10 @@ import {
     SaturationBySelectedOnion,
 } from 'pages/saturation/pages'
 import SchedulePage from '../pages/onions/SchedulePage'
-import WeatherActionPlan from '../pages/weather/Pages/WeatherActionPlan'
+import WeatherActionPlan from '../pages/weather/pages/Coordination'
 import Layout from '../pages/navigation/Layout'
 import SaturationNavigation from '../pages/navigation/SaturationNavbar'
-import Slots from '../pages/onions/slots/SlotsPage'
+import Slots from '../pages/onions/slots/pages/Slots'
 import Experiments from '../pages/experiments/Experiments'
 import { Homepage } from 'pages/homepage'
 import { Page404 } from 'pages/404/Page404'

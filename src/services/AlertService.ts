@@ -18,20 +18,24 @@ export default class AlertService {
         theme: 'colored',
     }
 
-    success(msg: string) {
-        toast.success(msg, this.styleForToast)
+    success(msg: string, options?: ToastOptions) {
+        const styleWithOptions = { ...this.styleForToast, ...options }
+        toast.success(msg, styleWithOptions)
     }
 
-    error(msg: string) {
-        toast.error(msg, this.styleForToast)
+    error(msg: string, options?: ToastOptions) {
+        const styleWithOptions = { ...this.styleForToast, ...options }
+        toast.error(msg, styleWithOptions)
     }
 
-    warning(msg: string) {
-        toast.warning(msg, this.styleForToast)
+    warning(msg: string, options?: ToastOptions) {
+        const styleWithOptions = { ...this.styleForToast, ...options }
+        toast.warning(msg, styleWithOptions)
     }
 
-    info(msg: string) {
-        toast.info(msg, this.styleForToast)
+    info(msg: string, options?: ToastOptions) {
+        const styleWithOptions = { ...this.styleForToast, ...options }
+        toast.info(msg, styleWithOptions)
     }
 
     loading<T>(

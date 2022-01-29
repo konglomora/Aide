@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
 import { Flex, Title, Colors } from 'components/styled'
 import { areasInfo } from 'store/helpers/AreasInfo'
-
 import { IOnionWeatherAnalysis } from 'store/slices/weatherActionPlanSlice'
 
 export enum Actions {
@@ -160,6 +159,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
 }) => {
     const [responsibleManagerTelegramNick, setResponsibleManagerTelegramNick] =
         useState<string>('')
+
     const [bonusSentence, setBonusSentence] = useState('')
     const [slotsSentence, setSlotsSentence] = useState('')
 

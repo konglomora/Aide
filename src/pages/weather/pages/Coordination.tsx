@@ -8,9 +8,9 @@ import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import { useAppSelector } from 'store/hooks'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 import { alertService } from 'services/AlertService'
-import { SliderCard } from 'components/animated'
-import { generatePlanCards } from 'pages/weather/Generators/PlanCardsGenerator'
-import { ActionPlanCard } from 'pages/weather/Cards/ActionPlanCard'
+import { ReportSlider, SliderCard } from 'components/animated'
+import { generatePlanCards } from 'pages/weather/generators/PlanCardsGenerator'
+import { ActionPlanCard } from 'pages/weather/cards/ActionPlanCard'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -87,6 +87,7 @@ const WeatherActionPlan = () => {
         lastTimeUpdateOfAfterTomorrow,
         tomorrowPlanOnionCards,
         afterTomorrowPlanOnionCards,
+        status,
     }
     useEffect(() => {
         console.log('weather tomorrowPlan: ', tomorrowPlan)
@@ -120,16 +121,17 @@ const WeatherActionPlan = () => {
             >
                 <Button onClick={() => sendRequestForReport()}>Refresh</Button>
             </SliderCard>
-            {status === StateStatus.success && (
-                <ActionPlanCard {...propsForPrecipitationCard} />
-            )}
-            <Flex
-                direction={'column'}
-                align={'center'}
-                justify="center"
-                width="100%"
-                margin="0 9em 0 0"
-            ></Flex>
+            <ReportSlider status={status}>
+                <Flex
+                    direction={'column'}
+                    align={'center'}
+                    justify="center"
+                    width="100%"
+                    margin="0 9em 0 0"
+                >
+                    <ActionPlanCard {...propsForPrecipitationCard} />
+                </Flex>
+            </ReportSlider>
         </Flex>
     )
 }
