@@ -15,11 +15,13 @@ import {
     REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID,
 } from 'api/env'
 import { toast } from 'react-toastify'
-import { getValidSlotFormat } from 'pages/onions/slots/OnionSlotsUpdateCard'
+import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
 import { aideApiAxios, adminApiGlovoappAxios } from 'api/api'
+import { alertService } from 'services/AlertService'
 
 export enum Errors {
     expiredGlovoAdminApiToken_401 = 'Request failed with status code 401',
+    invalidToken = 'Invalid access token',
 }
 
 export enum Recommendations {
@@ -284,6 +286,44 @@ export const axiosGetGlovoApiRefreshToken = createAsyncThunk<
     }
 )
 
+export const updateGlovoApiToken = createAsyncThunk<
+    void,
+    string,
+    {
+        rejectValue: MyKnownError
+    }
+>(
+    'onionsSlots/updateGlovoApiToken',
+    async function (_, { rejectWithValue, dispatch }) {
+        try {
+            const response: AxiosResponse = await aideApiAxios.options(
+                `/refresh_token/`
+            )
+
+            if (response.statusText !== 'OK') {
+                alertError(response.statusText)
+                throw new Error(response.statusText)
+            } else if (response.statusText === 'OK') {
+                alertService.loading(
+                    dispatch(axiosGetGlovoApiRefreshToken('_')),
+                    {
+                        pending: `Updating token...`,
+                        success: `API token updated!`,
+                        error: `Error while Updating token`,
+                    },
+                    {
+                        autoClose: 1000,
+                    }
+                )
+            }
+        } catch (error: Error | any) {
+            console.log('[onionsSlots/updateGlovoApiToken] error', error)
+            alertError(error.message)
+            return rejectWithValue(error as MyKnownError)
+        }
+    }
+)
+
 export interface IOnionScheduleSlotsResponse {
     bonus: number
     bonusReasons: string[]
@@ -402,7 +442,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 headers: {
                     'user-agent': user_agent,
                     accept: accept,
-                    authorization: authorization,
+                    authorization: 'authorization',
                     'content-type': content_type,
                 },
 
@@ -455,6 +495,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
             console.log(error)
             if (error.message === Errors.expiredGlovoAdminApiToken_401) {
                 alertError(Recommendations.expiredGlovoAdminApiToken_401)
+                dispatch(updateGlovoApiToken('_'))
             } else {
                 alertError(error.message)
             }
@@ -751,6 +792,13 @@ const userSlice = createSlice({
         builder.addCase(logScheduleActionToSheet.fulfilled, (state) => {
             state.status = StateStatus.success
         })
+        builder.addCase(updateGlovoApiToken.rejected, (state) => {
+            state.status = StateStatus.error
+        })
+        builder.addCase(updateGlovoApiToken.pending, (state) => {
+            state.status = StateStatus.loading
+        })
+        builder.addCase(updateGlovoApiToken.fulfilled, (state) => {})
     },
 })
 
