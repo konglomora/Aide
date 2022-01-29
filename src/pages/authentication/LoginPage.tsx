@@ -7,6 +7,7 @@ import { useAppDispatch } from 'store/hooks'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { getUserRole } from 'pages/authentication'
 import { Flex } from 'components/styled'
+import { alertService } from 'services/AlertService'
 
 const LoginPage = () => {
     const dispatch = useAppDispatch()
@@ -14,8 +15,6 @@ const LoginPage = () => {
     const location = useLocation()
     console.log('Login Page location.state?.from', location.state)
     const from = location.state?.from?.pathname || '/'
-
-    const [displaySignInError, setDisplaySignInError] = useState<string>('none')
 
     const handleLogin = (email: string, password: string) => {
         const auth = getAuth()
@@ -40,20 +39,19 @@ const LoginPage = () => {
                     '[Login page] Logged in as: ',
                     getUserRole(user.email!)
                 )
+                alertService.success('Logged in successful!', {
+                    autoClose: 1000,
+                })
                 navigate(from, { replace: true })
             })
             .catch(() => {
-                setDisplaySignInError('block')
+                alertService.error('Ooops! Wrong password or email!')
             })
     }
 
     return (
         <Flex>
-            <Form
-                title="Sign in"
-                handleClick={handleLogin}
-                displaySignInError={displaySignInError}
-            />
+            <Form title="Sign in" handleClick={handleLogin} />
         </Flex>
     )
 }

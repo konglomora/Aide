@@ -1,22 +1,14 @@
 import { FC, useState } from 'react'
-import {
-    Flex,
-    Icon,
-    Input,
-    Title,
-    TextContent,
-    Button,
-} from 'components/styled'
+import { Flex, Icon, Input, Title, Button } from 'components/styled'
 import LOCK_ICON from 'assets/icons/padlock.svg'
 
 export interface FormProps {
     title: string
     handleClick: (email: string, pass: string) => void
-    displaySignInError: string
 }
 
 const Form: FC<FormProps> = (props) => {
-    const { title, handleClick, displaySignInError } = props
+    const { title, handleClick } = props
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
@@ -53,15 +45,7 @@ const Form: FC<FormProps> = (props) => {
                 <Title margin="20px 0 0 0" height="1.5 em">
                     {title}
                 </Title>
-                <TextContent
-                    display={displaySignInError}
-                    margin="10px auto"
-                    textAlign="center"
-                    color="red"
-                    fSize="1.4em"
-                >
-                    🧐 Incorrect email or password 🧐
-                </TextContent>
+
                 <Flex
                     margin="14px"
                     mHeight="7em"
