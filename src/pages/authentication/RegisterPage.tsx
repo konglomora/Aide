@@ -1,15 +1,14 @@
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from 'store/hooks'
 import { setUser } from 'store/slices/userSlice'
 import { StyledNavLink, stylesForStyledLink } from 'components/styled'
-import { Form } from 'pages/authentication'
+import { Form } from 'Pages/authentication'
+import { alertService } from 'services/AlertService'
 
 const RegisterPage = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const [displaySignInError, setDisplaySignInError] = useState<string>('none')
 
     const handleRegister = (email: string, password: string) => {
         const auth = getAuth()
@@ -26,17 +25,13 @@ const RegisterPage = () => {
                 navigate('/')
             })
             .catch(() => {
-                setDisplaySignInError('block')
+                alertService.error('Oops! Error while registration!')
             })
     }
     return (
         <div>
             <h1>Register</h1>
-            <Form
-                title="Register"
-                handleClick={handleRegister}
-                displaySignInError={displaySignInError}
-            />
+            <Form title="Register" handleClick={handleRegister} />
             <StyledNavLink
                 {...stylesForStyledLink}
                 to={'/login'}

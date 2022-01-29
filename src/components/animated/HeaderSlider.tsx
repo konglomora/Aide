@@ -22,7 +22,7 @@ const SliderCard: FC<IPropsSlider> = (props) => {
     useEffect(() => {
         status === StateStatus.success && setAnimation(topScreenPart)
         status === StateStatus.loading && setAnimation(centerScreenPart)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-Hooks/exhaustive-deps
     }, [status])
 
     return (

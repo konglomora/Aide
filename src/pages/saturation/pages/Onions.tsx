@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { slotsRegular } from 'helpers/slots'
+import { slotsRegular } from 'Helpers/slots'
 import OnionSaturationCard from '../cards/OnionSaturation'
 import { Flex, Title, Button, SelectStyle } from 'components/styled'
 import {
@@ -15,7 +15,7 @@ import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import { Colors } from 'components/styled'
 import { useAppSelector } from 'store/hooks'
-import { Roles } from 'pages/authentication/userRoles'
+import { Roles } from 'Pages/authentication/userRoles'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 
 const SaturationBySelectedOnion = () => {
