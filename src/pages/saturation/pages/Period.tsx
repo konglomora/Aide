@@ -1,9 +1,3 @@
-import {
-    AnimationControls,
-    motion,
-    TargetAndTransition,
-    VariantLabels,
-} from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { slotsRegular } from 'helpers/slots'
 import { Flex, Title, TextContent } from 'components/styled'
@@ -15,14 +9,14 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 import FRANKS_SUCCESS_GIF from 'assets/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
-import OnionSaturationCard from '../cards/OnionSaturationCard'
+import OnionSaturationCard from '../cards/OnionSaturation'
 import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 import {
     PeriodSelectors,
     ReportPeriodSelectCard,
-} from '../cards/ReportPeriodSelectCard'
-import { transitionForElements } from 'components/animated/SliderCard'
+} from '../cards/ReportPeriodSelect'
+import { ReportSlider } from 'components/animated'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -82,19 +76,6 @@ const SaturationByPeriodPage = () => {
         }
     }, [status])
 
-    const [animation, setanimation] = useState<
-        AnimationControls | TargetAndTransition | VariantLabels | boolean
-    >({ y: 0 })
-
-    const defaultPlace = { y: 0 }
-    const bottomHidden = { y: 550 }
-
-    useEffect(() => {
-        status === StateStatus.success && setanimation(defaultPlace)
-        status === StateStatus.loading && setanimation(bottomHidden)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [status])
-
     return (
         <Flex
             direction={'column'}
@@ -112,13 +93,11 @@ const SaturationByPeriodPage = () => {
                 selectChangeHandler={selectChangeHandler}
                 sendRequestForReport={sendRequestForReport}
             />
-            <motion.div
-                initial={StateStatus.success ? defaultPlace : bottomHidden}
-                animate={animation}
-                transition={transitionForElements}
+            <ReportSlider
+                status={status}
                 style={{
                     width: '50%',
-                    margin: '10em 0 0 20em',
+                    margin: '15em 0  0 20em',
                 }}
             >
                 <Flex direction={'column'}>
@@ -238,7 +217,7 @@ const SaturationByPeriodPage = () => {
                         </Flex>
                     )}
                 </Flex>
-            </motion.div>
+            </ReportSlider>
         </Flex>
     )
 }

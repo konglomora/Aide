@@ -1,2 +1,2 @@
-export { default as SaturationByPeriod } from './SaturationByPeriod'
-export { default as SaturationBySelectedOnion } from './SaturationBySelectedOnion'
+export { default as SaturationByPeriod } from './Period'
+export { default as SaturationBySelectedOnion } from './Onions'

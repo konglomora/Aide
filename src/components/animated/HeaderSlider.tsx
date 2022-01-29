@@ -2,41 +2,15 @@ import {
     AnimationControls,
     motion,
     TargetAndTransition,
-    Transition,
     VariantLabels,
 } from 'framer-motion'
-import {
-    FC,
-    JSXElementConstructor,
-    ReactElement,
-    ReactNode,
-    useEffect,
-    useState,
-} from 'react'
+import { FC, useEffect, useState } from 'react'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 import { Flex } from 'components/styled'
+import { sliderTransition } from './transitions'
+import { IPropsSlider } from './types'
 
-export interface IPropsSliderCard {
-    children:
-        | ReactElement
-        | Element
-        | ReactElement[]
-        | ReactNode
-        | (ReactElement<any, string | JSXElementConstructor<any>>[] | Element)[]
-        | ReactElement<any, string | JSXElementConstructor<any>>
-    elementType?: string
-    backgroundImage: string
-    backgroundSize: string
-    status: StateStatus | null
-}
-
-export const transitionForElements: Transition = {
-    delay: 0.15,
-    duration: 0.8,
-    type: 'spring',
-}
-
-const SliderCard: FC<IPropsSliderCard> = (props) => {
+const SliderCard: FC<IPropsSlider> = (props) => {
     const { children, backgroundImage, backgroundSize, status } = props
 
     const [animation, setAnimation] = useState<
@@ -55,7 +29,7 @@ const SliderCard: FC<IPropsSliderCard> = (props) => {
         <motion.div
             initial={StateStatus.success ? topScreenPart : centerScreenPart}
             animate={animation}
-            transition={transitionForElements}
+            transition={sliderTransition}
             style={{
                 height: '5em',
                 width: '77%',
