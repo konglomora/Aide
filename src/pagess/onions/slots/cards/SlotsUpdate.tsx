@@ -25,7 +25,7 @@ import {
 } from 'store/slices/onionsSlotsSlice'
 import { allOnionCodes } from 'helpers/onionCodes'
 import { alertService } from 'services/AlertService'
-import { PeriodSelectors } from 'pages/saturation/cards/ReportPeriodSelect'
+import { PeriodSelectors } from 'pagess/saturation/cards/ReportPeriodSelect'
 
 export interface IOnionSlotsUpdateCard {}
 

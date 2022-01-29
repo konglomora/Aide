@@ -4,7 +4,7 @@ import { RootState } from 'store'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { setNextDay, setPrevDay, setToday } from 'store/slices/scheduleSlice'
 import { IOnionCodes, OnionCodes } from 'helpers/onionCodes'
-import OnionSlotsCard from 'pages/onions/OnionSlotCard'
+import OnionSlotsCard from 'pagess/onions/OnionSlotCard'
 
 export default function Schedule() {
     const dispatch = useAppDispatch()
