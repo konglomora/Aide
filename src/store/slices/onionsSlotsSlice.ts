@@ -442,7 +442,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 headers: {
                     'user-agent': user_agent,
                     accept: accept,
-                    authorization: 'authorization',
+                    authorization: authorization,
                     'content-type': content_type,
                 },
 
@@ -668,9 +668,14 @@ export const updateOnionSlots = createAsyncThunk<
                 '[onionsSlots/axiosGetOnionScheduleActiveDates] error',
                 error
             )
-            alertError(
-                `[onionsSlots/axiosGetOnionScheduleActiveDates]: ${error.message}`
-            )
+            if (error.message === Errors.expiredGlovoAdminApiToken_401) {
+                alertError(Recommendations.expiredGlovoAdminApiToken_401)
+                dispatch(updateGlovoApiToken('_'))
+            } else {
+                alertError(
+                    `[onionsSlots/axiosGetOnionScheduleActiveDates]: ${error.message}`
+                )
+            }
             return rejectWithValue(error as MyKnownError)
         }
     }
