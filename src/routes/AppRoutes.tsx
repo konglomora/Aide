@@ -2,21 +2,21 @@ import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { RootState } from 'store'
 import { useAppSelector } from 'store/hooks'
-import { Roles } from 'pagess/authentication/userRoles'
-import { LoginPage } from 'pagess/authentication'
-import { ProtectedRoutes, OnionsNavbar, WeatherNavbar } from 'pagess/navigation'
+import { Roles } from 'pages/authentication/userRoles'
+import { LoginPage } from 'pages/authentication'
+import { ProtectedRoutes, OnionsNavbar, WeatherNavbar } from 'pages/navigation'
 import {
     SaturationByPeriod,
     SaturationBySelectedOnion,
-} from 'pagess/saturation/pages'
-import SchedulePage from '../pagess/onions/SchedulePage'
-import WeatherActionPlan from '../pagess/weather/pages/Coordination'
-import Layout from '../pagess/navigation/Layout'
-import SaturationNavigation from '../pagess/navigation/SaturationNavbar'
-import Slots from '../pagess/onions/slots/pages/Slots'
-import Experiments from '../pagess/experiments/Experiments'
-import { Homepage } from 'pagess/homepage'
-import { Page404 } from 'pagess/404/Page404'
+} from 'pages/saturation/pages'
+import SchedulePage from '../pages/onions/SchedulePage'
+import WeatherActionPlan from '../pages/weather/pages/Coordination'
+import Layout from '../pages/navigation/Layout'
+import SaturationNavigation from '../pages/navigation/SaturationNavbar'
+import Slots from '../pages/onions/slots/pages/Slots'
+import Experiments from '../pages/experiments/Experiments'
+import { Homepage } from 'pages/homepage'
+import { Page404 } from 'pages/404/Page404'
 
 const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)

@@ -1,10 +1,10 @@
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setUser } from 'store/slices/userSlice'
-import { Form } from 'pagess/authentication'
+import { Form } from 'pages/authentication'
 import { useAppDispatch } from 'store/hooks'
 import { capitalizeFirstLetter } from 'helpers/strings'
-import { getUserRole } from 'pagess/authentication'
+import { getUserRole } from 'pages/authentication'
 import { Flex } from 'components/styled'
 import { alertService } from 'services/AlertService'
 
