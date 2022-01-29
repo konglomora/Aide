@@ -9,8 +9,8 @@ import { useAppSelector } from 'store/hooks'
 import { StateStatus } from 'store/slices/onionsSlotsSlice'
 import { alertService } from 'services/AlertService'
 import { ReportSlider, SliderCard } from 'components/animated'
-import { generatePlanCards } from 'Pages/weather/generators/PlanCardsGenerator'
-import { ActionPlanCard } from 'Pages/weather/cards/ActionPlanCard'
+import { generatePlanCards } from 'pages/weather/generators/PlanCardsGenerator'
+import { ActionPlanCard } from 'pages/weather/cards/ActionPlanCard'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()

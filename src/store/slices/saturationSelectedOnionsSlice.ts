@@ -1,7 +1,7 @@
 import { RootState } from './../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from '../../api/api'
-import { OnionCodes } from '../../Helpers/onionCodes'
+import { OnionCodes } from '../../helpers/onionCodes'
 import { codes } from '../helpers/Codes'
 import {
     PropsAxiosGetSaturatedOnionAnalyseObject,
