@@ -1,6 +1,6 @@
 import { Flex, TextContent } from 'components/styled'
 import { FC } from 'react'
-import OnionCode from 'pagess/saturation/cards/OnionCode'
+import OnionCode from 'pages/saturation/cards/OnionCode'
 
 interface IAreaCodesCard {
     cardTitle: string
