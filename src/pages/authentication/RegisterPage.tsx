@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from 'store/hooks'
 import { setUser } from 'store/slices/userSlice'
 import { StyledNavLink, stylesForStyledLink } from 'components/styled'
-import { Form } from 'pages/authentication'
+import { Form } from 'Pages/authentication'
 import { alertService } from 'services/AlertService'
 
 const RegisterPage = () => {
