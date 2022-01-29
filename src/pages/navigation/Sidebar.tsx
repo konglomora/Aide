@@ -5,14 +5,14 @@ import {
     TextContent,
     Colors,
 } from 'components/styled'
-import { useAuth } from 'Hooks/useAuth'
+import { useAuth } from 'hooks/useAuth'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { RootState } from 'store'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { removeUser } from 'store/slices/userSlice'
-import { Roles } from 'Pages/authentication/userRoles'
-import { capitalizeFirstLetter } from 'Helpers/strings'
+import { Roles } from 'pages/authentication/userRoles'
+import { capitalizeFirstLetter } from 'helpers/strings'
 import LogOutIcon from 'assets/icons/log-out.svg'
 
 export const stylesForStyledLink = {
