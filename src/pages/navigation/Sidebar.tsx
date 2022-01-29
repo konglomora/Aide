@@ -37,7 +37,7 @@ const Sidebar = () => {
             const emailName = email.split('.')[0]
             setUserName(capitalizeFirstLetter(emailName))
         }
-        // eslint-disable-next-line react-Hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuth])
 
     const userIsAdmin = useAppSelector(

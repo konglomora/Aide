@@ -23,7 +23,7 @@ const ReportSlider: FC<IPropsSlider> = (props) => {
     useEffect(() => {
         status === StateStatus.success && setAnimation(defaultPlace)
         status === StateStatus.loading && setAnimation(bottomHidden)
-        // eslint-disable-next-line react-Hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status])
     return (
         <motion.div

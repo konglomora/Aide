@@ -172,7 +172,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     const SLOTS_LINK: string = REACT_APP_ONION_SLOTS_LINK
     const onionSlotsLink: string = `${SLOTS_LINK}${city}/${dateOfReport}`
 
-    // eslint-disable-next-line react-Hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const areaCodes = Object.keys(areasInfo)
         areaCodes.forEach((areaCode) => {

@@ -25,7 +25,8 @@ export default function Slots() {
                 activeScheduleDates
             )
         })()
-        // eslint-disable-next-line react-Hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
     return (

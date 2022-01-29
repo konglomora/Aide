@@ -74,7 +74,7 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
         )
 
         dispatch(updateSelectedScheduleDate(date))
-        // eslint-disable-next-line react-Hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date, selectedOnionCode])
 
     const bonusSizeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
