@@ -15,7 +15,7 @@ import {
     REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID,
 } from 'api/env'
 import { toast } from 'react-toastify'
-import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
+import { getValidSlotFormat } from 'pagess/onions/slots/cards/SlotsUpdate'
 import { aideApiAxios, adminApiGlovoappAxios } from 'api/api'
 import { alertService } from 'services/AlertService'
 
