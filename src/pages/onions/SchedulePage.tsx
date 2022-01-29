@@ -3,8 +3,8 @@ import { Flex, TextContent } from 'components/styled'
 import { RootState } from 'store'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { setNextDay, setPrevDay, setToday } from 'store/slices/scheduleSlice'
-import { IOnionCodes, OnionCodes } from 'helpers/onionCodes'
-import OnionSlotsCard from 'pages/onions/OnionSlotCard'
+import { IOnionCodes, OnionCodes } from 'Helpers/onionCodes'
+import OnionSlotsCard from 'Pages/onions/OnionSlotCard'
 
 export default function Schedule() {
     const dispatch = useAppDispatch()

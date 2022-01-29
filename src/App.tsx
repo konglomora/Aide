@@ -4,9 +4,9 @@ import { useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { capitalizeFirstLetter } from 'helpers/strings'
+import { capitalizeFirstLetter } from 'Helpers/strings'
 import { Flex } from './components/styled'
-import { AppRoutes } from './pages/navigation'
+import { AppRoutes } from './Pages/navigation'
 
 function App(): ReactElement {
     const url = useLocation()

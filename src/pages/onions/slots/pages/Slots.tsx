@@ -7,7 +7,7 @@ import {
 } from 'store/slices/onionsSlotsSlice'
 import { Flex, Icon, Colors, Title } from 'components/styled'
 import GOOGLE_SHEETS_ICON from 'assets/icons/sheets-icon.svg'
-import OnionSlotsUpdateCard from 'pages/onions/slots/cards/SlotsUpdate'
+import OnionSlotsUpdateCard from 'Pages/onions/slots/cards/SlotsUpdate'
 
 export default function Slots() {
     const dispatch = useAppDispatch()
@@ -25,6 +25,7 @@ export default function Slots() {
                 activeScheduleDates
             )
         })()
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 

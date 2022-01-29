@@ -23,9 +23,9 @@ import {
     updateSelectedOnionCode,
     updateSelectedScheduleDate,
 } from 'store/slices/onionsSlotsSlice'
-import { allOnionCodes } from 'helpers/onionCodes'
+import { allOnionCodes } from 'Helpers/onionCodes'
 import { alertService } from 'services/AlertService'
-import { PeriodSelectors } from 'pages/saturation/cards/ReportPeriodSelect'
+import { PeriodSelectors } from 'Pages/saturation/cards/ReportPeriodSelect'
 
 export interface IOnionSlotsUpdateCard {}
 
