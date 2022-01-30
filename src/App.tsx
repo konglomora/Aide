@@ -23,7 +23,7 @@ function App(): ReactElement {
             </Helmet>
             <GlobalStyle />
             <AppRoutes />
-            <ToastContainer />
+            <ToastContainer style={{ margin: '0 0 5em 0' }} />
         </Flex>
     )
 }
