@@ -5,12 +5,12 @@ import {
     TextContent,
     Colors,
 } from 'components/styled'
-import { useAuth } from 'hooks/useAuth'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { RootState } from 'store'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { removeUser } from 'store/slices/userSlice'
+import { useAppDispatch, useAppSelector, useAuth } from 'hooks'
+
+import { removeUser } from 'store/slices/user/userSlice'
 import { Roles } from 'pages/authentication/userRoles'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import LogOutIcon from 'assets/icons/log-out.svg'

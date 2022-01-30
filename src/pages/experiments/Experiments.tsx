@@ -1,11 +1,11 @@
 import { Flex, Button } from 'components/styled'
 import dayjs from 'dayjs'
 import { alertService } from 'services/AlertService'
-import { useAppDispatch } from 'store/hooks'
+import { useAppDispatch } from 'hooks'
 import {
     IDataForScheduleActionLog,
     logScheduleActionToSheet,
-} from 'store/slices/onionsSlotsSlice'
+} from 'store/slices/onions/onionsSlotsSlice'
 
 const Experiments = () => {
     const dispatch = useAppDispatch()

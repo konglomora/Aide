@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { motion } from 'framer-motion'
-import { StateStatus } from 'store/slices/onionsSlotsSlice'
+import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
 import logo from 'assets/img/logo.svg'
 import { Flex } from 'components/styled'
 

@@ -1,12 +1,12 @@
 import { onionService } from 'services/OnionService'
-import { RootState } from '../index'
+import { RootState } from '../../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { aideApiAxios } from '../../api/api'
-import { SaturationReasons } from '../../helpers/saturationReasons'
+import { aideApiAxios } from '../../../api/api'
+import { SaturationReasons } from '../../../helpers/saturationReasons'
 import {
     PropsAxiosGetSaturatedOnionAnalyseObject,
     PropsGetSaturationReport,
-} from './sliceTypes'
+} from './types'
 import { AxiosResponse } from 'axios'
 import {
     ISaturatedOnionAnalysis,
@@ -14,7 +14,7 @@ import {
     MyKnownError,
 } from 'store/helpers/reports/types'
 import { saturationService } from 'services/SaturationService'
-import { StateStatus } from './onionsSlotsSlice'
+import { StateStatus } from '../onions/onionsSlotsSlice'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk<
     ISaturatedOnionBySlot[],

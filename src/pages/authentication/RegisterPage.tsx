@@ -1,7 +1,8 @@
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { useAppDispatch } from 'store/hooks'
-import { setUser } from 'store/slices/userSlice'
+
+import { useAppDispatch } from 'hooks'
+import { setUser } from 'store/slices/user/userSlice'
 import { StyledNavLink, stylesForStyledLink } from 'components/styled'
 import { Form } from 'pages/authentication'
 import { alertService } from 'services/AlertService'

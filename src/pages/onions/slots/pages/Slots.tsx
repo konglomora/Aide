@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { useAppDispatch, useAppSelector } from 'hooks'
+
 import {
     axiosGetGlovoApiRefreshToken,
     getActiveScheduleDates,
-} from 'store/slices/onionsSlotsSlice'
+} from 'store/slices/onions/onionsSlotsSlice'
 import { Flex, Icon, Colors, Title } from 'components/styled'
 import GOOGLE_SHEETS_ICON from 'assets/icons/sheets-icon.svg'
 import OnionSlotsUpdateCard from 'pages/onions/slots/cards/SlotsUpdate'
@@ -17,7 +18,7 @@ export default function Slots() {
 
     useEffect(() => {
         ;(async () => {
-            await dispatch(axiosGetGlovoApiRefreshToken('_'))
+            await dispatch(axiosGetGlovoApiRefreshToken())
             await dispatch(getActiveScheduleDates())
             console.log('[SlotsPage] glovoAdminHeaders:', glovoAdminHeaders)
             console.log(

@@ -1,8 +1,13 @@
 import Button from 'components/styled/Button'
 import { Flex, TextContent } from 'components/styled'
 import { RootState } from 'store'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { setNextDay, setPrevDay, setToday } from 'store/slices/scheduleSlice'
+import { useAppDispatch, useAppSelector } from 'hooks'
+
+import {
+    setNextDay,
+    setPrevDay,
+    setToday,
+} from 'store/slices/onions/scheduleSlice'
 import { IOnionCodes, OnionCodes } from 'helpers/onionCodes'
 import OnionSlotsCard from 'pages/onions/OnionSlotCard'
 

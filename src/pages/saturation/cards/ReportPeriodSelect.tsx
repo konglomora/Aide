@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from 'components/styled/Button'
-import { StateStatus } from 'store/slices/onionsSlotsSlice'
+import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
 import { SelectStyle, Colors } from 'components/styled'
 import { SliderCard } from 'components/animated'
 

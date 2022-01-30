@@ -260,7 +260,7 @@ export const logScheduleActionToSheet = createAsyncThunk<
 
 export const axiosGetGlovoApiRefreshToken = createAsyncThunk<
     IGlovoAdminHeaders[],
-    string,
+    void,
     {
         rejectValue: MyKnownError
     }
@@ -288,7 +288,7 @@ export const axiosGetGlovoApiRefreshToken = createAsyncThunk<
 
 export const updateGlovoApiToken = createAsyncThunk<
     void,
-    string,
+    void,
     {
         rejectValue: MyKnownError
     }
@@ -305,7 +305,7 @@ export const updateGlovoApiToken = createAsyncThunk<
                 throw new Error(response.statusText)
             } else if (response.statusText === 'OK') {
                 alertService.loading(
-                    dispatch(axiosGetGlovoApiRefreshToken('_')),
+                    dispatch(axiosGetGlovoApiRefreshToken()),
                     {
                         pending: `Updating token...`,
                         success: `API token updated!`,
@@ -365,7 +365,7 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
         { dispatch, rejectWithValue, getState }
     ) {
         try {
-            await dispatch(axiosGetGlovoApiRefreshToken('_'))
+            await dispatch(axiosGetGlovoApiRefreshToken())
             const state = getState() as RootState
 
             const { user_agent, accept, authorization, content_type } =
@@ -432,7 +432,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
         { dispatch, rejectWithValue, getState }
     ) {
         try {
-            await dispatch(axiosGetGlovoApiRefreshToken('_'))
+            await dispatch(axiosGetGlovoApiRefreshToken())
             const state = getState() as RootState
 
             const { user_agent, accept, authorization, content_type } =
@@ -495,7 +495,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
             console.log(error)
             if (error.message === Errors.expiredGlovoAdminApiToken_401) {
                 alertError(Recommendations.expiredGlovoAdminApiToken_401)
-                dispatch(updateGlovoApiToken('_'))
+                dispatch(updateGlovoApiToken())
             } else {
                 alertError(error.message)
             }
@@ -528,7 +528,7 @@ export const updateOnionSlots = createAsyncThunk<
     'onionsSlots/updateOnionSlots',
     async function (_, { dispatch, rejectWithValue, getState }) {
         try {
-            await dispatch(axiosGetGlovoApiRefreshToken('_'))
+            await dispatch(axiosGetGlovoApiRefreshToken())
             const state = getState() as RootState
 
             const { user_agent, accept, authorization, content_type } =
@@ -670,7 +670,7 @@ export const updateOnionSlots = createAsyncThunk<
             )
             if (error.message === Errors.expiredGlovoAdminApiToken_401) {
                 alertError(Recommendations.expiredGlovoAdminApiToken_401)
-                dispatch(updateGlovoApiToken('_'))
+                dispatch(updateGlovoApiToken())
             } else {
                 alertError(
                     `[onionsSlots/axiosGetOnionScheduleActiveDates]: ${error.message}`

@@ -1,6 +1,6 @@
-import { useAppSelector } from '../store/hooks'
+import { useAppSelector } from 'hooks'
 
-export function useAuth() {
+const useAuth = () => {
     const { email, token, id } = useAppSelector((state) => state.user)
 
     return {
@@ -10,3 +10,4 @@ export function useAuth() {
         id,
     }
 }
+export default useAuth
