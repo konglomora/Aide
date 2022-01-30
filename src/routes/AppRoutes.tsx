@@ -18,33 +18,47 @@ import Experiments from '../pages/experiments/Experiments'
 import { Homepage } from 'pages/homepage'
 import { Page404 } from 'pages/404/Page404'
 import { useAppSelector } from 'hooks'
+import nextId from 'react-id-generator'
 
 const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)
     const userIsAdmin = userRole === Roles.admin
 
     const weatherRoutes = (
-        <Route path="weather" element={<WeatherNavbar />}>
-            <Route path="action-plan" element={<WeatherActionPlan />} />
+        <Route key={nextId()} path="weather" element={<WeatherNavbar />}>
+            <Route
+                key={nextId()}
+                path="action-plan"
+                element={<WeatherActionPlan />}
+            />
         </Route>
     )
 
     const experimentRoutes = (
-        <Route path="experiments" element={<Experiments />} />
+        <Route key={nextId()} path="experiments" element={<Experiments />} />
     )
     const adminRoutes = userIsAdmin && [experimentRoutes]
 
     const onionsRoutes = (
-        <Route path="onions" element={<OnionsNavbar />}>
-            <Route path="slots" element={<Slots />} />
-            <Route path="schedules" element={<SchedulePage />} />
+        <Route key={nextId()} path="onions" element={<OnionsNavbar />}>
+            <Route key={nextId()} path="slots" element={<Slots />} />
+            <Route key={nextId()} path="schedules" element={<SchedulePage />} />
         </Route>
     )
 
     const saturationRoutes = (
-        <Route path="saturation" element={<SaturationNavigation />}>
-            <Route path="period" element={<SaturationByPeriod />} />
+        <Route
+            key={nextId()}
+            path="saturation"
+            element={<SaturationNavigation />}
+        >
             <Route
+                key={nextId()}
+                path="period"
+                element={<SaturationByPeriod />}
+            />
+            <Route
+                key={nextId()}
                 path="onion-select"
                 element={<SaturationBySelectedOnion />}
             />
@@ -54,7 +68,7 @@ const AppRoutes: FC = () => {
     return (
         <Routes>
             <Route element={<ProtectedRoutes />}>
-                <Route path="/" element={<Layout />}>
+                <Route key={nextId()} path="/" element={<Layout />}>
                     <Route index element={<Homepage />} />
                     {onionsRoutes}
                     {weatherRoutes}
@@ -63,7 +77,7 @@ const AppRoutes: FC = () => {
                     <Route path="*" element={<Page404 />} />
                 </Route>
             </Route>
-            <Route path="/login" element={<LoginPage />} />
+            <Route key={nextId()} path="/login" element={<LoginPage />} />
         </Routes>
     )
 }
