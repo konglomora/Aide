@@ -11,19 +11,22 @@ import { sliderTransition } from './transitions'
 import { IPropsSlider } from './types'
 
 const SliderCard: FC<IPropsSlider> = (props) => {
-    const { children, backgroundImage, backgroundSize, status } = props
-
-    const [animation, setAnimation] = useState<
-        AnimationControls | TargetAndTransition | VariantLabels | boolean
-    >({ y: 0 })
+    const { children, backgroundImage, backgroundSize, status, reportIsEmpty } =
+        props
 
     const topScreenPart = { y: ' -650%' }
     const centerScreenPart = { y: 0 }
+    const [animation, setAnimation] = useState<
+        AnimationControls | TargetAndTransition | VariantLabels | boolean
+    >(centerScreenPart)
+
     useEffect(() => {
-        status === StateStatus.success && setAnimation(topScreenPart)
-        status === StateStatus.loading && setAnimation(centerScreenPart)
+        const hasComponentsToShow =
+            status === StateStatus.success && !reportIsEmpty
+
+        hasComponentsToShow && setAnimation(topScreenPart)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [status])
+    }, [status, reportIsEmpty])
 
     return (
         <motion.div

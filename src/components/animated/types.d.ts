@@ -11,4 +11,5 @@ export interface IPropsSlider {
     backgroundSize?: string
     status?: StateStatus | null
     style?: CSS.Properties
+    reportIsEmpty?: boolean | null
 }

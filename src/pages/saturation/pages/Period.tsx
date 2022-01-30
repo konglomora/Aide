@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from 'hooks'
 import FRANKS_SUCCESS_GIF from 'assets/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
+import EMPTY from 'assets/gif/anime-i-dont-know.gif'
 import OnionSaturationCard from '../cards/OnionSaturation'
 import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
@@ -21,11 +22,16 @@ import { ReportSlider } from 'components/animated'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
-    const { saturationPeriodReport } = useAppSelector((state) => state)
+    const {
+        status,
+        periodStart,
+        periodEnd,
+        sortedReportBySaturationReason,
+        reportIsEmpty,
+    } = useAppSelector((state) => state.saturationPeriodReport)
     const [formBackGround, setFormBackGround] = useState('')
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
-    const { status, periodStart, periodEnd, sortedReportBySaturationReason } =
-        saturationPeriodReport
+
     const {
         lessCouriers,
         moreOrders,
@@ -66,7 +72,7 @@ const SaturationByPeriodPage = () => {
     }
 
     useEffect(() => {
-        if (status === StateStatus.success) {
+        if (status === StateStatus.success && !reportIsEmpty) {
             setFormBackGround(`url(${FRANKS_SUCCESS_GIF})`)
             setFormBackGroundSize('15%')
         } else if (status === 'loading') {
@@ -74,8 +80,12 @@ const SaturationByPeriodPage = () => {
             setFormBackGroundSize('20%')
         } else if (status === 'error') {
             setFormBackGround(`url(${ERROR_ANIME_GIF})`)
+        } else if (reportIsEmpty) {
+            console.log('ERROR_ANIME_GIF')
+            setFormBackGround(`url(${EMPTY})`)
+            setFormBackGroundSize('12%')
         }
-    }, [status])
+    }, [status, reportIsEmpty])
 
     return (
         <Flex
@@ -93,6 +103,7 @@ const SaturationByPeriodPage = () => {
                 status={status}
                 selectChangeHandler={selectChangeHandler}
                 sendRequestForReport={sendRequestForReport}
+                reportIsEmpty={reportIsEmpty}
             />
             <ReportSlider
                 status={status}

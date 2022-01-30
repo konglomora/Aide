@@ -18,6 +18,7 @@ export interface IReportPeriodSelectCardProps {
     status: StateStatus | null
     selectChangeHandler(e: React.ChangeEvent<HTMLSelectElement>): void
     sendRequestForReport(): void
+    reportIsEmpty?: boolean | null
 }
 
 export const ReportPeriodSelectCard: React.FC<IReportPeriodSelectCardProps> = (
@@ -32,10 +33,12 @@ export const ReportPeriodSelectCard: React.FC<IReportPeriodSelectCardProps> = (
         status,
         selectChangeHandler,
         sendRequestForReport,
+        reportIsEmpty,
     } = props
 
     return (
         <SliderCard
+            reportIsEmpty={reportIsEmpty}
             backgroundImage={formBackGround}
             backgroundSize={formBackGroundSize}
             status={status}
