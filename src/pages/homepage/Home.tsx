@@ -1,4 +1,5 @@
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector } from 'hooks'
+
 import { Flex } from 'components/styled'
 import welcomeImage from 'assets/gif/madara-naruto.gif'
 

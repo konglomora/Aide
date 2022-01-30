@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
 import { Flex, Title, Colors } from 'components/styled'
 import { areasInfo } from 'store/helpers/AreasInfo'
-import { IOnionWeatherAnalysis } from 'store/slices/weatherActionPlanSlice'
+import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
 
 export enum Actions {
     expand = 'Расширяем заполненные слоты с вероятностью на 10%.',

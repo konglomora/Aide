@@ -8,15 +8,15 @@ import {
     getSaturationReport,
     selectOnion,
     setPeriodOfReport,
-} from 'store/slices/saturationSelectedOnionsSlice'
+} from 'store/slices/saturation/saturationSelectedOnionsSlice'
 import AreaCodesCard from '../cards/AreaCodes'
 import ANIME_SUCCESS_GIF from 'assets/gif/dancing-cute.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import { Colors } from 'components/styled'
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector } from 'hooks'
 import { Roles } from 'pages/authentication/userRoles'
-import { StateStatus } from 'store/slices/onionsSlotsSlice'
+import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
 
 const SaturationBySelectedOnion = () => {
     const dispatch = useDispatch()

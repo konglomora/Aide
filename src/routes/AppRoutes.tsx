@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { RootState } from 'store'
-import { useAppSelector } from 'store/hooks'
+
 import { Roles } from 'pages/authentication/userRoles'
 import { LoginPage } from 'pages/authentication'
 import { ProtectedRoutes, OnionsNavbar, WeatherNavbar } from 'pages/navigation'
@@ -17,6 +17,7 @@ import Slots from '../pages/onions/slots/pages/Slots'
 import Experiments from '../pages/experiments/Experiments'
 import { Homepage } from 'pages/homepage'
 import { Page404 } from 'pages/404/Page404'
+import { useAppSelector } from 'hooks'
 
 const AppRoutes: FC = () => {
     const userRole = useAppSelector((state: RootState) => state.user.role)

@@ -1,15 +1,18 @@
-import { RootState } from './../index'
+import { RootState } from '../../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { aideApiAxios } from '../../api/api'
-import { OnionCodes } from '../../helpers/onionCodes'
-import { codes } from '../helpers/Codes'
+import { aideApiAxios } from '../../../api/api'
+import { OnionCodes } from '../../../helpers/onionCodes'
+import { codes } from '../../helpers/Codes'
 import {
     PropsAxiosGetSaturatedOnionAnalyseObject,
     PropsGetSaturationReport,
-} from './sliceTypes'
-import { ISaturatedOnionAnalysis, MyKnownError } from '../helpers/reports/types'
+} from './types'
+import {
+    ISaturatedOnionAnalysis,
+    MyKnownError,
+} from '../../helpers/reports/types'
 import { saturationService } from 'services/SaturationService'
-import { StateStatus } from './onionsSlotsSlice'
+import { StateStatus } from '../onions/onionsSlotsSlice'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
     ISaturatedOnionAnalysis,

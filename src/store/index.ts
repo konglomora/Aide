@@ -6,12 +6,12 @@ import {
 import storageSession from 'redux-persist/lib/storage/session'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import saturationSelectedOnionsSlice from './slices/saturationSelectedOnionsSlice'
-import saturationPeriodReportSlice from './slices/saturationPeriodReportSlice'
-import weatherActionPlanSlice from './slices/weatherActionPlanSlice'
-import userSlice from './slices/userSlice'
-import scheduleSlice from './slices/scheduleSlice'
-import onionsSlotsSlice from './slices/onionsSlotsSlice'
+import saturationSelectedOnionsSlice from './slices/saturation/saturationSelectedOnionsSlice'
+import saturationPeriodReportSlice from './slices/saturation/saturationPeriodReportSlice'
+import weatherActionPlanSlice from './slices/weather/weatherActionPlanSlice'
+import userSlice from './slices/user/userSlice'
+import scheduleSlice from './slices/onions/scheduleSlice'
+import onionsSlotsSlice from './slices/onions/onionsSlotsSlice'
 
 const rootPersistConfig = {
     key: 'root',
@@ -29,6 +29,9 @@ const rootReducer = combineReducers({
     schedule: scheduleSlice,
     onionsSlots: onionsSlotsSlice,
 })
+
+// Disabling logs
+// if (process.env.NODE_ENV === 'development') console.log = () => {}
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 

@@ -4,14 +4,15 @@ import { Flex, Title, TextContent } from 'components/styled'
 import {
     getSaturationReport,
     setPeriodOfReport,
-} from 'store/slices/saturationPeriodReportSlice'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
+} from 'store/slices/saturation/saturationPeriodReportSlice'
+import { useAppDispatch, useAppSelector } from 'hooks'
+
 import FRANKS_SUCCESS_GIF from 'assets/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import OnionSaturationCard from '../cards/OnionSaturation'
 import { Roles } from 'pages/authentication/userRoles'
-import { StateStatus } from 'store/slices/onionsSlotsSlice'
+import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
 import {
     PeriodSelectors,
     ReportPeriodSelectCard,

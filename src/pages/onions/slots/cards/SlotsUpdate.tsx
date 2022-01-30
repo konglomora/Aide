@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import nextId from 'react-id-generator'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
     Flex,
     Button,
@@ -22,10 +21,11 @@ import {
     updatePeriodStartTime,
     updateSelectedOnionCode,
     updateSelectedScheduleDate,
-} from 'store/slices/onionsSlotsSlice'
+} from 'store/slices/onions/onionsSlotsSlice'
 import { allOnionCodes } from 'helpers/onionCodes'
 import { alertService } from 'services/AlertService'
 import { PeriodSelectors } from 'pages/saturation/cards/ReportPeriodSelect'
+import { useAppDispatch, useAppSelector } from 'hooks'
 
 export interface IOnionSlotsUpdateCard {}
 

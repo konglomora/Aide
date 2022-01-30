@@ -5,7 +5,7 @@ import {
     VariantLabels,
 } from 'framer-motion'
 import { FC, useEffect, useState } from 'react'
-import { StateStatus } from 'store/slices/onionsSlotsSlice'
+import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
 import { sliderTransition } from './transitions'
 import { IPropsSlider } from './types'
 

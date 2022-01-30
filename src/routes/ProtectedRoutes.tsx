@@ -1,4 +1,4 @@
-import { useAuth } from 'hooks/useAuth'
+import { useAuth } from 'hooks'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 const ProtectedRoutes = () => {
