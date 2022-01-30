@@ -9,7 +9,7 @@ import {
     setToday,
 } from 'store/slices/onions/scheduleSlice'
 import { IOnionCodes, OnionCodes } from 'helpers/onionCodes'
-import OnionSlotsCard from 'pages/onions/schedules/OnionSlotCard'
+import OnionSlotsCard from 'pages/onions/schedules/cards/OnionSlot'
 
 export default function Schedule() {
     const dispatch = useAppDispatch()
