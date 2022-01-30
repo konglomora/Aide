@@ -6,14 +6,7 @@
     "dependencies": {
         "@base-sdk/base": "^0.1.0-5",
         "@reduxjs/toolkit": "^1.6.1",
-        "@testing-library/jest-dom": "^5.14.1",
-        "@testing-library/react": "^11.2.7",
-        "@testing-library/user-event": "^12.8.3",
-        "@types/node": "^16.11.6",
-        "@types/react": "^17.0.34",
-        "@types/react-dom": "^17.0.11",
         "axios": "^0.21.1",
-        "chart.js": "^3.5.1",
         "dayjs": "^1.10.7",
         "dotenv": "^10.0.0",
         "firebase": "^9.2.0",
@@ -62,13 +55,17 @@
         ]
     },
     "devDependencies": {
+        "@testing-library/jest-dom": "^5.14.1",
+        "@testing-library/react": "^11.2.7",
+        "@testing-library/user-event": "^12.8.3",
         "@types/google-spreadsheet": "^3.1.5",
+        "@types/node": "^16.11.6",
+        "@types/react": "^17.0.34",
+        "@types/react-dom": "^17.0.11",
         "@types/react-helmet": "^6.1.5",
         "@types/react-redux": "^7.1.20",
         "@types/react-router-dom": "^5.3.3",
         "@types/styled-components": "^5.1.15",
-        "customize-cra": "^1.0.0",
-        "customize-cra-react-refresh": "^1.1.0",
         "nodemon": "^2.0.13",
         "prettier": "^2.3.2"
     }
