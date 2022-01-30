@@ -77,13 +77,13 @@ const SaturationByPeriodPage = () => {
             setFormBackGroundSize('15%')
         } else if (status === 'loading') {
             setFormBackGround(`url(${JOJO_LOADER})`)
-            setFormBackGroundSize('20%')
+            setFormBackGroundSize('15%')
         } else if (status === 'error') {
             setFormBackGround(`url(${ERROR_ANIME_GIF})`)
         } else if (reportIsEmpty) {
             console.log('ERROR_ANIME_GIF')
             setFormBackGround(`url(${EMPTY})`)
-            setFormBackGroundSize('12%')
+            setFormBackGroundSize('6%')
         }
     }, [status, reportIsEmpty])
 
