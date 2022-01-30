@@ -34,7 +34,7 @@ const OnionSaturationCard: FC<
 
     return (
         <Flex
-            border={'2px solid white'}
+            border={'3px solid white'}
             bRadius={'10px'}
             padding={'15px'}
             margin={'10px'}

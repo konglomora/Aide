@@ -45,7 +45,7 @@ const SliderCard: FC<IPropsSlider> = (props) => {
             <Flex
                 justify={'center'}
                 padding={'1em 1em 1em 1em'}
-                border={'2px solid white'}
+                border={'3px solid white'}
                 bRadius={'10px'}
                 bFilter={'blur(2px)'}
                 height="3em"

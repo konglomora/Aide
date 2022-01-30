@@ -77,7 +77,7 @@ export default function Slots() {
                             height="5em"
                             mHeight="1em"
                             background={Colors.lightBlack}
-                            border="2px solid white"
+                            border="3px solid white"
                             justify="center"
                             align="center"
                             hoverable={true}

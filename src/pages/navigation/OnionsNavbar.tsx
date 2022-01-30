@@ -1,13 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Flex, StyledNavLink } from 'components/styled'
-
-const stylesForStyledLink = {
-    width: '20%',
-    height: '2em',
-    radius: '15px',
-    text_align: 'center',
-}
+import { StyledNavLink, stylesForStyledLink } from 'components/styled'
+import { Navbar } from '.'
 
 const OnionsNavbar = () => {
     const url = useLocation()
@@ -19,19 +13,7 @@ const OnionsNavbar = () => {
 
     return (
         <>
-            <Flex
-                justify={'space-evenly'}
-                bBorder={'3px solid white'}
-                padding={'1em 0px 1em'}
-                bColor={'rgb(24,25,26)'}
-                height="3%"
-                mHeight="3%"
-                top="0"
-                left="10em"
-                width="100%"
-                position="fixed"
-                zIndex="3"
-            >
+            <Navbar>
                 <StyledNavLink
                     to="slots"
                     {...stylesForStyledLink}
@@ -49,7 +31,7 @@ const OnionsNavbar = () => {
                     text="Communications"
                     width="300px"
                 />
-            </Flex>
+            </Navbar>
             <Outlet />
         </>
     )

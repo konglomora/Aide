@@ -122,7 +122,7 @@ const SaturationByPeriodPage = () => {
                             <div> </div>
                             <Flex
                                 wrap={'wrap'}
-                                border={'2px solid white'}
+                                border={'3px solid white'}
                                 justify={'space-evenly'}
                                 align={'stretch'}
                                 padding={'10px'}
@@ -150,7 +150,7 @@ const SaturationByPeriodPage = () => {
                     {moreOrders.length > 0 && (
                         <Flex
                             wrap={'wrap'}
-                            border={'2px solid white'}
+                            border={'3px solid white'}
                             justify={'space-evenly'}
                             align={'stretch'}
                             padding={'10px'}
@@ -177,7 +177,7 @@ const SaturationByPeriodPage = () => {
                     {lessCouriersAndMoreOrders.length > 0 && (
                         <Flex
                             wrap={'wrap'}
-                            border={'2px solid white'}
+                            border={'3px solid white'}
                             justify={'space-evenly'}
                             align={'stretch'}
                             padding={'10px'}
@@ -206,7 +206,7 @@ const SaturationByPeriodPage = () => {
                     {betterThanD7.length > 0 && (
                         <Flex
                             wrap={'wrap'}
-                            border={'2px solid white'}
+                            border={'3px solid white'}
                             justify={'space-evenly'}
                             align={'stretch'}
                             padding={'10px'}

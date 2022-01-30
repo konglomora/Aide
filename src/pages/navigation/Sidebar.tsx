@@ -62,7 +62,7 @@ const Sidebar = () => {
         <Flex
             width={'13em'}
             bColor={Colors.lightBlack}
-            rBorder={'2px solid white'}
+            rBorder={'3px solid white'}
             direction={'column'}
             position="fixed"
             align="center"
@@ -75,7 +75,7 @@ const Sidebar = () => {
                 direction={'column'}
                 mHeight="10em"
                 height="15em"
-                padding="0 0 0 2em"
+                padding="1em 0 0 2em"
             >
                 <StyledNavLink
                     {...stylesForStyledLink}
@@ -106,7 +106,7 @@ const Sidebar = () => {
                 margin="auto 0 0 0"
                 justify="center"
                 align="center"
-                border="2px solid white"
+                border="3px solid white"
             >
                 <Icon
                     padding="0 0 0 2em"
