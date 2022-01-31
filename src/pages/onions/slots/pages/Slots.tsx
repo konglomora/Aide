@@ -45,7 +45,7 @@ export default function Slots() {
                     animate={{ y: 0 }}
                     transition={{ delay: 0.2, duration: 0.9, type: 'spring' }}
                     style={{
-                        width: '80%',
+                        width: '75%',
                         position: 'fixed',
                         top: '50%',
                     }}
@@ -53,7 +53,6 @@ export default function Slots() {
                     <OnionSlotsUpdateCard />
                 </motion.div>
 
-                {/* <Schedule /> */}
                 <motion.div
                     initial={{ y: 100 }}
                     animate={{ y: 0 }}
