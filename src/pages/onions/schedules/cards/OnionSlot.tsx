@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
 import { Flex, Title, Colors } from 'components/styled'
 
 interface PropsOnionSlotsCard {
@@ -11,7 +10,7 @@ const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
     const { code, date } = props
     const transparent = 'transparent'
     const border = '3px solid white'
-
+    const { REACT_APP_ONION_SLOTS_LINK } = process.env
     return (
         <Flex
             cursor={'pointer'}

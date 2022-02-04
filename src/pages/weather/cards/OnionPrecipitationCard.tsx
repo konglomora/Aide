@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
+// import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
 import { Flex, Title, Colors } from 'components/styled'
 import { areasInfo } from 'store/helpers/AreasInfo'
 import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
@@ -159,7 +159,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
 }) => {
     const [responsibleManagerTelegramNick, setResponsibleManagerTelegramNick] =
         useState<string>('')
-
+    const { REACT_APP_ONION_SLOTS_LINK } = process.env
     const [bonusSentence, setBonusSentence] = useState('')
     const [slotsSentence, setSlotsSentence] = useState('')
 
@@ -169,8 +169,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
             ? dayjs().add(1, 'day').format('YYYY-MM-DD')
             : dayjs().add(2, 'day').format('YYYY-MM-DD')
 
-    const SLOTS_LINK: string = REACT_APP_ONION_SLOTS_LINK
-    const onionSlotsLink: string = `${SLOTS_LINK}${city}/${dateOfReport}`
+    const onionSlotsLink: string = `${REACT_APP_ONION_SLOTS_LINK}${city}/${dateOfReport}`
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {

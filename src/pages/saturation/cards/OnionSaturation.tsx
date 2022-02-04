@@ -1,4 +1,4 @@
-import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
+// import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
 import dayjs from 'dayjs'
 import { Colors, Flex, Title } from 'components/styled'
 import { FC } from 'react'
@@ -24,7 +24,7 @@ const OnionSaturationCard: FC<
         block_min,
         mp_mode_min,
     } = props
-
+    const { REACT_APP_ONION_SLOTS_LINK } = process.env
     const hadMPMode =
         mp_mode_min > 0 && onionService.onionHasMPModeSetting(city)
     const hadBlock = block_min > 0 && onionService.onionHasBlockSetting(city)

@@ -9,11 +9,6 @@ import {
     GoogleSpreadsheetWorksheet,
     WorksheetGridRange,
 } from 'google-spreadsheet'
-import {
-    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
-    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
-    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID,
-} from 'api/env'
 import { toast } from 'react-toastify'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
 import { aideApiAxios, adminApiGlovoappAxios } from 'api/api'
@@ -132,14 +127,16 @@ export const logScheduleActionToSheet = createAsyncThunk<
 
         try {
             const doc = new GoogleSpreadsheet(
-                REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
+                process.env.REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
             )
 
             await doc.useServiceAccountAuth({
                 client_email:
-                    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL,
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL!,
                 private_key:
-                    REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY,
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY!,
             })
 
             await doc.loadInfo() // loads document properties and worksheets
