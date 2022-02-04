@@ -56,6 +56,9 @@ const Experiments = () => {
             <Button onClick={sheetLog}>Log to sheet</Button>
             <Button onClick={showAlert}>Show Alert</Button>
             <TextContent>Version 1.0.1</TextContent>
+            <TextContent>
+                Phrase from env: {process.env.REACT_APP_SECRET_PHRASE}
+            </TextContent>
         </Flex>
     )
 }
