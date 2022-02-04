@@ -188,7 +188,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
         const slotsFullFilled = percent_capacity_slots >= 55
 
         if (slotsEmpty) {
-            const bonusStr = `Добавить +${
+            const bonusStr = `Bonus: +${
                 ResourceByArea[area as keyof IResourceByArea].bonus.full
             }% BW на слоты  ${slots}`
             const slotsStr = `Слоты не заполнены.`
@@ -197,11 +197,9 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
         }
 
         if (slotsPartiallyFilled) {
-            const bonusStr = `Добавить +${
+            const bonusStr = `Bonus: +${
                 ResourceByArea[area as keyof IResourceByArea].bonus.partial
-            }% RUSH на слоты  ${slots},   по факту осадков добавить +${
-                ResourceByArea[area as keyof IResourceByArea].bonus.rest
-            }% BW.`
+            }% RUSH на слоты  ${slots}`
             const slotsStr = `Расширить слоты ${slots} на ${
                 ResourceByArea[area as keyof IResourceByArea].slots.high
             }%`
@@ -210,11 +208,9 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
         }
 
         if (slotsFullFilled) {
-            const bonusStr = `Добавить +${
+            const bonusStr = `Bonus: +${
                 ResourceByArea[area as keyof IResourceByArea].bonus.partial
-            }% RUSH на слоты  ${slots},   по факту осадков добавить +${
-                ResourceByArea[area as keyof IResourceByArea].bonus.rest
-            }% BW.`
+            }% RUSH на слоты  ${slots}`
             const slotsStr = `Расширить все слоты ${slots} на ${
                 ResourceByArea[area as keyof IResourceByArea].slots.medium
             }%`
@@ -252,6 +248,9 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
                 <div>{prepStr}</div>
                 <div>{slotsSentence}</div>
                 <div>{bonusSentence}</div>
+                <div>Challenges: - </div>
+                <div>Saturation Bot: NORMAL</div>
+                <div>Mode: Normal (не переводим на пеших)</div>
             </div>
             <div></div>
         </Flex>
