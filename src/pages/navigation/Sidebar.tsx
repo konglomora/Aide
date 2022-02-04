@@ -96,6 +96,7 @@ const Sidebar = () => {
                 />
                 {adminNavLinks}
             </Flex>
+
             <Flex
                 hoverable={true}
                 hoverColor={Colors.orange}
@@ -114,10 +115,12 @@ const Sidebar = () => {
                     height={'35px'}
                     src={LogOutIcon}
                 />
+
                 <Flex direction="column" justify="space-around" align="stretch">
                     <TextContent height="25%" textAlign="center" fSize="24px">
                         Logout
                     </TextContent>
+
                     <TextContent
                         fWeight={600}
                         height="25%"
