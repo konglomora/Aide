@@ -55,7 +55,7 @@ const Experiments = () => {
         <Flex direction="column" width="100%" margin="15em 0 0 15em">
             <Button onClick={sheetLog}>Log to sheet</Button>
             <Button onClick={showAlert}>Show Alert</Button>
-            <TextContent>Version 1.0.0</TextContent>
+            <TextContent>Version 1.0.1</TextContent>
         </Flex>
     )
 }
