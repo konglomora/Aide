@@ -1,4 +1,4 @@
-import { Flex, Button } from 'components/styled'
+import { Flex, Button, TextContent } from 'components/styled'
 import dayjs from 'dayjs'
 import { alertService } from 'services/AlertService'
 import { useAppDispatch } from 'hooks'
@@ -55,6 +55,7 @@ const Experiments = () => {
         <Flex direction="column" width="100%" margin="15em 0 0 15em">
             <Button onClick={sheetLog}>Log to sheet</Button>
             <Button onClick={showAlert}>Show Alert</Button>
+            <TextContent>Version 1.0.0</TextContent>
         </Flex>
     )
 }
