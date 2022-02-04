@@ -4,7 +4,7 @@ import { FC } from 'react'
 
 const stylesForStyledLink = {
     width: '20%',
-    height: '2em',
+    height: '1em',
     radius: '15px',
     text_align: 'center',
 }
@@ -30,7 +30,6 @@ interface PropsSNavLink {
 
 const SNavLink = styled(NavLink)<PropsSNavLink>`
     color: ${({ color }) => color || 'white'};
-    text-decoration: ${({ decoration }) => decoration || 'none'};
     font-size: ${({ fSize }) => fSize || '1.2rem'};
     width: ${({ width }) => width || '100%'};
     height: ${({ height }) => height || '100%'};

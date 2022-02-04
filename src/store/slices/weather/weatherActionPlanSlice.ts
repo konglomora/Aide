@@ -135,19 +135,18 @@ export const getWeatherActionPlan = createAsyncThunk<
             ))
 
         afterTomorrowUniqueCodes.length > 0 &&
-            console.log(afterTomorrowUniqueCodes.length)
-        await Promise.all(
-            afterTomorrowUniqueCodes.map(async (onionCode) => {
-                const tomorrow = false
-                await dispatch(
-                    axiosGetPrecipitatedOnionPlanObject({
-                        onionCode,
-                        tomorrow,
-                        afterTomorrow,
-                    })
-                )
-            })
-        )
+            (await Promise.all(
+                afterTomorrowUniqueCodes.map(async (onionCode) => {
+                    const tomorrow = false
+                    await dispatch(
+                        axiosGetPrecipitatedOnionPlanObject({
+                            onionCode,
+                            tomorrow,
+                            afterTomorrow,
+                        })
+                    )
+                })
+            ))
 
         console.timeEnd('[getWeatherActionPlan]')
     }

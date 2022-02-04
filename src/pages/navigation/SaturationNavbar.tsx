@@ -1,6 +1,7 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { StyledNavLink, stylesForStyledLink, Flex } from 'components/styled'
+import { StyledNavLink, stylesForStyledLink } from 'components/styled'
+import { Navbar } from '.'
 
 const SaturationNavbar = () => {
     const url = useLocation()
@@ -12,19 +13,7 @@ const SaturationNavbar = () => {
 
     return (
         <>
-            <Flex
-                justify={'space-evenly'}
-                bBorder={'3px solid white'}
-                padding={'1em 0px 1em'}
-                bColor={'rgb(24,25,26)'}
-                height="3%"
-                mHeight="3%"
-                top="0"
-                left="10em"
-                width="100%"
-                position="fixed"
-                zIndex="3"
-            >
+            <Navbar>
                 <StyledNavLink
                     to={`period`}
                     {...stylesForStyledLink}
@@ -34,9 +23,8 @@ const SaturationNavbar = () => {
                     to={`onion-select`}
                     {...stylesForStyledLink}
                     text={'Onions saturation'}
-                    width={'300px'}
                 />
-            </Flex>
+            </Navbar>
             <Outlet />
         </>
     )

@@ -1,4 +1,4 @@
-export { default as AppRoutes } from '../../routes/AppRoutes'
+export { default as Navbar } from './Navbar'
 export { default as Layout } from './Layout'
 export { default as WeatherNavbar } from './WeatherNavbar'
 export { default as ProtectedRoutes } from '../../routes/ProtectedRoutes'

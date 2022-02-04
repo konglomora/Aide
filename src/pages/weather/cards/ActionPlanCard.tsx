@@ -30,7 +30,7 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         direction: 'row',
         width: '90%',
         wrap: 'wrap',
-        border: '2px solid white',
+        border: '3px solid white',
         justify: 'space-evenly',
         align: 'stretch',
         padding: '10px',

@@ -11,19 +11,22 @@ import { sliderTransition } from './transitions'
 import { IPropsSlider } from './types'
 
 const SliderCard: FC<IPropsSlider> = (props) => {
-    const { children, backgroundImage, backgroundSize, status } = props
-
-    const [animation, setAnimation] = useState<
-        AnimationControls | TargetAndTransition | VariantLabels | boolean
-    >({ y: 0 })
+    const { children, backgroundImage, backgroundSize, status, reportIsEmpty } =
+        props
 
     const topScreenPart = { y: ' -650%' }
     const centerScreenPart = { y: 0 }
+    const [animation, setAnimation] = useState<
+        AnimationControls | TargetAndTransition | VariantLabels | boolean
+    >(centerScreenPart)
+
     useEffect(() => {
-        status === StateStatus.success && setAnimation(topScreenPart)
-        status === StateStatus.loading && setAnimation(centerScreenPart)
+        const hasComponentsToShow =
+            status === StateStatus.success && !reportIsEmpty
+
+        hasComponentsToShow && setAnimation(topScreenPart)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [status])
+    }, [status, reportIsEmpty])
 
     return (
         <motion.div
@@ -42,7 +45,7 @@ const SliderCard: FC<IPropsSlider> = (props) => {
             <Flex
                 justify={'center'}
                 padding={'1em 1em 1em 1em'}
-                border={'2px solid white'}
+                border={'3px solid white'}
                 bRadius={'10px'}
                 bFilter={'blur(2px)'}
                 height="3em"

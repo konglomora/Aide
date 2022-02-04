@@ -1,4 +1,7 @@
-import { ISaturatedOnionBySlot } from '../store/helpers/reports/types'
+import {
+    ISaturatedOnionAnalysis,
+    ISaturatedOnionBySlot,
+} from '../store/helpers/reports/types'
 
 export enum ExpansionResult {
     Gradually = 'Заранее расширяли слоты - постепенно заполнялись.',
@@ -8,6 +11,7 @@ export enum ExpansionResult {
 interface ISaturationService {
     getExpansionResult(difference: string): string
     getUniqueOnionCodes(saturatedOnions: ISaturatedOnionBySlot[]): string[]
+    isReportEmpty(report: ISaturatedOnionAnalysis[]): boolean
 }
 
 class SaturationService implements ISaturationService {
@@ -33,6 +37,10 @@ class SaturationService implements ISaturationService {
             )
             .sort()
         return uniqueOnionCodes
+    }
+
+    isReportEmpty(report: ISaturatedOnionAnalysis[]): boolean {
+        return report.length === 0
     }
 }
 

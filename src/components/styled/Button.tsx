@@ -23,7 +23,7 @@ const StyledButton = styled.button<PropsStyledButton>`
     font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};
     border-radius: ${({ bradius }) => bradius || '5px'};
-    border: ${({ border }) => border || '2px solid white'};
+    border: ${({ border }) => border || '3px solid white'};
     cursor: pointer;
     align-self: ${({ alignSelf }) => alignSelf || ''};
     transition: 0.3s linear;

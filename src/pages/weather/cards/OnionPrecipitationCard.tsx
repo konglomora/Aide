@@ -227,7 +227,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
 
     return (
         <Flex
-            border="2px solid white"
+            border="3px solid white"
             bRadius="15px"
             padding="15px"
             margin="10px"

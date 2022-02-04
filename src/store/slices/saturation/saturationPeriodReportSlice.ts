@@ -121,6 +121,13 @@ export const getSaturationReport = createAsyncThunk(
             ...mio_report,
             ...small_report,
         ]
+
+        dispatch(
+            checkReportEmptiness(
+                saturationService.isReportEmpty(saturationReport)
+            )
+        )
+
         await dispatch(
             sortReportBySaturationReasons({
                 saturationReport,
@@ -145,6 +152,7 @@ interface ISaturationSelectedOnionState {
     }
     saturatedOnionsObjectsArray: ISaturatedOnionBySlot[]
     saturatedOnionCodes: string[]
+    reportIsEmpty: boolean | null
 }
 
 const initialState: ISaturationSelectedOnionState = {
@@ -163,6 +171,7 @@ const initialState: ISaturationSelectedOnionState = {
     },
     saturatedOnionsObjectsArray: [],
     saturatedOnionCodes: [],
+    reportIsEmpty: null,
 }
 
 const saturationPeriodReportSlice = createSlice({
@@ -216,6 +225,9 @@ const saturationPeriodReportSlice = createSlice({
                 state.sortedReportBySaturationReason.lessCouriersAndMoreOrders =
                 state.sortedReportBySaturationReason.betterThanD7 =
                     []
+        },
+        checkReportEmptiness(state, action) {
+            state.reportIsEmpty = action.payload
         },
     },
     extraReducers: (builder) => {
@@ -276,6 +288,7 @@ export const {
     getUniqueSaturatedOnionCodes,
     sortReportBySaturationReasons,
     clearReport,
+    checkReportEmptiness,
 } = saturationPeriodReportSlice.actions
 
 export default saturationPeriodReportSlice.reducer

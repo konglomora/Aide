@@ -97,7 +97,7 @@ const SaturationBySelectedOnion = () => {
                 align="start"
                 margin="2em auto"
                 direction="column"
-                border="2px solid white"
+                border="3px solid white"
                 bFilter="blur(2px)"
                 bRadius={'10px'}
             >
@@ -127,7 +127,7 @@ const SaturationBySelectedOnion = () => {
                 />
                 <Flex
                     justify={'center'}
-                    tBorder={'2px solid white'}
+                    tBorder={'3px solid white'}
                     padding={'15px 0'}
                     background={formBackGround}
                     backSize={formBackGroundSize}
@@ -174,7 +174,7 @@ const SaturationBySelectedOnion = () => {
                 <Flex
                     wrap={'wrap'}
                     width={'90%'}
-                    border={'2px solid white'}
+                    border={'3px solid white'}
                     justify={'space-evenly'}
                     align={'stretch'}
                     padding={'10px'}

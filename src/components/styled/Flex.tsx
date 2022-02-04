@@ -1,10 +1,4 @@
-import {
-    ChangeEvent,
-    FC,
-    JSXElementConstructor,
-    ReactElement,
-    ReactNode,
-} from 'react'
+import { ChangeEvent, FC, ReactNode } from 'react'
 import styled from 'styled-components'
 
 interface PropsFlex {
@@ -37,13 +31,7 @@ interface PropsFlex {
     zIndex?: string
     hoverable?: boolean
     hoverColor?: string
-    children?:
-        | ReactElement
-        | Element
-        | ReactElement[]
-        | ReactNode
-        | (ReactElement<any, string | JSXElementConstructor<any>>[] | Element)[]
-        | ReactElement<any, string | JSXElementConstructor<any>>
+    children?: ReactNode
     onClick?: (e: ChangeEvent<any>) => void
 }
 
