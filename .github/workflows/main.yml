@@ -1,49 +1,49 @@
-name: Build and deploy
+# name: Build and deploy
 
 
-on:
+# on:
 
-  push:
-    branches: [ develop ]
-
-
-  workflow_dispatch:
+#   push:
+#     branches: [ develop ]
 
 
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+#   workflow_dispatch:
 
 
-    steps:
-      - name: Checkout repository 
-        uses: actions/checkout@master
-      - name: Install dependencies 
-        run: yarn install
-      - name: Build dependencies
-        run: CI=false yarn build
-      - name: Archive production
-        uses: actions/upload-artifact@master
-        with: 
-          name: build
-          path: build
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: ubuntu-latest
+
+
+#     steps:
+#       - name: Checkout repository 
+#         uses: actions/checkout@master
+#       - name: Install dependencies 
+#         run: yarn install
+#       - name: Build dependencies
+#         run: CI=false yarn build
+#       - name: Archive production
+#         uses: actions/upload-artifact@master
+#         with: 
+#           name: build
+#           path: build
       
-  deploy: 
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps: 
-       - name: Checkout repository 
-         uses: actions/checkout@master
-       - name: Download artifact
-         uses: actions/download-artifact@master
-         with: 
-          name: build
-          path: build
-       - name: Deploy to Firebase
-         uses: w9jds/firebase-action@master
-         with: 
-          args: deploy --only hosting
-         env: 
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#   deploy: 
+#     name: Deploy
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps: 
+#        - name: Checkout repository 
+#          uses: actions/checkout@master
+#        - name: Download artifact
+#          uses: actions/download-artifact@master
+#          with: 
+#           name: build
+#           path: build
+#        - name: Deploy to Firebase
+#          uses: w9jds/firebase-action@master
+#          with: 
+#           args: deploy --only hosting
+#          env: 
+#           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
