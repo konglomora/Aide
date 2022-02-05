@@ -1,4 +1,4 @@
-import { onionService } from 'services/OnionService'
+import { onionService } from 'services'
 import { RootState } from '../../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { aideApiAxios } from 'api'
@@ -13,7 +13,7 @@ import {
     ISaturatedOnionBySlot,
     MyKnownError,
 } from 'store/helpers/reports/types'
-import { saturationService } from 'services/SaturationService'
+import { saturationService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk<

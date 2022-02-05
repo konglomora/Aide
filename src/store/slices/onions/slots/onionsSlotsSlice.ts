@@ -9,7 +9,7 @@ import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
 
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 import { ErrorCaseRecommendations, Errors } from 'store/helpers/Requests'
 import { IDataForScheduleActionLog } from '../../logs/types'
@@ -37,18 +37,18 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
         { dispatch, rejectWithValue, getState }
     ) {
         try {
-            await dispatch(axiosGetGlovoApiHeaders())
-            const state = getState() as RootState
-            const { user_agent, accept, authorization, content_type } =
-                state.glovoappApi.glovoApiHeaders[0]
+            // await dispatch(axiosGetGlovoApiHeaders())
+            // const state = getState() as RootState
+            // const { user_agent, accept, authorization, content_type } =
+            //     state.glovoappApi.glovoApiHeaders[0]
 
             const config = {
-                headers: {
-                    'user-agent': user_agent,
-                    accept: accept,
-                    authorization: authorization,
-                    'content-type': content_type,
-                },
+                // headers: {
+                //     'user-agent': user_agent,
+                //     accept: accept,
+                //     authorization: authorization,
+                //     'content-type': content_type,
+                // },
                 params: {
                     cityCode: onionCode,
                     date: date,
@@ -105,19 +105,19 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
         { dispatch, rejectWithValue, getState }
     ) {
         try {
-            await dispatch(axiosGetGlovoApiHeaders())
-            const state = getState() as RootState
+            // await dispatch(axiosGetGlovoApiHeaders())
+            // const state = getState() as RootState
 
-            const { user_agent, accept, authorization, content_type } =
-                state.glovoappApi.glovoApiHeaders[0]
+            // const { user_agent, accept, authorization, content_type } =
+            //     state.glovoappApi.glovoApiHeaders[0]
 
             const config: AxiosRequestConfig = {
-                headers: {
-                    'user-agent': user_agent,
-                    accept: accept,
-                    authorization: authorization,
-                    'content-type': content_type,
-                },
+                // headers: {
+                //     'user-agent': user_agent,
+                //     accept: accept,
+                //     authorization: authorization,
+                //     'content-type': content_type,
+                // },
 
                 params: {
                     cityCode: onionCode,
@@ -193,8 +193,8 @@ export const updateOnionSlots = createAsyncThunk<
             await dispatch(axiosGetGlovoApiHeaders())
             const state = getState() as RootState
 
-            const { user_agent, accept, authorization, content_type } =
-                state.glovoappApi.glovoApiHeaders[0]
+            // const { user_agent, accept, authorization, content_type } =
+            //     state.glovoappApi.glovoApiHeaders[0]
             const {
                 date,
                 selectedOnionCode,
@@ -267,19 +267,19 @@ export const updateOnionSlots = createAsyncThunk<
                 notifyCouriers: false,
                 slots: dataForUpdate,
             }
-            const config: AxiosRequestConfig = {
-                headers: {
-                    'user-agent': user_agent,
-                    accept: accept,
-                    authorization: authorization,
-                    'content-type': content_type,
-                },
-            }
+            // const config: AxiosRequestConfig = {
+            //     headers: {
+            //         'user-agent': user_agent,
+            //         accept: accept,
+            //         authorization: authorization,
+            //         'content-type': content_type,
+            //     },
+            // }
             const onionScheduleSlotsResponse: AxiosResponse =
                 await adminApiGlovoappAxios.post(
                     '/admin/scheduling/slots/updateMany',
-                    data,
-                    config
+                    data
+                    // config
                 )
 
             console.log(

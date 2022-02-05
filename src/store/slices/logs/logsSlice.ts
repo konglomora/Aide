@@ -2,7 +2,7 @@ import { StateStatus } from './../../helpers/Status'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { MyKnownError } from 'store/helpers/reports/types'
 
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 
 import { IDataForScheduleActionLog, ILogsState } from './types'
 import { GoogleSpreadsheet } from 'google-spreadsheet'

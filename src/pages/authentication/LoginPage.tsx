@@ -6,7 +6,7 @@ import { useAppDispatch } from 'hooks'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { getUserRole } from 'pages/authentication'
 import { Flex } from 'components/styled'
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 
 const LoginPage = () => {

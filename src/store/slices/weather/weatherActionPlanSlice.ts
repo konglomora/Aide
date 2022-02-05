@@ -82,18 +82,7 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
             afterTomorrow
         )
 
-        await dispatch(axiosGetGlovoApiHeaders())
-        const state = getState() as RootState
-        const { user_agent, accept, authorization, content_type } =
-            state.glovoappApi.glovoApiHeaders[0]
-
         const config = {
-            headers: {
-                'user-agent': user_agent,
-                accept: accept,
-                authorization: authorization,
-                'content-type': content_type,
-            },
             params: {
                 cityCode: onionCode,
                 date: dates.tomorrow('YYYY-MM-DD'),

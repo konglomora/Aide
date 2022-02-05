@@ -10,7 +10,7 @@ import {
     ISaturatedOnionAnalysis,
     MyKnownError,
 } from '../../helpers/reports/types'
-import { saturationService } from 'services/SaturationService'
+import { saturationService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 import { aideApiAxios } from 'api'
 

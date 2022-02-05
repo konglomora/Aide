@@ -1,6 +1,6 @@
 import { Flex, Button, TextContent } from 'components/styled'
 import dayjs from 'dayjs'
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 import { useAppDispatch } from 'hooks'
 import { IDataForScheduleActionLog } from 'store/slices/logs/types'
 import { logScheduleActionToSheet } from 'store/slices/logs/logsSlice'

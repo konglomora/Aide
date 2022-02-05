@@ -1,4 +1,4 @@
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 
 enum Errors {
     expiredGlovoAdminApiToken_401 = 'Request failed with status code 401',

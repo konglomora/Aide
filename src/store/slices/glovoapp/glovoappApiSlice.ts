@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { AxiosResponse } from 'axios'
 import { aideApiAxios } from 'api'
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 import { requests } from 'store/helpers/Requests'
 import { IGlovoAdminHeaders } from './types'
 

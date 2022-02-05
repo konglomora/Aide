@@ -6,7 +6,7 @@ export interface AlertPromiseParams {
     error?: string | UpdateOptions
 }
 
-export default class AlertService {
+class AlertService {
     styleForToast: ToastOptions = {
         position: 'bottom-right',
         autoClose: 4000,
@@ -48,4 +48,6 @@ export default class AlertService {
     }
 }
 
-export const alertService = new AlertService()
+const alertService = new AlertService()
+
+export default alertService

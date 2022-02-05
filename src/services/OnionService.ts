@@ -115,4 +115,6 @@ class OnionService implements IOnionService {
     }
 }
 
-export const onionService = new OnionService()
+const onionService = new OnionService()
+
+export default onionService
