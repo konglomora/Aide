@@ -2,13 +2,14 @@ import { requests } from 'store/helpers/Requests'
 import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
-import { adminApiGlovoappAxios, aideApiAxios } from '../../../api/api'
+import { adminApiGlovoappAxios, aideApiAxios } from 'api'
 import { codes } from '../../helpers/Codes'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
 
 import { AxiosResponse } from 'axios'
 import {
+    IGetPrecipitatedOnionPlanResponse,
     IOnionWeather,
     IOnionWeatherAnalysis,
     IPrecipitatedUniqueCodes,
@@ -61,12 +62,6 @@ export const getPrecipitatedOnionCodes = createAsyncThunk<
         }
     }
 )
-
-export interface IGetPrecipitatedOnionPlanResponse {
-    precipitatedOnionPlan: IOnionWeatherAnalysis
-    tomorrow: boolean
-    afterTomorrow: boolean
-}
 
 export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
     IGetPrecipitatedOnionPlanResponse,

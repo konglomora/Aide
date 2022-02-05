@@ -8,7 +8,7 @@ import {
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
-import { adminApiGlovoappAxios } from 'api/api'
+
 import { alertService } from 'services/AlertService'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 import { ErrorCaseRecommendations, Errors } from 'store/helpers/Requests'
@@ -22,6 +22,7 @@ import {
     PropsGetOnionScheduleSlots,
 } from './types'
 import { BonusReasons } from 'store/helpers/Bonus'
+import { adminApiGlovoappAxios } from 'api'
 
 export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
     IOnionScheduleSlotsResponse[],

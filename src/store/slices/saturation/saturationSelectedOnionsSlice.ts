@@ -1,6 +1,5 @@
 import { RootState } from '../../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { aideApiAxios } from '../../../api/api'
 import { OnionCodes } from '../../../helpers/onionCodes'
 import { codes } from '../../helpers/Codes'
 import {
@@ -13,6 +12,7 @@ import {
 } from '../../helpers/reports/types'
 import { saturationService } from 'services/SaturationService'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
+import { aideApiAxios } from 'api'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
     ISaturatedOnionAnalysis,
