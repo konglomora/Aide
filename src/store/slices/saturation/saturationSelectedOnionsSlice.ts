@@ -12,7 +12,7 @@ import {
     MyKnownError,
 } from '../../helpers/reports/types'
 import { saturationService } from 'services/SaturationService'
-import { StateStatus } from '../onions/onionsSlotsSlice'
+import { StateStatus, TStateStatus } from 'store/helpers/Status'
 
 export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
     ISaturatedOnionAnalysis,
@@ -76,7 +76,7 @@ export const getSaturationReport = createAsyncThunk(
 )
 
 interface SaturationSelectedOnionState {
-    status: StateStatus.success | StateStatus.loading | StateStatus.error | null
+    status: TStateStatus
     error: null | undefined | string | MyKnownError
     periodStart: string
     periodEnd: string

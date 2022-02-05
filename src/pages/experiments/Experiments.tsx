@@ -2,10 +2,8 @@ import { Flex, Button, TextContent } from 'components/styled'
 import dayjs from 'dayjs'
 import { alertService } from 'services/AlertService'
 import { useAppDispatch } from 'hooks'
-import {
-    IDataForScheduleActionLog,
-    logScheduleActionToSheet,
-} from 'store/slices/onions/onionsSlotsSlice'
+import { IDataForScheduleActionLog } from 'store/slices/logs/types'
+import { logScheduleActionToSheet } from 'store/slices/logs/logsSlice'
 
 const Experiments = () => {
     const dispatch = useAppDispatch()
@@ -57,7 +55,27 @@ const Experiments = () => {
             <Button onClick={showAlert}>Show Alert</Button>
             <TextContent>Version 1.0.1</TextContent>
             <TextContent>
-                Phrase from env: {process.env.REACT_APP_SECRET_PHRASE}
+                process.env.REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID{' '}
+                {
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
+                }
+            </TextContent>
+            <TextContent>
+                process.env
+                .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL{' '}
+                {
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL
+                }
+            </TextContent>
+            <TextContent>
+                process.env
+                .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY{' '}
+                {
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY
+                }
             </TextContent>
         </Flex>
     )

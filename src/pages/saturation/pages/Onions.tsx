@@ -16,7 +16,7 @@ import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import { Colors } from 'components/styled'
 import { useAppSelector } from 'hooks'
 import { Roles } from 'pages/authentication/userRoles'
-import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
+import { StateStatus } from 'store/helpers/Status'
 
 const SaturationBySelectedOnion = () => {
     const dispatch = useDispatch()

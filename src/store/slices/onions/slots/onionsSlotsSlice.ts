@@ -1,353 +1,27 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { MyKnownError } from 'store/helpers/reports/types'
-
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
-import { RootState } from 'store'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import {
-    GoogleSpreadsheet,
-    GoogleSpreadsheetWorksheet,
-    WorksheetGridRange,
-} from 'google-spreadsheet'
-import { toast } from 'react-toastify'
+    axiosGetGlovoApiHeaders,
+    updateGlovoApiToken,
+} from 'store/slices/glovoapp/glovoappApiSlice'
+import { MyKnownError } from 'store/helpers/reports/types'
+import { RootState } from 'store'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
-import { aideApiAxios, adminApiGlovoappAxios } from 'api/api'
+import { adminApiGlovoappAxios } from 'api/api'
 import { alertService } from 'services/AlertService'
-
-export enum Errors {
-    expiredGlovoAdminApiToken_401 = 'Request failed with status code 401',
-    invalidToken = 'Invalid access token',
-}
-
-export enum Recommendations {
-    expiredGlovoAdminApiToken_401 = 'Token for adminapi.glovoapp expired! Drink some coffee and come back! :)',
-}
-
-export enum StateStatus {
-    success = 'success',
-    error = 'error',
-    loading = 'loading',
-}
-
-export enum BonusReasons {
-    BW = 'bad_weather',
-    RUSH = 'rush',
-    bad_weather = 'BW',
-    rush = 'RUSH',
-}
-export interface IGlovoAdminHeaders {
-    id: number
-    user_agent: string
-    accept: string
-    authorization: string
-    content_type: string
-}
-
-export const alertError = (msg: string) => {
-    toast.error(msg, {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-    })
-}
-
-export const alertSuccess = (msg: string) => {
-    toast.success(msg, {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-    })
-}
-
-export interface IDataForScheduleActionLog {
-    actionTime: string
-    userName: string
-    onionCode: string
-    period: string
-    bonusSize: number
-    bonusType: string
-    capacityPercentage: number
-    dateOfSchedule: string
-}
-
-export const logScheduleActionToSheet = createAsyncThunk<
-    void,
-    IDataForScheduleActionLog,
-    {
-        rejectValue: MyKnownError
-    }
->(
-    'onionsSlots/logScheduleActionToSheet',
-    async function (
-        {
-            actionTime,
-            userName,
-            onionCode,
-            period,
-            bonusSize,
-            bonusType,
-            capacityPercentage,
-            dateOfSchedule,
-        },
-        { rejectWithValue, dispatch }
-    ) {
-        const updateRangeFormatting = async (
-            sheet: GoogleSpreadsheetWorksheet,
-            range: string | WorksheetGridRange | string[] | WorksheetGridRange[]
-        ): Promise<void> => {
-            await sheet.loadCells(range)
-            const lastRowIndex = (await sheet.getRows()).length
-            const columnCount = sheet.columnCount
-
-            console.log('last row: ', lastRowIndex)
-            console.log('columnCount: ', columnCount)
-
-            for (let i = 0; i < columnCount; i++) {
-                console.log(
-                    `Updating style of column ${i} and row ${lastRowIndex}`
-                )
-                const cell = sheet.getCell(lastRowIndex, i)
-                cell.horizontalAlignment = 'CENTER'
-                cell.textFormat = {
-                    fontSize: 11,
-                }
-            }
-            await sheet.saveUpdatedCells()
-        }
-
-        try {
-            const doc = new GoogleSpreadsheet(
-                process.env.REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
-            )
-
-            await doc.useServiceAccountAuth({
-                client_email:
-                    process.env
-                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL!,
-                private_key:
-                    process.env
-                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY!,
-            })
-
-            await doc.loadInfo() // loads document properties and worksheets
-
-            const logRow = {
-                'Action time': actionTime,
-                Name: userName,
-                Onion: onionCode,
-                Slots: period,
-                'Bonus size': bonusSize,
-                'Bonus type': bonusType,
-                'Capacity +%': capacityPercentage,
-                'Date of schedule': dateOfSchedule,
-            }
-
-            if (!doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]) {
-                const todaySheet = await doc.addSheet({
-                    title: dayjs().format('DD.MM.YYYY'),
-                    headerValues: [
-                        'Action time',
-                        'Name',
-                        'Onion',
-                        'Slots',
-                        'Bonus size',
-                        'Bonus type',
-                        'Capacity +%',
-                        'Date of schedule',
-                    ],
-                    gridProperties: {
-                        frozenRowCount: 1,
-                        rowCount: 300,
-                        columnCount: 8,
-                    },
-                })
-
-                await todaySheet.loadCells('A1:H1')
-
-                const columnCount = todaySheet.columnCount
-                for (let i = 0; i < columnCount; i++) {
-                    const cell = todaySheet.getCell(0, i)
-                    cell.backgroundColor = {
-                        red: 0.3,
-                        green: 0.4,
-                        blue: 0.8,
-                        alpha: 0.5,
-                    }
-                    cell.horizontalAlignment = 'CENTER'
-                    cell.textFormat = {
-                        fontSize: 11,
-                        bold: true,
-                    }
-                    await todaySheet.saveUpdatedCells()
-                }
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 160,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 0,
-                        endIndex: 2,
-                    }
-                )
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 90,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 3,
-                        endIndex: 7,
-                    }
-                )
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 160,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 7,
-                        endIndex: 8,
-                    }
-                )
-            }
-            const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
-            const row = await todaySheet.addRow(logRow)
-            const columnCount = todaySheet.columnCount
-
-            console.log(
-                '[logScheduleActionToSheet] Row for updating formatting:',
-                row.rowIndex
-            )
-            const lastRow = {
-                startRowIndex: row.rowIndex - 1,
-                endRowIndex: row.rowIndex,
-                startColumnIndex: 0,
-                endColumnIndex: columnCount,
-            }
-            console.log('property', lastRow)
-            await todaySheet.loadCells(lastRow)
-
-            await updateRangeFormatting(todaySheet, lastRow)
-        } catch (error: any) {
-            console.log('Error', error)
-            alertError(`[logScheduleActionToSheet] \n ${error.message}`)
-        }
-    }
-)
-
-export const axiosGetGlovoApiRefreshToken = createAsyncThunk<
-    IGlovoAdminHeaders[],
-    void,
-    {
-        rejectValue: MyKnownError
-    }
->(
-    'onionsSlots/axiosGetGlovoApiRefreshToken',
-    async function (_, { rejectWithValue }) {
-        try {
-            const glovoAdminHeaders: AxiosResponse<IGlovoAdminHeaders[]> =
-                await aideApiAxios.get(`/refresh_token/`)
-            if (glovoAdminHeaders.statusText !== 'OK') {
-                alertError(glovoAdminHeaders.statusText)
-                throw new Error(glovoAdminHeaders.statusText)
-            }
-            return glovoAdminHeaders.data as IGlovoAdminHeaders[]
-        } catch (error: Error | any) {
-            console.log(
-                '[onionsSlots/axiosGetGlovoApiRefreshToken] error',
-                error
-            )
-            alertError(error.message)
-            return rejectWithValue(error as MyKnownError)
-        }
-    }
-)
-
-export const updateGlovoApiToken = createAsyncThunk<
-    void,
-    void,
-    {
-        rejectValue: MyKnownError
-    }
->(
-    'onionsSlots/updateGlovoApiToken',
-    async function (_, { rejectWithValue, dispatch }) {
-        try {
-            const response: AxiosResponse = await aideApiAxios.options(
-                `/refresh_token/`
-            )
-
-            if (response.statusText !== 'OK') {
-                alertError(response.statusText)
-                throw new Error(response.statusText)
-            } else if (response.statusText === 'OK') {
-                alertService.loading(
-                    dispatch(axiosGetGlovoApiRefreshToken()),
-                    {
-                        pending: `Updating token...`,
-                        success: `API token updated!`,
-                        error: `Error while Updating token`,
-                    },
-                    {
-                        autoClose: 1000,
-                    }
-                )
-            }
-        } catch (error: Error | any) {
-            console.log('[onionsSlots/updateGlovoApiToken] error', error)
-            alertError(error.message)
-            return rejectWithValue(error as MyKnownError)
-        }
-    }
-)
-
-export interface IOnionScheduleSlotsResponse {
-    bonus: number
-    bonusReasons: string[]
-    capacity: number
-    couriers: number
-    dedicatedCapacity: null | any
-    enabled: boolean
-    excellence: boolean
-    finishTime: string
-    guarantee: number
-    id: number
-    reducedByNoShow: boolean
-    standbyCouriersCapacity: null | any
-    startTime: string
-}
-
-export interface PropsGetOnionScheduleSlots {
-    onionCode: string
-    date: string
-}
-
-export interface IOnionScheduleSlots {
-    allOnionSlots: IOnionScheduleSlotsResponse[]
-    workingSlots: IOnionScheduleSlotsResponse[]
-    onionScheduleStartSlots: string[]
-    onionScheduleFinishSlots: string[]
-}
+import { StateStatus, TStateStatus } from 'store/helpers/Status'
+import { ErrorCaseRecommendations, Errors } from 'store/helpers/Requests'
+import { IDataForScheduleActionLog } from '../../logs/types'
+import { logScheduleActionToSheet } from '../../logs/logsSlice'
+import {
+    IOnionScheduleSlots,
+    IOnionScheduleSlotsResponse,
+    ISlotForUpdate,
+    IUpdateManySlots,
+    PropsGetOnionScheduleSlots,
+} from './types'
+import { BonusReasons } from 'store/helpers/Bonus'
 
 export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
     IOnionScheduleSlotsResponse[],
@@ -362,11 +36,10 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
         { dispatch, rejectWithValue, getState }
     ) {
         try {
-            await dispatch(axiosGetGlovoApiRefreshToken())
+            await dispatch(axiosGetGlovoApiHeaders())
             const state = getState() as RootState
-
             const { user_agent, accept, authorization, content_type } =
-                state.onionsSlots.glovoAdminHeaders[0]
+                state.glovoappApi.glovoApiHeaders[0]
 
             const config = {
                 headers: {
@@ -392,7 +65,7 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
                 onionScheduleSlotsResponse
             )
             if (onionScheduleSlotsResponse.status !== 200) {
-                alertError(onionScheduleSlotsResponse.statusText)
+                alertService.error(onionScheduleSlotsResponse.statusText)
                 console.log('Erro blyad!!!!', onionScheduleSlotsResponse)
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
@@ -407,9 +80,11 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
                 error
             )
             if (error.message === Errors.expiredGlovoAdminApiToken_401) {
-                alertError(Recommendations.expiredGlovoAdminApiToken_401)
+                alertService.error(
+                    ErrorCaseRecommendations.expiredGlovoAdminApiToken_401
+                )
             } else {
-                alertError(error.message)
+                alertService.error(error.message)
             }
             return rejectWithValue(error as MyKnownError)
         }
@@ -429,11 +104,11 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
         { dispatch, rejectWithValue, getState }
     ) {
         try {
-            await dispatch(axiosGetGlovoApiRefreshToken())
+            await dispatch(axiosGetGlovoApiHeaders())
             const state = getState() as RootState
 
             const { user_agent, accept, authorization, content_type } =
-                state.onionsSlots.glovoAdminHeaders[0]
+                state.glovoappApi.glovoApiHeaders[0]
 
             const config: AxiosRequestConfig = {
                 headers: {
@@ -460,7 +135,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 onionScheduleSlotsResponse
             )
             if (onionScheduleSlotsResponse.status !== 200) {
-                alertError(onionScheduleSlotsResponse.statusText)
+                alertService.error(onionScheduleSlotsResponse.statusText)
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
             const workingSlots = onionScheduleSlotsResponse.data.filter(
@@ -491,29 +166,18 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
         } catch (error: Error | any) {
             console.log(error)
             if (error.message === Errors.expiredGlovoAdminApiToken_401) {
-                alertError(Recommendations.expiredGlovoAdminApiToken_401)
+                alertService.error(
+                    ErrorCaseRecommendations.expiredGlovoAdminApiToken_401
+                )
                 dispatch(updateGlovoApiToken())
             } else {
-                alertError(error.message)
+                alertService.error(error.message)
             }
 
             return rejectWithValue(error as MyKnownError)
         }
     }
 )
-
-export interface ISlotForUpdate {
-    bonus: number
-    bonusReasons: string[]
-    capacity: number
-    excellence: boolean
-    guarantee: number
-    id: number
-}
-export interface IUpdateManySlots {
-    notifyCouriers: boolean
-    slots: ISlotForUpdate[]
-}
 
 export const updateOnionSlots = createAsyncThunk<
     void,
@@ -525,11 +189,11 @@ export const updateOnionSlots = createAsyncThunk<
     'onionsSlots/updateOnionSlots',
     async function (_, { dispatch, rejectWithValue, getState }) {
         try {
-            await dispatch(axiosGetGlovoApiRefreshToken())
+            await dispatch(axiosGetGlovoApiHeaders())
             const state = getState() as RootState
 
             const { user_agent, accept, authorization, content_type } =
-                state.onionsSlots.glovoAdminHeaders[0]
+                state.glovoappApi.glovoApiHeaders[0]
             const {
                 date,
                 selectedOnionCode,
@@ -610,7 +274,6 @@ export const updateOnionSlots = createAsyncThunk<
                     'content-type': content_type,
                 },
             }
-            // https://adminapi.glovoapp.com/admin/scheduling/slots/updateMany
             const onionScheduleSlotsResponse: AxiosResponse =
                 await adminApiGlovoappAxios.post(
                     '/admin/scheduling/slots/updateMany',
@@ -648,6 +311,8 @@ export const updateOnionSlots = createAsyncThunk<
                     capacityPercentage: capacityPercentage,
                     dateOfSchedule: date,
                 }
+
+                console.log('Starting log to sheet logData', logData)
                 await dispatch(logScheduleActionToSheet(logData))
             }
 
@@ -666,10 +331,12 @@ export const updateOnionSlots = createAsyncThunk<
                 error
             )
             if (error.message === Errors.expiredGlovoAdminApiToken_401) {
-                alertError(Recommendations.expiredGlovoAdminApiToken_401)
+                alertService.error(
+                    ErrorCaseRecommendations.expiredGlovoAdminApiToken_401
+                )
                 dispatch(updateGlovoApiToken())
             } else {
-                alertError(
+                alertService.error(
                     `[onionsSlots/axiosGetOnionScheduleActiveDates]: ${error.message}`
                 )
             }
@@ -679,9 +346,8 @@ export const updateOnionSlots = createAsyncThunk<
 )
 
 interface IOnionSlotsState {
-    status: StateStatus.success | StateStatus.loading | StateStatus.error | null
+    status: TStateStatus
     error: null | undefined | string | MyKnownError
-    glovoAdminHeaders: IGlovoAdminHeaders[]
     date: string
     selectedOnionCode: string
     startTimeOfPeriod: string
@@ -699,22 +365,21 @@ interface IOnionSlotsState {
 const initialState: IOnionSlotsState = {
     status: null,
     error: null,
-    glovoAdminHeaders: [],
     date: dayjs().format('YYYY-MM-DD'),
     selectedOnionCode: 'VNT',
     startTimeOfPeriod: '',
     endTimeOfPeriod: '',
     bonusReason: BonusReasons.BW,
-    bonusSize: 20,
-    capacityPercentage: 10,
-    activeScheduleDates: [dayjs().format('YYYY-MM-DD')],
+    bonusSize: 0,
+    capacityPercentage: 0,
+    activeScheduleDates: [dayjs().add(1, 'days').format('YYYY-MM-DD')],
     onionScheduleStartSlots: [],
     onionScheduleFinishSlots: [],
     allOnionSlots: [],
     workingSlots: [],
 }
 
-const userSlice = createSlice({
+const onionsSlotsSlice = createSlice({
     name: 'onionsSlots',
     initialState,
     reducers: {
@@ -750,19 +415,6 @@ const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(axiosGetGlovoApiRefreshToken.rejected, (state) => {
-            state.status = StateStatus.error
-        })
-        builder.addCase(axiosGetGlovoApiRefreshToken.pending, (state) => {
-            state.status = StateStatus.loading
-        })
-        builder.addCase(
-            axiosGetGlovoApiRefreshToken.fulfilled,
-            (state, action) => {
-                state.glovoAdminHeaders = action.payload
-                state.status = StateStatus.success
-            }
-        )
         builder.addCase(axiosGetOnionScheduleSlots.rejected, (state) => {
             state.status = StateStatus.error
         })
@@ -785,22 +437,6 @@ const userSlice = createSlice({
                 state.status = StateStatus.success
             }
         )
-        builder.addCase(logScheduleActionToSheet.rejected, (state) => {
-            state.status = StateStatus.error
-        })
-        builder.addCase(logScheduleActionToSheet.pending, (state) => {
-            state.status = StateStatus.loading
-        })
-        builder.addCase(logScheduleActionToSheet.fulfilled, (state) => {
-            state.status = StateStatus.success
-        })
-        builder.addCase(updateGlovoApiToken.rejected, (state) => {
-            state.status = StateStatus.error
-        })
-        builder.addCase(updateGlovoApiToken.pending, (state) => {
-            state.status = StateStatus.loading
-        })
-        builder.addCase(updateGlovoApiToken.fulfilled, (state) => {})
     },
 })
 
@@ -813,6 +449,6 @@ export const {
     updateBonusReason,
     updateBonusSize,
     updateCapacityPercentage,
-} = userSlice.actions
+} = onionsSlotsSlice.actions
 
-export default userSlice.reducer
+export default onionsSlotsSlice.reducer
