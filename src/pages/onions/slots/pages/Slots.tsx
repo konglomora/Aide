@@ -14,7 +14,7 @@ export default function Slots() {
 
     useEffect(() => {
         ;(async () => {
-            await dispatch(axiosGetGlovoApiHeaders())
+            // await dispatch(axiosGetGlovoApiHeaders())
             await dispatch(getActiveScheduleDates())
             console.log('[SlotsPage] glovoAdminHeaders:', glovoApiHeaders)
             console.log(

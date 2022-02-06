@@ -5,7 +5,7 @@ import { requests } from 'store/helpers/Requests'
 import { IGlovoAdminHeaders } from 'store/slices/glovoapp/types'
 
 export class RequestService {
-    async getGlovoappHeaders(): Promise<IGlovoAdminHeaders | undefined> {
+    async getNewGlovoappAuthToken(): Promise<string | undefined> {
         try {
             const glovoAdminHeaders: AxiosResponse<IGlovoAdminHeaders[]> =
                 await aideApiAxios.get(`/refresh_token/`)
@@ -14,7 +14,14 @@ export class RequestService {
                 glovoAdminHeaders.status,
                 glovoAdminHeaders.statusText
             )
-            return glovoAdminHeaders.data[0]
+            window.sessionStorage.setItem(
+                'glovoappAuthToken',
+                glovoAdminHeaders.data[0]?.authorization
+            )
+            console.log(
+                '[RequestService/getGlovoappHeaders] Saved auth token to session storage'
+            )
+            return glovoAdminHeaders.data[0]?.authorization
         } catch (error: Error | any) {
             console.log('[RequestService/getGlovoappHeaders] error:, ', error)
             alertService.error(error.message)
