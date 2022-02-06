@@ -12,7 +12,6 @@ import {
 
 import {
     axiosGetOnionScheduleSlots,
-    BonusReasons,
     updateBonusReason,
     updateBonusSize,
     updateCapacityPercentage,
@@ -21,11 +20,12 @@ import {
     updatePeriodStartTime,
     updateSelectedOnionCode,
     updateSelectedScheduleDate,
-} from 'store/slices/onions/onionsSlotsSlice'
+} from 'store/slices/onions/slots/onionsSlotsSlice'
 import { allOnionCodes } from 'helpers/onionCodes'
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 import { PeriodSelectors } from 'pages/saturation/cards/ReportPeriodSelect'
 import { useAppDispatch, useAppSelector } from 'hooks'
+import { BonusReasons } from 'store/helpers/Bonus'
 
 export interface IOnionSlotsUpdateCard {}
 

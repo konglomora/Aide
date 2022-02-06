@@ -6,11 +6,12 @@ import ESDES_PREP_GIF from 'assets/gif/esdes-no-prep.gif'
 import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import { useAppSelector } from 'hooks'
-import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
-import { alertService } from 'services/AlertService'
+
+import { alertService } from 'services'
 import { ReportSlider, SliderCard } from 'components/animated'
 import { generatePlanCards } from 'pages/weather/generators/PlanCardsGenerator'
 import { ActionPlanCard } from 'pages/weather/cards/ActionPlanCard'
+import { StateStatus } from 'store/helpers/Status'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -90,8 +91,8 @@ const WeatherActionPlan = () => {
         status,
     }
     useEffect(() => {
-        console.log('weather tomorrowPlan: ', tomorrowPlan)
-        console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
+        // console.log('weather tomorrowPlan: ', tomorrowPlan)
+        // console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
     }, [tomorrowPlan, afterTomorrowPlan])
 
     useEffect(() => {

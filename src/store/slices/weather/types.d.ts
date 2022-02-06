@@ -37,3 +37,9 @@ export interface IPrecipitatedUniqueCodes {
     tomorrowUniqueCodes: string[]
     afterTomorrowUniqueCodes: string[]
 }
+
+export interface IGetPrecipitatedOnionPlanResponse {
+    precipitatedOnionPlan: IOnionWeatherAnalysis
+    tomorrow: boolean
+    afterTomorrow: boolean
+}

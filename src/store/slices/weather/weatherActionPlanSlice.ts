@@ -1,18 +1,24 @@
+import { requests } from 'store/helpers/Requests'
+import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
-import { aideApiAxios } from '../../../api/api'
+import { adminApiGlovoappAxios, aideApiAxios } from 'api'
 import { codes } from '../../helpers/Codes'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
-import { StateStatus } from '../onions/onionsSlotsSlice'
+
 import { AxiosResponse } from 'axios'
 import {
+    IGetPrecipitatedOnionPlanResponse,
     IOnionWeather,
     IOnionWeatherAnalysis,
     IPrecipitatedUniqueCodes,
     IUniqueCodesData,
     PropsGetPrecipitatedOnionsByDay,
 } from './types'
+import { StateStatus, TError, TStateStatus } from 'store/helpers/Status'
+import { dates } from 'helpers/Dates'
+import { IOnionScheduleSlotsResponse } from '../onions/slots/types'
 
 export const getPrecipitatedOnionCodes = createAsyncThunk<
     IPrecipitatedUniqueCodes,
@@ -57,12 +63,6 @@ export const getPrecipitatedOnionCodes = createAsyncThunk<
     }
 )
 
-export interface IGetPrecipitatedOnionPlanResponse {
-    precipitatedOnionPlan: IOnionWeatherAnalysis
-    tomorrow: boolean
-    afterTomorrow: boolean
-}
-
 export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
     IGetPrecipitatedOnionPlanResponse,
     PropsGetPrecipitatedOnionsByDay,
@@ -73,7 +73,7 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
     'weather-action-plan/axiosGetPrecipitatedOnionPlanObject',
     async function (
         { onionCode, tomorrow, afterTomorrow }: PropsGetPrecipitatedOnionsByDay,
-        { rejectWithValue }
+        { rejectWithValue, dispatch, getState }
     ) {
         console.log(
             '[axiosGetPrecipitatedOnionPlanObject] tomorrow: ',
@@ -81,19 +81,47 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
             'afterTomorrow',
             afterTomorrow
         )
+
+        const config = {
+            params: {
+                cityCode: onionCode,
+                date: dates.tomorrow('YYYY-MM-DD'),
+            },
+        }
         try {
             const precipitatedOnionResponse =
                 await aideApiAxios.get<IOnionWeatherAnalysis>(
                     `weather/data/analysis/${onionCode}/?tomorrow=${tomorrow}`
                 )
 
-            if (precipitatedOnionResponse.statusText !== 'OK') {
-                throw new Error(precipitatedOnionResponse.statusText)
-            }
+            const onionScheduleSlotsResponse: AxiosResponse<
+                IOnionScheduleSlotsResponse[]
+            > = await adminApiGlovoappAxios.get(
+                '/admin/scheduling/slots',
+                config
+            )
+
+            console.log('precipitatedOnionResponse', precipitatedOnionResponse)
+            console.log(
+                'onionScheduleSlotsResponse',
+                onionScheduleSlotsResponse
+            )
+            requests.processError(
+                precipitatedOnionResponse.status,
+                precipitatedOnionResponse.statusText
+            )
+            requests.processError(
+                onionScheduleSlotsResponse.status,
+                onionScheduleSlotsResponse.statusText
+            )
 
             console.log(
                 '[axiosGetPrecipitatedOnionPlanObject] precipitatedOnionPlan: ',
                 precipitatedOnionResponse.data
+            )
+            console.log(
+                '[axiosGetPrecipitatedOnionPlanObject] onionScheduleSlotsResponse: ',
+                onionScheduleSlotsResponse.data
             )
             return {
                 precipitatedOnionPlan: precipitatedOnionResponse.data,
@@ -153,8 +181,8 @@ export const getWeatherActionPlan = createAsyncThunk<
 )
 
 export interface IWeatherSliceInitState {
-    status: StateStatus.success | StateStatus.loading | StateStatus.error | null
-    error: null | undefined | string | MyKnownError | unknown
+    status: TStateStatus
+    error: TError
     period: {
         tomorrow: boolean
         afterTomorrow: boolean

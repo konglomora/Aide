@@ -6,7 +6,8 @@ import { useAppDispatch } from 'hooks'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { getUserRole } from 'pages/authentication'
 import { Flex } from 'components/styled'
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
+import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 
 const LoginPage = () => {
     const dispatch = useAppDispatch()
@@ -33,7 +34,7 @@ const LoginPage = () => {
                         role: getUserRole(user.email!),
                     })
                 )
-
+                dispatch(axiosGetGlovoApiHeaders())
                 console.log(
                     '[Login page] Logged in as: ',
                     getUserRole(user.email!)

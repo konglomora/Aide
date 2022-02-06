@@ -1,7 +1,7 @@
-import { onionService } from 'services/OnionService'
+import { onionService } from 'services'
 import { RootState } from '../../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { aideApiAxios } from '../../../api/api'
+import { aideApiAxios } from 'api'
 import { SaturationReasons } from '../../../helpers/saturationReasons'
 import {
     PropsAxiosGetSaturatedOnionAnalyseObject,
@@ -13,8 +13,8 @@ import {
     ISaturatedOnionBySlot,
     MyKnownError,
 } from 'store/helpers/reports/types'
-import { saturationService } from 'services/SaturationService'
-import { StateStatus } from '../onions/onionsSlotsSlice'
+import { saturationService } from 'services'
+import { StateStatus, TStateStatus } from 'store/helpers/Status'
 
 export const axiosGetSaturatedOnionsByPeriod = createAsyncThunk<
     ISaturatedOnionBySlot[],
@@ -137,7 +137,7 @@ export const getSaturationReport = createAsyncThunk(
 )
 
 interface ISaturationSelectedOnionState {
-    status: StateStatus.success | StateStatus.loading | StateStatus.error | null
+    status: TStateStatus
     error: null | undefined | string | MyKnownError
     periodStart: string
     periodEnd: string

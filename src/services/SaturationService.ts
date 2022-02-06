@@ -44,4 +44,5 @@ class SaturationService implements ISaturationService {
     }
 }
 
-export const saturationService = new SaturationService()
+const saturationService = new SaturationService()
+export default saturationService

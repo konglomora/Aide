@@ -5,7 +5,7 @@ import { useAppDispatch } from 'hooks'
 import { setUser } from 'store/slices/user/userSlice'
 import { StyledNavLink, stylesForStyledLink } from 'components/styled'
 import { Form } from 'pages/authentication'
-import { alertService } from 'services/AlertService'
+import { alertService } from 'services'
 
 const RegisterPage = () => {
     const dispatch = useAppDispatch()

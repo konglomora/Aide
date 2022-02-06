@@ -13,7 +13,7 @@ import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
 import EMPTY from 'assets/gif/anime-i-dont-know.gif'
 import OnionSaturationCard from '../cards/OnionSaturation'
 import { Roles } from 'pages/authentication/userRoles'
-import { StateStatus } from 'store/slices/onions/onionsSlotsSlice'
+import { StateStatus } from 'store/helpers/Status'
 import {
     PeriodSelectors,
     ReportPeriodSelectCard,

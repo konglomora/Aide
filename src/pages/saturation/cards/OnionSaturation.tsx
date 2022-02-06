@@ -2,7 +2,7 @@
 import dayjs from 'dayjs'
 import { Colors, Flex, Title } from 'components/styled'
 import { FC } from 'react'
-import { onionService } from 'services/OnionService'
+import { onionService } from 'services'
 import { ISaturatedOnionAnalysis } from 'store/helpers/reports/types'
 
 export interface IOnionSaturationCardProps {

@@ -7,7 +7,7 @@ import {
     setNextDay,
     setPrevDay,
     setToday,
-} from 'store/slices/onions/scheduleSlice'
+} from 'store/slices/onions/schedule/scheduleSlice'
 import { IOnionCodes, OnionCodes } from 'helpers/onionCodes'
 import OnionSlotsCard from 'pages/onions/schedules/cards/OnionSlot'
 
