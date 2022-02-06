@@ -26,6 +26,7 @@ export const OnionCodes = {
         'KRK',
         'KRO',
         'KRR',
+        'KRM',
         'KRU',
         'LUT',
         'MKL',

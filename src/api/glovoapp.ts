@@ -1,7 +1,7 @@
 import axios from 'axios'
 import dayjs from 'dayjs'
 import jwtDecode from 'jwt-decode'
-import { alertService, requestService } from 'services'
+import { glovoappService } from 'services'
 
 const adminApiGlovoappAxios = axios.create({
     baseURL: process.env.REACT_APP_ADMIN_API_GLOVOAPP_URL,
@@ -26,31 +26,24 @@ interface GlovoappToken {
 // Request interceptor for API calls
 adminApiGlovoappAxios.interceptors.request.use(
     async (request) => {
-        const glovoappAuthToken =
-            window.sessionStorage.getItem('glovoappAuthToken')
-
-        const user = jwtDecode<GlovoappToken>(glovoappAuthToken!)
+        const token = window.sessionStorage.getItem('glovoappAuthToken')
+        const user = jwtDecode<GlovoappToken>(token!)
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
-
         console.log(
             'Glovoapp auth token will expire at: ',
             dayjs(user.exp * 1000).format('HH:mm:ss of DD.MM.YY')
         )
 
-        console.log(
-            '[adminApiGlovoappAxios] glovoappAuthToken isExpired: ',
-            isExpired
-        )
-        if (glovoappAuthToken && isExpired) {
-            await requestService.refreshGlovoappHeaders()
+        if (token && isExpired) {
+            await glovoappService.refreshGlovoappHeaders()
             const newGlovoappAuthToken =
-                await requestService.getNewGlovoappAuthToken()
+                await glovoappService.getNewGlovoappAuthToken()
             request.headers.authorization = newGlovoappAuthToken
 
             return request
         }
 
-        request.headers.authorization = glovoappAuthToken
+        request.headers.authorization = token
         return request
     },
     (error) => {

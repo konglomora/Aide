@@ -4,7 +4,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
-import { alertService, requestService } from 'services'
+import { alertService, glovoappService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 import {
     ErrorCaseRecommendations,
@@ -326,11 +326,11 @@ const initialState: IOnionSlotsState = {
     status: null,
     error: null,
     date: dayjs().format('YYYY-MM-DD'),
-    selectedOnionCode: 'VNT',
+    selectedOnionCode: 'KHM',
     startTimeOfPeriod: '',
     endTimeOfPeriod: '',
-    bonusReason: BonusReasons.BW,
-    bonusSize: 0,
+    bonusReason: BonusReasons.RUSH,
+    bonusSize: 20,
     capacityPercentage: 0,
     activeScheduleDates: [dayjs().add(1, 'days').format('YYYY-MM-DD')],
     onionScheduleStartSlots: [],

@@ -11,7 +11,7 @@ export interface IGlovoAdminHeaders {
     content_type: string
 }
 
-export class RequestService {
+export class GlovoappService {
     async getNewGlovoappAuthToken(): Promise<string | undefined> {
         try {
             const glovoAdminHeaders: AxiosResponse<IGlovoAdminHeaders[]> =
@@ -26,11 +26,11 @@ export class RequestService {
                 glovoAdminHeaders.data[0]?.authorization
             )
             console.log(
-                '[RequestService/getGlovoappHeaders] Saved auth token to session storage'
+                '[glovoappService/getGlovoappHeaders] Saved auth token to session storage'
             )
             return glovoAdminHeaders.data[0]?.authorization
         } catch (error: Error | any) {
-            console.log('[RequestService/getGlovoappHeaders] error:, ', error)
+            console.log('[glovoappService/getGlovoappHeaders] error:, ', error)
             alertService.error(error.message)
         }
     }
@@ -45,7 +45,7 @@ export class RequestService {
             alertService.success('Refreshed expired token')
         } catch (error: Error | any) {
             console.log(
-                '[RequestService/refreshGlovoappHeaders] error: ',
+                '[glovoappService/refreshGlovoappHeaders] error: ',
                 error
             )
             alertService.error(error.message)
@@ -53,6 +53,6 @@ export class RequestService {
     }
 }
 
-const requestService = new RequestService()
+const glovoappService = new GlovoappService()
 
-export default requestService
+export default glovoappService
