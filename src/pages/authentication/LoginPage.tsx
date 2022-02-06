@@ -6,7 +6,7 @@ import { useAppDispatch } from 'hooks'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { getUserRole } from 'pages/authentication'
 import { Flex } from 'components/styled'
-import { alertService } from 'services'
+import { alertService, requestService } from 'services'
 import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 
 const LoginPage = () => {
@@ -19,12 +19,12 @@ const LoginPage = () => {
     const handleLogin = (email: string, password: string) => {
         const auth = getAuth()
         signInWithEmailAndPassword(auth, email, password)
-            .then(({ user }) => {
+            .then(async ({ user }) => {
                 const name = capitalizeFirstLetter(user.email?.split('.')[0])
                 const surname = capitalizeFirstLetter(
                     user.email?.split('.')[1].split('@')[0]
                 )
-                dispatch(
+                await dispatch(
                     setUser({
                         id: user.uid,
                         email: user.email,
@@ -34,7 +34,8 @@ const LoginPage = () => {
                         role: getUserRole(user.email!),
                     })
                 )
-                dispatch(axiosGetGlovoApiHeaders())
+                // await dispatch(axiosGetGlovoApiHeaders())
+                await requestService.getNewGlovoappAuthToken()
                 console.log(
                     '[Login page] Logged in as: ',
                     getUserRole(user.email!)
