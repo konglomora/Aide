@@ -1,3 +1,4 @@
+// import { logCoordination } from './../sheets/logsSlice'
 import { onionService } from 'services'
 import { requests } from 'store/helpers/Requests'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
@@ -15,6 +16,7 @@ import {
     IPrecipitatedUniqueCodes,
     IUniqueCodesData,
     PropsGetPrecipitatedOnionsByDay,
+    IDayPlan,
 } from './types'
 import { StateStatus, TError, TStateStatus } from 'store/helpers/Status'
 import { dates } from 'helpers/Dates'
@@ -177,7 +179,10 @@ export const getWeatherActionPlan = createAsyncThunk<
                     )
                 })
             ))
+        const { tomorrowPlan } = (getState() as RootState).weatherActionPlan
+            .actionPlans
 
+        // await dispatch(logCoordination(tomorrowPlan))
         console.timeEnd('[getWeatherActionPlan]')
     }
 )

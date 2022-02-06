@@ -4,15 +4,15 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
-import { alertService, glovoappService } from 'services'
+import { alertService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 import {
     ErrorCaseRecommendations,
     Errors,
     requests,
 } from 'store/helpers/Requests'
-import { IDataForScheduleActionLog } from '../../logs/types'
-import { logScheduleActionToSheet } from '../../logs/logsSlice'
+import { IDataForScheduleActionLog } from '../../sheets/types'
+import { logScheduleAction } from '../../sheets/logsSlice'
 import {
     IOnionScheduleSlots,
     IOnionScheduleSlotsResponse,
@@ -275,7 +275,7 @@ export const updateOnionSlots = createAsyncThunk<
                 }
 
                 console.log('Starting log to sheet logData', logData)
-                await dispatch(logScheduleActionToSheet(logData))
+                await dispatch(logScheduleAction(logData))
             }
 
             await dispatch(

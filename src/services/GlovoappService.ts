@@ -37,12 +37,16 @@ export class GlovoappService {
 
     async refreshGlovoappHeaders() {
         try {
+            // const userIsAdmin =
             const response: AxiosResponse = await aideApiAxios.options(
                 `/refresh_token/`
             )
 
             requests.processError(response.status, response.statusText)
-            alertService.success('Refreshed expired token')
+            console.log(
+                '[GlovoappService/refreshGlovoappHeaders] Refreshed expired token'
+            )
+            // alertService.success('Refreshed expired token')
         } catch (error: Error | any) {
             console.log(
                 '[glovoappService/refreshGlovoappHeaders] error: ',

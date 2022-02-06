@@ -48,3 +48,9 @@ export interface IPrecipitatedOnionPlanResponse {
     tomorrow: boolean
     afterTomorrow: boolean
 }
+
+export interface IDayPlan {
+    kyiv_plan: IOnionWeatherAnalysis[]
+    mio_plan: IOnionWeatherAnalysis[]
+    small_plan: IOnionWeatherAnalysis[]
+}

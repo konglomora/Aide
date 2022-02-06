@@ -10,6 +10,12 @@ export interface IDataForScheduleActionLog {
     dateOfSchedule: string
 }
 
+export interface IDataForCoordinationLog extends IDataForScheduleActionLog {
+    saturationBotMode: string
+    mode: string
+    challenges: string
+}
+
 export interface ILogsState {
     status: TStateStatus
     error: null

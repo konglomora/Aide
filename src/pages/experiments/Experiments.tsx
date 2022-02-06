@@ -2,8 +2,8 @@ import { Flex, Button, TextContent } from 'components/styled'
 import dayjs from 'dayjs'
 import { alertService } from 'services'
 import { useAppDispatch } from 'hooks'
-import { IDataForScheduleActionLog } from 'store/slices/logs/types'
-import { logScheduleActionToSheet } from 'store/slices/logs/logsSlice'
+import { IDataForScheduleActionLog } from 'store/slices/sheets/types'
+import { logScheduleAction } from 'store/slices/sheets/logsSlice'
 
 const Experiments = () => {
     const dispatch = useAppDispatch()
@@ -20,7 +20,7 @@ const Experiments = () => {
             dateOfSchedule: dayjs().format('HH:mm:ss DD.MM.YY'),
         }
 
-        alertService.loading(dispatch(logScheduleActionToSheet(data)), {
+        alertService.loading(dispatch(logScheduleAction(data)), {
             pending: 'Sheet processing',
             success: 'Done!',
             error: 'Rejected',
