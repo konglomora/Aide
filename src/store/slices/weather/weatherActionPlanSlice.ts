@@ -1,5 +1,4 @@
 import { requests } from 'store/helpers/Requests'
-import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
 import { adminApiGlovoappAxios, aideApiAxios } from 'api'

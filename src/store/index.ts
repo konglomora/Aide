@@ -12,7 +12,6 @@ import weatherActionPlanSlice from './slices/weather/weatherActionPlanSlice'
 import userSlice from './slices/user/userSlice'
 import scheduleSlice from './slices/onions/schedule/scheduleSlice'
 import onionsSlotsSlice from './slices/onions/slots/onionsSlotsSlice'
-import glovoappApiSlice from './slices/glovoapp/glovoappApiSlice'
 
 const rootPersistConfig = {
     key: 'root',
@@ -21,11 +20,9 @@ const rootPersistConfig = {
 }
 
 const authPersistConfig = { key: 'user', storage: storageSession }
-const glovoappApiPersistConfig = { key: 'glovoappApi', storage: storageSession }
 
 const rootReducer = combineReducers({
     user: persistReducer(authPersistConfig, userSlice),
-    glovoappApi: persistReducer(glovoappApiPersistConfig, glovoappApiSlice),
     saturationPeriodReport: saturationPeriodReportSlice,
     selectedOnionsReport: saturationSelectedOnionsSlice,
     weatherActionPlan: weatherActionPlanSlice,

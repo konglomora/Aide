@@ -2,7 +2,6 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import jwtDecode from 'jwt-decode'
 import { alertService, requestService } from 'services'
-import { store } from 'store'
 
 const adminApiGlovoappAxios = axios.create({
     baseURL: process.env.REACT_APP_ADMIN_API_GLOVOAPP_URL,
@@ -34,6 +33,11 @@ adminApiGlovoappAxios.interceptors.request.use(
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
 
         console.log(
+            'Glovoapp auth token will expire at: ',
+            dayjs(user.exp * 1000).format('HH:mm:ss of DD.MM.YY')
+        )
+
+        console.log(
             '[adminApiGlovoappAxios] glovoappAuthToken isExpired: ',
             isExpired
         )
@@ -42,6 +46,7 @@ adminApiGlovoappAxios.interceptors.request.use(
             const newGlovoappAuthToken =
                 await requestService.getNewGlovoappAuthToken()
             request.headers.authorization = newGlovoappAuthToken
+
             return request
         }
 
@@ -52,31 +57,5 @@ adminApiGlovoappAxios.interceptors.request.use(
         Promise.reject(error)
     }
 )
-
-// Response interceptor for API calls
-// adminApiGlovoappAxios.interceptors.response.use(
-//     (response) => {
-//         return response
-//     },
-//     async function (error) {
-//         const originalRequest = error.config
-//         console.log('[adminApiGlovoappAxios] error: ', error)
-//         if (
-//             (error.response.status === 401 && !originalRequest._retry) ||
-//             (error.response.status === 400 && !originalRequest._retry)
-//         ) {
-//             originalRequest._retry = true
-//             await requestService.refreshGlovoappHeaders()
-//             const { authorization } =
-//                 store.getState().glovoappApi.glovoApiHeaders[0]!
-
-//             authorization &&
-//                 (axios.defaults.headers.authorization = authorization)
-//             alertService.success('Refreshed token from interceptor')
-//             return adminApiGlovoappAxios(originalRequest)
-//         }
-//         return Promise.reject(error)
-//     }
-// )
 
 export default adminApiGlovoappAxios

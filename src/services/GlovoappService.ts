@@ -2,7 +2,14 @@ import { aideApiAxios } from 'api'
 import { AxiosResponse } from 'axios'
 import { alertService } from 'services'
 import { requests } from 'store/helpers/Requests'
-import { IGlovoAdminHeaders } from 'store/slices/glovoapp/types'
+
+export interface IGlovoAdminHeaders {
+    id: number
+    user_agent: string
+    accept: string
+    authorization: string
+    content_type: string
+}
 
 export class RequestService {
     async getNewGlovoappAuthToken(): Promise<string | undefined> {
@@ -35,6 +42,7 @@ export class RequestService {
             )
 
             requests.processError(response.status, response.statusText)
+            alertService.success('Refreshed expired token')
         } catch (error: Error | any) {
             console.log(
                 '[RequestService/refreshGlovoappHeaders] error: ',

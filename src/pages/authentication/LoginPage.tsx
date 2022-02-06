@@ -7,7 +7,6 @@ import { capitalizeFirstLetter } from 'helpers/strings'
 import { getUserRole } from 'pages/authentication'
 import { Flex } from 'components/styled'
 import { alertService, requestService } from 'services'
-import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 
 const LoginPage = () => {
     const dispatch = useAppDispatch()
