@@ -194,7 +194,7 @@ export const updateOnionSlots = createAsyncThunk<
     'onionsSlots/updateOnionSlots',
     async function (_, { dispatch, rejectWithValue, getState }) {
         try {
-            await dispatch(axiosGetGlovoApiHeaders())
+            // await dispatch(axiosGetGlovoApiHeaders())
             const state = getState() as RootState
 
             // const { user_agent, accept, authorization, content_type } =
