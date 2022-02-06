@@ -1,4 +1,4 @@
-import { TStateStatus } from './../../helpers/Status'
+import { TStateStatus } from '../../helpers/Status'
 export interface IDataForScheduleActionLog {
     actionTime: string
     userName: string
@@ -8,6 +8,12 @@ export interface IDataForScheduleActionLog {
     bonusType: string
     capacityPercentage: number
     dateOfSchedule: string
+}
+
+export interface IDataForCoordinationLog extends IDataForScheduleActionLog {
+    saturationBotMode: string
+    mode: string
+    challenges: string
 }
 
 export interface ILogsState {

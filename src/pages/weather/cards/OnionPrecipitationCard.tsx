@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import { Flex, Title, Colors } from 'components/styled'
 import { areasInfo } from 'store/helpers/AreasInfo'
 import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
+import { IResourceByArea } from './types'
 
 export enum Actions {
     expand = 'Расширяем заполненные слоты с вероятностью на 10%.',
@@ -41,60 +42,7 @@ const getAreaForBonus = (code: string): string => {
     }
     return AreasForBonus.small
 }
-export interface IResourceByArea {
-    KYIV: {
-        bonus: {
-            full: number
-            partial: number
-            rest: number
-        }
-        slots: {
-            high: number
-            medium: number
-            normal: number
-            low: number
-        }
-    }
-    SATELLITE: {
-        bonus: {
-            full: number
-            partial: number
-            rest: number
-        }
-        slots: {
-            high: number
-            medium: number
-            normal: number
-            low: number
-        }
-    }
-    MIO: {
-        bonus: {
-            full: number
-            partial: number
-            rest: number
-        }
-        slots: {
-            high: number
-            medium: number
-            normal: number
-            low: number
-        }
-    }
-    SMALL: {
-        bonus: {
-            full: number
-            partial: number
-            rest: number
-        }
-        slots: {
-            high: number
-            medium: number
-            normal: number
-            low: number
-        }
-    }
-}
+
 export const ResourceByArea = {
     KYIV: {
         bonus: {
@@ -155,6 +103,8 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     city,
     percent_capacity_slots,
     slots,
+    wetStartSlot,
+    wetFinishSlot,
     precipitation,
 }) => {
     const [responsibleManagerTelegramNick, setResponsibleManagerTelegramNick] =
@@ -170,10 +120,11 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
             : dayjs().add(2, 'day').format('YYYY-MM-DD')
 
     const onionSlotsLink: string = `${REACT_APP_ONION_SLOTS_LINK}${city}/${dateOfReport}`
-
+    const wetPeriod = `${wetStartSlot} - ${wetFinishSlot}`
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const areaCodes = Object.keys(areasInfo)
+
         areaCodes.forEach((areaCode) => {
             if (areasInfo[areaCode].areaOnionCodes.includes(city)) {
                 setResponsibleManagerTelegramNick(
@@ -181,6 +132,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
                 )
             }
         })
+
         const area = getAreaForBonus(city)
         const slotsEmpty = percent_capacity_slots === 0
         const slotsPartiallyFilled =
@@ -190,35 +142,36 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
         if (slotsEmpty) {
             const bonusStr = `Bonus: +${
                 ResourceByArea[area as keyof IResourceByArea].bonus.full
-            }% BW на слоты  ${slots}`
-            const slotsStr = `Слоты не заполнены.`
+            }% BW for  ${wetPeriod}`
+            const slotsStr = `-`
             setBonusSentence(bonusStr)
             setSlotsSentence(slotsStr)
         }
 
         if (slotsPartiallyFilled) {
-            const bonusStr = `Bonus: +${
+            const bonusStr = `+${
                 ResourceByArea[area as keyof IResourceByArea].bonus.partial
-            }% RUSH на слоты  ${slots}`
-            const slotsStr = `Расширить слоты ${slots} на ${
+            }% RUSH for ${wetPeriod}`
+            const slotsStr = `+${
                 ResourceByArea[area as keyof IResourceByArea].slots.high
-            }%`
+            }% for ${wetPeriod}`
             setBonusSentence(bonusStr)
             setSlotsSentence(slotsStr)
         }
 
         if (slotsFullFilled) {
-            const bonusStr = `Bonus: +${
+            const bonusStr = `+${
                 ResourceByArea[area as keyof IResourceByArea].bonus.partial
-            }% RUSH на слоты  ${slots}`
-            const slotsStr = `Расширить все слоты ${slots} на ${
+            }% RUSH for ${wetPeriod}`
+            const slotsStr = `+${
                 ResourceByArea[area as keyof IResourceByArea].slots.medium
-            }%`
+            }% for ${wetPeriod}`
             setBonusSentence(bonusStr)
             setSlotsSentence(slotsStr)
         }
     })
-    const prepStr = `Вероятность осадков на слоты ${slots}: ${precipitation}`
+
+    const prepStr = `Probability of rainfall at ${slots} equals ${precipitation}`
 
     return (
         <Flex
@@ -246,11 +199,11 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
                 </a>
                 <div>{responsibleManagerTelegramNick}</div>
                 <div>{prepStr}</div>
-                <div>{slotsSentence}</div>
-                <div>{bonusSentence}</div>
+                <div>Bonus: {bonusSentence}</div>
+                <div>Capacity: {slotsSentence}</div>
                 <div>Challenges: - </div>
                 <div>Saturation Bot: NORMAL</div>
-                <div>Mode: Normal (не переводим на пеших)</div>
+                <div>Mode: Normal</div>
             </div>
             <div></div>
         </Flex>

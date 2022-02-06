@@ -1,14 +1,9 @@
 import dayjs from 'dayjs'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import {
-    axiosGetGlovoApiHeaders,
-    updateGlovoApiToken,
-} from 'store/slices/glovoapp/glovoappApiSlice'
 import { MyKnownError } from 'store/helpers/reports/types'
 import { RootState } from 'store'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
-
 import { alertService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 import {
@@ -16,8 +11,8 @@ import {
     Errors,
     requests,
 } from 'store/helpers/Requests'
-import { IDataForScheduleActionLog } from '../../logs/types'
-import { logScheduleActionToSheet } from '../../logs/logsSlice'
+import { IDataForScheduleActionLog } from '../../sheets/types'
+import { logScheduleAction } from '../../sheets/logsSlice'
 import {
     IOnionScheduleSlots,
     IOnionScheduleSlotsResponse,
@@ -36,23 +31,9 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
     }
 >(
     'onionsSlots/axiosGetOnionWorkingSlotsInfo',
-    async function (
-        { onionCode, date },
-        { dispatch, rejectWithValue, getState }
-    ) {
+    async function ({ onionCode, date }, { rejectWithValue }) {
         try {
-            // await dispatch(axiosGetGlovoApiHeaders())
-            // const state = getState() as RootState
-            // const { user_agent, accept, authorization, content_type } =
-            //     state.glovoappApi.glovoApiHeaders[0]
-
             const config = {
-                // headers: {
-                //     'user-agent': user_agent,
-                //     accept: accept,
-                //     authorization: authorization,
-                //     'content-type': content_type,
-                // },
                 params: {
                     cityCode: onionCode,
                     date: date,
@@ -69,6 +50,7 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
                 'onionScheduleSlotsResponse',
                 onionScheduleSlotsResponse
             )
+
             if (onionScheduleSlotsResponse.status !== 200) {
                 alertService.error(onionScheduleSlotsResponse.statusText)
                 console.log('Erro blyad!!!!', onionScheduleSlotsResponse)
@@ -109,20 +91,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
         { dispatch, rejectWithValue, getState }
     ) {
         try {
-            // await dispatch(axiosGetGlovoApiHeaders())
-            // const state = getState() as RootState
-
-            // const { user_agent, accept, authorization, content_type } =
-            //     state.glovoappApi.glovoApiHeaders[0]
-
             const config: AxiosRequestConfig = {
-                // headers: {
-                //     'user-agent': user_agent,
-                //     accept: accept,
-                //     authorization: authorization,
-                //     'content-type': content_type,
-                // },
-
                 params: {
                     cityCode: onionCode,
                     date: date,
@@ -174,7 +143,6 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 alertService.error(
                     ErrorCaseRecommendations.expiredGlovoAdminApiToken_401
                 )
-                // dispatch(updateGlovoApiToken())
             } else {
                 alertService.error(error.message)
             }
@@ -194,11 +162,8 @@ export const updateOnionSlots = createAsyncThunk<
     'onionsSlots/updateOnionSlots',
     async function (_, { dispatch, rejectWithValue, getState }) {
         try {
-            // await dispatch(axiosGetGlovoApiHeaders())
             const state = getState() as RootState
 
-            // const { user_agent, accept, authorization, content_type } =
-            //     state.glovoappApi.glovoApiHeaders[0]
             const {
                 date,
                 selectedOnionCode,
@@ -271,19 +236,11 @@ export const updateOnionSlots = createAsyncThunk<
                 notifyCouriers: false,
                 slots: dataForUpdate,
             }
-            // const config: AxiosRequestConfig = {
-            //     headers: {
-            //         'user-agent': user_agent,
-            //         accept: accept,
-            //         authorization: authorization,
-            //         'content-type': content_type,
-            //     },
-            // }
+
             const onionScheduleSlotsResponse: AxiosResponse =
                 await adminApiGlovoappAxios.post(
                     '/admin/scheduling/slots/updateMany',
                     data
-                    // config
                 )
 
             console.log(
@@ -318,7 +275,7 @@ export const updateOnionSlots = createAsyncThunk<
                 }
 
                 console.log('Starting log to sheet logData', logData)
-                await dispatch(logScheduleActionToSheet(logData))
+                await dispatch(logScheduleAction(logData))
             }
 
             await dispatch(
@@ -338,7 +295,6 @@ export const updateOnionSlots = createAsyncThunk<
                 alertService.error(
                     ErrorCaseRecommendations.expiredGlovoAdminApiToken_401
                 )
-                // dispatch(updateGlovoApiToken())
             } else {
                 alertService.error(
                     `[onionsSlots/axiosGetOnionScheduleActiveDates]: ${error.message}`
@@ -370,11 +326,11 @@ const initialState: IOnionSlotsState = {
     status: null,
     error: null,
     date: dayjs().format('YYYY-MM-DD'),
-    selectedOnionCode: 'VNT',
+    selectedOnionCode: 'KHM',
     startTimeOfPeriod: '',
     endTimeOfPeriod: '',
-    bonusReason: BonusReasons.BW,
-    bonusSize: 0,
+    bonusReason: BonusReasons.RUSH,
+    bonusSize: 20,
     capacityPercentage: 0,
     activeScheduleDates: [dayjs().add(1, 'days').format('YYYY-MM-DD')],
     onionScheduleStartSlots: [],

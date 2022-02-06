@@ -1,5 +1,6 @@
+// import { logCoordination } from './../sheets/logsSlice'
+import { onionService } from 'services'
 import { requests } from 'store/helpers/Requests'
-import { axiosGetGlovoApiHeaders } from 'store/slices/glovoapp/glovoappApiSlice'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
 import { adminApiGlovoappAxios, aideApiAxios } from 'api'
@@ -9,12 +10,13 @@ import { RootState } from 'store'
 
 import { AxiosResponse } from 'axios'
 import {
-    IGetPrecipitatedOnionPlanResponse,
+    IPrecipitatedOnionPlanResponse,
     IOnionWeather,
     IOnionWeatherAnalysis,
     IPrecipitatedUniqueCodes,
     IUniqueCodesData,
     PropsGetPrecipitatedOnionsByDay,
+    IDayPlan,
 } from './types'
 import { StateStatus, TError, TStateStatus } from 'store/helpers/Status'
 import { dates } from 'helpers/Dates'
@@ -64,7 +66,7 @@ export const getPrecipitatedOnionCodes = createAsyncThunk<
 )
 
 export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
-    IGetPrecipitatedOnionPlanResponse,
+    IPrecipitatedOnionPlanResponse,
     PropsGetPrecipitatedOnionsByDay,
     {
         rejectValue: MyKnownError
@@ -100,12 +102,12 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
                 '/admin/scheduling/slots',
                 config
             )
-
             console.log('precipitatedOnionResponse', precipitatedOnionResponse)
             console.log(
                 'onionScheduleSlotsResponse',
                 onionScheduleSlotsResponse
             )
+
             requests.processError(
                 precipitatedOnionResponse.status,
                 precipitatedOnionResponse.statusText
@@ -115,16 +117,18 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
                 onionScheduleSlotsResponse.statusText
             )
 
-            console.log(
-                '[axiosGetPrecipitatedOnionPlanObject] precipitatedOnionPlan: ',
-                precipitatedOnionResponse.data
-            )
-            console.log(
-                '[axiosGetPrecipitatedOnionPlanObject] onionScheduleSlotsResponse: ',
-                onionScheduleSlotsResponse.data
-            )
+            const { wetStartSlot, wetFinishSlot } =
+                onionService.getWetWorkingSlots(
+                    precipitatedOnionResponse.data.slots,
+                    onionScheduleSlotsResponse.data
+                )
+            const analysis = {
+                ...precipitatedOnionResponse.data,
+                wetStartSlot,
+                wetFinishSlot,
+            }
             return {
-                precipitatedOnionPlan: precipitatedOnionResponse.data,
+                precipitatedOnionPlan: analysis,
                 tomorrow: tomorrow,
                 afterTomorrow: afterTomorrow,
             }
@@ -175,7 +179,10 @@ export const getWeatherActionPlan = createAsyncThunk<
                     )
                 })
             ))
+        const { tomorrowPlan } = (getState() as RootState).weatherActionPlan
+            .actionPlans
 
+        // await dispatch(logCoordination(tomorrowPlan))
         console.timeEnd('[getWeatherActionPlan]')
     }
 )
@@ -302,15 +309,16 @@ const weatherActionPlanSlice = createSlice({
             (state, action) => {
                 const { tomorrow, afterTomorrow, precipitatedOnionPlan } =
                     action.payload
-                const { city } = precipitatedOnionPlan
+                const { city, wetFinishSlot, wetStartSlot } =
+                    precipitatedOnionPlan
                 const isKyiv = codes.kyiv.includes(city)
                 const isMio = codes.mio.includes(city)
-
+                const workingSlotsIsWet = wetStartSlot && wetFinishSlot
                 console.log(
                     '[axiosGetPrecipitatedOnionPlanObject.fulfilled] action.payload',
                     action.payload
                 )
-                if (tomorrow) {
+                if (tomorrow && workingSlotsIsWet) {
                     state.period.lastTimeUpdateOfTomorrow =
                         precipitatedOnionPlan.last_time_update
                     if (isKyiv) {
@@ -327,7 +335,7 @@ const weatherActionPlanSlice = createSlice({
                         )
                     }
                 }
-                if (afterTomorrow) {
+                if (afterTomorrow && workingSlotsIsWet) {
                     state.period.lastTimeUpdateOfAfterTomorrow =
                         precipitatedOnionPlan.last_time_update
                     if (isKyiv) {

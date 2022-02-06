@@ -1,8 +1,20 @@
+import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
+import { IOnionScheduleSlotsResponse } from 'store/slices/onions/slots/types'
+
 interface IOnionService {
     onionHasMPModeSetting(onionCode: string): boolean
     onionIsKyiv(onionCode: string): boolean
     onionIsSatellite(onionCode: string): boolean
     onionIsMio(onionCode: string): boolean
+    getWetWorkingSlots(
+        prepSlots: string,
+        onionSchedule: IOnionScheduleSlotsResponse[]
+    ): IWetWorkingSlots
+}
+
+interface IWetWorkingSlots {
+    wetStartSlot: string
+    wetFinishSlot: string
 }
 
 class OnionService implements IOnionService {
@@ -114,7 +126,64 @@ class OnionService implements IOnionService {
         return this._scheduleTimeSlots
     }
 
-    getWetWorkingSlots(prepSlots: string, onionSchedule: string[]) {}
+    getWetWorkingSlots(
+        prepSlots: string,
+        onionSchedule: IOnionScheduleSlotsResponse[]
+    ): IWetWorkingSlots {
+        const prepSlotsArr = prepSlots.split(' - ')
+        console.log(
+            '[OnionService/getWetWorkingSlots] prepSlotsArr: ',
+            prepSlotsArr
+        )
+
+        const wetWorkingSlots: IWetWorkingSlots = {
+            wetStartSlot: prepSlotsArr[0],
+            wetFinishSlot: prepSlotsArr[1],
+        }
+
+        const onionWorkingSlots = onionSchedule.filter(
+            (onion) => onion.bonusReasons.length > 0 && onion.capacity > 0
+        )
+
+        const onionStartSlots = onionWorkingSlots.map((onion) =>
+            getValidSlotFormat(onion.startTime)
+        )
+
+        const onionEndSlots = onionWorkingSlots.map((onion) =>
+            getValidSlotFormat(onion.finishTime)
+        )
+
+        const prepStartSlotsInvalid =
+            !onionStartSlots.includes(prepSlotsArr[0]) &&
+            prepSlotsArr[1] > onionStartSlots[0]
+
+        const prepFinishSlotInvalid =
+            !onionEndSlots.includes(prepSlotsArr[1]) &&
+            prepSlotsArr[1] > onionEndSlots[-1]
+
+        const bothPrepSlotsInvalid =
+            !onionEndSlots.includes(prepSlotsArr[1]) &&
+            prepSlotsArr[1] < onionStartSlots[0]
+
+        if (!bothPrepSlotsInvalid && prepStartSlotsInvalid) {
+            wetWorkingSlots.wetStartSlot = onionStartSlots[0]
+        }
+
+        if (!bothPrepSlotsInvalid && prepFinishSlotInvalid) {
+            wetWorkingSlots.wetFinishSlot = onionEndSlots[0]
+        }
+
+        if (bothPrepSlotsInvalid) {
+            wetWorkingSlots.wetStartSlot = ''
+            wetWorkingSlots.wetFinishSlot = ''
+        }
+        console.log(
+            '[OnionService/getWetWorkingSlots] wetWorkingSlots: ',
+            wetWorkingSlots
+        )
+
+        return wetWorkingSlots
+    }
 }
 
 const onionService = new OnionService()

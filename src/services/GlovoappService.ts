@@ -2,9 +2,16 @@ import { aideApiAxios } from 'api'
 import { AxiosResponse } from 'axios'
 import { alertService } from 'services'
 import { requests } from 'store/helpers/Requests'
-import { IGlovoAdminHeaders } from 'store/slices/glovoapp/types'
 
-export class RequestService {
+export interface IGlovoAdminHeaders {
+    id: number
+    user_agent: string
+    accept: string
+    authorization: string
+    content_type: string
+}
+
+export class GlovoappService {
     async getNewGlovoappAuthToken(): Promise<string | undefined> {
         try {
             const glovoAdminHeaders: AxiosResponse<IGlovoAdminHeaders[]> =
@@ -19,25 +26,30 @@ export class RequestService {
                 glovoAdminHeaders.data[0]?.authorization
             )
             console.log(
-                '[RequestService/getGlovoappHeaders] Saved auth token to session storage'
+                '[glovoappService/getGlovoappHeaders] Saved auth token to session storage'
             )
             return glovoAdminHeaders.data[0]?.authorization
         } catch (error: Error | any) {
-            console.log('[RequestService/getGlovoappHeaders] error:, ', error)
+            console.log('[glovoappService/getGlovoappHeaders] error:, ', error)
             alertService.error(error.message)
         }
     }
 
     async refreshGlovoappHeaders() {
         try {
+            // const userIsAdmin =
             const response: AxiosResponse = await aideApiAxios.options(
                 `/refresh_token/`
             )
 
             requests.processError(response.status, response.statusText)
+            console.log(
+                '[GlovoappService/refreshGlovoappHeaders] Refreshed expired token'
+            )
+            // alertService.success('Refreshed expired token')
         } catch (error: Error | any) {
             console.log(
-                '[RequestService/refreshGlovoappHeaders] error: ',
+                '[glovoappService/refreshGlovoappHeaders] error: ',
                 error
             )
             alertService.error(error.message)
@@ -45,6 +57,6 @@ export class RequestService {
     }
 }
 
-const requestService = new RequestService()
+const glovoappService = new GlovoappService()
 
-export default requestService
+export default glovoappService
