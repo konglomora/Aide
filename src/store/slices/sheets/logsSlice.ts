@@ -1,4 +1,4 @@
-import { StateStatus } from './../../helpers/Status'
+import { StateStatus } from '../../helpers/Status'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { MyKnownError } from 'store/helpers/reports/types'
 

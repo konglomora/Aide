@@ -1,4 +1,4 @@
-import { TStateStatus } from './../../helpers/Status'
+import { TStateStatus } from '../../helpers/Status'
 export interface IDataForScheduleActionLog {
     actionTime: string
     userName: string
