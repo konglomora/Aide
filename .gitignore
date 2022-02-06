@@ -28,3 +28,4 @@ yarn-error.log*
 .env
 /.firebase
 schedule-actions-log-credentials.json
+aide-sheets-service-creds.json

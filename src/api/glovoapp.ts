@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { requestService } from 'services'
+import { alertService, requestService } from 'services'
 import { IGlovoAdminHeaders } from 'store/slices/glovoapp/types'
 
 const adminApiGlovoappAxios = axios.create({
@@ -51,7 +51,7 @@ adminApiGlovoappAxios.interceptors.response.use(
                 authorization: authorization,
                 'content-type': content_type,
             }
-
+            alertService.success('Refreshed token from interceptor')
             return adminApiGlovoappAxios(originalRequest)
         }
         return Promise.reject(error)

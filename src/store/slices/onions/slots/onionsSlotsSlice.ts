@@ -170,7 +170,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 alertService.error(
                     ErrorCaseRecommendations.expiredGlovoAdminApiToken_401
                 )
-                dispatch(updateGlovoApiToken())
+                // dispatch(updateGlovoApiToken())
             } else {
                 alertService.error(error.message)
             }

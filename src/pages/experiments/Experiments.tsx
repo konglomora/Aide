@@ -62,20 +62,12 @@ const Experiments = () => {
                 }
             </TextContent>
             <TextContent>
-                process.env
-                .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL{' '}
-                {
-                    process.env
-                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL
-                }
+                process.env .REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL{' '}
+                {process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL}
             </TextContent>
             <TextContent>
-                process.env
-                .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY{' '}
-                {
-                    process.env
-                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY!
-                }
+                process.env .REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY{' '}
+                {process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!}
             </TextContent>
         </Flex>
     )

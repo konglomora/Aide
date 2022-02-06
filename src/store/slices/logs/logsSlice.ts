@@ -39,10 +39,9 @@ export const logScheduleActionToSheet = createAsyncThunk<
 
             await doc.useServiceAccountAuth({
                 client_email:
-                    process.env
-                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_CLIENT_EMAIL!,
+                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL!,
                 private_key:
-                    process.env.REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_PRIVATE_KEY!.replace(
+                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!.replace(
                         /\\n/g,
                         '\n'
                     ),
