@@ -91,8 +91,8 @@ const WeatherActionPlan = () => {
         status,
     }
     useEffect(() => {
-        console.log('weather tomorrowPlan: ', tomorrowPlan)
-        console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
+        // console.log('weather tomorrowPlan: ', tomorrowPlan)
+        // console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
     }, [tomorrowPlan, afterTomorrowPlan])
 
     useEffect(() => {

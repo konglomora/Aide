@@ -1,27 +1,26 @@
+import { updateGlovoApiToken } from './../store/slices/glovoapp/glovoappApiSlice'
+import { useAppDispatch, useAppSelector } from 'hooks'
 import axios from 'axios'
 import { alertService, requestService } from 'services'
 import { IGlovoAdminHeaders } from 'store/slices/glovoapp/types'
+import { store } from 'store'
 
 const adminApiGlovoappAxios = axios.create({
     baseURL: process.env.REACT_APP_ADMIN_API_GLOVOAPP_URL,
+    headers: {
+        'user-agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Safari/537.36',
+        accept: 'application/json, text/plain, */*',
+        'content-type': 'application/json',
+    },
 })
 
 // Request interceptor for API calls
 adminApiGlovoappAxios.interceptors.request.use(
     async (config) => {
-        const glovoApiHeaders: IGlovoAdminHeaders | undefined =
-            await requestService.getGlovoappHeaders()
-
-        const { user_agent, accept, authorization, content_type } =
-            glovoApiHeaders!
-
-        config.headers = {
-            'user-agent': user_agent,
-            accept: accept,
-            authorization: authorization,
-            'content-type': content_type,
-        }
-
+        const { authorization } =
+            store.getState().glovoappApi.glovoApiHeaders[0]!
+        authorization && (config.headers.authorization = authorization)
         return config
     },
     (error) => {
@@ -36,21 +35,18 @@ adminApiGlovoappAxios.interceptors.response.use(
     },
     async function (error) {
         const originalRequest = error.config
-        if (error.response.status === 401 && !originalRequest._retry) {
+        console.log('[adminApiGlovoappAxios] error: ', error)
+        if (
+            (error.response.status === 401 && !originalRequest._retry) ||
+            (error.response.status === 400 && !originalRequest._retry)
+        ) {
             originalRequest._retry = true
             await requestService.refreshGlovoappHeaders()
-            const glovoApiHeaders: IGlovoAdminHeaders | undefined =
-                await requestService.getGlovoappHeaders()
+            const { authorization } =
+                store.getState().glovoappApi.glovoApiHeaders[0]!
 
-            const { user_agent, accept, authorization, content_type } =
-                glovoApiHeaders!
-
-            axios.defaults.headers = {
-                'user-agent': user_agent,
-                accept: accept,
-                authorization: authorization,
-                'content-type': content_type,
-            }
+            authorization &&
+                (axios.defaults.headers.authorization = authorization)
             alertService.success('Refreshed token from interceptor')
             return adminApiGlovoappAxios(originalRequest)
         }

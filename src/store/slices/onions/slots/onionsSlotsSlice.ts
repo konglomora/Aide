@@ -11,7 +11,11 @@ import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
 
 import { alertService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
-import { ErrorCaseRecommendations, Errors } from 'store/helpers/Requests'
+import {
+    ErrorCaseRecommendations,
+    Errors,
+    requests,
+} from 'store/helpers/Requests'
 import { IDataForScheduleActionLog } from '../../logs/types'
 import { logScheduleActionToSheet } from '../../logs/logsSlice'
 import {
@@ -323,9 +327,8 @@ export const updateOnionSlots = createAsyncThunk<
                     date,
                 })
             )
-            if (onionScheduleSlotsResponse.status !== 200) {
-                throw new Error(onionScheduleSlotsResponse.statusText)
-            }
+            const { status, statusText } = onionScheduleSlotsResponse
+            requests.processError(status, statusText)
         } catch (error: Error | any) {
             console.log(
                 '[onionsSlots/axiosGetOnionScheduleActiveDates] error',
@@ -335,7 +338,7 @@ export const updateOnionSlots = createAsyncThunk<
                 alertService.error(
                     ErrorCaseRecommendations.expiredGlovoAdminApiToken_401
                 )
-                dispatch(updateGlovoApiToken())
+                // dispatch(updateGlovoApiToken())
             } else {
                 alertService.error(
                     `[onionsSlots/axiosGetOnionScheduleActiveDates]: ${error.message}`

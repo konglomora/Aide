@@ -93,6 +93,7 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
                 await aideApiAxios.get<IOnionWeatherAnalysis>(
                     `weather/data/analysis/${onionCode}/?tomorrow=${tomorrow}`
                 )
+
             const onionScheduleSlotsResponse: AxiosResponse<
                 IOnionScheduleSlotsResponse[]
             > = await adminApiGlovoappAxios.get(

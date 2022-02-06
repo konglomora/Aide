@@ -113,6 +113,8 @@ class OnionService implements IOnionService {
     get scheduleTimeSlots(): string[] {
         return this._scheduleTimeSlots
     }
+
+    getWetWorkingSlots(prepSlots: string, onionSchedule: string[]) {}
 }
 
 const onionService = new OnionService()

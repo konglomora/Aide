@@ -21,10 +21,11 @@ const rootPersistConfig = {
 }
 
 const authPersistConfig = { key: 'user', storage: storageSession }
+const glovoappApiPersistConfig = { key: 'glovoappApi', storage: storageSession }
 
 const rootReducer = combineReducers({
     user: persistReducer(authPersistConfig, userSlice),
-    glovoappApi: glovoappApiSlice,
+    glovoappApi: persistReducer(glovoappApiPersistConfig, glovoappApiSlice),
     saturationPeriodReport: saturationPeriodReportSlice,
     selectedOnionsReport: saturationSelectedOnionsSlice,
     weatherActionPlan: weatherActionPlanSlice,
