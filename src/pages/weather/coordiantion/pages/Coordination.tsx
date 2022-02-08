@@ -9,8 +9,8 @@ import { useAppSelector } from 'hooks'
 
 import { alertService } from 'services'
 import { ReportSlider, SliderCard } from 'components/animated'
-import { generatePlanCards } from 'pages/weather/generators/PlanCardsGenerator'
-import { ActionPlanCard } from 'pages/weather/cards/ActionPlanCard'
+import { generatePlanCards } from 'pages/weather/coordiantion/generators/PlanCardsGenerator'
+import { ActionPlanCard } from 'pages/weather/coordiantion/cards/ActionPlanCard'
 import { StateStatus } from 'store/helpers/Status'
 
 const WeatherActionPlan = () => {
@@ -72,9 +72,9 @@ const WeatherActionPlan = () => {
                 })
             ),
             {
-                success: 'Loaded action plan',
-                pending: 'Loading action plan',
-                error: 'Erro while loading action plan',
+                success: 'Loaded coordination.',
+                pending: 'Loading coordination...',
+                error: 'Error while loading coordination.',
             }
         )
     }

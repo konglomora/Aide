@@ -1,11 +1,11 @@
 // import { logCoordination } from './../sheets/logsSlice'
-import { onionService } from 'services'
+import { onionService, coordinationService } from 'services'
 import { requests } from 'store/helpers/Requests'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
 import { adminApiGlovoappAxios, aideApiAxios } from 'api'
 import { codes } from '../../helpers/Codes'
-import { MyKnownError } from 'store/helpers/reports/types'
+import { MyKnownError } from 'store/slices/saturation/types'
 import { RootState } from 'store'
 
 import { AxiosResponse } from 'axios'
@@ -16,7 +16,7 @@ import {
     IPrecipitatedUniqueCodes,
     IUniqueCodesData,
     PropsGetPrecipitatedOnionsByDay,
-    IDayPlan,
+    IOnionWeatherAnalysisResponse,
 } from './types'
 import { StateStatus, TError, TStateStatus } from 'store/helpers/Status'
 import { dates } from 'helpers/Dates'
@@ -29,7 +29,7 @@ export const getPrecipitatedOnionCodes = createAsyncThunk<
         rejectValue: MyKnownError
     }
 >(
-    'weather-action-plan/getPrecipitatedOnionCodes',
+    'weather-coordination/getPrecipitatedOnionCodes',
     async function (_, { rejectWithValue }) {
         try {
             const allDaysUniqueCodesResponse: AxiosResponse<IUniqueCodesData> =
@@ -72,7 +72,7 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
         rejectValue: MyKnownError
     }
 >(
-    'weather-action-plan/axiosGetPrecipitatedOnionPlanObject',
+    'weather-coordination/axiosGetPrecipitatedOnionPlanObject',
     async function (
         { onionCode, tomorrow, afterTomorrow }: PropsGetPrecipitatedOnionsByDay,
         { rejectWithValue, dispatch, getState }
@@ -92,21 +92,25 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
         }
         try {
             const precipitatedOnionResponse =
-                await aideApiAxios.get<IOnionWeatherAnalysis>(
+                await aideApiAxios.get<IOnionWeatherAnalysisResponse>(
                     `weather/data/analysis/${onionCode}/?tomorrow=${tomorrow}`
                 )
 
+            // const onionScheduleSlotsResponse: AxiosResponse<
+            //     IOnionScheduleSlotsResponse[]
+            // > = await adminApiGlovoappAxios.get(
+            //     '/admin/scheduling/slots',
+            //     config
+            // )
             const onionScheduleSlotsResponse: AxiosResponse<
                 IOnionScheduleSlotsResponse[]
-            > = await adminApiGlovoappAxios.get(
-                '/admin/scheduling/slots',
-                config
-            )
-            console.log('precipitatedOnionResponse', precipitatedOnionResponse)
-            console.log(
-                'onionScheduleSlotsResponse',
-                onionScheduleSlotsResponse
-            )
+            > = await aideApiAxios.get('/admin/scheduling/slots/', config)
+
+            // console.log('precipitatedOnionResponse', precipitatedOnionResponse)
+            // console.log(
+            //     'onionScheduleSlotsResponse',
+            //     onionScheduleSlotsResponse
+            // )
 
             requests.processError(
                 precipitatedOnionResponse.status,
@@ -117,18 +121,12 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
                 onionScheduleSlotsResponse.statusText
             )
 
-            const { wetStartSlot, wetFinishSlot } =
-                onionService.getWetWorkingSlots(
-                    precipitatedOnionResponse.data.slots,
-                    onionScheduleSlotsResponse.data
-                )
-            const analysis = {
-                ...precipitatedOnionResponse.data,
-                wetStartSlot,
-                wetFinishSlot,
-            }
+            const coordination = coordinationService.getOnionCoordination(
+                precipitatedOnionResponse.data,
+                onionScheduleSlotsResponse.data
+            )
             return {
-                precipitatedOnionPlan: analysis,
+                coordination: coordination,
                 tomorrow: tomorrow,
                 afterTomorrow: afterTomorrow,
             }
@@ -142,7 +140,7 @@ export const getWeatherActionPlan = createAsyncThunk<
     void,
     Omit<PropsGetPrecipitatedOnionsByDay, 'onionCode'>
 >(
-    'weather-action-plan/getWeatherActionPlan',
+    'weather-coordination/getWeatherActionPlan',
     async function ({ tomorrow, afterTomorrow }, { dispatch, getState }) {
         console.time('[getWeatherActionPlan]')
 
@@ -254,7 +252,7 @@ const initialState: IWeatherSliceInitState = {
 }
 
 const weatherActionPlanSlice = createSlice({
-    name: 'weather-action-plan',
+    name: 'weather-coordination',
     initialState,
     reducers: {
         clearPlan(state) {
@@ -307,10 +305,8 @@ const weatherActionPlanSlice = createSlice({
         builder.addCase(
             axiosGetPrecipitatedOnionPlanObject.fulfilled,
             (state, action) => {
-                const { tomorrow, afterTomorrow, precipitatedOnionPlan } =
-                    action.payload
-                const { city, wetFinishSlot, wetStartSlot } =
-                    precipitatedOnionPlan
+                const { tomorrow, afterTomorrow, coordination } = action.payload
+                const { city, wetFinishSlot, wetStartSlot } = coordination
                 const isKyiv = codes.kyiv.includes(city)
                 const isMio = codes.mio.includes(city)
                 const workingSlotsIsWet = wetStartSlot && wetFinishSlot
@@ -320,35 +316,35 @@ const weatherActionPlanSlice = createSlice({
                 )
                 if (tomorrow && workingSlotsIsWet) {
                     state.period.lastTimeUpdateOfTomorrow =
-                        precipitatedOnionPlan.last_time_update
+                        coordination.last_time_update
                     if (isKyiv) {
                         state.actionPlans.tomorrowPlan.kyiv_plan.push(
-                            precipitatedOnionPlan
+                            coordination
                         )
                     } else if (isMio) {
                         state.actionPlans.tomorrowPlan.mio_plan.push(
-                            precipitatedOnionPlan
+                            coordination
                         )
                     } else {
                         state.actionPlans.tomorrowPlan.small_plan.push(
-                            precipitatedOnionPlan
+                            coordination
                         )
                     }
                 }
                 if (afterTomorrow && workingSlotsIsWet) {
                     state.period.lastTimeUpdateOfAfterTomorrow =
-                        precipitatedOnionPlan.last_time_update
+                        coordination.last_time_update
                     if (isKyiv) {
                         state.actionPlans.afterTomorrowPlan.kyiv_plan.push(
-                            precipitatedOnionPlan
+                            coordination
                         )
                     } else if (isMio) {
                         state.actionPlans.afterTomorrowPlan.mio_plan.push(
-                            precipitatedOnionPlan
+                            coordination
                         )
                     } else {
                         state.actionPlans.afterTomorrowPlan.small_plan.push(
-                            precipitatedOnionPlan
+                            coordination
                         )
                     }
                 }

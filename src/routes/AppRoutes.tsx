@@ -10,7 +10,7 @@ import {
     SaturationBySelectedOnion,
 } from 'pages/saturation/pages'
 import SchedulePage from '../pages/onions/schedules/pages/Schedules'
-import WeatherActionPlan from '../pages/weather/pages/Coordination'
+import WeatherActionPlan from '../pages/weather/coordiantion/pages/Coordination'
 import Layout from '../pages/navigation/Layout'
 import SaturationNavigation from '../pages/navigation/SaturationNavbar'
 import Slots from '../pages/onions/slots/pages/Slots'
@@ -28,7 +28,7 @@ const AppRoutes: FC = () => {
         <Route key={nextId()} path="weather" element={<WeatherNavbar />}>
             <Route
                 key={nextId()}
-                path="action-plan"
+                path="coordination"
                 element={<WeatherActionPlan />}
             />
         </Route>

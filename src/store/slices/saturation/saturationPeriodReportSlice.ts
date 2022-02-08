@@ -12,7 +12,7 @@ import {
     ISaturatedOnionAnalysis,
     ISaturatedOnionBySlot,
     MyKnownError,
-} from 'store/helpers/reports/types'
+} from 'store/slices/saturation/types'
 import { saturationService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 
@@ -72,13 +72,24 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
             }
             console.log('saturatedOnionData.data', saturatedOnionResponse.data)
 
-            saturatedOnionResponse.data.forAutoReport = true
-            saturatedOnionResponse.data.slotFilledStr =
-                saturationService.getExpansionResult(
-                    saturatedOnionResponse.data.difference
-                )
+            const { compared_couriers, compared_orders } =
+                saturatedOnionResponse.data
 
-            return saturatedOnionResponse.data
+            const slotFilledStr =
+                saturationService.getExpansionResult(compared_couriers)
+
+            const diffStr = saturationService.getIndicatorsDiff(
+                compared_couriers,
+                compared_orders
+            )
+
+            const analysis: ISaturatedOnionAnalysis = {
+                ...saturatedOnionResponse.data,
+                forAutoReport: true,
+                slotFilledStr: slotFilledStr,
+                diffStr: diffStr,
+            }
+            return analysis
         } catch (error) {
             console.log('[saturationPeriodReportSlice] error', error)
             return rejectWithValue(error as MyKnownError)

@@ -3,13 +3,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { OnionCodes } from '../../../helpers/onionCodes'
 import { codes } from '../../helpers/Codes'
 import {
+    ISaturatedOnionAnalysis,
+    MyKnownError,
     PropsAxiosGetSaturatedOnionAnalyseObject,
     PropsGetSaturationReport,
 } from './types'
-import {
-    ISaturatedOnionAnalysis,
-    MyKnownError,
-} from '../../helpers/reports/types'
+
 import { saturationService } from 'services'
 import { StateStatus, TStateStatus } from 'store/helpers/Status'
 import { aideApiAxios } from 'api'
@@ -27,18 +26,30 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
         { rejectWithValue }
     ) {
         try {
-            const saturatedOnionData =
+            const saturatedOnionResponse =
                 await aideApiAxios.get<ISaturatedOnionAnalysis>(
                     `/state/data/analysis/${onionCode}/${periodStart}/${periodEnd}/`
                 )
-            if (saturatedOnionData.statusText !== 'OK') {
-                throw new Error(saturatedOnionData.statusText)
+            if (saturatedOnionResponse.statusText !== 'OK') {
+                throw new Error(saturatedOnionResponse.statusText)
             }
-            saturatedOnionData.data.slotFilledStr =
-                saturationService.getExpansionResult(
-                    saturatedOnionData.data.difference
-                )
-            return saturatedOnionData.data as ISaturatedOnionAnalysis
+            const { compared_couriers, compared_orders } =
+                saturatedOnionResponse.data
+
+            const slotFilledStr =
+                saturationService.getExpansionResult(compared_couriers)
+
+            const diffStr = saturationService.getIndicatorsDiff(
+                compared_couriers,
+                compared_orders
+            )
+            const analysis: ISaturatedOnionAnalysis = {
+                ...saturatedOnionResponse.data,
+                forAutoReport: true,
+                slotFilledStr: slotFilledStr,
+                diffStr: diffStr,
+            }
+            return analysis
         } catch (error) {
             return rejectWithValue(error as MyKnownError)
         }

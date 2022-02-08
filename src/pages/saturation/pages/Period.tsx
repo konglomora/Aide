@@ -112,13 +112,24 @@ const SaturationByPeriodPage = () => {
                     margin: '15em 0  0 20em',
                 }}
             >
-                <Flex direction={'column'}>
+                <Flex direction={'column'} align="center">
+                    <Flex
+                        wrap={'wrap'}
+                        border={'3px solid white'}
+                        justify={'space-evenly'}
+                        align={'stretch'}
+                        padding={'10px'}
+                        bRadius={'10px'}
+                        bFilter={'blur(2px)'}
+                        margin={'10px 0px'}
+                    >
+                        <Title
+                            margin={'10px 0px'}
+                            fWeight={'600'}
+                        >{`Saturation report from ${periodStart}:00 to ${periodEnd}:00`}</Title>
+                    </Flex>
                     {lessCouriers.length > 0 && (
                         <Flex wrap={'wrap'}>
-                            <Title
-                                margin={'10px 0px'}
-                                fWeight={'700'}
-                            >{`Апдейт по сатурации с ${periodStart}:00 по ${periodEnd}:00`}</Title>
                             <div> </div>
                             <Flex
                                 wrap={'wrap'}
@@ -131,8 +142,7 @@ const SaturationByPeriodPage = () => {
                                 margin={'10px 0px'}
                             >
                                 <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                    Уменьшилось количество активных курьеров в
-                                    разрезе с прошлой неделей:
+                                    The number of glovers has decreased
                                 </TextContent>
                                 <div> </div>
                                 {lessCouriers.map((onionReport, id) => (
@@ -159,8 +169,7 @@ const SaturationByPeriodPage = () => {
                             margin={'10px 0px'}
                         >
                             <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                Прирост количества заказов в разрезе с прошлой
-                                неделей:
+                                The number of orders has increased
                             </TextContent>
                             <div> </div>
                             {moreOrders.map((onionReport, id) => (
@@ -186,8 +195,8 @@ const SaturationByPeriodPage = () => {
                             margin={'10px 0px'}
                         >
                             <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                Прирост заказов и уменьшилось количество
-                                активных курьеров в сравнении с прошлой неделей:
+                                The number of orders has increased and the
+                                number of glovers has decreased
                             </TextContent>
                             <div> </div>
                             {lessCouriersAndMoreOrders.map(
@@ -215,7 +224,7 @@ const SaturationByPeriodPage = () => {
                             margin={'10px 0px'}
                         >
                             <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                Ситуация улучшилась относительно D-7:
+                                Scores improved relative to D-7:
                             </TextContent>
                             <div> </div>
                             {betterThanD7.map((onionReport, id) => (

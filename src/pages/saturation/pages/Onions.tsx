@@ -17,6 +17,7 @@ import { Colors } from 'components/styled'
 import { useAppSelector } from 'hooks'
 import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/helpers/Status'
+import { ReportSlider } from 'components/animated'
 
 const SaturationBySelectedOnion = () => {
     const dispatch = useDispatch()
@@ -170,30 +171,51 @@ const SaturationBySelectedOnion = () => {
                 </Flex>
             </Flex>
 
-            {status === StateStatus.success && saturationReport.length > 0 && (
-                <Flex
-                    wrap={'wrap'}
-                    width={'90%'}
-                    border={'3px solid white'}
-                    justify={'space-evenly'}
-                    align={'stretch'}
-                    padding={'10px'}
-                    bRadius={'10px'}
-                    bFilter={'blur(2px)'}
-                    margin={'10px auto'}
-                >
-                    <Title
-                        fWeight={'800'}
-                    >{`Апдейт по сатурации с ${periodStart}:00 по ${periodEnd}:00`}</Title>
-                    {saturationReport.map((onionReport, id) => (
-                        <OnionSaturationCard
-                            {...onionReport}
-                            userIsAdmin={userIsAdmin}
-                            key={id}
-                        />
-                    ))}
+            <ReportSlider
+                status={status}
+                style={{
+                    width: '50%',
+                    margin: '1em auto',
+                }}
+            >
+                <Flex direction={'column'} align="center">
+                    <Flex
+                        wrap={'wrap'}
+                        border={'3px solid white'}
+                        justify={'center'}
+                        align={'center'}
+                        padding={'10px'}
+                        bRadius={'10px'}
+                        bFilter={'blur(2px)'}
+                        margin={'10px 0px'}
+                    >
+                        <Title
+                            margin={'10px 0px'}
+                            fWeight={'600'}
+                        >{`Saturation at selected onions from ${periodStart}:00 to ${periodEnd}:00`}</Title>
+                    </Flex>
+
+                    <Flex
+                        wrap={'wrap'}
+                        width={'90%'}
+                        border={'3px solid white'}
+                        justify={'center'}
+                        align={'center'}
+                        padding={'10px'}
+                        bRadius={'10px'}
+                        bFilter={'blur(2px)'}
+                        margin={'10px auto'}
+                    >
+                        {saturationReport.map((onionReport, id) => (
+                            <OnionSaturationCard
+                                {...onionReport}
+                                userIsAdmin={userIsAdmin}
+                                key={id}
+                            />
+                        ))}
+                    </Flex>
                 </Flex>
-            )}
+            </ReportSlider>
         </Flex>
     )
 }

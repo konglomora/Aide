@@ -1,3 +1,5 @@
+import { GsTelegramNick } from './../../../services/coordination/AreasInfo'
+import { OpsManagersTelegramNick } from './../../../services/coordination/TelegramData'
 export interface PropsGetPrecipitatedOnionsByDay {
     onionCode: string
     tomorrow: boolean
@@ -16,6 +18,13 @@ export interface IOnionWeatherAnalysisResponse {
 export interface IOnionWeatherAnalysis extends IOnionWeatherAnalysisResponse {
     wetStartSlot: string
     wetFinishSlot: string
+    bonusSizeIncrease: number
+    bonusReason: TBonusReason
+    capacitySizeIncrease: number
+    saturationBotMode: string
+    mode: string
+    challenges: string
+    responsibleStaffTGNick: string
 }
 
 export interface IOnionWeather {
@@ -44,7 +53,7 @@ export interface IPrecipitatedUniqueCodes {
 }
 
 export interface IPrecipitatedOnionPlanResponse {
-    precipitatedOnionPlan: IOnionWeatherAnalysis
+    coordination: IOnionWeatherAnalysis
     tomorrow: boolean
     afterTomorrow: boolean
 }

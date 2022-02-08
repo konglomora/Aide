@@ -8,16 +8,16 @@ const WeatherNavbar = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (url.pathname === '/weather') navigate('action-plan')
+        if (url.pathname === '/weather') navigate('coordination')
     }, [navigate, url.pathname])
 
     return (
         <>
             <Navbar>
                 <StyledNavLink
-                    to="action-plan"
+                    to="coordination"
                     {...stylesForStyledLink}
-                    text="Action plan"
+                    text="Coordination"
                 />
             </Navbar>
             <Outlet />

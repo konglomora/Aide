@@ -25,6 +25,10 @@ export interface IOnionScheduleSlots {
     onionScheduleStartSlots: string[]
     onionScheduleFinishSlots: string[]
 }
+export interface IUpdateManySlots {
+    notifyCouriers: boolean
+    slots: ISlotForUpdate[]
+}
 
 export interface ISlotForUpdate {
     bonus: number
@@ -33,9 +37,4 @@ export interface ISlotForUpdate {
     excellence: boolean
     guarantee: number
     id: number
-}
-
-export interface IUpdateManySlots {
-    notifyCouriers: boolean
-    slots: ISlotForUpdate[]
 }

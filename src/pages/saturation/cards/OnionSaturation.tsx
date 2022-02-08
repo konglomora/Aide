@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { Colors, Flex, Title } from 'components/styled'
 import { FC } from 'react'
 import { onionService } from 'services'
-import { ISaturatedOnionAnalysis } from 'store/helpers/reports/types'
+import { ISaturatedOnionAnalysis } from 'store/slices/saturation/types'
 
 export interface IOnionSaturationCardProps {
     userIsAdmin: boolean
@@ -19,6 +19,7 @@ const OnionSaturationCard: FC<
         forAutoReport,
         reason_saturation,
         area,
+        diffStr,
         level_saturation,
         slotFilledStr,
         block_min,
@@ -64,9 +65,9 @@ const OnionSaturationCard: FC<
                         )
                     )}
                 </div>
-                <div>{difference}</div>
+                <div>{diffStr}</div>
                 {forAutoReport ? '' : <div>{reason_saturation}</div>}
-                <div>{slotFilledStr}</div>
+                <div>Slot filling: {slotFilledStr}</div>
                 {(hadMPMode || hadBlock) && (
                     <div>
                         {hadMPMode && <div>MP Mode: {mp_mode_min} mins</div>}
