@@ -10,7 +10,7 @@ import { Flex } from 'components/styled'
 import { sliderTransition } from './transitions'
 import { IPropsSlider } from './types'
 
-const SliderCard: FC<IPropsSlider> = (props) => {
+const HeaderSlider: FC<IPropsSlider> = (props) => {
     const { children, backgroundImage, backgroundSize, status, reportIsEmpty } =
         props
 
@@ -24,7 +24,9 @@ const SliderCard: FC<IPropsSlider> = (props) => {
         const hasComponentsToShow =
             status === StateStatus.success && !reportIsEmpty
 
+        const loading = status === StateStatus.loading
         hasComponentsToShow && setAnimation(topScreenPart)
+        loading && setAnimation(centerScreenPart)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status, reportIsEmpty])
 
@@ -60,4 +62,4 @@ const SliderCard: FC<IPropsSlider> = (props) => {
     )
 }
 
-export default SliderCard
+export default HeaderSlider

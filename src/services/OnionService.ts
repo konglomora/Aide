@@ -131,10 +131,10 @@ class OnionService implements IOnionService {
         onionSchedule: IOnionScheduleSlotsResponse[]
     ): IWetWorkingSlots {
         const prepSlotsArr = prepSlots.split(' - ')
-        console.log(
-            '[OnionService/getWetWorkingSlots] prepSlotsArr: ',
-            prepSlotsArr
-        )
+        // console.log(
+        //     '[OnionService/getWetWorkingSlots] prepSlotsArr: ',
+        //     prepSlotsArr
+        // )
 
         const wetWorkingSlots: IWetWorkingSlots = {
             wetStartSlot: prepSlotsArr[0],
@@ -177,10 +177,10 @@ class OnionService implements IOnionService {
             wetWorkingSlots.wetStartSlot = ''
             wetWorkingSlots.wetFinishSlot = ''
         }
-        console.log(
-            '[OnionService/getWetWorkingSlots] wetWorkingSlots: ',
-            wetWorkingSlots
-        )
+        // console.log(
+        //     '[OnionService/getWetWorkingSlots] wetWorkingSlots: ',
+        //     wetWorkingSlots
+        // )
 
         return wetWorkingSlots
     }

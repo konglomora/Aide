@@ -1,18 +1,11 @@
 import { StateStatus } from './../../helpers/Status'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { MyKnownError } from 'store/helpers/reports/types'
-
+import { MyKnownError } from 'store/slices/saturation/types'
 import { alertService } from 'services'
-
-import {
-    IDataForCoordinationLog,
-    IDataForScheduleActionLog,
-    ILogsState,
-} from './types'
+import { IDataForScheduleActionLog, ILogsState } from './types'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import { logs } from 'store/helpers/Logs'
 import dayjs from 'dayjs'
-import { IDayPlan } from '../weather/types'
 
 const initialState: ILogsState = {
     status: null,
@@ -194,18 +187,6 @@ export const logScheduleAction = createAsyncThunk<
 //         })
 
 //         await doc.loadInfo() // loads document properties and worksheets
-//         console.log(`logsSlice doc`, doc)
-
-//         const logRow = {
-//             'Action time': actionTime,
-//             Name: userName,
-//             Onion: onionCode,
-//             Slots: period,
-//             'Bonus size': bonusSize,
-//             'Bonus type': bonusType,
-//             'Capacity +%': capacityPercentage,
-//             'Date of schedule': dateOfSchedule,
-//         }
 
 //         if (!doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]) {
 //             console.log('No sheet for today')
@@ -288,23 +269,44 @@ export const logScheduleAction = createAsyncThunk<
 //             console.log('Created sheet for today')
 //         }
 //         const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
-//         const row = await todaySheet.addRow(logRow)
-//         const columnCount = todaySheet.columnCount
 
-//         console.log(
-//             '[logScheduleAction] Row for updating formatting:',
-//             row.rowIndex
-//         )
-//         const lastRow = {
-//             startRowIndex: row.rowIndex - 1,
-//             endRowIndex: row.rowIndex,
-//             startColumnIndex: 0,
-//             endColumnIndex: columnCount,
-//         }
-//         console.log('property', lastRow)
-//         await todaySheet.loadCells(lastRow)
+//         const plans = [...kyiv_plan, ...mio_plan, ...small_plan]
 
-//         await logs.updateRangeFormatting(todaySheet, lastRow)
+//         plans.forEach((plan) => {
+//             const coordinationTime = dayjs().format('HH:mm:ss DD.MM.YYYY')
+
+// const { bonusSize } = plan
+
+//     const logRow = {
+//         'Action time': actionTime,
+//         Name: userName,
+//         Onion: onionCode,
+//         Slots: period,
+//         'Bonus size': bonusSize,
+//         'Bonus type': bonusType,
+//         'Capacity +%': capacityPercentage,
+//         'Date of schedule': dateOfSchedule,
+//     }
+// })
+
+// const row = await todaySheet.addRow(logRow)
+// const columnCount = todaySheet.columnCount
+
+// console.log(
+//     '[logScheduleAction] Row for updating formatting:',
+//     row.rowIndex
+// )
+// const lastRow = {
+//     startRowIndex: row.rowIndex - 1,
+//     endRowIndex: row.rowIndex,
+//     startColumnIndex: 0,
+//     endColumnIndex: columnCount,
+// }
+
+// console.log('property', lastRow)
+// await todaySheet.loadCells(lastRow)
+
+// await logs.updateRangeFormatting(todaySheet, lastRow)
 //     } catch (error: any) {
 //         console.log('Error', error)
 //         alertService.error(`[logScheduleAction] \n ${error.message}`)

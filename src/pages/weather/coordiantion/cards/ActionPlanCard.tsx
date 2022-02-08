@@ -1,5 +1,7 @@
 import React from 'react'
 import { Flex, TextContent, Title } from 'components/styled'
+import { useAppSelector } from 'hooks'
+import { Roles } from 'pages/authentication/userRoles'
 
 export interface IPrecipitationCardProps {
     isTomorrowWithPrecipitation: boolean
@@ -10,6 +12,19 @@ export interface IPrecipitationCardProps {
     lastTimeUpdateOfAfterTomorrow: string
     tomorrowPlanOnionCards: React.ReactElement[][]
     afterTomorrowPlanOnionCards: React.ReactElement[][]
+}
+
+const styleForCard = {
+    direction: 'row',
+    width: '90%',
+    wrap: 'wrap',
+    border: '3px solid white',
+    justify: 'space-evenly',
+    align: 'stretch',
+    padding: '10px',
+    bRadius: '10px',
+    bFilter: 'blur(2px)',
+    margin: '10px 0px',
 }
 
 export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
@@ -26,18 +41,9 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         afterTomorrowPlanOnionCards,
     } = props
 
-    const styleForCard = {
-        direction: 'row',
-        width: '90%',
-        wrap: 'wrap',
-        border: '3px solid white',
-        justify: 'space-evenly',
-        align: 'stretch',
-        padding: '10px',
-        bRadius: '10px',
-        bFilter: 'blur(2px)',
-        margin: '10px 0px',
-    }
+    const userIsAdmin = useAppSelector(
+        (state) => state.user.role === Roles.admin
+    )
 
     if (isTomorrowWithPrecipitation && isAfterTomorrowWithPrecipitation) {
         return (
@@ -48,24 +54,22 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
                 margin="10em 0 0 0"
             >
                 <Title>
-                    Согласование действий на завтра и {afterTomorrowDate}
+                    Coordination of RTO actions for {tomorrowDate} and{' '}
+                    {afterTomorrowDate}
                 </Title>
                 <Flex {...styleForCard}>
-                    <Title> Вероятность на завтра ({tomorrowDate})</Title>
-                    <TextContent>
-                        Обновление данных было произведено:{' '}
-                        {lastTimeUpdateOfTomorrow}
-                    </TextContent>
+                    <Title>{tomorrowDate}</Title>
+                    {userIsAdmin && (
+                        <TextContent>
+                            The data has been updated at{' '}
+                            {lastTimeUpdateOfTomorrow}
+                        </TextContent>
+                    )}
+
                     {tomorrowPlanOnionCards}
                 </Flex>
                 <Flex {...styleForCard}>
-                    <Title>
-                        Вероятность на послезавтра ({afterTomorrowDate})
-                    </Title>
-                    <TextContent>
-                        Обновление данных было произведено:
-                        {lastTimeUpdateOfAfterTomorrow}
-                    </TextContent>
+                    <Title>{afterTomorrowDate}</Title>
                     {afterTomorrowPlanOnionCards}
                 </Flex>
             </Flex>

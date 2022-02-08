@@ -25,12 +25,12 @@ const OnionsNavbar = () => {
                     {...stylesForStyledLink}
                     text="Schedules"
                 />
-                <StyledNavLink
+                {/* <StyledNavLink
                     to="communications"
                     {...stylesForStyledLink}
                     text="Communications"
                     width="300px"
-                />
+                /> */}
             </Navbar>
             <Outlet />
         </>

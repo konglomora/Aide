@@ -1,25 +1,30 @@
 import {
     ISaturatedOnionAnalysis,
     ISaturatedOnionBySlot,
-} from '../store/helpers/reports/types'
+} from 'store/slices/saturation/types'
 
 export enum ExpansionResult {
-    Gradually = 'Заранее расширяли слоты - постепенно заполнялись.',
-    Weakly = 'Заранее расширяли слоты - слабо заполнялись.',
+    gradual = 'gradual',
+    weak = 'weak',
+}
+
+export enum IndicatorsDiff {
+    same = 'about the same',
 }
 
 interface ISaturationService {
-    getExpansionResult(difference: string): string
+    getExpansionResult(glovers: number): string
     getUniqueOnionCodes(saturatedOnions: ISaturatedOnionBySlot[]): string[]
     isReportEmpty(report: ISaturatedOnionAnalysis[]): boolean
+    getIndicatorsDiff(orders: number, glovers: number): string
 }
 
 class SaturationService implements ISaturationService {
-    getExpansionResult(difference: string) {
-        if (difference.charAt(19) === '+') {
-            return ExpansionResult.Gradually
-        } else if (difference.charAt(19) === '-') {
-            return ExpansionResult.Weakly
+    getExpansionResult(glovers: number) {
+        if (glovers >= 0) {
+            return ExpansionResult.gradual
+        } else if (glovers <= 0) {
+            return ExpansionResult.weak
         }
         return ''
     }
@@ -41,6 +46,18 @@ class SaturationService implements ISaturationService {
 
     isReportEmpty(report: ISaturatedOnionAnalysis[]): boolean {
         return report.length === 0
+    }
+
+    getIndicatorsDiff(orders: number, glovers: number): string {
+        let ordersDiff = orders > 0 ? `+${orders}%` : `${orders}%`
+        let gloversDiff = glovers > 0 ? `+${glovers}%` : `${glovers}%`
+
+        if (orders === 0) ordersDiff = IndicatorsDiff.same
+        if (glovers === 0) gloversDiff = IndicatorsDiff.same
+
+        const diff = `D0 vs D7: glovers ${gloversDiff}, orders ${ordersDiff}.`
+
+        return diff
     }
 }
 

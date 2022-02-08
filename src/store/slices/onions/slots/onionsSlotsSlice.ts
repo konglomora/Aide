@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { MyKnownError } from 'store/helpers/reports/types'
+import { MyKnownError } from 'store/slices/saturation/types'
 import { RootState } from 'store'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
 import { alertService } from 'services'
@@ -11,8 +11,7 @@ import {
     Errors,
     requests,
 } from 'store/helpers/Requests'
-import { IDataForScheduleActionLog } from '../../sheets/types'
-import { logScheduleAction } from '../../sheets/logsSlice'
+
 import {
     IOnionScheduleSlots,
     IOnionScheduleSlotsResponse,
@@ -21,7 +20,9 @@ import {
     PropsGetOnionScheduleSlots,
 } from './types'
 import { BonusReasons } from 'store/helpers/Bonus'
-import { adminApiGlovoappAxios } from 'api'
+import { adminApiGlovoappAxios, aideApiAxios } from 'api'
+import { IDataForScheduleActionLog } from 'store/slices/sheets/types'
+import { logScheduleAction } from 'store/slices/sheets/logsSlice'
 
 export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
     IOnionScheduleSlotsResponse[],
@@ -39,12 +40,18 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
                     date: date,
                 },
             }
+
+            // ? Glovo api config
+            // const onionScheduleSlotsResponse: AxiosResponse<
+            //     IOnionScheduleSlotsResponse[]
+            // > = await adminApiGlovoappAxios.get(
+            //     '/admin/scheduling/slots',
+            //     config
+            // )
+
             const onionScheduleSlotsResponse: AxiosResponse<
                 IOnionScheduleSlotsResponse[]
-            > = await adminApiGlovoappAxios.get(
-                '/admin/scheduling/slots',
-                config
-            )
+            > = await aideApiAxios.get('admin/scheduling/slots/', config)
 
             console.log(
                 'onionScheduleSlotsResponse',
@@ -53,7 +60,7 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
 
             if (onionScheduleSlotsResponse.status !== 200) {
                 alertService.error(onionScheduleSlotsResponse.statusText)
-                console.log('Erro blyad!!!!', onionScheduleSlotsResponse)
+                console.log('Error!!!!', onionScheduleSlotsResponse)
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
             const workingSlots = onionScheduleSlotsResponse.data.filter(
@@ -97,12 +104,16 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                     date: date,
                 },
             }
+            // const onionScheduleSlotsResponse: AxiosResponse<
+            //     IOnionScheduleSlotsResponse[]
+            // > = await adminApiGlovoappAxios.get(
+            //     '/admin/scheduling/slots',
+            //     config
+            // )
+
             const onionScheduleSlotsResponse: AxiosResponse<
                 IOnionScheduleSlotsResponse[]
-            > = await adminApiGlovoappAxios.get(
-                '/admin/scheduling/slots',
-                config
-            )
+            > = await aideApiAxios.get('/admin/scheduling/slots/', config)
 
             console.log(
                 'onionScheduleSlotsResponse',
@@ -237,11 +248,17 @@ export const updateOnionSlots = createAsyncThunk<
                 slots: dataForUpdate,
             }
 
-            const onionScheduleSlotsResponse: AxiosResponse =
-                await adminApiGlovoappAxios.post(
-                    '/admin/scheduling/slots/updateMany',
-                    data
-                )
+            // const onionScheduleSlotsResponse: AxiosResponse =
+            //     await adminApiGlovoappAxios.post(
+            //         '/admin/scheduling/slots/updateMany',
+            //         data
+            //     )
+            const onionScheduleSlotsResponse: AxiosResponse<
+                IOnionScheduleSlotsResponse[]
+            > = await aideApiAxios.post(
+                'admin/scheduling/slots/updateMany/',
+                data
+            )
 
             console.log(
                 'onionScheduleSlotsResponse',

@@ -1,6 +1,6 @@
 import { OnionPrecipitationCard } from '../cards/OnionPrecipitationCard'
 import nextId from 'react-id-generator'
-import { Areas } from 'store/helpers/Areas'
+import { Plan } from 'store/helpers/Plan'
 import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
 
 export interface IDayPlan {
@@ -8,7 +8,7 @@ export interface IDayPlan {
 }
 
 export const generatePlanCards = (dayPlan: IDayPlan): React.ReactElement[][] =>
-    [Areas.kyiv, Areas.mio, Areas.small].map(
+    [Plan.kyiv, Plan.mio, Plan.small].map(
         (area: string): React.ReactElement[] =>
             dayPlan[area].map(
                 (areaOnionPlan: IOnionWeatherAnalysis): React.ReactElement =>

@@ -1,4 +1,4 @@
-export enum OpsManagersTelegramNicks {
+export enum OpsManagersTelegramNick {
     OLHA_FIONOVA = '@Omorfiya',
     SERGEY_SEREZHENKO = '@sportsmenserega',
     DMITRIY_TUKAN = '@Дмитрий',

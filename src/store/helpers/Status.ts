@@ -1,4 +1,4 @@
-import { MyKnownError } from './reports/types'
+import { MyKnownError } from 'store/slices/saturation/types'
 
 export enum StateStatus {
     success = 'success',
