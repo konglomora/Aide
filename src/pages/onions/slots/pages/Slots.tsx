@@ -2,13 +2,23 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { getActiveScheduleDates } from 'store/slices/onions/slots/onionsSlotsSlice'
-import { Flex, Icon, Colors, Title } from 'components/styled'
-import GOOGLE_SHEETS_ICON from 'assets/icons/sheets-icon.svg'
+import { Flex, Icon, AideColors, Title, GlovoColors } from 'components/styled'
+import GOOGLE_SHEETS_ICON from 'assets/aide/icons/sheets-icon.svg'
 import OnionSlotsUpdateCard from 'pages/onions/slots/cards/SlotsUpdate'
+import { Theme } from 'components/themes'
 
 export default function Slots() {
     const dispatch = useAppDispatch()
     const { activeScheduleDates } = useAppSelector((state) => state.onionsSlots)
+    const theme = useAppSelector((state) => state.theme.theme)
+    const flexHoverColor =
+        theme === Theme.aide ? AideColors.orange : GlovoColors.yellow
+
+    const logsBackGround =
+        theme === Theme.aide ? AideColors.lightBlack : GlovoColors.white
+
+    const logsColor =
+        theme === Theme.aide ? AideColors.white : GlovoColors.darkGrey
 
     useEffect(() => {
         ;(async () => {
@@ -67,12 +77,12 @@ export default function Slots() {
                         <Flex
                             height="5em"
                             mHeight="1em"
-                            background={Colors.lightBlack}
-                            border="3px solid white"
+                            background={logsBackGround}
+                            border={`3px solid ${logsColor}`}
                             justify="center"
                             align="center"
                             hoverable={true}
-                            hoverColor={Colors.violet}
+                            hoverColor={flexHoverColor}
                         >
                             <Icon
                                 width="35"
@@ -84,7 +94,7 @@ export default function Slots() {
                                 height={'28%;'}
                                 fSize={'1.5em'}
                                 width="2.5em"
-                                color={Colors.white}
+                                color={logsColor}
                             >
                                 Logs
                             </Title>

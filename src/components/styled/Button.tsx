@@ -1,4 +1,4 @@
-import { Colors } from 'components/styled'
+import { AideColors } from 'components/styled'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
@@ -18,7 +18,8 @@ interface PropsStyledButton {
 const StyledButton = styled.button<PropsStyledButton>`
     width: ${({ width }) => width || '100px'};
     margin: ${({ margin }) => margin || '0'};
-    background-color: ${({ bcolor }) => bcolor || Colors.black};
+    background-color: ${({ theme }) => theme.buttonBackgroundColor};
+
     color: ${({ color }) => color || 'white'};
     font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};
@@ -30,7 +31,8 @@ const StyledButton = styled.button<PropsStyledButton>`
     &:hover {
         font-weight: 700;
         transition: 0.4s linear;
-        background-color: rgb(252, 78, 78);
+        background-color: ${({ theme }) => theme.buttonHoverBackgroundColor};
+
         color: black;
     }
 `

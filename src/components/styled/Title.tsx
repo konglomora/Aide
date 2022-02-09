@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const StyledTitle = styled.span<TitleProps>`
     text-align: ${({ align }) => align || 'center'};
     margin: ${({ margin }) => margin || '0'};
-    color: ${({ color }) => color || 'white'};
+    color: ${({ theme }) => theme.fontColor};
     text-decoration: ${({ decoration }) => decoration || 'none'};
     font-size: ${({ fSize }) => fSize || '2em'};
     font-weight: ${({ fWeight }) => fWeight || '300'};

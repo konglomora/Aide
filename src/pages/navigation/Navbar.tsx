@@ -1,19 +1,29 @@
-import { Flex } from 'components/styled'
+import { AideColors, Button, Flex, GlovoColors } from 'components/styled'
+import { Theme } from 'components/themes'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { ThemeChanger } from 'pages/themes'
 import { FC, ReactNode } from 'react'
+import { changeTheme } from 'store/slices/theme/themeSlice'
 
 export interface IPropsNavbar {
     children: ReactNode
 }
 
 const Navbar: FC<IPropsNavbar> = (props) => {
+    const theme = useAppSelector((state) => state.theme.theme)
+
     const { children } = props
     return (
         <Flex
             justify={'space-evenly'}
             align="center"
-            bBorder={'3px solid white'}
+            bBorder={`3px solid ${
+                theme === Theme.aide ? AideColors.white : GlovoColors.darkGrey
+            }`}
             padding={'1em 0px 1em'}
-            bColor={'rgb(24,25,26)'}
+            bColor={
+                theme === Theme.aide ? AideColors.lightBlack : GlovoColors.white
+            }
             height="3%"
             mHeight="3%"
             top="0"
@@ -23,6 +33,7 @@ const Navbar: FC<IPropsNavbar> = (props) => {
             zIndex="3"
         >
             {children}
+            <ThemeChanger />
         </Flex>
     )
 }

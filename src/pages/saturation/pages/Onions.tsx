@@ -10,10 +10,10 @@ import {
     setPeriodOfReport,
 } from 'store/slices/saturation/saturationSelectedOnionsSlice'
 import AreaCodesCard from '../cards/AreaCodes'
-import ANIME_SUCCESS_GIF from 'assets/gif/dancing-cute.gif'
-import ERROR_ANIME_GIF from 'assets/gif/500-error.gif'
-import JOJO_LOADER from 'assets/gif/jojo-loader.gif'
-import { Colors } from 'components/styled'
+import ANIME_SUCCESS_GIF from 'assets/aide/gif/dancing-cute.gif'
+import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
+import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
+import { AideColors } from 'components/styled'
 import { useAppSelector } from 'hooks'
 import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/helpers/Status'
@@ -21,7 +21,9 @@ import { ReportSlider } from 'components/animated'
 
 const SaturationBySelectedOnion = () => {
     const dispatch = useDispatch()
-    const [formBackGround, setFormBackGround] = useState<string>(Colors.black)
+    const [formBackGround, setFormBackGround] = useState<string>(
+        AideColors.black
+    )
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const {
         status,
