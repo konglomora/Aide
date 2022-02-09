@@ -43,9 +43,9 @@ const SNavLink = styled(NavLink)<PropsSNavLink>`
     border-radius: ${({ radius }) => radius || '0px'};
     border: ${({ border }) => border || ''};
     font-weight: 550;
-    transition: 0.4s linear;
+    transition: 0.45s linear;
     &:hover {
-        transition: 0.4s linear;
+        transition: 0.45s linear;
         /* color: rgb(252, 78, 78); */
         color: ${({ theme }) => theme.linkHoverFontColor};
     }

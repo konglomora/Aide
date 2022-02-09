@@ -4,7 +4,7 @@ import { useAppSelector } from 'hooks'
 
 import { Roles } from 'pages/authentication/userRoles'
 import { Theme } from 'components/themes'
-import Logout from './Logout'
+import Logout from '../authentication/Logout'
 import { ThemeChanger } from 'pages/themes'
 
 export const stylesForStyledLink = {

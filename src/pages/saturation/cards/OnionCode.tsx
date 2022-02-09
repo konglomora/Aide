@@ -1,5 +1,7 @@
 import { FC } from 'react'
-import { Flex, TextContent, AideColors } from 'components/styled'
+import { Flex, TextContent, AideColors, GlovoColors } from 'components/styled'
+import { useAppSelector } from 'hooks'
+import { Theme } from 'components/themes'
 
 interface PropsOnionCode {
     code: string
@@ -8,9 +10,13 @@ interface PropsOnionCode {
 
 const OnionCode: FC<PropsOnionCode> = (props) => {
     const { code, onClick } = props
-    const backgroundColor = 'transparent'
-    const color = 'white'
-    const border = '3px solid white'
+    const theme = useAppSelector((state) => state.theme.theme)
+    const cardBackColor =
+        theme === Theme.aide ? AideColors.smoothBlack : GlovoColors.darkGrey
+    const hoverColor =
+        theme === Theme.aide ? AideColors.white : GlovoColors.yellow
+    const color = theme === Theme.aide ? AideColors.violet : GlovoColors.white
+    const border = `3px solid ${hoverColor}`
 
     return (
         <Flex
@@ -21,12 +27,12 @@ const OnionCode: FC<PropsOnionCode> = (props) => {
             bRadius={'5px'}
             justify={'space-around'}
             margin={'5px'}
-            bColor={backgroundColor}
+            bColor={cardBackColor}
             onClick={(e: React.ChangeEvent<any>) => onClick(e)}
             hoverable={true}
-            hoverColor={AideColors.black}
+            hoverColor={hoverColor}
         >
-            <TextContent fWeight={400} color={color} textAlign={'center'}>
+            <TextContent fWeight={600} color={color} textAlign={'center'}>
                 {`${code}`}
             </TextContent>
         </Flex>

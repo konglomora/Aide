@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 export interface IPropsSlider {
     children:
         | ReactElement
@@ -12,4 +13,12 @@ export interface IPropsSlider {
     status?: StateStatus | null
     style?: CSS.Properties
     reportIsEmpty?: boolean | null
+}
+
+export interface IFooterSlider {
+    href: string
+    title: string
+
+    theme: Theme
+    icon: ReactNode
 }

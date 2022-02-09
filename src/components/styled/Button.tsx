@@ -19,21 +19,20 @@ const StyledButton = styled.button<PropsStyledButton>`
     width: ${({ width }) => width || '100px'};
     margin: ${({ margin }) => margin || '0'};
     background-color: ${({ theme }) => theme.buttonBackgroundColor};
-
-    color: ${({ color }) => color || 'white'};
+    color: ${({ theme }) => theme.buttonTextColor};
     font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};
     border-radius: ${({ bradius }) => bradius || '5px'};
-    border: ${({ border }) => border || '3px solid white'};
+    border: ${({ theme }) => `3px solid ${theme.buttonBorderColor}`};
     cursor: pointer;
     align-self: ${({ alignSelf }) => alignSelf || ''};
-    transition: 0.3s linear;
+    transition: 0.45s linear;
     &:hover {
         font-weight: 700;
-        transition: 0.4s linear;
+        transition: 0.45s linear;
         background-color: ${({ theme }) => theme.buttonHoverBackgroundColor};
-
-        color: black;
+        color: ${({ theme }) => theme.buttonHoverTextColor};
+        border: ${({ theme }) => `3px solid ${theme.buttonHoverBorderColor}`};
     }
 `
 

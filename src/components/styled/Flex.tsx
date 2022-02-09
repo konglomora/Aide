@@ -64,10 +64,10 @@ const StyledFlex = styled.div<PropsFlex>`
     right: ${({ right }) => right || ''};
     bottom: ${({ bottom }) => bottom || ''};
     z-index: ${({ zIndex }) => zIndex || ''};
-    transition: 0.4s linear;
+    transition: 0.45s linear;
 
     &:hover {
-        transition: 0.4s linear;
+        transition: 0.45s linear;
         background-color: ${({ hoverable, hoverColor }) => {
             if (hoverable && hoverColor) {
                 return hoverColor
