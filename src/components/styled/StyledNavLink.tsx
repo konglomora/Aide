@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
+import Icon from './Icon'
 
 const stylesForStyledLink = {
     width: '20%',
@@ -31,7 +32,7 @@ interface PropsSNavLink {
 const SNavLink = styled(NavLink)<PropsSNavLink>`
     color: ${({ theme }) => theme.linkFontColor};
     font-size: ${({ fSize }) => fSize || '1.2rem'};
-    width: ${({ width }) => width || '100%'};
+    width: ${({ width }) => width || ''};
     height: ${({ height }) => height || '100%'};
     padding: ${({ padding }) => padding || '0'};
     margin: ${({ margin }) => margin || '0'};
@@ -43,9 +44,10 @@ const SNavLink = styled(NavLink)<PropsSNavLink>`
     border-radius: ${({ radius }) => radius || '0px'};
     border: ${({ border }) => border || ''};
     font-weight: 550;
-    transition: 0.4s linear;
+    transition: 0.45s linear;
+
     &:hover {
-        transition: 0.4s linear;
+        transition: 0.45s linear;
         /* color: rgb(252, 78, 78); */
         color: ${({ theme }) => theme.linkHoverFontColor};
     }

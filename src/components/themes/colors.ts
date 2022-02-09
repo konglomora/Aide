@@ -6,6 +6,7 @@ enum AideColors {
     lightBlack = 'rgb(37,37,38)',
     smoothBlack = 'rgb(24,25,26)',
     smoothViolet = 'rgb(55, 56, 70)',
+    blur = 'rgb(24 25 26 / 78%)',
 }
 
 enum GlovoColors {

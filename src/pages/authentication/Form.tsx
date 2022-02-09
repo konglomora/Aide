@@ -30,7 +30,7 @@ const Form: FC<FormProps> = (props) => {
         justify: 'center',
         align: 'center',
         bRadius: '10px',
-        bFilter: 'blur(10px)',
+        bFilter: 'blur(4px)',
     }
     const stylesForInput = {
         width: '20em',

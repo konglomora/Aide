@@ -100,7 +100,7 @@ const SaturationBySelectedOnion = () => {
                 align="start"
                 margin="2em auto"
                 direction="column"
-                border="3px solid white"
+                border="4px solid white"
                 bFilter="blur(2px)"
                 bRadius={'10px'}
             >
@@ -130,8 +130,9 @@ const SaturationBySelectedOnion = () => {
                 />
                 <Flex
                     justify={'center'}
-                    tBorder={'3px solid white'}
+                    tBorder={'4px solid white'}
                     padding={'15px 0'}
+                    width="100%"
                     background={formBackGround}
                     backSize={formBackGroundSize}
                 >
@@ -166,7 +167,7 @@ const SaturationBySelectedOnion = () => {
                         bcolor={'black'}
                         color={'white'}
                         bradius={'10px'}
-                        border={'3px solid white'}
+                        border={'4px solid white'}
                     >
                         Get report
                     </Button>
@@ -183,7 +184,7 @@ const SaturationBySelectedOnion = () => {
                 <Flex direction={'column'} align="center">
                     <Flex
                         wrap={'wrap'}
-                        border={'3px solid white'}
+                        border={'4px solid white'}
                         justify={'center'}
                         align={'center'}
                         padding={'10px'}
@@ -200,7 +201,7 @@ const SaturationBySelectedOnion = () => {
                     <Flex
                         wrap={'wrap'}
                         width={'90%'}
-                        border={'3px solid white'}
+                        border={'4px solid white'}
                         justify={'center'}
                         align={'center'}
                         padding={'10px'}
@@ -209,11 +210,7 @@ const SaturationBySelectedOnion = () => {
                         margin={'10px auto'}
                     >
                         {saturationReport.map((onionReport, id) => (
-                            <OnionSaturationCard
-                                {...onionReport}
-                                userIsAdmin={userIsAdmin}
-                                key={id}
-                            />
+                            <OnionSaturationCard {...onionReport} key={id} />
                         ))}
                     </Flex>
                 </Flex>

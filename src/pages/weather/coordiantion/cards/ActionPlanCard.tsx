@@ -1,7 +1,6 @@
 import React from 'react'
-import { Flex, TextContent, Title } from 'components/styled'
-import { useAppSelector } from 'hooks'
-import { Roles } from 'pages/authentication/userRoles'
+import { Flex, Title } from 'components/styled'
+import { DayCoordinationCard } from './DayCoordinationCard'
 
 export interface IPrecipitationCardProps {
     isTomorrowWithPrecipitation: boolean
@@ -14,25 +13,10 @@ export interface IPrecipitationCardProps {
     afterTomorrowPlanOnionCards: React.ReactElement[][]
 }
 
-const styleForCard = {
-    direction: 'row',
-    width: '90%',
-    wrap: 'wrap',
-    border: '3px solid white',
-    justify: 'space-evenly',
-    align: 'stretch',
-    padding: '10px',
-    bRadius: '10px',
-    bFilter: 'blur(2px)',
-    margin: '10px 0px',
-}
-
 export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
     props
 ): React.ReactElement => {
     const {
-        isTomorrowWithPrecipitation,
-        isAfterTomorrowWithPrecipitation,
         tomorrowDate,
         afterTomorrowDate,
         lastTimeUpdateOfTomorrow,
@@ -41,122 +25,22 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
         afterTomorrowPlanOnionCards,
     } = props
 
-    const userIsAdmin = useAppSelector(
-        (state) => state.user.role === Roles.admin
+    return (
+        <Flex direction="column" align="center" width="75%" margin="10em 0 0 0">
+            <Title fWeight="700">
+                Coordination of RTO actions for {tomorrowDate} and{' '}
+                {afterTomorrowDate}
+            </Title>
+            <DayCoordinationCard
+                coordinationCards={tomorrowPlanOnionCards}
+                coordinationDate={tomorrowDate}
+                lastTimeUpdate={lastTimeUpdateOfTomorrow}
+            />
+            <DayCoordinationCard
+                coordinationCards={afterTomorrowPlanOnionCards}
+                coordinationDate={afterTomorrowDate}
+                lastTimeUpdate={lastTimeUpdateOfAfterTomorrow}
+            />
+        </Flex>
     )
-
-    if (isTomorrowWithPrecipitation && isAfterTomorrowWithPrecipitation) {
-        return (
-            <Flex
-                direction="column"
-                align="center"
-                width="75%"
-                margin="10em 0 0 0"
-            >
-                <Title>
-                    Coordination of RTO actions for {tomorrowDate} and{' '}
-                    {afterTomorrowDate}
-                </Title>
-                <Flex {...styleForCard}>
-                    <Title>{tomorrowDate}</Title>
-                    {userIsAdmin && (
-                        <TextContent>
-                            The data has been updated at{' '}
-                            {lastTimeUpdateOfTomorrow}
-                        </TextContent>
-                    )}
-
-                    {tomorrowPlanOnionCards}
-                </Flex>
-                <Flex {...styleForCard}>
-                    <Title>{afterTomorrowDate}</Title>
-                    {afterTomorrowPlanOnionCards}
-                </Flex>
-            </Flex>
-        )
-    } else if (
-        isTomorrowWithPrecipitation &&
-        !isAfterTomorrowWithPrecipitation
-    ) {
-        return (
-            <Flex
-                direction="column"
-                align={'center'}
-                width="75%"
-                margin="10em 0 0 0"
-            >
-                <Flex {...styleForCard}>
-                    <Title>
-                        Согласование действий на завтра и {afterTomorrowDate}
-                    </Title>
-                </Flex>
-                <Flex {...styleForCard}>
-                    <Title> Вероятность на завтра ({tomorrowDate})</Title>
-                    <TextContent>
-                        Обновление данных было произведено:{' '}
-                        {lastTimeUpdateOfTomorrow}
-                    </TextContent>
-                    {tomorrowPlanOnionCards}
-                </Flex>
-                <Flex {...styleForCard}>
-                    <TextContent>
-                        По прогнозу на {afterTomorrowDate} осадков по всем
-                        онионам нет.
-                    </TextContent>
-                </Flex>
-            </Flex>
-        )
-    } else if (
-        !isTomorrowWithPrecipitation &&
-        isAfterTomorrowWithPrecipitation
-    ) {
-        return (
-            <Flex
-                direction={'column'}
-                align={'center'}
-                width="75%"
-                margin="10em 0 0 0"
-            >
-                <Flex {...styleForCard}>
-                    <Title>
-                        Согласование действий на завтра и {afterTomorrowDate}
-                    </Title>
-                </Flex>
-                <Flex {...styleForCard}>
-                    <TextContent>
-                        По прогнозу на {tomorrowDate} осадков по всем онионам
-                        нет.
-                    </TextContent>
-                </Flex>
-                <Flex {...styleForCard}>
-                    <Title> Вероятность на ({afterTomorrowDate})</Title>
-                    <TextContent>
-                        Обновление данных было произведено:
-                        {lastTimeUpdateOfAfterTomorrow}
-                    </TextContent>
-                    {afterTomorrowPlanOnionCards}
-                </Flex>
-            </Flex>
-        )
-    } else {
-        return (
-            <Flex
-                direction={'column'}
-                align={'center'}
-                justify={'space-between'}
-                height={'10em'}
-                width="74%"
-                margin="10em 0 0 0"
-            >
-                <Title fSize={'1.2em'}>
-                    Согласование действий на завтра и {afterTomorrowDate}
-                </Title>
-                <TextContent>KIE/KYI/KHA/DNP/LVI/ODS - normal mode</TextContent>
-                <TextContent>
-                    По прогнозу осадков на завтра и {afterTomorrowDate} по всем
-                    онионам нет.
-                </TextContent>
-            </Flex>
-        )
-    }
 }

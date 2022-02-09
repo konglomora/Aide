@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, ReactNode } from 'react'
 import styled from 'styled-components'
 
-interface PropsFlex {
+export interface PropsFlex {
     direction?: string
     backSize?: string
     align?: string
@@ -38,13 +38,12 @@ interface PropsFlex {
 const StyledFlex = styled.div<PropsFlex>`
     display: flex;
     flex-direction: ${(props) => props.direction || 'row'};
-    align-items: ${({ align }) => align || 'stretch'};
+    align-items: ${({ align }) => align};
     flex-wrap: ${({ wrap }) => wrap || ''};
-    justify-content: ${({ justify }) => justify || 'stretch'};
+    justify-content: ${({ justify }) => justify};
     margin: ${({ margin }) => margin || '0'};
-    width: ${({ width }) => width || '100%'};
-    height: ${({ height }) => height || '100%'};
-    min-height: ${({ mHeight }) => mHeight || '100%'};
+    width: ${({ width }) => width || ''};
+    height: ${({ height }) => height || ''};
     padding: ${({ padding }) => padding || '0'};
     background-color: ${({ bColor }) => bColor || 'transparent'};
     background: ${({ background }) => background || ''};
@@ -64,10 +63,10 @@ const StyledFlex = styled.div<PropsFlex>`
     right: ${({ right }) => right || ''};
     bottom: ${({ bottom }) => bottom || ''};
     z-index: ${({ zIndex }) => zIndex || ''};
-    transition: 0.4s linear;
+    transition: 0.45s linear;
 
     &:hover {
-        transition: 0.4s linear;
+        transition: 0.45s linear;
         background-color: ${({ hoverable, hoverColor }) => {
             if (hoverable && hoverColor) {
                 return hoverColor

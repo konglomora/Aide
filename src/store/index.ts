@@ -36,10 +36,10 @@ const rootReducer = combineReducers({
 // Disabling logs
 // if (process.env.NODE_ENV === 'development') console.log = () => {}
 
-const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
+// const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 
 export const store = configureStore({
-    reducer: persistedReducer,
+    reducer: rootReducer,
     middleware: getDefaultMiddleware({
         serializableCheck: false,
     }),

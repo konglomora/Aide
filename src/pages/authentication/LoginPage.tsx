@@ -50,7 +50,7 @@ const LoginPage = () => {
     }
 
     return (
-        <Flex>
+        <Flex width="100%">
             <Form title="Sign in" handleClick={handleLogin} />
         </Flex>
     )

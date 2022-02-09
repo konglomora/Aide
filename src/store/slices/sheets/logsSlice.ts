@@ -155,7 +155,6 @@ export const logScheduleAction = createAsyncThunk<
             }
             console.log('property', lastRow)
             await todaySheet.loadCells(lastRow)
-
             await logs.updateRangeFormatting(todaySheet, lastRow)
         } catch (error: any) {
             console.log('Error', error)

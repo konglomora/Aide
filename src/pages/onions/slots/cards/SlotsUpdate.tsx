@@ -8,6 +8,7 @@ import {
     dateSelectStyle,
     SelectStyle,
     AideColors,
+    GlovoColors,
 } from 'components/styled'
 
 import {
@@ -26,6 +27,7 @@ import { alertService } from 'services'
 import { PeriodSelectors } from 'pages/saturation/cards/ReportPeriodSelect'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { BonusReasons } from 'store/helpers/Bonus'
+import { Theme } from 'components/themes'
 
 export interface IOnionSlotsUpdateCard {}
 
@@ -45,7 +47,7 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
         bonusSize,
         capacityPercentage,
     } = useAppSelector((state) => state.onionsSlots)
-
+    const theme = useAppSelector((state) => state.theme.theme)
     const [date, setDate] = useState<string>(activeScheduleDates[0])
 
     const dispatch = useAppDispatch()
@@ -153,6 +155,11 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
         )
     }
 
+    const background =
+        theme === Theme.aide ? AideColors.lightBlack : GlovoColors.white
+    const borderColor =
+        theme === Theme.aide ? AideColors.white : GlovoColors.darkGrey
+
     return (
         <>
             <Flex
@@ -160,9 +167,9 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                 height="5em"
                 mHeight="4em"
                 bColor={'rgb(24 25 26 / 78%);'}
-                border="1px solid white"
+                border={`3px solid ${borderColor}`}
                 bRadius="10px"
-                background={AideColors.lightBlack}
+                background={background}
                 align="center"
                 padding="0 1em"
                 justify="space-evenly"

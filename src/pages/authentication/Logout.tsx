@@ -1,17 +1,10 @@
-import {
-    AideColors,
-    Flex,
-    GlovoColors,
-    Icon,
-    TextContent,
-} from 'components/styled'
+import { AideColors, Flex, GlovoColors, TextContent } from 'components/styled'
 import { Theme } from 'components/themes'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { useAppDispatch, useAppSelector, useAuth } from 'hooks'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { removeUser } from 'store/slices/user/userSlice'
-import LogOutIcon from 'assets/aide/icons/log-out.svg'
 import { FiLogOut } from 'react-icons/fi'
 
 const Logout = () => {
@@ -35,7 +28,7 @@ const Logout = () => {
         dispatch(removeUser())
     }
     const flexHoverColor =
-        theme === Theme.aide ? AideColors.orange : GlovoColors.green
+        theme === Theme.aide ? AideColors.violet : GlovoColors.yellow
     const logoutBlockContentColor =
         theme === Theme.aide ? AideColors.white : GlovoColors.darkGrey
 
@@ -50,14 +43,11 @@ const Logout = () => {
             margin="auto 0 0 0"
             justify="center"
             align="center"
-            border={`3px solid ${logoutBlockContentColor}`}
+            tBorder={`4px solid ${logoutBlockContentColor}`}
+            bBorder={`4px solid ${logoutBlockContentColor}`}
+            width="100%"
         >
-            <Flex
-                width="35px"
-                justify="center"
-                align="center"
-                padding="0 0 0 2em"
-            >
+            <Flex width="30%" justify="center" align="center">
                 <FiLogOut size={35} stroke={logoutBlockContentColor} />
             </Flex>
             <Flex direction="column" justify="space-around" align="stretch">

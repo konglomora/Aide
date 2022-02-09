@@ -18,7 +18,7 @@ const ReportSlider: FC<IPropsSlider> = (props) => {
     >({ y: 0 })
 
     const defaultPlace = { y: 0 }
-    const bottomHidden = { y: 550 }
+    const bottomHidden = { y: 450 }
 
     useEffect(() => {
         status === StateStatus.success && setAnimation(defaultPlace)

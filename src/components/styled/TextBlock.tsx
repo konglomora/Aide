@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 
-export interface PropsStyledSpan {
+export interface PropsStyledDiv {
     color?: string
     decoration?: string
     fSize?: string
@@ -17,24 +17,24 @@ export interface PropsStyledSpan {
     bColor?: string
 }
 
-const StyledSpan = styled.span<PropsStyledSpan>`
-    color: ${({ color, theme }) => (color ? color : theme.fontColor)};
+const StyledDiv = styled.div<PropsStyledDiv>`
+    color: ${({ theme }) => theme.fontColor};
     text-decoration: ${({ decoration }) => decoration || 'none'};
     font-size: ${({ fSize }) => fSize || '1em'};
     font-weight: ${({ fWeight }) => fWeight || '300'};
-    width: ${({ width }) => width || '100%'};
-    height: ${({ height }) => height};
+    width: ${({ width }) => width || ''};
+    height: ${({ height }) => height || ''};
     margin: ${({ margin }) => margin || '0'};
-    text-align: ${({ textAlign }) => textAlign || 'center'};
-    vertical-align: ${({ verticalAlign }) => verticalAlign || 'middle'};
+    text-align: ${({ textAlign }) => textAlign || 'start'};
+    vertical-align: ${({ verticalAlign }) => verticalAlign || 'start'};
     cursor: ${({ cursor }) => cursor || ''};
-    display: ${({ display }) => display || 'inline'};
+    display: ${({ display }) => display || 'block'};
     text-decoration: ${({ tDecoration }) => tDecoration || 'none'};
     background-color: ${({ bColor }) => bColor || 'transparent'};
 `
 
-const TextContent: FC<PropsStyledSpan> = (props) => {
-    return <StyledSpan {...props} />
+const TextBlock: FC<PropsStyledDiv> = (props) => {
+    return <StyledDiv {...props} />
 }
 
-export default TextContent
+export default TextBlock
