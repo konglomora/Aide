@@ -28,7 +28,7 @@ export const DayCoordinationCard: FC<IDayCoordinationCard> = (props) => {
         (state) => state.user.role === Roles.admin
     )
     const coordination =
-        coordinationCards.length > 0 ? (
+        coordinationCards.length > 1 ? (
             <Flex {...styleForCard}>
                 <Title fWeight="500">{coordinationDate}</Title>
                 {userIsAdmin && <TextContent>{lastTimeUpdate}</TextContent>}
