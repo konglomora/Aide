@@ -16,14 +16,14 @@ const OnionCode: FC<PropsOnionCode> = (props) => {
     const hoverColor =
         theme === Theme.aide ? AideColors.white : GlovoColors.yellow
     const color = theme === Theme.aide ? AideColors.violet : GlovoColors.white
-    const border = `3px solid ${hoverColor}`
+    const border = `4px solid ${hoverColor}`
 
     return (
         <Flex
             cursor={'pointer'}
             border={border}
             width={'3em'}
-            padding={'3px'}
+            padding={'4px'}
             bRadius={'5px'}
             justify={'space-around'}
             margin={'5px'}

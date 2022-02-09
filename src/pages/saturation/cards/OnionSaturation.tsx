@@ -13,14 +13,7 @@ import { ISaturatedOnionAnalysis } from 'store/slices/saturation/types'
 import { useAppSelector } from 'hooks'
 import { Theme } from 'components/themes'
 
-export interface IOnionSaturationCardProps {
-    userIsAdmin: boolean
-}
-
-const OnionSaturationCard: FC<
-    ISaturatedOnionAnalysis & IOnionSaturationCardProps
-> = (props) => {
-    const theme = useAppSelector((state) => state.theme.theme)
+const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
     const {
         city,
         saturation,
@@ -39,18 +32,22 @@ const OnionSaturationCard: FC<
     const hadBlock = block_min > 0 && onionService.onionHasBlockSetting(city)
     const todayDate: string = dayjs().format('YYYY-MM-DD')
     const onionSlotsLink: string = `${REACT_APP_ONION_SLOTS_LINK}${city}/${todayDate}`
-
+    const theme = useAppSelector((state) => state.theme.theme)
     const cardBackColor =
         theme === Theme.aide ? AideColors.blur : GlovoColors.white
+    const border =
+        theme === Theme.aide
+            ? `4px solid ${AideColors.white}`
+            : `4px solid ${GlovoColors.darkGrey}`
+    const linkColor =
+        theme === Theme.aide ? AideColors.violet : GlovoColors.yellow
     return (
         <Flex
-            border={'3px solid white'}
+            border={border}
             bRadius={'10px'}
             padding={'15px'}
             margin={'10px'}
             width={'30em'}
-            mHeight={'100%'}
-            height={'100%'}
             bColor={cardBackColor}
         >
             <TextBlock>
@@ -59,11 +56,7 @@ const OnionSaturationCard: FC<
                     target={'blank'}
                     style={{ textDecoration: 'none' }}
                 >
-                    <Title
-                        fWeight={'600'}
-                        fSize={'1.5em'}
-                        color={AideColors.violet}
-                    >
+                    <Title fWeight={'600'} fSize={'1.5em'} color={linkColor}>
                         {city}
                     </Title>
                 </a>

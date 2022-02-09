@@ -19,6 +19,7 @@ import {
     ReportPeriodSelectCard,
 } from '../cards/ReportPeriodSelect'
 import { ReportSlider } from 'components/animated'
+import { SaturationReasonAnalysis } from '../cards/SaturationReasonAnalysis'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -91,8 +92,9 @@ const SaturationByPeriodPage = () => {
         <Flex
             direction={'column'}
             align={'center'}
-            margin={'4% auto'}
-            width="90%"
+            justify="center"
+            margin={'4em 0 0 12em'}
+            width="100%"
         >
             <ReportPeriodSelectCard
                 formBackGround={formBackGround}
@@ -108,136 +110,44 @@ const SaturationByPeriodPage = () => {
             <ReportSlider
                 status={status}
                 style={{
-                    width: '50%',
-                    margin: '15em 0  0 20em',
+                    width: '60%',
+                    margin: '4em 0  0 0',
                 }}
             >
-                <Flex direction={'column'} align="center">
-                    <Flex
-                        wrap={'wrap'}
-                        border={'3px solid white'}
-                        justify={'space-evenly'}
-                        align={'stretch'}
-                        padding={'10px'}
-                        bRadius={'10px'}
-                        bFilter={'blur(2px)'}
+                <Flex
+                    wrap={'wrap'}
+                    border={'4px solid white'}
+                    justify={'center'}
+                    align={'center'}
+                    padding={'10px'}
+                    bRadius={'10px'}
+                    bFilter={'blur(2px)'}
+                    margin={'10px 0px'}
+                >
+                    <Title
                         margin={'10px 0px'}
-                    >
-                        <Title
-                            margin={'10px 0px'}
-                            fWeight={'600'}
-                        >{`Saturation report from ${periodStart}:00 to ${periodEnd}:00`}</Title>
-                    </Flex>
-                    {lessCouriers.length > 0 && (
-                        <Flex wrap={'wrap'}>
-                            <div> </div>
-                            <Flex
-                                wrap={'wrap'}
-                                border={'3px solid white'}
-                                justify={'space-evenly'}
-                                align={'stretch'}
-                                padding={'10px'}
-                                bRadius={'10px'}
-                                bFilter={'blur(2px)'}
-                                margin={'10px 0px'}
-                            >
-                                <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                    The number of glovers has decreased
-                                </TextContent>
-                                <div> </div>
-                                {lessCouriers.map((onionReport, id) => (
-                                    <OnionSaturationCard
-                                        {...onionReport}
-                                        userIsAdmin={userIsAdmin}
-                                        key={id}
-                                    />
-                                ))}
-                            </Flex>
-                        </Flex>
-                    )}
+                        fWeight={'600'}
+                        width="100%"
+                    >{`Saturation report from ${periodStart}:00 to ${periodEnd}:00`}</Title>
                 </Flex>
-                <Flex>
-                    {moreOrders.length > 0 && (
-                        <Flex
-                            wrap={'wrap'}
-                            border={'3px solid white'}
-                            justify={'space-evenly'}
-                            align={'stretch'}
-                            padding={'10px'}
-                            bRadius={'10px'}
-                            bFilter={'blur(2px)'}
-                            margin={'10px 0px'}
-                        >
-                            <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                The number of orders has increased
-                            </TextContent>
-                            <div> </div>
-                            {moreOrders.map((onionReport, id) => (
-                                <OnionSaturationCard
-                                    {...onionReport}
-                                    userIsAdmin={userIsAdmin}
-                                    key={id}
-                                />
-                            ))}
-                        </Flex>
-                    )}
-                </Flex>
-                <Flex>
-                    {lessCouriersAndMoreOrders.length > 0 && (
-                        <Flex
-                            wrap={'wrap'}
-                            border={'3px solid white'}
-                            justify={'space-evenly'}
-                            align={'stretch'}
-                            padding={'10px'}
-                            bRadius={'10px'}
-                            bFilter={'blur(2px)'}
-                            margin={'10px 0px'}
-                        >
-                            <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                The number of orders has increased and the
-                                number of glovers has decreased
-                            </TextContent>
-                            <div> </div>
-                            {lessCouriersAndMoreOrders.map(
-                                (onionReport, id) => (
-                                    <OnionSaturationCard
-                                        {...onionReport}
-                                        userIsAdmin={userIsAdmin}
-                                        key={id}
-                                    />
-                                )
-                            )}
-                        </Flex>
-                    )}
-                </Flex>
-                <Flex>
-                    {betterThanD7.length > 0 && (
-                        <Flex
-                            wrap={'wrap'}
-                            border={'3px solid white'}
-                            justify={'space-evenly'}
-                            align={'stretch'}
-                            padding={'10px'}
-                            bRadius={'10px'}
-                            bFilter={'blur(2px)'}
-                            margin={'10px 0px'}
-                        >
-                            <TextContent fSize={'1.3em'} fWeight={'800'}>
-                                Scores improved relative to D-7:
-                            </TextContent>
-                            <div> </div>
-                            {betterThanD7.map((onionReport, id) => (
-                                <OnionSaturationCard
-                                    {...onionReport}
-                                    userIsAdmin={userIsAdmin}
-                                    key={id}
-                                    forAutoReport={true}
-                                />
-                            ))}
-                        </Flex>
-                    )}
-                </Flex>
+
+                <SaturationReasonAnalysis
+                    analysis={lessCouriers}
+                    reasonTitle="The number of glovers has decreased"
+                />
+                <SaturationReasonAnalysis
+                    analysis={moreOrders}
+                    reasonTitle="The number of orders has increased"
+                />
+                <SaturationReasonAnalysis
+                    analysis={lessCouriersAndMoreOrders}
+                    reasonTitle="The number of orders has increased and the
+                                number of glovers has decreased"
+                />
+                <SaturationReasonAnalysis
+                    analysis={betterThanD7}
+                    reasonTitle=" Scores improved relative to D-7:"
+                />
             </ReportSlider>
         </Flex>
     )

@@ -43,14 +43,11 @@ const Logout = () => {
             margin="auto 0 0 0"
             justify="center"
             align="center"
-            border={`3px solid ${logoutBlockContentColor}`}
+            tBorder={`4px solid ${logoutBlockContentColor}`}
+            bBorder={`4px solid ${logoutBlockContentColor}`}
+            width="100%"
         >
-            <Flex
-                width="35px"
-                justify="center"
-                align="center"
-                padding="0 0 0 2em"
-            >
+            <Flex width="30%" justify="center" align="center">
                 <FiLogOut size={35} stroke={logoutBlockContentColor} />
             </Flex>
             <Flex direction="column" justify="space-around" align="stretch">

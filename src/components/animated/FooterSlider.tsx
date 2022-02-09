@@ -38,7 +38,7 @@ export const FooterSlider: FC<IFooterSlider> = (props) => {
                     height="5em"
                     mHeight="1em"
                     background={sliderBackGround}
-                    border={`3px solid ${sliderTitleColor}`}
+                    border={`4px solid ${sliderTitleColor}`}
                     justify="center"
                     align="center"
                     hoverable={true}

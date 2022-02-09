@@ -9,14 +9,14 @@ interface PropsOnionSlotsCard {
 const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
     const { code, date } = props
     const transparent = 'transparent'
-    const border = '3px solid white'
+    const border = '4px solid white'
     const { REACT_APP_ONION_SLOTS_LINK } = process.env
     return (
         <Flex
             cursor={'pointer'}
             border={border}
             width={'4em'}
-            padding={'3px'}
+            padding={'4px'}
             bRadius={'5px'}
             justify={'space-around'}
             margin={'5px'}

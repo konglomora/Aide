@@ -17,5 +17,7 @@ declare module 'styled-components' {
         linkFontColor: string
         linkHoverFontColor: string
         linkActiveFontColor: string
+        selectBackground: string
+        selectBorder: string
     }
 }

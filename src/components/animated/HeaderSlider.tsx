@@ -18,10 +18,10 @@ const HeaderSlider: FC<IPropsSlider> = (props) => {
     const theme = useAppSelector((state) => state.theme.theme)
     const border =
         theme === Theme.aide
-            ? `3px solid ${AideColors.white}`
-            : `3px solid ${GlovoColors.darkGrey}`
-    const topScreenPart = { y: ' -550%' }
-    const centerScreenPart = { y: 0 }
+            ? `4px solid ${AideColors.white}`
+            : `4px solid ${GlovoColors.darkGrey}`
+    const topScreenPart = { y: 0 }
+    const centerScreenPart = { y: '15rem' }
     const [animation, setAnimation] = useState<
         AnimationControls | TargetAndTransition | VariantLabels | boolean
     >(centerScreenPart)
@@ -43,13 +43,8 @@ const HeaderSlider: FC<IPropsSlider> = (props) => {
             transition={sliderTransition}
             style={{
                 height: '5em',
-                // width: '77%',
-                // position: 'absolute',
-                // top: '40em',
-                width: '75%',
-                position: 'fixed',
-                top: '50%',
-                left: '20%',
+                width: '65%',
+                margin: '4em 0 0 0',
                 zIndex: '2',
             }}
         >

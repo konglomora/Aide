@@ -1,3 +1,4 @@
+import { GlovoColors } from 'components/styled'
 import { toast, ToastOptions, UpdateOptions } from 'react-toastify'
 
 export interface AlertPromiseParams {
@@ -14,12 +15,20 @@ class AlertService {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
         theme: 'colored',
     }
 
     success(msg: string, options?: ToastOptions) {
-        const styleWithOptions = { ...this.styleForToast, ...options }
+        const styleWithOptions: ToastOptions = {
+            ...this.styleForToast,
+            ...options,
+            style: {
+                backgroundColor: GlovoColors.green,
+            },
+            progressStyle: {
+                backgroundColor: GlovoColors.white,
+            },
+        }
         toast.success(msg, styleWithOptions)
     }
 
@@ -29,12 +38,24 @@ class AlertService {
     }
 
     warning(msg: string, options?: ToastOptions) {
-        const styleWithOptions = { ...this.styleForToast, ...options }
+        const styleWithOptions = {
+            ...this.styleForToast,
+            ...options,
+            style: {
+                backgroundColor: GlovoColors.yellow,
+            },
+            progressStyle: {
+                backgroundColor: GlovoColors.white,
+            },
+        }
         toast.warning(msg, styleWithOptions)
     }
 
     info(msg: string, options?: ToastOptions) {
-        const styleWithOptions = { ...this.styleForToast, ...options }
+        const styleWithOptions = {
+            ...this.styleForToast,
+            ...options,
+        }
         toast.info(msg, styleWithOptions)
     }
 
@@ -43,7 +64,23 @@ class AlertService {
         params: AlertPromiseParams,
         options?: ToastOptions
     ) {
-        const styleWithOptions = { ...this.styleForToast, ...options }
+        const finalParams: AlertPromiseParams = {
+            ...params,
+            success: {
+                style: {
+                    backgroundColor: GlovoColors.green,
+                },
+            },
+            pending: {
+                style: {
+                    backgroundColor: GlovoColors.yellow,
+                },
+            },
+        }
+        const styleWithOptions = {
+            ...this.styleForToast,
+            ...options,
+        }
         toast.promise(promise, params, styleWithOptions)
     }
 }

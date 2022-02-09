@@ -9,7 +9,7 @@ const SelectStyle: CSS.Properties = {
     padding: '8px',
     appearance: 'none',
     width: '4rem',
-    border: '3px solid white',
+    border: '4px solid white',
     outline: 'none',
     margin: '0 10px',
 }
@@ -43,11 +43,11 @@ interface PropsStyledSelect {
 const StyledSelect = styled.select<PropsStyledSelect>`
     width: 100%;
     height: ${({ height }) => (height ? height : '35px')};
-    background: ${({ background }) => (background ? background : 'white')};
+    background: ${({ theme }) => theme.selectBackground};
     color: ${({ color }) => (color ? color : 'gray')};
     padding: ${({ padding }) => (padding ? padding : ' 0 0 0 5px')};
     font-size: ${({ fSize }) => (fSize ? fSize : '14px')};
-    border: ${({ border }) => (border ? border : 'none')};
+    border: ${({ theme }) => theme.selectBorder};
 
     option {
         color: black;

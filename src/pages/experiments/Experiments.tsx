@@ -8,7 +8,7 @@ import { logScheduleAction } from 'store/slices/sheets/logsSlice'
 const Experiments = () => {
     const dispatch = useAppDispatch()
 
-    const sheetLog = () => {
+    const sheetLog = async () => {
         const data: IDataForScheduleActionLog = {
             actionTime: dayjs().format('HH:mm:ss DD.MM.YY'),
             userName: 'Test Developer',

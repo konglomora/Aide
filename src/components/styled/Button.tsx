@@ -22,8 +22,8 @@ const StyledButton = styled.button<PropsStyledButton>`
     color: ${({ theme }) => theme.buttonTextColor};
     font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};
-    border-radius: ${({ bradius }) => bradius || '5px'};
-    border: ${({ theme }) => `3px solid ${theme.buttonBorderColor}`};
+    border-radius: ${({ bradius }) => bradius || '10px'};
+    border: ${({ theme }) => `4px solid ${theme.buttonBorderColor}`};
     cursor: pointer;
     align-self: ${({ alignSelf }) => alignSelf || ''};
     transition: 0.45s linear;
@@ -32,7 +32,7 @@ const StyledButton = styled.button<PropsStyledButton>`
         transition: 0.45s linear;
         background-color: ${({ theme }) => theme.buttonHoverBackgroundColor};
         color: ${({ theme }) => theme.buttonHoverTextColor};
-        border: ${({ theme }) => `3px solid ${theme.buttonHoverBorderColor}`};
+        border: ${({ theme }) => `4px solid ${theme.buttonHoverBorderColor}`};
     }
 `
 

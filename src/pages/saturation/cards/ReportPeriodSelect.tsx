@@ -69,15 +69,7 @@ export const ReportPeriodSelectCard: React.FC<IReportPeriodSelectCardProps> = (
                     </option>
                 ))}
             </select>
-            <Button
-                onClick={sendRequestForReport}
-                bcolor={AideColors.black}
-                color={AideColors.white}
-                bradius={'10px'}
-                border={'3px solid white'}
-            >
-                Get report
-            </Button>
+            <Button onClick={sendRequestForReport}>Get report</Button>
         </SliderCard>
     )
 }

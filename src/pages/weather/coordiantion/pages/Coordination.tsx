@@ -91,9 +91,9 @@ const WeatherActionPlan = () => {
         status,
     }
     useEffect(() => {
-        // console.log('weather tomorrowPlan: ', tomorrowPlan)
-        // console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
-    }, [tomorrowPlan, afterTomorrowPlan])
+        console.log('weather tomorrowPlan: ', tomorrowPlan)
+        console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
+    }, [])
 
     useEffect(() => {
         if (status === StateStatus.success) {
@@ -112,7 +112,7 @@ const WeatherActionPlan = () => {
             direction={'column'}
             align={'center'}
             justify="center"
-            margin="4em 0 0 20em"
+            margin="5em 0 0 12em"
             width="100%"
         >
             <SliderCard

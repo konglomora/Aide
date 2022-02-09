@@ -25,6 +25,8 @@ const aideTheme: DefaultTheme = {
     linkFontColor: AideColors.white,
     linkHoverFontColor: AideColors.orange,
     linkActiveFontColor: AideColors.violet,
+    selectBackground: AideColors.violet,
+    selectBorder: AideColors.white,
 }
 const glovoTheme: DefaultTheme = {
     mainBackgroundColor: GlovoColors.white,
@@ -42,6 +44,8 @@ const glovoTheme: DefaultTheme = {
     linkFontColor: GlovoColors.darkGrey,
     linkHoverFontColor: GlovoColors.green,
     linkActiveFontColor: GlovoColors.yellow,
+    selectBackground: GlovoColors.darkGrey,
+    selectBorder: GlovoColors.yellow,
 }
 
 export { Theme, aideTheme, glovoTheme }
