@@ -50,25 +50,9 @@ const Experiments = () => {
     }
 
     return (
-        <Flex direction="column" width="100%" margin="15em 0 0 15em">
+        <Flex width="100%" margin="15em 0 0 15em">
             <Button onClick={sheetLog}>Log to sheet</Button>
             <Button onClick={showAlert}>Show Alert</Button>
-            <TextContent>Version 1.0.1</TextContent>
-            <TextContent>
-                process.env.REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID{' '}
-                {
-                    process.env
-                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
-                }
-            </TextContent>
-            <TextContent>
-                process.env .REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL{' '}
-                {process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL}
-            </TextContent>
-            <TextContent>
-                process.env .REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY{' '}
-                {process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!}
-            </TextContent>
         </Flex>
     )
 }
