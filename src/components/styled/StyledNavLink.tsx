@@ -29,7 +29,7 @@ interface PropsSNavLink {
 }
 
 const SNavLink = styled(NavLink)<PropsSNavLink>`
-    color: ${({ color }) => color || 'white'};
+    color: ${({ theme }) => theme.linkFontColor};
     font-size: ${({ fSize }) => fSize || '1.2rem'};
     width: ${({ width }) => width || '100%'};
     height: ${({ height }) => height || '100%'};
@@ -46,10 +46,11 @@ const SNavLink = styled(NavLink)<PropsSNavLink>`
     transition: 0.4s linear;
     &:hover {
         transition: 0.4s linear;
-        color: rgb(252, 78, 78);
+        /* color: rgb(252, 78, 78); */
+        color: ${({ theme }) => theme.linkHoverFontColor};
     }
     &.active {
-        color: rgb(186, 143, 255);
+        color: ${({ theme }) => theme.linkActiveFontColor};
     }
 `
 

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Flex, TextContent, Colors } from 'components/styled'
+import { Flex, TextContent, AideColors } from 'components/styled'
 
 interface PropsOnionCode {
     code: string
@@ -24,7 +24,7 @@ const OnionCode: FC<PropsOnionCode> = (props) => {
             bColor={backgroundColor}
             onClick={(e: React.ChangeEvent<any>) => onClick(e)}
             hoverable={true}
-            hoverColor={Colors.black}
+            hoverColor={AideColors.black}
         >
             <TextContent fWeight={400} color={color} textAlign={'center'}>
                 {`${code}`}

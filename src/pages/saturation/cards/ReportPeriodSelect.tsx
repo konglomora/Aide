@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'components/styled/Button'
 import { StateStatus } from 'store/helpers/Status'
-import { SelectStyle, Colors } from 'components/styled'
+import { SelectStyle, AideColors } from 'components/styled'
 import { SliderCard } from 'components/animated'
 
 export enum PeriodSelectors {
@@ -71,8 +71,8 @@ export const ReportPeriodSelectCard: React.FC<IReportPeriodSelectCardProps> = (
             </select>
             <Button
                 onClick={sendRequestForReport}
-                bcolor={Colors.black}
-                color={Colors.white}
+                bcolor={AideColors.black}
+                color={AideColors.white}
                 bradius={'10px'}
                 border={'3px solid white'}
             >

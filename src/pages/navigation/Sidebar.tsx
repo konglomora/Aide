@@ -1,19 +1,11 @@
-import {
-    Flex,
-    Icon,
-    StyledNavLink,
-    TextContent,
-    Colors,
-} from 'components/styled'
-import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Flex, StyledNavLink, AideColors, GlovoColors } from 'components/styled'
 import { RootState } from 'store'
-import { useAppDispatch, useAppSelector, useAuth } from 'hooks'
+import { useAppSelector } from 'hooks'
 
-import { removeUser } from 'store/slices/user/userSlice'
 import { Roles } from 'pages/authentication/userRoles'
-import { capitalizeFirstLetter } from 'helpers/strings'
-import LogOutIcon from 'assets/icons/log-out.svg'
+import { Theme } from 'components/themes'
+import Logout from './Logout'
+import { ThemeChanger } from 'pages/themes'
 
 export const stylesForStyledLink = {
     width: '95%',
@@ -23,22 +15,7 @@ export const stylesForStyledLink = {
 }
 
 const Sidebar = () => {
-    const dispatch = useAppDispatch()
-
-    const location = useLocation()
-    const { isAuth } = useAuth()
-    const [userName, setUserName] = useState<string>('')
-    const email: string | null = useAppSelector((state) => state.user.email)
-
-    useEffect(() => {
-        console.log('Sidebar location.state?.from', location.state)
-
-        if (email) {
-            const emailName = email.split('.')[0]
-            setUserName(capitalizeFirstLetter(emailName))
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAuth])
+    const theme = useAppSelector((state) => state.theme.theme)
 
     const userIsAdmin = useAppSelector(
         (state: RootState) => state.user.role === Roles.admin
@@ -54,15 +31,15 @@ const Sidebar = () => {
         </>
     )
 
-    const handleLogout = () => {
-        dispatch(removeUser())
-    }
-
     return (
         <Flex
             width={'13em'}
-            bColor={Colors.lightBlack}
-            rBorder={'3px solid white'}
+            bColor={
+                theme === Theme.aide ? AideColors.lightBlack : GlovoColors.white
+            }
+            rBorder={`3px solid ${
+                theme === Theme.aide ? AideColors.white : GlovoColors.darkGrey
+            }`}
             direction={'column'}
             position="fixed"
             align="center"
@@ -97,40 +74,7 @@ const Sidebar = () => {
                 {adminNavLinks}
             </Flex>
 
-            <Flex
-                hoverable={true}
-                hoverColor={Colors.orange}
-                cursor="pointer"
-                height="5em"
-                mHeight={'5em'}
-                onClick={handleLogout}
-                margin="auto 0 0 0"
-                justify="center"
-                align="center"
-                border="3px solid white"
-            >
-                <Icon
-                    padding="0 0 0 2em"
-                    width={'35px'}
-                    height={'35px'}
-                    src={LogOutIcon}
-                />
-
-                <Flex direction="column" justify="space-around" align="stretch">
-                    <TextContent height="25%" textAlign="center" fSize="24px">
-                        Logout
-                    </TextContent>
-
-                    <TextContent
-                        fWeight={600}
-                        height="25%"
-                        textAlign="center"
-                        fSize="18px"
-                    >
-                        {userName}
-                    </TextContent>
-                </Flex>
-            </Flex>
+            <Logout />
         </Flex>
     )
 }

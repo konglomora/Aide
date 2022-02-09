@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Flex, Title, Colors } from 'components/styled'
+import { Flex, Title, AideColors } from 'components/styled'
 
 interface PropsOnionSlotsCard {
     code: string
@@ -30,7 +30,11 @@ const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
                 style={{ textDecoration: 'none' }}
                 rel="noreferrer"
             >
-                <Title fWeight={'600'} fSize={'1.5em'} color={Colors.violet}>
+                <Title
+                    fWeight={'600'}
+                    fSize={'1.5em'}
+                    color={AideColors.violet}
+                >
                     {code}
                 </Title>
             </a>

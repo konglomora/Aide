@@ -1,7 +1,7 @@
 import { useAppSelector } from 'hooks'
 
 import { Flex } from 'components/styled'
-import welcomeImage from 'assets/gif/madara-naruto.gif'
+import welcomeImage from 'assets/aide/gif/madara-naruto.gif'
 
 const Homepage = () => {
     const userName = useAppSelector((state) => state.user.name)

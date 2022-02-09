@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { motion } from 'framer-motion'
 import { StateStatus } from 'store/helpers/Status'
-import logo from 'assets/img/logo.svg'
+import logo from 'assets/aide/img/logo.svg'
 import { Flex } from 'components/styled'
 
 interface PropsLoaderReact {

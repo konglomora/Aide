@@ -1,6 +1,18 @@
 import { FC, useState } from 'react'
-import { Flex, Icon, Input, Title, Button } from 'components/styled'
-import LOCK_ICON from 'assets/icons/padlock.svg'
+import {
+    Flex,
+    Icon,
+    Input,
+    Title,
+    Button,
+    AideColors,
+    GlovoColors,
+} from 'components/styled'
+import LOCK_ICON from 'assets/aide/icons/padlock.svg'
+import LIGHTHOUSE_IMG from 'assets/glovo/img/lighthouse.png'
+
+import { useAppSelector } from 'hooks'
+import { Theme } from 'components/themes'
 
 export interface FormProps {
     title: string
@@ -18,12 +30,37 @@ const Form: FC<FormProps> = (props) => {
         justify: 'center',
         align: 'center',
         bRadius: '10px',
-        bFilter: 'blur(2px)',
+        bFilter: 'blur(10px)',
     }
     const stylesForInput = {
         width: '20em',
         padding: '10px',
     }
+
+    const theme = useAppSelector((state) => state.theme.theme)
+    const icon =
+        theme === Theme.aide ? (
+            <Icon
+                padding="25px"
+                background={AideColors.violet}
+                radius="50%"
+                width="50px"
+                height="50px"
+                border="5px solid black"
+                src={LOCK_ICON}
+            />
+        ) : (
+            <Icon
+                padding="15px 35px"
+                background={GlovoColors.darkGrey}
+                radius="90%"
+                width="40px"
+                height="85px"
+                border="5px solid white"
+                src={LIGHTHOUSE_IMG}
+            />
+        )
+
     return (
         <Flex {...styleForContainer}>
             <Flex
@@ -33,19 +70,10 @@ const Form: FC<FormProps> = (props) => {
                 mHeight="25%"
                 height="35%"
             >
-                <Icon
-                    padding="25px"
-                    background="rgb(186, 143, 255)"
-                    radius="50%"
-                    width="50px"
-                    height="50px"
-                    border="5px solid black"
-                    src={LOCK_ICON}
-                />
-                <Title margin="20px 0 0 0" height="1.5 em">
+                {icon}
+                <Title margin="20px 0 0 0" height="1.5 em" fWeight="700">
                     {title}
                 </Title>
-
                 <Flex
                     margin="14px"
                     mHeight="7em"
@@ -69,7 +97,6 @@ const Form: FC<FormProps> = (props) => {
                         {...stylesForInput}
                     />
                 </Flex>
-
                 <Button
                     onClick={() => {
                         handleClick(email, pass)

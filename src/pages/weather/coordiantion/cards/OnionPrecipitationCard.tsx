@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { Flex, Title, Colors } from 'components/styled'
+import { Flex, Title, AideColors } from 'components/styled'
 import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
 import { areas } from 'services/coordination/AreasInfo'
 
@@ -67,7 +67,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
                     <Title
                         fWeight={'600'}
                         fSize={'1.5em'}
-                        color={Colors.violet}
+                        color={AideColors.violet}
                     >
                         {city}
                     </Title>

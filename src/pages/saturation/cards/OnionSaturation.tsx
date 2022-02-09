@@ -1,6 +1,6 @@
 // import { REACT_APP_ONION_SLOTS_LINK } from 'api/env'
 import dayjs from 'dayjs'
-import { Colors, Flex, Title } from 'components/styled'
+import { AideColors, Flex, Title } from 'components/styled'
 import { FC } from 'react'
 import { onionService } from 'services'
 import { ISaturatedOnionAnalysis } from 'store/slices/saturation/types'
@@ -53,7 +53,7 @@ const OnionSaturationCard: FC<
                     <Title
                         fWeight={'600'}
                         fSize={'1.5em'}
-                        color={Colors.violet}
+                        color={AideColors.violet}
                     >
                         {city}
                     </Title>

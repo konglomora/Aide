@@ -7,7 +7,7 @@ import {
     Input,
     dateSelectStyle,
     SelectStyle,
-    Colors,
+    AideColors,
 } from 'components/styled'
 
 import {
@@ -162,7 +162,7 @@ export default function OnionSlotsUpdateCard(props: IOnionSlotsUpdateCard) {
                 bColor={'rgb(24 25 26 / 78%);'}
                 border="1px solid white"
                 bRadius="10px"
-                background={Colors.lightBlack}
+                background={AideColors.lightBlack}
                 align="center"
                 padding="0 1em"
                 justify="space-evenly"
