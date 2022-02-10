@@ -9,8 +9,8 @@ export interface AlertPromiseParams {
 
 class AlertService {
     styleForToast: ToastOptions = {
-        position: 'bottom-right',
-        autoClose: 4000,
+        position: 'top-center',
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

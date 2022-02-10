@@ -35,7 +35,7 @@ export const DayCoordinationCard: FC<IDayCoordinationCard> = (props) => {
                 {coordinationCards}
             </Flex>
         ) : (
-            <TextContent>
+            <TextContent fWeight={600}>
                 According to the forecast, there is no precipitation for
                 {coordinationDate} for all cities.
             </TextContent>

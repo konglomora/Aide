@@ -76,8 +76,6 @@ const Form: FC<FormProps> = (props) => {
                 </Title>
                 <Flex
                     margin="14px"
-                    mHeight="7em"
-                    height="12em"
                     justify="space-around"
                     align="center"
                     direction="column"
@@ -87,6 +85,7 @@ const Form: FC<FormProps> = (props) => {
                         value={email}
                         type="text"
                         placeholder="Email Address *"
+                        margin="8px"
                         {...stylesForInput}
                     />
                     <Input

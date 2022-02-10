@@ -14,12 +14,6 @@ import scheduleSlice from './slices/onions/schedule/scheduleSlice'
 import onionsSlotsSlice from './slices/onions/slots/onionsSlotsSlice'
 import themeSlice from './slices/theme/themeSlice'
 
-// const rootPersistConfig = {
-//     key: 'root',
-//     storage,
-//     whitelist: [''],
-// }
-
 const authPersistConfig = { key: 'user', storage: storageSession }
 const themePersistConfig = { key: 'theme', storage: storage }
 
@@ -35,8 +29,6 @@ const rootReducer = combineReducers({
 
 // Disabling logs
 // if (process.env.NODE_ENV === 'development') console.log = () => {}
-
-// const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 
 export const store = configureStore({
     reducer: rootReducer,
