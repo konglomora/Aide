@@ -2,9 +2,8 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { getActiveScheduleDates } from 'store/slices/onions/slots/onionsSlotsSlice'
-import { Flex, AideColors, GlovoColors } from 'components/styled'
+import { Flex, GlovoColors } from 'components/styled'
 import OnionSlotsUpdateCard from 'pages/onions/slots/cards/SlotsUpdate'
-import { Theme } from 'components/themes'
 import { FooterSlider } from 'components/animated/FooterSlider'
 import { SiGooglesheets } from 'react-icons/si'
 
@@ -12,14 +11,6 @@ export default function Slots() {
     const dispatch = useAppDispatch()
     const { activeScheduleDates } = useAppSelector((state) => state.onionsSlots)
     const theme = useAppSelector((state) => state.theme.theme)
-    const flexHoverColor =
-        theme === Theme.aide ? AideColors.orange : GlovoColors.yellow
-
-    const logsBackGround =
-        theme === Theme.aide ? AideColors.lightBlack : GlovoColors.white
-
-    const logsColor =
-        theme === Theme.aide ? AideColors.white : GlovoColors.darkGrey
 
     useEffect(() => {
         ;(async () => {

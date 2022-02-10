@@ -65,15 +65,16 @@ class AlertService {
         options?: ToastOptions
     ) {
         const finalParams: AlertPromiseParams = {
-            ...params,
             success: {
+                render: params.success,
                 style: {
                     backgroundColor: GlovoColors.green,
                 },
             },
             pending: {
+                render: params.pending,
                 style: {
-                    backgroundColor: GlovoColors.yellow,
+                    backgroundColor: GlovoColors.white,
                 },
             },
         }
@@ -81,7 +82,7 @@ class AlertService {
             ...this.styleForToast,
             ...options,
         }
-        toast.promise(promise, params, styleWithOptions)
+        toast.promise(promise, finalParams, styleWithOptions)
     }
 }
 

@@ -11,7 +11,6 @@ import FRANKS_SUCCESS_GIF from 'assets/aide/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
 import EMPTY from 'assets/aide/gif/anime-i-dont-know.gif'
-import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/helpers/Status'
 import {
     PeriodSelectors,
@@ -40,10 +39,6 @@ const SaturationByPeriodPage = () => {
         lessCouriersAndMoreOrders,
         betterThanD7,
     } = sortedReportBySaturationReason
-
-    const userIsAdmin = useAppSelector(
-        (state) => state.user.role === Roles.admin
-    )
 
     function selectChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
         const name = e.target.name

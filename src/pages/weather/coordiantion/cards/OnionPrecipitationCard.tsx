@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import dayjs from 'dayjs'
-import { Flex, Title, AideColors, TextBlock } from 'components/styled'
+import { Title, AideColors, TextBlock } from 'components/styled'
 import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
 import { DataCardWrapper } from 'components/styled/DataCardWrapper'
 

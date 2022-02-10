@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 import {
     AideColors,
-    Flex,
     GlovoColors,
     TextBlock,
     TextContent,

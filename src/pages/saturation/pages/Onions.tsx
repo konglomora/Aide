@@ -15,7 +15,6 @@ import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
 import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
 import { AideColors } from 'components/styled'
 import { useAppSelector } from 'hooks'
-import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/helpers/Status'
 import { ReportSlider } from 'components/animated'
 
@@ -35,10 +34,6 @@ const SaturationBySelectedOnion = () => {
         areaCodes,
         selectedOnionCodes,
     } = useAppSelector((state) => state.selectedOnionsReport)
-
-    const userIsAdmin = useAppSelector(
-        (state) => state.user.role === Roles.admin
-    )
 
     const saturationReport = [...kyiv_report, ...mio_report, ...small_report]
 
