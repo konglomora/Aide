@@ -1,7 +1,7 @@
 import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Flex, Button, GlovoColors } from 'components/styled'
-import { getWeatherActionPlan } from 'store/slices/weather/weatherActionPlanSlice'
+import { getWeatherActionPlan } from 'store/slices/weather/actionCoordinationSlice'
 import ESDES_PREP_GIF from 'assets/aide/gif/esdes-no-prep.gif'
 import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
@@ -16,6 +16,7 @@ import { useLocation } from 'react-router-dom'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { FooterSlider } from 'components/animated/FooterSlider'
 import { SiGooglesheets } from 'react-icons/si'
+import { logCoordination } from 'store/slices/sheets/logsSlice'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -98,11 +99,11 @@ const WeatherActionPlan = () => {
         afterTomorrowPlanOnionCards,
         status,
     }
-    useEffect(() => {
-        console.log('weather tomorrowPlan: ', tomorrowPlan)
-        console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useEffect(() => {
+    //     console.log('weather tomorrowPlan: ', tomorrowPlan)
+    //     console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [status])
 
     useEffect(() => {
         if (status === StateStatus.success) {
@@ -114,6 +115,14 @@ const WeatherActionPlan = () => {
         } else if (status === StateStatus.error) {
             setFormBackGround(`url(${ERROR_ANIME_GIF})`)
         }
+
+        status === StateStatus.success &&
+            isTomorrowWithPrecipitation &&
+            alertService.loading(dispatch(logCoordination(tomorrowPlan)), {
+                success: 'Logged coordination.',
+                pending: 'Logging coordination...',
+                error: 'Error while logging coordination.',
+            })
     }, [status, isAfterTomorrowWithPrecipitation, isTomorrowWithPrecipitation])
 
     return (

@@ -1,3 +1,4 @@
+import { logCoordination } from './../sheets/logsSlice'
 // import { logCoordination } from './../sheets/logsSlice'
 import { coordinationService } from 'services'
 import { requests } from 'store/helpers/Requests'
@@ -125,6 +126,7 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
                 precipitatedOnionResponse.data,
                 onionScheduleSlotsResponse.data
             )
+
             return {
                 coordination: coordination,
                 tomorrow: tomorrow,
@@ -178,10 +180,18 @@ export const getWeatherActionPlan = createAsyncThunk<
                 })
             ))
 
+        // const { tomorrowPlan } = (getState() as RootState).weatherActionPlan
+        //     .actionPlans
         // await dispatch(logCoordination(tomorrowPlan))
         console.timeEnd('[getWeatherActionPlan]')
     }
 )
+
+export interface IStateActionPlan {
+    kyiv_plan: IOnionWeatherAnalysis[]
+    mio_plan: IOnionWeatherAnalysis[]
+    small_plan: IOnionWeatherAnalysis[]
+}
 
 export interface IWeatherSliceInitState {
     status: TStateStatus
@@ -203,16 +213,8 @@ export interface IWeatherSliceInitState {
         afterTomorrowUniqueCodes: string[]
     }
     actionPlans: {
-        tomorrowPlan: {
-            kyiv_plan: IOnionWeatherAnalysis[]
-            mio_plan: IOnionWeatherAnalysis[]
-            small_plan: IOnionWeatherAnalysis[]
-        }
-        afterTomorrowPlan: {
-            kyiv_plan: IOnionWeatherAnalysis[]
-            mio_plan: IOnionWeatherAnalysis[]
-            small_plan: IOnionWeatherAnalysis[]
-        }
+        tomorrowPlan: IStateActionPlan
+        afterTomorrowPlan: IStateActionPlan
     }
 }
 

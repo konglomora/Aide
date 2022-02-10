@@ -16,7 +16,7 @@ class Logs {
         console.log('columnCount: ', columnCount)
 
         for (let i = 0; i < columnCount; i++) {
-            console.log(`Updating style of column ${i} and row ${lastRowIndex}`)
+            // console.log(`Updating style of column ${i} and row ${lastRowIndex}`)
             const cell = sheet.getCell(lastRowIndex, i)
             cell.horizontalAlignment = 'CENTER'
             cell.textFormat = {

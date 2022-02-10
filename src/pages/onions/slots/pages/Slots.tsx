@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { getActiveScheduleDates } from 'store/slices/onions/slots/onionsSlotsSlice'
 import { Flex, GlovoColors } from 'components/styled'
