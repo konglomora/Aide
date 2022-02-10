@@ -31,7 +31,7 @@ function App(): ReactElement {
                 </Helmet>
                 <GlobalStyle />
                 <AppRoutes />
-                <ToastContainer style={{ margin: '5em 0 5em 6em' }} />
+                <ToastContainer style={{ margin: '0em 0 5em 7em' }} />
             </ThemeProvider>
         </Flex>
     )
