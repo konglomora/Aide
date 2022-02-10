@@ -24,7 +24,7 @@ const ThemeChanger = () => {
     return (
         <Flex
             position="absolute"
-            right="12em"
+            right="20em"
             width="30px"
             height="30px"
             mHeight="30px"

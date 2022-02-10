@@ -28,7 +28,7 @@ const Navbar: FC<IPropsNavbar> = (props) => {
             width="100%"
             position="fixed"
             zIndex="3"
-            margin="0 0 0 4em"
+            margin="0 0 0 12em"
         >
             {children}
             <ThemeChanger />

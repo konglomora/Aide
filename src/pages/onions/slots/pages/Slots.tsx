@@ -8,6 +8,7 @@ import { FooterSlider } from 'components/animated/FooterSlider'
 import { SiGooglesheets } from 'react-icons/si'
 import { useLocation } from 'react-router-dom'
 import { capitalizeFirstLetter } from 'helpers/strings'
+import FallingCard from 'components/animated/FallingCard'
 
 export default function Slots() {
     const dispatch = useAppDispatch()
@@ -38,18 +39,15 @@ export default function Slots() {
             justify="center"
             align="center"
         >
-            <motion.div
-                initial={{ y: -2000 }}
-                animate={{ y: 0 }}
-                transition={{ delay: 0.2, duration: 0.9, type: 'spring' }}
+            <FallingCard
                 style={{
                     width: '75%',
                     position: 'fixed',
-                    top: '50%',
+                    top: '40%',
                 }}
             >
                 <OnionSlotsUpdateCard />
-            </motion.div>
+            </FallingCard>
 
             <FooterSlider
                 href={

@@ -160,6 +160,7 @@ interface ISaturationSelectedOnionState {
         moreOrders: ISaturatedOnionAnalysis[]
         lessCouriersAndMoreOrders: ISaturatedOnionAnalysis[]
         betterThanD7: ISaturatedOnionAnalysis[]
+        outside: ISaturatedOnionAnalysis[]
     }
     saturatedOnionsObjectsArray: ISaturatedOnionBySlot[]
     saturatedOnionCodes: string[]
@@ -179,6 +180,7 @@ const initialState: ISaturationSelectedOnionState = {
         moreOrders: [],
         lessCouriersAndMoreOrders: [],
         betterThanD7: [],
+        outside: [],
     },
     saturatedOnionsObjectsArray: [],
     saturatedOnionCodes: [],
@@ -194,7 +196,6 @@ const saturationPeriodReportSlice = createSlice({
             state.periodEnd = action.payload.periodEnd
         },
 
-        // ? Getting unique onion codes that had saturation at selected period
         getUniqueSaturatedOnionCodes(state) {
             state.saturatedOnionCodes = saturationService.getUniqueOnionCodes(
                 state.saturatedOnionsObjectsArray
@@ -205,7 +206,9 @@ const saturationPeriodReportSlice = createSlice({
             const { saturationReport } = action.payload
 
             saturationReport.forEach((onion: ISaturatedOnionAnalysis) => {
-                if (
+                if (onion.area === '#Outside') {
+                    state.sortedReportBySaturationReason.outside.push(onion)
+                } else if (
                     onion.reason_saturation === SaturationReasons.lessCouriers
                 ) {
                     state.sortedReportBySaturationReason.lessCouriers.push(
@@ -245,7 +248,6 @@ const saturationPeriodReportSlice = createSlice({
         builder.addCase(
             axiosGetSaturatedOnionsByPeriod.fulfilled,
             (state, action) => {
-                // Saving returned data from response when axiosGetSaturatedOnionsByPeriod done
                 state.saturatedOnionsObjectsArray = action.payload
             }
         )
@@ -259,8 +261,6 @@ const saturationPeriodReportSlice = createSlice({
         builder.addCase(
             axiosGetSaturatedOnionAnalyseObject.fulfilled,
             (state, action) => {
-                // Сортируем обьекты репортов по соответствующих массивах
-
                 if (onionService.onionIsKyiv(action.payload.city)) {
                     state.kyiv_report.push(action.payload)
                 } else if (onionService.onionIsMio(action.payload.city)) {

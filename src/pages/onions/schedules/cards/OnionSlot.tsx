@@ -1,13 +1,15 @@
 import { FC } from 'react'
-import { Flex, Title, AideColors } from 'components/styled'
+import { Flex, Title } from 'components/styled'
 
 interface PropsOnionSlotsCard {
     code: string
     date: string
+    linkColor: string
+    linkHoverColor: string
 }
 
 const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
-    const { code, date } = props
+    const { code, date, linkColor, linkHoverColor } = props
     const transparent = 'transparent'
     const border = '4px solid white'
     const { REACT_APP_ONION_SLOTS_LINK } = process.env
@@ -22,7 +24,7 @@ const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
             margin={'5px'}
             bColor={transparent}
             hoverable={true}
-            hoverColor=""
+            hoverColor={linkHoverColor}
         >
             <a
                 href={`${REACT_APP_ONION_SLOTS_LINK}${code}/${date}`}
@@ -30,11 +32,7 @@ const OnionSlotsCard: FC<PropsOnionSlotsCard> = (props) => {
                 style={{ textDecoration: 'none' }}
                 rel="noreferrer"
             >
-                <Title
-                    fWeight={'600'}
-                    fSize={'1.5em'}
-                    color={AideColors.violet}
-                >
+                <Title fWeight={'600'} fSize={'1.5em'} color={linkColor}>
                     {code}
                 </Title>
             </a>

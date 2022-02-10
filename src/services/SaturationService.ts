@@ -23,7 +23,7 @@ class SaturationService implements ISaturationService {
     getExpansionResult(glovers: number) {
         if (glovers >= 0) {
             return ExpansionResult.gradual
-        } else if (glovers <= 0) {
+        } else if (glovers < 0) {
             return ExpansionResult.weak
         }
         return ''

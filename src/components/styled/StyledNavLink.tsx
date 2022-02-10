@@ -6,7 +6,7 @@ const stylesForStyledLink = {
     width: '20%',
     height: '1em',
     radius: '15px',
-    text_align: 'center',
+    // text_align: 'center',
 }
 
 interface PropsSNavLink {

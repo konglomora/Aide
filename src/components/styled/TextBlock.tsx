@@ -20,8 +20,8 @@ export interface PropsStyledDiv {
 const StyledDiv = styled.div<PropsStyledDiv>`
     color: ${({ theme }) => theme.fontColor};
     text-decoration: ${({ decoration }) => decoration || 'none'};
-    font-size: ${({ fSize }) => fSize || '1em'};
-    font-weight: ${({ fWeight }) => fWeight || '300'};
+    font-size: ${({ fSize }) => fSize || '1.12em'};
+    font-weight: ${({ fWeight }) => fWeight || '400'};
     width: ${({ width }) => width || ''};
     height: ${({ height }) => height || ''};
     margin: ${({ margin }) => margin || '0'};
