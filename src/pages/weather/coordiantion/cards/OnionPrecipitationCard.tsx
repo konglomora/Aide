@@ -1,19 +1,13 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import dayjs from 'dayjs'
-import {
-    Flex,
-    Title,
-    AideColors,
-    TextBlock,
-    TextContent,
-} from 'components/styled'
+import { Flex, Title, AideColors, TextBlock } from 'components/styled'
 import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
-import { areas } from 'services/coordination/AreasInfo'
+import { DataCardWrapper } from 'components/styled/DataCardWrapper'
 
 const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     date,
     city,
-    percent_capacity_slots,
+
     slots,
     wetStartSlot,
     wetFinishSlot,
@@ -38,15 +32,16 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     const prepStr = `Probability of rainfall at ${slots} equals ${precipitation}`
 
     return (
-        <Flex
-            border="4px solid white"
-            bRadius="15px"
-            padding="15px"
-            margin="10px"
-            width="80%"
-            mHeight="100%"
-            bColor="rgb(24 25 26 / 78%);"
-        >
+        // <Flex
+        //     border="4px solid white"
+        //     bRadius="15px"
+        //     padding="15px"
+        //     margin="10px"
+        //     width="80%"
+        //     mHeight="100%"
+        //     bColor="rgb(24 25 26 / 78%);"
+        // >
+        <DataCardWrapper>
             <TextBlock>
                 <a
                     href={onionSlotsLink}
@@ -74,7 +69,8 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
                 <TextBlock>Mode: {mode}</TextBlock>
             </TextBlock>
             <div></div>
-        </Flex>
+        </DataCardWrapper>
+        // </Flex>
     )
 }
 export { OnionPrecipitationCard }

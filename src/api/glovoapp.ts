@@ -26,7 +26,7 @@ interface GlovoappToken {
 // Request interceptor for API calls
 adminApiGlovoappAxios.interceptors.request.use(
     async (request) => {
-        const token = window.sessionStorage.getItem('glovoappAuthToken')
+        const token = window.sessionStorage.getItem('glovoappAuthToken') || ''
         const user = jwtDecode<GlovoappToken>(token!)
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
         console.log(
@@ -35,7 +35,7 @@ adminApiGlovoappAxios.interceptors.request.use(
         )
 
         if (token && isExpired) {
-            await glovoappService.refreshGlovoappHeaders()
+            await glovoappService.refreshGlovoappHeaders() // ! Disabled token saving to ls of browser
             const newGlovoappAuthToken =
                 await glovoappService.getNewGlovoappAuthToken()
             request.headers.authorization = newGlovoappAuthToken

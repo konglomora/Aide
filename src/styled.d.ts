@@ -4,6 +4,9 @@ declare module 'styled-components' {
     export interface DefaultTheme {
         mainBackgroundColor: string
         mainBackgroundImage: string
+        globalBorder: string
+        globalBorderRadius: string
+        globalBackdropFilter: string
         fontColor: string
         fontFamily: string
         backgroundColor: string
@@ -19,5 +22,9 @@ declare module 'styled-components' {
         linkActiveFontColor: string
         selectBackground: string
         selectBorder: string
+        cardBorder: string
+        cardBorderRadius: string
+        cardBackgroundColor: string
+        cardBackdropFilter: string
     }
 }

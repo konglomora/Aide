@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { FC, ReactNode } from 'react'
-import Icon from './Icon'
+import { FC } from 'react'
 
 const stylesForStyledLink = {
     width: '20%',

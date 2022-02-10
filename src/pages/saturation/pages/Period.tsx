@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { slotsRegular } from 'helpers/slots'
-import { Flex, Title, TextContent } from 'components/styled'
+import { Flex } from 'components/styled'
 import {
     getSaturationReport,
     setPeriodOfReport,
@@ -11,7 +11,6 @@ import FRANKS_SUCCESS_GIF from 'assets/aide/gif/franks-dance.gif'
 import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
 import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
 import EMPTY from 'assets/aide/gif/anime-i-dont-know.gif'
-import OnionSaturationCard from '../cards/OnionSaturation'
 import { Roles } from 'pages/authentication/userRoles'
 import { StateStatus } from 'store/helpers/Status'
 import {
@@ -20,6 +19,7 @@ import {
 } from '../cards/ReportPeriodSelect'
 import { ReportSlider } from 'components/animated'
 import { SaturationReasonAnalysis } from '../cards/SaturationReasonAnalysis'
+import TitleWrapper from 'components/styled/TitleWrapper'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -30,6 +30,7 @@ const SaturationByPeriodPage = () => {
         sortedReportBySaturationReason,
         reportIsEmpty,
     } = useAppSelector((state) => state.saturationPeriodReport)
+    const theme = useAppSelector((state) => state.theme.theme)
     const [formBackGround, setFormBackGround] = useState('')
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
 
@@ -114,37 +115,28 @@ const SaturationByPeriodPage = () => {
                     margin: '4em 0  0 0',
                 }}
             >
-                <Flex
-                    wrap={'wrap'}
-                    border={'4px solid white'}
-                    justify={'center'}
-                    align={'center'}
-                    padding={'10px'}
-                    bRadius={'10px'}
-                    bFilter={'blur(2px)'}
-                    margin={'10px 0px'}
-                >
-                    <Title
-                        margin={'10px 0px'}
-                        fWeight={'600'}
-                        width="100%"
-                    >{`Saturation report from ${periodStart}:00 to ${periodEnd}:00`}</Title>
-                </Flex>
-
+                <TitleWrapper
+                    titleText={`Saturation report from ${periodStart}:00 to ${periodEnd}:00`}
+                    theme={theme}
+                />
                 <SaturationReasonAnalysis
+                    theme={theme}
                     analysis={lessCouriers}
                     reasonTitle="The number of glovers has decreased"
                 />
                 <SaturationReasonAnalysis
+                    theme={theme}
                     analysis={moreOrders}
                     reasonTitle="The number of orders has increased"
                 />
                 <SaturationReasonAnalysis
+                    theme={theme}
                     analysis={lessCouriersAndMoreOrders}
                     reasonTitle="The number of orders has increased and the
                                 number of glovers has decreased"
                 />
                 <SaturationReasonAnalysis
+                    theme={theme}
                     analysis={betterThanD7}
                     reasonTitle=" Scores improved relative to D-7:"
                 />

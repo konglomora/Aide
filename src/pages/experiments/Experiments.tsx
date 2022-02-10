@@ -1,4 +1,4 @@
-import { Flex, Button, TextContent } from 'components/styled'
+import { Flex, Button } from 'components/styled'
 import dayjs from 'dayjs'
 import { alertService } from 'services'
 import { useAppDispatch } from 'hooks'
