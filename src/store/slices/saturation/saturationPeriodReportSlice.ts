@@ -79,8 +79,8 @@ export const axiosGetSaturatedOnionAnalyseObject = createAsyncThunk<
                 saturationService.getExpansionResult(compared_couriers)
 
             const diffStr = saturationService.getIndicatorsDiff(
-                compared_couriers,
-                compared_orders
+                compared_orders,
+                compared_couriers
             )
 
             const analysis: ISaturatedOnionAnalysis = {

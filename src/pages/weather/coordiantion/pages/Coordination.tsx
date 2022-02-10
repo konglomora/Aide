@@ -93,6 +93,7 @@ const WeatherActionPlan = () => {
     useEffect(() => {
         console.log('weather tomorrowPlan: ', tomorrowPlan)
         console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {

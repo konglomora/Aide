@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'components/styled/Button'
 import { StateStatus } from 'store/helpers/Status'
-import { SelectStyle, AideColors } from 'components/styled'
+import { SelectStyle } from 'components/styled'
 import { SliderCard } from 'components/animated'
 
 export enum PeriodSelectors {

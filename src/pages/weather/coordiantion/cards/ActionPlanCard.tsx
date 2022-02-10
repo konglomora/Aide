@@ -1,7 +1,9 @@
 import React from 'react'
-import { Flex, Title } from 'components/styled'
+import { Flex } from 'components/styled'
 import { DayCoordinationCard } from './DayCoordinationCard'
 import nextId from 'react-id-generator'
+import TitleWrapper from 'components/styled/TitleWrapper'
+import { useAppSelector } from 'hooks'
 
 export interface IPrecipitationCardProps {
     isTomorrowWithPrecipitation: boolean
@@ -17,6 +19,8 @@ export interface IPrecipitationCardProps {
 export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
     props
 ): React.ReactElement => {
+    const theme = useAppSelector((state) => state.theme.theme)
+
     const {
         tomorrowDate,
         afterTomorrowDate,
@@ -47,12 +51,14 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
             lastTimeUpdate={day.lastTimeUpdate}
         />
     ))
+
     return (
         <Flex direction="column" align="center" width="75%" margin="10em 0 0 0">
-            <Title fWeight="700">
-                Coordination of RTO actions for {tomorrowDate} and
-                {afterTomorrowDate}
-            </Title>
+            <TitleWrapper
+                titleText={`Coordination of RTO actions for ${tomorrowDate} and
+                ${afterTomorrowDate}`}
+                theme={theme}
+            />
             {coordinations}
         </Flex>
     )

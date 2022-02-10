@@ -20,7 +20,7 @@ import {
     PropsGetOnionScheduleSlots,
 } from './types'
 import { BonusReasons } from 'store/helpers/Bonus'
-import { adminApiGlovoappAxios, aideApiAxios } from 'api'
+import { aideApiAxios } from 'api'
 import { IDataForScheduleActionLog } from 'store/slices/sheets/types'
 import { logScheduleAction } from 'store/slices/sheets/logsSlice'
 

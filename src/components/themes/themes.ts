@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components'
-import aideMainBack from 'assets/aide/img/Background.svg'
+import aideMainBack from 'assets/aide/img/Background.png'
 import glovoMainBack from 'assets/glovo/img/glovo-bg-pattern.png'
 
 import { AideColors, GlovoColors } from './colors'
@@ -11,6 +11,8 @@ enum Theme {
 
 const aideTheme: DefaultTheme = {
     mainBackgroundColor: AideColors.smoothViolet,
+    globalBorder: `4px solid ${AideColors.white}`,
+    globalBorderRadius: '10px',
     fontColor: AideColors.white,
     mainBackgroundImage: aideMainBack,
     fontFamily: 'string',
@@ -27,9 +29,16 @@ const aideTheme: DefaultTheme = {
     linkActiveFontColor: AideColors.violet,
     selectBackground: AideColors.violet,
     selectBorder: AideColors.white,
+    cardBorder: `4px solid ${AideColors.white}`,
+    cardBorderRadius: '10px',
+    cardBackgroundColor: AideColors.black,
+    cardBackdropFilter: '',
+    globalBackdropFilter: 'blur(2px)',
 }
 const glovoTheme: DefaultTheme = {
     mainBackgroundColor: GlovoColors.white,
+    globalBorder: `4px solid ${AideColors.white}`,
+    globalBorderRadius: '10px',
     fontColor: GlovoColors.darkGrey,
     mainBackgroundImage: glovoMainBack,
     fontFamily: 'string',
@@ -46,6 +55,11 @@ const glovoTheme: DefaultTheme = {
     linkActiveFontColor: GlovoColors.yellow,
     selectBackground: GlovoColors.darkGrey,
     selectBorder: GlovoColors.yellow,
+    cardBorder: `4px solid ${GlovoColors.darkGrey}`,
+    cardBorderRadius: '10px',
+    cardBackgroundColor: '',
+    cardBackdropFilter: '',
+    globalBackdropFilter: 'blur(2px)',
 }
 
 export { Theme, aideTheme, glovoTheme }

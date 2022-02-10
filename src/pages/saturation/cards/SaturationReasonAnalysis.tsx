@@ -1,6 +1,6 @@
-import { Flex, TextContent } from 'components/styled'
+import { AideColors, Flex, GlovoColors, TextContent } from 'components/styled'
+import { Theme } from 'components/themes'
 import { FC } from 'react'
-import { Theme } from 'react-toastify'
 import { ISaturatedOnionAnalysis } from 'store/slices/saturation/types'
 import OnionSaturationCard from './OnionSaturation'
 
@@ -14,13 +14,18 @@ export const SaturationReasonAnalysis: FC<ISaturationReasonAnalysis> = (
     props
 ) => {
     const { analysis, reasonTitle, theme } = props
+
+    const border =
+        theme === Theme.aide
+            ? `4px solid ${AideColors.white}`
+            : `4px solid ${GlovoColors.darkGrey}`
     const reasonAnalysis =
         analysis.length > 0 ? (
             <>
                 <div> </div>
                 <Flex
                     wrap={'wrap'}
-                    border={'4px solid white'}
+                    border={border}
                     justify={'space-evenly'}
                     align={'center'}
                     padding={'10px'}

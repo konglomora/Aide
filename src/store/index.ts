@@ -14,11 +14,11 @@ import scheduleSlice from './slices/onions/schedule/scheduleSlice'
 import onionsSlotsSlice from './slices/onions/slots/onionsSlotsSlice'
 import themeSlice from './slices/theme/themeSlice'
 
-const rootPersistConfig = {
-    key: 'root',
-    storage,
-    whitelist: [''],
-}
+// const rootPersistConfig = {
+//     key: 'root',
+//     storage,
+//     whitelist: [''],
+// }
 
 const authPersistConfig = { key: 'user', storage: storageSession }
 const themePersistConfig = { key: 'theme', storage: storage }

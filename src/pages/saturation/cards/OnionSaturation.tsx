@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 import {
     AideColors,
-    Flex,
     GlovoColors,
     TextBlock,
     TextContent,
@@ -12,6 +11,7 @@ import { onionService } from 'services'
 import { ISaturatedOnionAnalysis } from 'store/slices/saturation/types'
 import { useAppSelector } from 'hooks'
 import { Theme } from 'components/themes'
+import { DataCardWrapper } from 'components/styled/DataCardWrapper'
 
 const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
     const {
@@ -33,23 +33,10 @@ const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
     const todayDate: string = dayjs().format('YYYY-MM-DD')
     const onionSlotsLink: string = `${REACT_APP_ONION_SLOTS_LINK}${city}/${todayDate}`
     const theme = useAppSelector((state) => state.theme.theme)
-    const cardBackColor =
-        theme === Theme.aide ? AideColors.blur : GlovoColors.white
-    const border =
-        theme === Theme.aide
-            ? `4px solid ${AideColors.white}`
-            : `4px solid ${GlovoColors.darkGrey}`
     const linkColor =
         theme === Theme.aide ? AideColors.violet : GlovoColors.yellow
     return (
-        <Flex
-            border={border}
-            bRadius={'10px'}
-            padding={'15px'}
-            margin={'10px'}
-            width={'30em'}
-            bColor={cardBackColor}
-        >
+        <DataCardWrapper>
             <TextBlock>
                 <a
                     href={onionSlotsLink}
@@ -90,7 +77,7 @@ const OnionSaturationCard: FC<ISaturatedOnionAnalysis> = (props) => {
                 </TextBlock>
             </TextBlock>
             <div> </div>
-        </Flex>
+        </DataCardWrapper>
     )
 }
 

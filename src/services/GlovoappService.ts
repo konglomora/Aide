@@ -21,10 +21,10 @@ export class GlovoappService {
                 glovoAdminHeaders.status,
                 glovoAdminHeaders.statusText
             )
-            window.sessionStorage.setItem(
-                'glovoappAuthToken',
-                glovoAdminHeaders.data[0]?.authorization
-            )
+            // window.sessionStorage.setItem(
+            //     'glovoappAuthToken',
+            //     glovoAdminHeaders.data[0]?.authorization
+            // )
             console.log(
                 '[glovoappService/getGlovoappHeaders] Saved auth token to session storage'
             )

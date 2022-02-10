@@ -1,9 +1,9 @@
 // import { logCoordination } from './../sheets/logsSlice'
-import { onionService, coordinationService } from 'services'
+import { coordinationService } from 'services'
 import { requests } from 'store/helpers/Requests'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
-import { adminApiGlovoappAxios, aideApiAxios } from 'api'
+import { aideApiAxios } from 'api'
 import { codes } from '../../helpers/Codes'
 import { MyKnownError } from 'store/slices/saturation/types'
 import { RootState } from 'store'
@@ -177,8 +177,6 @@ export const getWeatherActionPlan = createAsyncThunk<
                     )
                 })
             ))
-        const { tomorrowPlan } = (getState() as RootState).weatherActionPlan
-            .actionPlans
 
         // await dispatch(logCoordination(tomorrowPlan))
         console.timeEnd('[getWeatherActionPlan]')

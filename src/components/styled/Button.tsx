@@ -1,4 +1,3 @@
-import { AideColors } from 'components/styled'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 

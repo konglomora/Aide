@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { FC } from 'react'
-import { AideColors, Flex, GlovoColors, Icon, Title } from 'components/styled'
+import { AideColors, Flex, GlovoColors, Title } from 'components/styled'
 import { Theme } from 'components/themes'
 import { IFooterSlider } from './types'
 
