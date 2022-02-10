@@ -10595,11 +10595,6 @@ react-toastify@^8.1.0:
   dependencies:
     clsx "^1.1.1"
 
-react-usefavicon@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-usefavicon/-/react-usefavicon-1.0.2.tgz#dd6a2ef9187648154e3f8b64421c2c41f2200ee8"
-  integrity sha512-1Y89ci+9NfYzby4+o7rXrlFwRTkmTt7v5N8rcGNbxpny8wlRjJmylb91aUxcZFXoskh3jQt9ePp17g+/tR/JuA==
-
 react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
