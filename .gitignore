@@ -29,3 +29,4 @@ yarn-error.log*
 /.firebase
 schedule-actions-log-credentials.json
 aide-sheets-service-creds.json
+*.log
