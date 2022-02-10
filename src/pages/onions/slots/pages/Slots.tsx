@@ -6,11 +6,16 @@ import { Flex, GlovoColors } from 'components/styled'
 import OnionSlotsUpdateCard from 'pages/onions/slots/cards/SlotsUpdate'
 import { FooterSlider } from 'components/animated/FooterSlider'
 import { SiGooglesheets } from 'react-icons/si'
+import { useLocation } from 'react-router-dom'
+import { capitalizeFirstLetter } from 'helpers/strings'
 
 export default function Slots() {
     const dispatch = useAppDispatch()
     const { activeScheduleDates } = useAppSelector((state) => state.onionsSlots)
     const theme = useAppSelector((state) => state.theme.theme)
+    const url = useLocation()
+    const path: string[] = url.pathname.split('/')
+    const logTitle = capitalizeFirstLetter(path[path.length - 1])
 
     useEffect(() => {
         ;(async () => {
@@ -49,10 +54,10 @@ export default function Slots() {
             <FooterSlider
                 href={
                     process.env
-                        .REACT_APP_GOOGLE_SPREADSHEET_ACTIONS_COORDINATION_SHEET_LINK!
+                        .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_LINK!
                 }
                 icon={<SiGooglesheets size={35} fill={GlovoColors.green} />}
-                title={'Logs'}
+                title={`${logTitle} log`}
                 theme={theme}
             />
         </Flex>
