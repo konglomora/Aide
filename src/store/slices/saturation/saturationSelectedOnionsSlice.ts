@@ -110,6 +110,7 @@ const initialState: SaturationSelectedOnionState = {
         [...OnionCodes.kyiv],
         [...OnionCodes.mio],
         [...OnionCodes.small],
+        [...OnionCodes.outside],
     ],
     selectedOnionCodes: [],
     kyiv_report: [],

@@ -18,7 +18,7 @@ const AreaCodesCard: FC<IAreaCodesCard> = (props) => {
             margin={'8px auto'}
             padding={'10px'}
         >
-            <TextContent width={' '} textAlign={'center'}>
+            <TextContent fWeight={500} fSize={'1.5em'} textAlign={'center'}>
                 {cardTitle}
             </TextContent>
             <Flex justify={'center'} wrap={'wrap'}>

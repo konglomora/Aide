@@ -19,6 +19,7 @@ import {
 import { ReportSlider } from 'components/animated'
 import { SaturationReasonAnalysis } from '../cards/SaturationReasonAnalysis'
 import TitleWrapper from 'components/styled/TitleWrapper'
+import { Roles } from 'pages/authentication/userRoles'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -38,7 +39,13 @@ const SaturationByPeriodPage = () => {
         moreOrders,
         lessCouriersAndMoreOrders,
         betterThanD7,
+        outside,
     } = sortedReportBySaturationReason
+
+    const allowedStaff = useAppSelector(
+        (state) =>
+            state.user.role === Roles.admin || state.user.role === Roles.manager
+    )
 
     function selectChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
         const name = e.target.name
@@ -135,6 +142,13 @@ const SaturationByPeriodPage = () => {
                     analysis={betterThanD7}
                     reasonTitle=" Scores improved relative to D-7:"
                 />
+                {allowedStaff && (
+                    <SaturationReasonAnalysis
+                        theme={theme}
+                        analysis={outside}
+                        reasonTitle="Saturated onions from outside:"
+                    />
+                )}
             </ReportSlider>
         </Flex>
     )

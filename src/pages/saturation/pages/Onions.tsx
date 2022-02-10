@@ -107,7 +107,13 @@ const SaturationBySelectedOnion = () => {
                 >
                     {areaCodes.map((onionCodesArray, index) => {
                         const title =
-                            index === 0 ? 'Kyiv' : index === 1 ? 'MIO' : 'Small'
+                            index === 0
+                                ? 'Kyiv'
+                                : index === 1
+                                ? 'MIO'
+                                : index === 2
+                                ? 'Small'
+                                : 'Outside'
                         return (
                             <AreaCodesCard
                                 key={title}

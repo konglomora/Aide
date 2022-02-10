@@ -43,10 +43,12 @@ export const OnionCodes = {
         'ZHY',
         'ZPR',
     ],
+    outside: ['CAS', 'TBI', 'ALA', 'ABN', 'NBO', 'RBT', 'BAT', 'NUR', 'ABJ'],
 }
 
 export const allOnionCodes: string[] = [
     ...OnionCodes.kyiv,
     ...OnionCodes.mio,
     ...OnionCodes.small,
+    ...OnionCodes.outside,
 ]

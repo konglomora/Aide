@@ -1,6 +1,6 @@
 import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Flex, Button } from 'components/styled'
+import { Flex, Button, GlovoColors } from 'components/styled'
 import { getWeatherActionPlan } from 'store/slices/weather/weatherActionPlanSlice'
 import ESDES_PREP_GIF from 'assets/aide/gif/esdes-no-prep.gif'
 import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
@@ -12,6 +12,10 @@ import { ReportSlider, SliderCard } from 'components/animated'
 import { generatePlanCards } from 'pages/weather/coordiantion/generators/PlanCardsGenerator'
 import { ActionPlanCard } from 'pages/weather/coordiantion/cards/ActionPlanCard'
 import { StateStatus } from 'store/helpers/Status'
+import { useLocation } from 'react-router-dom'
+import { capitalizeFirstLetter } from 'helpers/strings'
+import { FooterSlider } from 'components/animated/FooterSlider'
+import { SiGooglesheets } from 'react-icons/si'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -19,6 +23,10 @@ const WeatherActionPlan = () => {
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
     const { status, period, uniquePrecipitatedPercentageCodes, actionPlans } =
         useAppSelector((state) => state.weatherActionPlan)
+    const theme = useAppSelector((state) => state.theme.theme)
+    const url = useLocation()
+    const path: string[] = url.pathname.split('/')
+    const logTitle = capitalizeFirstLetter(path[path.length - 1])
 
     const {
         tomorrow,
@@ -134,6 +142,15 @@ const WeatherActionPlan = () => {
                     <ActionPlanCard {...propsForPrecipitationCard} />
                 </Flex>
             </ReportSlider>
+            <FooterSlider
+                href={
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_ACTIONS_COORDINATION_SHEET_LINK!
+                }
+                icon={<SiGooglesheets size={35} fill={GlovoColors.green} />}
+                title={`${logTitle} log`}
+                theme={theme}
+            />
         </Flex>
     )
 }

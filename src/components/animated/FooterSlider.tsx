@@ -48,8 +48,10 @@ export const FooterSlider: FC<IFooterSlider> = (props) => {
                     <Title
                         fWeight={'600'}
                         height={'28%;'}
-                        fSize={'1.5em'}
-                        width="2.5em"
+                        fSize={'1.3em'}
+                        width="10em"
+                        align="left"
+                        margin=" 5px 0 0 10px"
                         color={sliderTitleColor}
                     >
                         {title}
