@@ -2,9 +2,14 @@ import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Flex, Button, GlovoColors } from 'components/styled'
 import { getWeatherActionPlan } from 'store/slices/weather/actionCoordinationSlice'
-import ESDES_PREP_GIF from 'assets/aide/gif/esdes-no-prep.gif'
-import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
-import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
+// import ESDES_PREP_GIF from 'assets/aide/gif/esdes-no-prep.gif'
+// import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
+// import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
+
+// import GLOVO_SUCCESS_GIF from 'assets/glovo/gif/dance.gif'
+// import GLOVO_LOADING_GIF from 'assets/glovo/gif/moto.gif'
+// import GLOVO_ERROR_GIF from 'assets/glovo/gif/logo.gif'
+
 import { useAppSelector } from 'hooks'
 
 import { alertService } from 'services'
@@ -17,18 +22,20 @@ import { capitalizeFirstLetter } from 'helpers/strings'
 import { FooterSlider } from 'components/animated/FooterSlider'
 import { SiGooglesheets } from 'react-icons/si'
 import { logCoordination } from 'store/slices/sheets/logsSlice'
+import { FormBackGrounds } from 'components/themes'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
-    const [formBackGround, setFormBackGround] = useState('')
-    const [formBackGroundSize, setFormBackGroundSize] = useState('')
+    const [formBackGround, setFormBackGround] = useState<string>('')
+    const [formBackGroundSize, setFormBackGroundSize] = useState<string>('')
+    const [hasCoordinationToLog, setHasCoordinationToLog] = useState(false)
+
     const { status, period, uniquePrecipitatedPercentageCodes, actionPlans } =
         useAppSelector((state) => state.weatherActionPlan)
     const theme = useAppSelector((state) => state.theme.theme)
     const url = useLocation()
     const path: string[] = url.pathname.split('/')
     const logTitle = capitalizeFirstLetter(path[path.length - 1])
-
     const {
         tomorrow,
         afterTomorrow,
@@ -88,6 +95,14 @@ const WeatherActionPlan = () => {
         )
     }
 
+    const logTomorrowCoordination = () => {
+        alertService.loading(dispatch(logCoordination(tomorrowPlan)), {
+            success: 'Logged coordination.',
+            pending: 'Logging coordination...',
+            error: 'Error while logging coordination.',
+        })
+    }
+
     const propsForPrecipitationCard = {
         isTomorrowWithPrecipitation,
         isAfterTomorrowWithPrecipitation,
@@ -99,31 +114,23 @@ const WeatherActionPlan = () => {
         afterTomorrowPlanOnionCards,
         status,
     }
-    // useEffect(() => {
-    //     console.log('weather tomorrowPlan: ', tomorrowPlan)
-    //     console.log('weather afterTomorrowPlan: ', afterTomorrowPlan)
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [status])
 
     useEffect(() => {
-        if (status === StateStatus.success) {
-            setFormBackGround(`url(${ESDES_PREP_GIF})`)
-            setFormBackGroundSize('20%')
-        } else if (status === StateStatus.loading) {
-            setFormBackGround(`url(${JOJO_LOADER})`)
-            setFormBackGroundSize('20%')
-        } else if (status === StateStatus.error) {
-            setFormBackGround(`url(${ERROR_ANIME_GIF})`)
-        }
+        const { gif, size } = status
+            ? FormBackGrounds[theme][status]
+            : { gif: '', size: '' }
+        setFormBackGround(gif)
+        setFormBackGroundSize(size)
 
-        status === StateStatus.success &&
-            isTomorrowWithPrecipitation &&
-            alertService.loading(dispatch(logCoordination(tomorrowPlan)), {
-                success: 'Logged coordination.',
-                pending: 'Logging coordination...',
-                error: 'Error while logging coordination.',
-            })
-    }, [status, isAfterTomorrowWithPrecipitation, isTomorrowWithPrecipitation])
+        setHasCoordinationToLog(
+            status === StateStatus.success && isTomorrowWithPrecipitation
+        )
+    }, [
+        status,
+        theme,
+        isAfterTomorrowWithPrecipitation,
+        isTomorrowWithPrecipitation,
+    ])
 
     return (
         <Flex
@@ -138,7 +145,16 @@ const WeatherActionPlan = () => {
                 backgroundImage={formBackGround}
                 backgroundSize={formBackGroundSize}
             >
-                <Button onClick={() => sendRequestForReport()}>Refresh</Button>
+                <Button width="10em" onClick={() => sendRequestForReport()}>
+                    Get coordination
+                </Button>
+                <Button
+                    disabled={!hasCoordinationToLog}
+                    width="10em"
+                    onClick={() => logTomorrowCoordination()}
+                >
+                    Log coordination
+                </Button>
             </SliderCard>
             <ReportSlider status={status}>
                 <Flex

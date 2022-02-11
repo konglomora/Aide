@@ -10,13 +10,10 @@ import {
     setPeriodOfReport,
 } from 'store/slices/saturation/saturationSelectedOnionsSlice'
 import AreaCodesCard from '../cards/AreaCodes'
-import ANIME_SUCCESS_GIF from 'assets/aide/gif/dancing-cute.gif'
-import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
-import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
 import { AideColors } from 'components/styled'
 import { useAppSelector } from 'hooks'
-import { StateStatus } from 'store/helpers/Status'
 import { ReportSlider } from 'components/animated'
+import { FormBackGrounds } from 'components/themes'
 
 const SaturationBySelectedOnion = () => {
     const dispatch = useDispatch()
@@ -34,7 +31,7 @@ const SaturationBySelectedOnion = () => {
         areaCodes,
         selectedOnionCodes,
     } = useAppSelector((state) => state.selectedOnionsReport)
-
+    const theme = useAppSelector((state) => state.theme.theme)
     const saturationReport = [...kyiv_report, ...mio_report, ...small_report]
 
     function selectChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -77,15 +74,12 @@ const SaturationBySelectedOnion = () => {
     }
 
     useEffect(() => {
-        if (status === StateStatus.success) {
-            setFormBackGround(`url(${ANIME_SUCCESS_GIF})`)
-            setFormBackGroundSize('20%')
-        } else if (status === StateStatus.loading) {
-            setFormBackGround(`url(${JOJO_LOADER})`)
-            setFormBackGroundSize('20%')
-        } else if (status === StateStatus.error) {
-            setFormBackGround(`url(${ERROR_ANIME_GIF})`)
-        }
+        const { gif, size } = status
+            ? FormBackGrounds[theme][status]
+            : { gif: '', size: '' }
+        setFormBackGround(gif)
+        setFormBackGroundSize(size)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status])
 
     return (

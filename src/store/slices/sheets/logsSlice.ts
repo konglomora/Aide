@@ -233,7 +233,6 @@ export const logCoordination = createAsyncThunk<
                         bold: true,
                     }
                 }
-                await todaySheet.saveUpdatedCells()
 
                 todaySheet.updateDimensionProperties(
                     'COLUMNS',
@@ -274,6 +273,7 @@ export const logCoordination = createAsyncThunk<
                         endIndex: 10,
                     }
                 )
+                await todaySheet.saveUpdatedCells()
                 console.log('Created sheet for today')
             }
 

@@ -6,12 +6,6 @@ import {
     setPeriodOfReport,
 } from 'store/slices/saturation/saturationPeriodReportSlice'
 import { useAppDispatch, useAppSelector } from 'hooks'
-
-import FRANKS_SUCCESS_GIF from 'assets/aide/gif/franks-dance.gif'
-import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
-import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
-import EMPTY from 'assets/aide/gif/anime-i-dont-know.gif'
-import { StateStatus } from 'store/helpers/Status'
 import {
     PeriodSelectors,
     ReportPeriodSelectCard,
@@ -20,6 +14,7 @@ import { ReportSlider } from 'components/animated'
 import { SaturationReasonAnalysis } from '../cards/SaturationReasonAnalysis'
 import TitleWrapper from 'components/styled/TitleWrapper'
 import { Roles } from 'pages/authentication/userRoles'
+import { FormBackGrounds } from 'components/themes'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -76,19 +71,12 @@ const SaturationByPeriodPage = () => {
     }
 
     useEffect(() => {
-        if (status === StateStatus.success && !reportIsEmpty) {
-            setFormBackGround(`url(${FRANKS_SUCCESS_GIF})`)
-            setFormBackGroundSize('15%')
-        } else if (status === 'loading') {
-            setFormBackGround(`url(${JOJO_LOADER})`)
-            setFormBackGroundSize('15%')
-        } else if (status === 'error') {
-            setFormBackGround(`url(${ERROR_ANIME_GIF})`)
-        } else if (reportIsEmpty) {
-            console.log('ERROR_ANIME_GIF')
-            setFormBackGround(`url(${EMPTY})`)
-            setFormBackGroundSize('6%')
-        }
+        const { gif, size } = status
+            ? FormBackGrounds[theme][status]
+            : { gif: '', size: '' }
+        setFormBackGround(gif)
+        setFormBackGroundSize(size)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status, reportIsEmpty])
 
     return (

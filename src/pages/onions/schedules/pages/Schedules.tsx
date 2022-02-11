@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from 'hooks'
 import {
     setNextDay,
     setPrevDay,
-    setToday,
+    // setToday,
 } from 'store/slices/onions/schedule/scheduleSlice'
 import { IOnionCodes, OnionCodes } from 'helpers/onionCodes'
 import OnionSlotsCard from 'pages/onions/schedules/cards/OnionSlot'
@@ -29,9 +29,9 @@ export default function Schedule() {
     const linkHoverColor =
         theme === Theme.aide ? AideColors.white : GlovoColors.yellow
 
-    const todayDateButtonHandler = () => {
-        dispatch(setToday())
-    }
+    // const todayDateButtonHandler = () => {
+    //     dispatch(setToday())
+    // }
     const prevDateButtonHandler = () => {
         dispatch(setPrevDay(day))
     }

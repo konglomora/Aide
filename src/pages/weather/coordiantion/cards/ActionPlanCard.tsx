@@ -53,7 +53,7 @@ export const ActionPlanCard: React.FC<IPrecipitationCardProps> = (
     ))
 
     return (
-        <Flex direction="column" align="center" width="75%" margin="10em 0 0 0">
+        <Flex direction="column" align="center" width="75%" margin="5em 0 0 0">
             <TitleWrapper
                 titleText={`Coordination of RTO actions for ${tomorrowDate} and
                 ${afterTomorrowDate}`}

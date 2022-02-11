@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
+import { AideColors } from '.'
 
 interface PropsStyledButton {
     type?: 'button' | 'submit' | 'reset' | undefined
@@ -12,12 +13,14 @@ interface PropsStyledButton {
     bradius?: string
     border?: string
     alignSelf?: string
+    disabled?: boolean
 }
 
 const StyledButton = styled.button<PropsStyledButton>`
     width: ${({ width }) => width || '100px'};
     margin: ${({ margin }) => margin || '0'};
-    background-color: ${({ theme }) => theme.buttonBackgroundColor};
+    background-color: ${({ theme, disabled }) =>
+        disabled ? AideColors.lightBlack : theme.buttonBackgroundColor};
     color: ${({ theme }) => theme.buttonTextColor};
     font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};
@@ -36,8 +39,15 @@ const StyledButton = styled.button<PropsStyledButton>`
 `
 
 const Button: FC<PropsStyledButton> = (props) => {
-    const { type, onClick } = props
-    return <StyledButton onClick={onClick} type={type} {...props} />
+    const { type, onClick, disabled } = props
+    return (
+        <StyledButton
+            onClick={onClick}
+            disabled={disabled}
+            type={type}
+            {...props}
+        />
+    )
 }
 
 export default Button

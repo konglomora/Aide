@@ -1,5 +1,3 @@
-import { logCoordination } from './../sheets/logsSlice'
-// import { logCoordination } from './../sheets/logsSlice'
 import { coordinationService } from 'services'
 import { requests } from 'store/helpers/Requests'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
@@ -180,9 +178,6 @@ export const getWeatherActionPlan = createAsyncThunk<
                 })
             ))
 
-        // const { tomorrowPlan } = (getState() as RootState).weatherActionPlan
-        //     .actionPlans
-        // await dispatch(logCoordination(tomorrowPlan))
         console.timeEnd('[getWeatherActionPlan]')
     }
 )

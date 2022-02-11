@@ -1,13 +1,14 @@
 import { FC } from 'react'
 import dayjs from 'dayjs'
-import { Title, AideColors, TextBlock } from 'components/styled'
+import { Title, AideColors, TextBlock, GlovoColors } from 'components/styled'
 import { IOnionWeatherAnalysis } from 'store/slices/weather/types'
 import { DataCardWrapper } from 'components/styled/DataCardWrapper'
+import { useAppSelector } from 'hooks'
+import { Theme } from 'components/themes'
 
 const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     date,
     city,
-
     slots,
     wetStartSlot,
     wetFinishSlot,
@@ -28,19 +29,12 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
 
     const onionSlotsLink: string = `${process.env.REACT_APP_ONION_SLOTS_LINK}${city}/${dateOfReport}`
     const wetPeriod = `${wetStartSlot} - ${wetFinishSlot}`
-
+    const theme = useAppSelector((state) => state.theme.theme)
+    const linkColor =
+        theme === Theme.aide ? AideColors.violet : GlovoColors.yellow
     const prepStr = `Probability of rainfall at ${slots} equals ${precipitation}`
 
     return (
-        // <Flex
-        //     border="4px solid white"
-        //     bRadius="15px"
-        //     padding="15px"
-        //     margin="10px"
-        //     width="80%"
-        //     mHeight="100%"
-        //     bColor="rgb(24 25 26 / 78%);"
-        // >
         <DataCardWrapper>
             <TextBlock>
                 <a
@@ -48,11 +42,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
                     target={'blank'}
                     style={{ textDecoration: 'none' }}
                 >
-                    <Title
-                        fWeight={'700'}
-                        fSize={'1.5em'}
-                        color={AideColors.violet}
-                    >
+                    <Title fWeight={'700'} fSize={'1.5em'} color={linkColor}>
                         {city}
                     </Title>
                 </a>
