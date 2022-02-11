@@ -2,20 +2,11 @@ import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Flex, Button, GlovoColors } from 'components/styled'
 import { getWeatherActionPlan } from 'store/slices/weather/actionCoordinationSlice'
-// import ESDES_PREP_GIF from 'assets/aide/gif/esdes-no-prep.gif'
-// import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
-// import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
-
-// import GLOVO_SUCCESS_GIF from 'assets/glovo/gif/dance.gif'
-// import GLOVO_LOADING_GIF from 'assets/glovo/gif/moto.gif'
-// import GLOVO_ERROR_GIF from 'assets/glovo/gif/logo.gif'
-
 import { useAppSelector } from 'hooks'
-
 import { alertService } from 'services'
 import { ReportSlider, SliderCard } from 'components/animated'
-import { generatePlanCards } from 'pages/weather/coordiantion/generators/PlanCardsGenerator'
-import { ActionPlanCard } from 'pages/weather/coordiantion/cards/ActionPlanCard'
+import { generatePlanCards } from 'pages/weather/coordination/generators/PlanCardsGenerator'
+import { ActionPlanCard } from 'pages/weather/coordination/cards/ActionPlanCard'
 import { StateStatus } from 'store/helpers/Status'
 import { useLocation } from 'react-router-dom'
 import { capitalizeFirstLetter } from 'helpers/strings'
@@ -162,7 +153,7 @@ const WeatherActionPlan = () => {
                     align={'center'}
                     justify="center"
                     width="100%"
-                    margin="0 9em 0 0"
+                    margin="0 9em 5em 0"
                 >
                     <ActionPlanCard {...propsForPrecipitationCard} />
                 </Flex>

@@ -32,9 +32,16 @@ const StyledButton = styled.button<PropsStyledButton>`
     &:hover {
         font-weight: 700;
         transition: 0.45s linear;
-        background-color: ${({ theme }) => theme.buttonHoverBackgroundColor};
-        color: ${({ theme }) => theme.buttonHoverTextColor};
-        border: ${({ theme }) => `4px solid ${theme.buttonHoverBorderColor}`};
+        background-color: ${({ theme, disabled }) =>
+            disabled
+                ? AideColors.lightBlack
+                : theme.buttonHoverBackgroundColor};
+        color: ${({ theme, disabled }) =>
+            disabled ? theme.buttonTextColor : theme.buttonHoverTextColor};
+        border: ${({ theme, disabled }) =>
+            disabled
+                ? `4px solid ${theme.buttonBorderColor}`
+                : `4px solid ${theme.buttonHoverBorderColor}`};
     }
 `
 

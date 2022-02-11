@@ -10,7 +10,7 @@ import {
     SaturationBySelectedOnion,
 } from 'pages/saturation/pages'
 import SchedulePage from '../pages/onions/schedules/pages/Schedules'
-import WeatherActionPlan from '../pages/weather/coordiantion/pages/Coordination'
+import WeatherActionPlan from '../pages/weather/coordination/pages/Coordination'
 import Layout from '../pages/navigation/Layout'
 import SaturationNavigation from '../pages/navigation/SaturationNavbar'
 import Slots from '../pages/onions/slots/pages/Slots'
