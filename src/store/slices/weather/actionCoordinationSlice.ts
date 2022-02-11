@@ -105,12 +105,6 @@ export const axiosGetPrecipitatedOnionPlanObject = createAsyncThunk<
                 IOnionScheduleSlotsResponse[]
             > = await aideApiAxios.get('/admin/scheduling/slots/', config)
 
-            // console.log('precipitatedOnionResponse', precipitatedOnionResponse)
-            // console.log(
-            //     'onionScheduleSlotsResponse',
-            //     onionScheduleSlotsResponse
-            // )
-
             requests.processError(
                 precipitatedOnionResponse.status,
                 precipitatedOnionResponse.statusText

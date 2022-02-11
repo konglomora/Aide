@@ -19,4 +19,7 @@ export interface IDataForCoordinationLog extends IDataForScheduleActionLog {
 export interface ILogsState {
     status: TStateStatus
     error: null
+    coordination: {
+        hasOnionsToApplyBonus: boolean
+    }
 }

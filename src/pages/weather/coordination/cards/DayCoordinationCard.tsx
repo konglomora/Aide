@@ -13,7 +13,7 @@ const styleForCard = {
     direction: 'row',
     width: '90%',
     wrap: 'wrap',
-    border: '4px solid white',
+    border: '4px solid',
     justify: 'space-evenly',
     align: 'stretch',
     padding: '10px',
@@ -24,21 +24,29 @@ const styleForCard = {
 
 export const DayCoordinationCard: FC<IDayCoordinationCard> = (props) => {
     const { coordinationCards, coordinationDate, lastTimeUpdate } = props
+
+    console.log(
+        'DayCoordinationCard coordinationCards',
+        coordinationCards,
+        coordinationDate
+    )
     const userIsAdmin = useAppSelector(
         (state) => state.user.role === Roles.admin
     )
-    const coordination =
-        coordinationCards.length > 1 ? (
-            <Flex {...styleForCard}>
-                <Title fWeight="500">{coordinationDate}</Title>
-                {userIsAdmin && <TextContent>{lastTimeUpdate}</TextContent>}
-                {coordinationCards}
-            </Flex>
-        ) : (
+    const coordination = coordinationCards.some((area) => area.length > 0) ? (
+        <Flex {...styleForCard}>
+            <Title fWeight="500">{coordinationDate}</Title>
+            {userIsAdmin && <TextContent>{lastTimeUpdate}</TextContent>}
+            {coordinationCards}
+        </Flex>
+    ) : (
+        <Flex {...styleForCard}>
+            <Title fWeight="500">{coordinationDate}</Title>
             <TextContent fWeight={600}>
                 According to the forecast, there is no precipitation for
                 {coordinationDate} for all cities.
             </TextContent>
-        )
+        </Flex>
+    )
     return coordination
 }

@@ -3,7 +3,8 @@ import dayjs from 'dayjs'
 import { alertService } from 'services'
 import { useAppDispatch } from 'hooks'
 import { IDataForScheduleActionLog } from 'store/slices/sheets/types'
-import { logScheduleAction } from 'store/slices/sheets/logsSlice'
+import { logScheduleAction, testSheetFunc } from 'store/slices/sheets/logsSlice'
+import HeaderSlider from 'components/animated/HeaderSlider'
 
 const Experiments = () => {
     const dispatch = useAppDispatch()
@@ -49,11 +50,22 @@ const Experiments = () => {
         })
     }
 
+    const getSheetInfo = () => {
+        alertService.loading(dispatch(testSheetFunc()), {
+            pending: 'Sheet processing',
+            success: 'Done!',
+            error: 'Rejected',
+        })
+    }
+
     return (
-        <Flex width="100%" margin="15em 0 0 15em">
-            <Button onClick={sheetLog}>Log to sheet</Button>
-            <Button onClick={showAlert}>Show Alert</Button>
-            <Button disabled={true}>Show Alert</Button>
+        <Flex margin=" 0 0 0 22em" width="50%">
+            <HeaderSlider>
+                <Button onClick={sheetLog}>Log to sheet</Button>
+                <Button onClick={showAlert}>Show Alert</Button>
+                <Button disabled={true}>Show Alert</Button>
+                <Button onClick={getSheetInfo}>Get sheet info</Button>
+            </HeaderSlider>
         </Flex>
     )
 }
