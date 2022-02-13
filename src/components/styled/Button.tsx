@@ -21,7 +21,8 @@ const StyledButton = styled.button<PropsStyledButton>`
     margin: ${({ margin }) => margin || '0'};
     background-color: ${({ theme, disabled }) =>
         disabled ? AideColors.lightBlack : theme.buttonBackgroundColor};
-    color: ${({ theme }) => theme.buttonTextColor};
+    color: ${({ theme, disabled }) =>
+        disabled ? AideColors.white : theme.buttonTextColor};
     font-weight: 700;
     padding: ${({ padding }) => padding || '7px'};
     border-radius: ${({ bradius }) => bradius || '10px'};
@@ -37,7 +38,7 @@ const StyledButton = styled.button<PropsStyledButton>`
                 ? AideColors.lightBlack
                 : theme.buttonHoverBackgroundColor};
         color: ${({ theme, disabled }) =>
-            disabled ? theme.buttonTextColor : theme.buttonHoverTextColor};
+            disabled ? AideColors.white : theme.buttonHoverTextColor};
         border: ${({ theme, disabled }) =>
             disabled
                 ? `4px solid ${theme.buttonBorderColor}`

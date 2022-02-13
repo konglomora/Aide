@@ -13,7 +13,7 @@ import AreaCodesCard from '../cards/AreaCodes'
 import { AideColors } from 'components/styled'
 import { useAppSelector } from 'hooks'
 import { ReportSlider } from 'components/animated'
-import { FormBackGrounds } from 'components/themes'
+import { ThemeGif } from 'components/themes'
 
 const SaturationBySelectedOnion = () => {
     const dispatch = useDispatch()
@@ -75,7 +75,7 @@ const SaturationBySelectedOnion = () => {
 
     useEffect(() => {
         const { gif, size } = status
-            ? FormBackGrounds[theme][status]
+            ? ThemeGif[theme].status[status]
             : { gif: '', size: '' }
         setFormBackGround(gif)
         setFormBackGroundSize(size)

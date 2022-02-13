@@ -6,82 +6,69 @@ import GLOVO_SUCCESS_GIF from 'assets/glovo/gif/dance.gif'
 import GLOVO_LOADING_GIF from 'assets/glovo/gif/moto.gif'
 import GLOVO_ERROR_GIF from 'assets/glovo/gif/logo.gif'
 
-interface IGifByStatus {
+import AIDE_GREETING_GIF from 'assets/aide/gif/madara-naruto.gif'
+
+interface IGif {
     gif: string
     size: string
 }
 
 interface IGifs {
-    success: IGifByStatus
-    loading: IGifByStatus
-    error: IGifByStatus
+    status: {
+        success: IGif
+        loading: IGif
+        error: IGif
+    }
+    greeting: IGif
 }
 
-interface IFormBackGrounds {
+interface IThemeGif {
     aide: IGifs
     glovo: IGifs
 }
 
-const FormBackGrounds: IFormBackGrounds = {
+const ThemeGif: IThemeGif = {
     aide: {
-        success: {
-            gif: `url(${AIDE_SUCCESS_GIF})`,
-            size: '3.5em',
-        },
-        loading: {
-            gif: `url(${AIDE_LOADING_GIF})`,
-            size: '20%',
-        },
-        error: {
-            gif: `url(${AIDE_ERROR_GIF})`,
+        status: {
+            success: {
+                gif: `url(${AIDE_SUCCESS_GIF})`,
+                size: '3.5em',
+            },
+            loading: {
+                gif: `url(${AIDE_LOADING_GIF})`,
+                size: '20%',
+            },
+            error: {
+                gif: `url(${AIDE_ERROR_GIF})`,
 
+                size: '',
+            },
+        },
+        greeting: {
+            gif: AIDE_GREETING_GIF,
             size: '',
         },
     },
     glovo: {
-        success: {
-            gif: `url(${GLOVO_SUCCESS_GIF})`,
-            size: '3.5em',
+        status: {
+            success: {
+                gif: `url(${GLOVO_SUCCESS_GIF})`,
+                size: '3.5em',
+            },
+            loading: {
+                gif: `url(${GLOVO_LOADING_GIF})`,
+                size: '14em',
+            },
+            error: {
+                gif: `url(${GLOVO_ERROR_GIF})`,
+                size: '2.5em',
+            },
         },
-        loading: {
-            gif: `url(${GLOVO_LOADING_GIF})`,
-            size: '14em',
-        },
-        error: {
-            gif: `url(${GLOVO_ERROR_GIF})`,
-            size: '2.5em',
+        greeting: {
+            gif: GLOVO_ERROR_GIF,
+            size: '',
         },
     },
 }
 
-// const AideGifs: IGifs = {
-//     success: {
-//         gif: AIDE_SUCCESS_GIF,
-//         size: '3.5em',
-//     },
-//     loading: {
-//         gif: AIDE_LOADING_GIF,
-//         size: '20%',
-//     },
-//     error: {
-//         gif: AIDE_ERROR_GIF,
-//         size: '',
-//     },
-// }
-
-// const GlovoGifs: IGifs = {
-//     success: {
-//         gif: GLOVO_SUCCESS_GIF,
-//         size: '3.5em',
-//     },
-//     loading: {
-//         gif: GLOVO_LOADING_GIF,
-//         size: '14em',
-//     },
-//     error: {
-//         gif: GLOVO_ERROR_GIF,
-//         size: '2.5em',
-//     },
-// }
-
-export { FormBackGrounds }
+export { ThemeGif }

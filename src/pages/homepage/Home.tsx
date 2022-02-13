@@ -1,10 +1,10 @@
 import { useAppSelector } from 'hooks'
-
-import { Flex } from 'components/styled'
-import welcomeImage from 'assets/aide/gif/madara-naruto.gif'
+import { Flex, TextContent } from 'components/styled'
+import { ThemeGif } from 'components/themes'
 
 const Homepage = () => {
     const userName = useAppSelector((state) => state.user.name)
+    const theme = useAppSelector((state) => state.theme.theme)
 
     return (
         <Flex
@@ -12,15 +12,16 @@ const Homepage = () => {
             justify="start"
             direction="column"
             width="100%"
-            padding="0 0 0 10em"
-            mHeight="100vh"
-            bFilter={'blur(2px)'}
+            margin={'20em 0 auto 12em'}
         >
-            <h1> 🙃 Welcome, {userName} 🙂</h1>
+            <TextContent fWeight={700} fSize={'3em'}>
+                {' '}
+                🙃 Welcome, {userName} 🙂
+            </TextContent>
             <img
-                src={welcomeImage}
+                src={ThemeGif[theme].greeting.gif}
                 alt="Welcome"
-                style={{ borderRadius: '30px', width: '50%' }}
+                style={{ borderRadius: '30px', width: '16em' }}
             />
         </Flex>
     )

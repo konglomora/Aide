@@ -59,6 +59,23 @@ class AlertService {
         toast.info(msg, styleWithOptions)
     }
 
+    actionStatus(action: string, status: number) {
+        const styleWithOptions: ToastOptions = {
+            ...this.styleForToast,
+            style: {
+                backgroundColor: GlovoColors.green,
+            },
+            progressStyle: {
+                backgroundColor: GlovoColors.white,
+            },
+        }
+
+        status !== 200 &&
+            toast.error(`Error while ${action}`, this.styleForToast)
+        status === 200 &&
+            toast.success(`Successful ${action}`, styleWithOptions)
+    }
+
     loading<T>(
         promise: Promise<T> | (() => Promise<T>) | any,
         params: AlertPromiseParams,

@@ -1,4 +1,9 @@
-import { coordinationService } from 'services'
+import {
+    ActionReasons,
+    logScheduleActions,
+    markCoordinationAsApplied,
+} from './../sheets/logsSlice'
+import { alertService, coordinationService, onionService } from 'services'
 import { requests } from 'store/helpers/Requests'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
@@ -19,7 +24,17 @@ import {
 } from './types'
 import { StateStatus, TError, TStateStatus } from 'store/helpers/Status'
 import { dates } from 'helpers/Dates'
-import { IOnionScheduleSlotsResponse } from '../onions/slots/types'
+import {
+    IOnionScheduleSlotsResponse,
+    IUpdateManySlots,
+} from '../onions/slots/types'
+import {
+    getConfirmedOnionsCoordination,
+    IConfirmedCoordinationRow,
+    IPropsGetConfirmedOnionCoordination,
+} from '../sheets/logsSlice'
+import { axiosGetOnionScheduleSlots } from '../onions/slots/onionsSlotsSlice'
+import { IDataForScheduleActionLog } from '../sheets/types'
 
 export const getPrecipitatedOnionCodes = createAsyncThunk<
     IPrecipitatedUniqueCodes,
@@ -173,6 +188,107 @@ export const getWeatherActionPlan = createAsyncThunk<
             ))
 
         console.timeEnd('[getWeatherActionPlan]')
+    }
+)
+
+interface IGetWetSchedulePeriod {
+    date: string
+    city: string
+}
+
+export const getWetSchedulePeriod = createAsyncThunk<
+    void,
+    IGetWetSchedulePeriod
+>(
+    'weather-coordination/getWetSchedulePeriod',
+    async function ({ date, city }, { dispatch, getState }) {}
+)
+
+export const applyConfirmedCoordination = createAsyncThunk<
+    void,
+    IPropsGetConfirmedOnionCoordination
+>(
+    'weather-coordination/applyCoordination',
+    async function ({ date }, { dispatch, getState }) {
+        console.time('[applyCoordination]')
+
+        await dispatch(getConfirmedOnionsCoordination({ date: date }))
+
+        const confirmedCoordinations = (getState() as RootState).logs
+            .coordination.confirmedCoordinations
+
+        const appliedScheduleActions = await Promise.all(
+            confirmedCoordinations.map(
+                async (coordination: IConfirmedCoordinationRow) => {
+                    await dispatch(
+                        axiosGetOnionScheduleSlots({
+                            onionCode: coordination.Onion,
+                            date: coordination.Date,
+                        })
+                    )
+
+                    const workingSlots = (getState() as RootState).onionsSlots
+                        .workingSlots
+
+                    const slots = onionService.getUpdatedSlotsBYCoordinationRow(
+                        coordination,
+                        workingSlots
+                    )
+                    const data: IUpdateManySlots = {
+                        notifyCouriers: false,
+                        slots: slots,
+                    }
+
+                    console.log('data', data)
+                    const onionScheduleSlotsResponse: AxiosResponse<
+                        IOnionScheduleSlotsResponse[]
+                    > = await aideApiAxios.post(
+                        'admin/scheduling/slots/updateMany/',
+                        data
+                    )
+                    console.log(
+                        `onionScheduleSlotsResponse ${onionScheduleSlotsResponse}`
+                    )
+
+                    if (onionScheduleSlotsResponse.status === 200) {
+                        dispatch(markCoordinationAsApplied(coordination))
+                    }
+                    const actionTime = dayjs().format('HH:mm:ss DD.MM.YYYY')
+                    const userName = coordination.Name
+                    const city = coordination.Onion
+                    const bonusSize = coordination['Bonus +%']
+                    const bonusReason = coordination['Bonus reason']
+                    const capacity = coordination['Capacity +%']
+                    const period = coordination.Slots
+                    const date = coordination.Date
+
+                    const scheduleAction: IDataForScheduleActionLog = {
+                        actionTime: actionTime,
+                        actionReason: ActionReasons.coordination,
+                        userName: userName,
+                        onionCode: city,
+                        period: period,
+                        bonusSize: +bonusSize,
+                        bonusType: bonusReason,
+                        capacityPercentage: +capacity,
+                        dateOfSchedule: date,
+                    }
+
+                    const action = `apply ${bonusSize} ${bonusReason} and ${capacity}% capacity for  ${period}  of  ${city}.`
+
+                    alertService.actionStatus(
+                        action,
+                        onionScheduleSlotsResponse.status
+                    )
+
+                    return scheduleAction
+                }
+            )
+        )
+
+        await dispatch(logScheduleActions(appliedScheduleActions))
+
+        console.timeEnd('[applyCoordination]')
     }
 )
 
@@ -355,6 +471,19 @@ const weatherActionPlanSlice = createSlice({
             state.error = action.payload
         })
         builder.addCase(getWeatherActionPlan.fulfilled, (state) => {
+            state.status = StateStatus.success
+        })
+        builder.addCase(applyConfirmedCoordination.pending, (state) => {
+            state.status = StateStatus.loading
+        })
+        builder.addCase(
+            applyConfirmedCoordination.rejected,
+            (state, action) => {
+                state.status = StateStatus.error
+                state.error = action.payload
+            }
+        )
+        builder.addCase(applyConfirmedCoordination.fulfilled, (state) => {
             state.status = StateStatus.success
         })
     },

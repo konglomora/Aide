@@ -1,20 +1,27 @@
+import { BonusReasons } from 'store/helpers/Bonus'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
 import { IOnionScheduleSlotsResponse } from 'store/slices/onions/slots/types'
+import { IConfirmedCoordinationRow } from 'store/slices/sheets/logsSlice'
 
 interface IOnionService {
     onionHasMPModeSetting(onionCode: string): boolean
     onionIsKyiv(onionCode: string): boolean
     onionIsSatellite(onionCode: string): boolean
     onionIsMio(onionCode: string): boolean
-    getWetWorkingSlots(
+    getWetPeriod(
         prepSlots: string,
         onionSchedule: IOnionScheduleSlotsResponse[]
-    ): IWetWorkingSlots
+    ): IWetPeriod
 }
 
 interface IWetWorkingSlots {
     wetStartSlot: string
     wetFinishSlot: string
+}
+
+interface IWetPeriod {
+    wetWorkingSlots: IWetWorkingSlots
+    wetSchedulePeriod: IOnionScheduleSlotsResponse[]
 }
 
 class OnionService implements IOnionService {
@@ -126,15 +133,12 @@ class OnionService implements IOnionService {
         return this._scheduleTimeSlots
     }
 
-    getWetWorkingSlots(
+    getWetPeriod(
         prepSlots: string,
         onionSchedule: IOnionScheduleSlotsResponse[]
-    ): IWetWorkingSlots {
+    ): IWetPeriod {
+        console.log('prepSlots', prepSlots)
         const prepSlotsArr = prepSlots.split(' - ')
-        // console.log(
-        //     '[OnionService/getWetWorkingSlots] prepSlotsArr: ',
-        //     prepSlotsArr
-        // )
 
         const wetWorkingSlots: IWetWorkingSlots = {
             wetStartSlot: prepSlotsArr[0],
@@ -142,7 +146,7 @@ class OnionService implements IOnionService {
         }
 
         const onionWorkingSlots = onionSchedule.filter(
-            (onion) => onion.bonusReasons.length > 0 && onion.capacity > 0
+            (onion) => onion.capacity > 0
         )
 
         const onionStartSlots = onionWorkingSlots.map((onion) =>
@@ -177,12 +181,67 @@ class OnionService implements IOnionService {
             wetWorkingSlots.wetStartSlot = ''
             wetWorkingSlots.wetFinishSlot = ''
         }
-        // console.log(
-        //     '[OnionService/getWetWorkingSlots] wetWorkingSlots: ',
-        //     wetWorkingSlots
-        // )
+        const wetScheduleStartSlot = onionSchedule.filter((slot) => {
+            return (
+                getValidSlotFormat(slot.startTime) ===
+                wetWorkingSlots.wetStartSlot
+            )
+        })[0]
 
-        return wetWorkingSlots
+        const wetScheduleFinishSlot = onionSchedule.filter((slot) => {
+            return (
+                getValidSlotFormat(slot.finishTime) ===
+                wetWorkingSlots.wetFinishSlot
+            )
+        })[0]
+
+        const wetScheduleStartSlotIndex =
+            onionSchedule.indexOf(wetScheduleStartSlot)
+
+        const wetScheduleFinishSlotIndex = onionSchedule.indexOf(
+            wetScheduleFinishSlot
+        )
+        const wetSchedulePeriod = onionSchedule.slice(
+            wetScheduleStartSlotIndex,
+            wetScheduleFinishSlotIndex + 1
+        )
+
+        return { wetWorkingSlots, wetSchedulePeriod }
+    }
+
+    getUpdatedSlotsBYCoordinationRow(
+        coordination: IConfirmedCoordinationRow,
+        workingSlots: IOnionScheduleSlotsResponse[]
+    ): IOnionScheduleSlotsResponse[] {
+        const { wetSchedulePeriod } = this.getWetPeriod(
+            coordination.Slots,
+            workingSlots
+        )
+
+        console.log(
+            'getUpdatedSlotsBYCoordinationRow wetSchedulePeriod',
+            wetSchedulePeriod
+        )
+
+        const updatedSlots = wetSchedulePeriod.map((slot) => {
+            const newBonus = +coordination['Bonus +%'] + slot.bonus
+            const sheetBonusReason = coordination[
+                'Bonus reason'
+            ] as BonusReasons
+            const newBonusReason = BonusReasons[sheetBonusReason]
+            const newCapacity =
+                slot.capacity +
+                slot.capacity * (+coordination['Capacity +%'] / 100)
+
+            return {
+                ...slot,
+                bonus: newBonus,
+                bonusReasons: [newBonusReason],
+                capacity: newCapacity,
+            }
+        })
+
+        return updatedSlots
     }
 }
 

@@ -77,7 +77,7 @@ export default function Schedule() {
                 justify="center"
                 align="center"
                 width="100%"
-                margin="5em 0 0 12em"
+                margin="4em 0 0 5em"
             >
                 {/* <Button onClick={todayDateButtonHandler}>Today</Button> */}
                 <Flex width="25%" margin="0 auto" align="center">
