@@ -5,7 +5,6 @@ import { useAppDispatch } from 'hooks'
 import { IDataForScheduleActionLog } from 'store/slices/sheets/types'
 import {
     ActionReasons,
-    getConfirmedOnionsCoordination,
     logScheduleActions,
     testSheetFunc,
 } from 'store/slices/sheets/logsSlice'
@@ -65,20 +64,10 @@ const Experiments = () => {
         })
     }
 
-    const getApprovedCoordinations = () => {
-        alertService.loading(
-            dispatch(getConfirmedOnionsCoordination({ date: '14.02.2022' })),
-            {
-                pending: 'Getting approved coordination...',
-                success: 'Done!',
-                error: 'Rejected',
-            }
-        )
-    }
-
     const applyCoordination = () => {
+        const tomorrowDate = dayjs().format('DD.MM.YYYY')
         alertService.loading(
-            dispatch(applyConfirmedCoordination({ date: '14.02.2022' })),
+            dispatch(applyConfirmedCoordination({ date: tomorrowDate })),
             {
                 pending: 'Applying approved coordination...',
                 success: 'Done!',
@@ -94,9 +83,6 @@ const Experiments = () => {
                 <Button onClick={showAlert}>Show Alert</Button>
                 <Button disabled={true}>Show Alert</Button>
                 <Button onClick={getSheetInfo}>Get sheet info</Button>
-                {/* <Button onClick={getApprovedCoordinations}>
-                    Get approved coordination
-                </Button> */}
                 <Button onClick={applyCoordination}>Apply confirmed</Button>
             </HeaderSlider>
         </Flex>

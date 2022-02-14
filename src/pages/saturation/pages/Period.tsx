@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { slotsRegular } from 'helpers/slots'
-import { Flex } from 'components/styled'
+import { Flex, GlovoColors } from 'components/styled'
 import {
     getSaturationReport,
     setPeriodOfReport,
@@ -15,6 +15,8 @@ import { SaturationReasonAnalysis } from '../cards/SaturationReasonAnalysis'
 import TitleWrapper from 'components/styled/TitleWrapper'
 import { Roles } from 'pages/authentication/userRoles'
 import { ThemeGif } from 'components/themes'
+import { FooterSlider } from 'components/animated/FooterSlider'
+import { SiGooglesheets } from 'react-icons/si'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -138,6 +140,15 @@ const SaturationByPeriodPage = () => {
                     />
                 )}
             </ReportSlider>
+            <FooterSlider
+                href={
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_GLOVO_ONION_SATURATION_MODES_SHEET_LINK!
+                }
+                icon={<SiGooglesheets size={35} fill={GlovoColors.green} />}
+                title={`Saturation modes`}
+                theme={theme}
+            />
         </Flex>
     )
 }
