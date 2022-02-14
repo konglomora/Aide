@@ -161,7 +161,8 @@ export class CoordinationService {
         const { city, percent_capacity_slots, slots } = analysis
 
         const type = this.getCityType(city)
-        const wetWorkingSlots = onionService.getWetWorkingSlots(slots, schedule)
+        const { wetWorkingSlots, wetSchedulePeriod } =
+            onionService.getWetPeriod(slots, schedule)
         const increaseData = this.getIncreaseData(percent_capacity_slots, type)
         const responsibleStaffTGNick =
             this.getResponsibleStaffTelegramNick(city)
@@ -174,6 +175,7 @@ export class CoordinationService {
             mode: 'Normal',
             challenges: '-',
             responsibleStaffTGNick: responsibleStaffTGNick,
+            wetSchedulePeriod: wetSchedulePeriod,
         }
 
         return coordination

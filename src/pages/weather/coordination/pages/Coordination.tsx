@@ -1,28 +1,23 @@
 import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Flex, Button, GlovoColors } from 'components/styled'
-import { getWeatherActionPlan } from 'store/slices/weather/actionCoordinationSlice'
-// import ESDES_PREP_GIF from 'assets/aide/gif/esdes-no-prep.gif'
-// import JOJO_LOADER from 'assets/aide/gif/jojo-loader.gif'
-// import ERROR_ANIME_GIF from 'assets/aide/gif/500-error.gif'
-
-// import GLOVO_SUCCESS_GIF from 'assets/glovo/gif/dance.gif'
-// import GLOVO_LOADING_GIF from 'assets/glovo/gif/moto.gif'
-// import GLOVO_ERROR_GIF from 'assets/glovo/gif/logo.gif'
-
+import {
+    applyConfirmedCoordination,
+    getWeatherActionPlan,
+} from 'store/slices/weather/actionCoordinationSlice'
 import { useAppSelector } from 'hooks'
-
 import { alertService } from 'services'
 import { ReportSlider, SliderCard } from 'components/animated'
-import { generatePlanCards } from 'pages/weather/coordiantion/generators/PlanCardsGenerator'
-import { ActionPlanCard } from 'pages/weather/coordiantion/cards/ActionPlanCard'
+import { generatePlanCards } from 'pages/weather/coordination/generators/PlanCardsGenerator'
+import { ActionPlanCard } from 'pages/weather/coordination/cards/ActionPlanCard'
 import { StateStatus } from 'store/helpers/Status'
 import { useLocation } from 'react-router-dom'
 import { capitalizeFirstLetter } from 'helpers/strings'
 import { FooterSlider } from 'components/animated/FooterSlider'
 import { SiGooglesheets } from 'react-icons/si'
 import { logCoordination } from 'store/slices/sheets/logsSlice'
-import { FormBackGrounds } from 'components/themes'
+import { ThemeGif } from 'components/themes'
+import dayjs from 'dayjs'
 
 const WeatherActionPlan = () => {
     const dispatch = useDispatch()
@@ -62,14 +57,21 @@ const WeatherActionPlan = () => {
     ] = useState(false)
 
     useEffect(() => {
-        setIsTomorrowWithPrecipitation(tomorrowUniqueCodes.length > 0)
-        setIsAfterTomorrowWithPrecipitation(afterTomorrowUniqueCodes.length > 0)
+        setIsTomorrowWithPrecipitation(
+            tomorrowUniqueCodes.length > 0 &&
+                tomorrowUniqueCodes[0] !== 'No precipitation'
+        )
+        setIsAfterTomorrowWithPrecipitation(
+            afterTomorrowUniqueCodes.length > 0 &&
+                afterTomorrowUniqueCodes[0] !== 'No precipitation'
+        )
         isTomorrowWithPrecipitation
             ? setTomorrowOnionCards(generatePlanCards(tomorrowPlan))
             : setTomorrowOnionCards([])
         isAfterTomorrowWithPrecipitation
             ? setAfterTomorrowOnionCards(generatePlanCards(afterTomorrowPlan))
             : setAfterTomorrowOnionCards([])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         tomorrowPlan,
         afterTomorrowPlan,
@@ -103,6 +105,19 @@ const WeatherActionPlan = () => {
         })
     }
 
+    const applyTomorrowConfirmedCoordination = () => {
+        const tomorrowDate = dayjs().add(1, 'days').format('DD.MM.YYYY')
+
+        alertService.loading(
+            dispatch(applyConfirmedCoordination({ date: tomorrowDate })),
+            {
+                pending: 'Applying confirmed coordination...',
+                success: 'Applied confirmed coordination! ',
+                error: 'Error while applying confirmed coordination...',
+            }
+        )
+    }
+
     const propsForPrecipitationCard = {
         isTomorrowWithPrecipitation,
         isAfterTomorrowWithPrecipitation,
@@ -117,7 +132,7 @@ const WeatherActionPlan = () => {
 
     useEffect(() => {
         const { gif, size } = status
-            ? FormBackGrounds[theme][status]
+            ? ThemeGif[theme].status[status]
             : { gif: '', size: '' }
         setFormBackGround(gif)
         setFormBackGroundSize(size)
@@ -145,15 +160,21 @@ const WeatherActionPlan = () => {
                 backgroundImage={formBackGround}
                 backgroundSize={formBackGroundSize}
             >
-                <Button width="10em" onClick={() => sendRequestForReport()}>
-                    Get coordination
+                <Button margin="0 10px" onClick={() => sendRequestForReport()}>
+                    Get
                 </Button>
                 <Button
+                    margin="0 10px"
                     disabled={!hasCoordinationToLog}
-                    width="10em"
                     onClick={() => logTomorrowCoordination()}
                 >
-                    Log coordination
+                    Log
+                </Button>
+                <Button
+                    margin="0 10px"
+                    onClick={applyTomorrowConfirmedCoordination}
+                >
+                    Apply
                 </Button>
             </SliderCard>
             <ReportSlider status={status}>
@@ -162,7 +183,7 @@ const WeatherActionPlan = () => {
                     align={'center'}
                     justify="center"
                     width="100%"
-                    margin="0 9em 0 0"
+                    margin="0 9em 5em 0"
                 >
                     <ActionPlanCard {...propsForPrecipitationCard} />
                 </Flex>

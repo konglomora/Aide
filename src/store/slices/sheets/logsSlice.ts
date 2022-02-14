@@ -4,54 +4,75 @@ import { MyKnownError } from 'store/slices/saturation/types'
 import { alertService } from 'services'
 import { IDataForScheduleActionLog, ILogsState } from './types'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
-import { logs } from 'store/helpers/Logs'
 import dayjs from 'dayjs'
 import { IStateActionPlan } from '../weather/actionCoordinationSlice'
 import { RootState } from 'store'
 
-const initialState: ILogsState = {
-    status: null,
-    error: null,
+export enum ActionReasons {
+    coordination = 'Coordination apply',
+    manual = 'Manual apply',
 }
 
-export const logScheduleAction = createAsyncThunk<
+export const logScheduleActions = createAsyncThunk<
     void,
-    IDataForScheduleActionLog,
+    IDataForScheduleActionLog[],
     {
         rejectValue: MyKnownError
     }
->(
-    'logs/logScheduleAction',
-    async function ({
-        actionTime,
-        userName,
-        onionCode,
-        period,
-        bonusSize,
-        bonusType,
-        capacityPercentage,
-        dateOfSchedule,
-    }) {
-        try {
-            const doc = new GoogleSpreadsheet(
-                process.env.REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
+>('logs/logScheduleActions', async function (scheduleActions) {
+    try {
+        const doc = new GoogleSpreadsheet(
+            process.env.REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID
+        )
+
+        await doc.useServiceAccountAuth({
+            client_email:
+                process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL!,
+            private_key:
+                process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!.replace(
+                    /\\n/g,
+                    '\n'
+                ),
+        })
+        const todayDate = dayjs().format('DD.MM.YYYY')
+        await doc.loadInfo()
+        const todayActionScheduleLog = doc.sheetsByTitle[todayDate]
+
+        if (!todayActionScheduleLog) {
+            console.log(
+                '[logsSlice/logScheduleActions] No sheet for today. Creating...'
             )
 
-            await doc.useServiceAccountAuth({
-                client_email:
-                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL!,
-                private_key:
-                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!.replace(
-                        /\\n/g,
-                        '\n'
-                    ),
+            const templateSheet = doc.sheetsByTitle['Template']
+            await templateSheet.copyToSpreadsheet(
+                process.env
+                    .REACT_APP_GOOGLE_SPREADSHEET_SCHEDULE_ACTIONS_LOG_SHEET_ID!
+            )
+
+            await doc.loadInfo()
+            const copyOfTemplate = doc.sheetsByTitle['Copy of Template']
+            await copyOfTemplate.updateProperties({
+                title: todayDate,
             })
 
-            await doc.loadInfo() // loads document properties and worksheets
-            console.log(`logsSlice doc`, doc)
+            console.log('Created sheet for today')
+        }
 
+        const logRows = scheduleActions.map((action) => {
+            const {
+                actionTime,
+                userName,
+                onionCode,
+                period,
+                bonusSize,
+                bonusType,
+                capacityPercentage,
+                dateOfSchedule,
+                actionReason,
+            } = action
             const logRow = {
                 'Action time': actionTime,
+                'Action reason': actionReason,
                 Name: userName,
                 Onion: onionCode,
                 Slots: period,
@@ -61,109 +82,37 @@ export const logScheduleAction = createAsyncThunk<
                 'Date of schedule': dateOfSchedule,
             }
 
-            if (!doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]) {
-                console.log('No sheet for today')
-                const todaySheet = await doc.addSheet({
-                    title: dayjs().format('DD.MM.YYYY'),
-                    headerValues: [
-                        'Action time',
-                        'Name',
-                        'Onion',
-                        'Slots',
-                        'Bonus size',
-                        'Bonus type',
-                        'Capacity +%',
-                        'Date of schedule',
-                    ],
-                    gridProperties: {
-                        frozenRowCount: 1,
-                        rowCount: 150,
-                        columnCount: 8,
-                    },
-                })
+            return logRow
+        })
 
-                await todaySheet.loadCells('A1:H1')
-
-                const columnCount = todaySheet.columnCount
-                for (let i = 0; i < columnCount; i++) {
-                    const cell = todaySheet.getCell(0, i)
-                    cell.backgroundColor = {
-                        red: 0.3,
-                        green: 0.4,
-                        blue: 0.8,
-                        alpha: 0.5,
-                    }
-                    cell.horizontalAlignment = 'CENTER'
-                    cell.textFormat = {
-                        fontSize: 11,
-                        bold: true,
-                    }
-                    await todaySheet.saveUpdatedCells()
-                }
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 160,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 0,
-                        endIndex: 2,
-                    }
-                )
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 90,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 3,
-                        endIndex: 7,
-                    }
-                )
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 160,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 7,
-                        endIndex: 8,
-                    }
-                )
-                console.log('Created sheet for today')
-            }
-            const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
-            const row = await todaySheet.addRow(logRow)
-            const columnCount = todaySheet.columnCount
-
-            console.log(
-                '[logScheduleAction] Row for updating formatting:',
-                row.rowIndex
-            )
-            const lastRow = {
-                startRowIndex: row.rowIndex - 1,
-                endRowIndex: row.rowIndex,
-                startColumnIndex: 0,
-                endColumnIndex: columnCount,
-            }
-            console.log('property', lastRow)
-            await todaySheet.loadCells(lastRow)
-            await logs.updateRangeFormatting(todaySheet, lastRow)
-        } catch (error: any) {
-            console.log('Error', error)
-            alertService.error(`[logScheduleAction] \n ${error.message}`)
-        }
+        const todaySheet = doc.sheetsByTitle[todayDate]
+        await todaySheet.addRows(logRows)
+    } catch (error: any) {
+        console.log('Error', error)
+        alertService.error(`[logScheduleActions] \n ${error.message}`)
     }
-)
+})
+interface ICoordinationRow {
+    Time: string
+    Applied: boolean
+    Confirmed: boolean
+    Name: string
+    Onion: string
+    Slots: string
+    'Bonus +%': number
+    'Bonus reason': string
+    'Capacity +%': number
+    Challenges: string
+    'Saturation bot': string
+    Mode: string
+    'OM/GS': string
+    Date: string
+}
+
+type TRow = (
+    | (string | number | boolean)[]
+    | { [header: string]: string | number | boolean }
+)[]
 
 export const logCoordination = createAsyncThunk<
     void,
@@ -189,169 +138,281 @@ export const logCoordination = createAsyncThunk<
                     ),
             })
 
-            await doc.loadInfo() // loads document properties and worksheets
+            await doc.loadInfo()
+            const tomorrowDate = dayjs().add(1, 'days').format('DD.MM.YYYY')
+            const oldTomorrowSheet = doc.sheetsByTitle[tomorrowDate]
+            oldTomorrowSheet &&
+                (await doc.deleteSheet(oldTomorrowSheet.sheetId))
+            await doc.loadInfo()
 
-            if (!doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]) {
-                console.log('No sheet for today')
-                const todaySheet = await doc.addSheet({
-                    title: dayjs().format('DD.MM.YYYY'),
-                    headerValues: [
-                        'Coordination time',
-                        'Name',
-                        'Onion',
-                        'Slots',
-                        'Bonus +%',
-                        'Bonus reason',
-                        'Capacity +%',
-                        'Challenges',
-                        'Saturation bot',
-                        'Mode',
-                        'Date of schedule',
-                    ],
-                    gridProperties: {
-                        frozenRowCount: 1,
-                        rowCount: 150,
-                        columnCount: 11,
-                    },
-                })
+            console.log('[logs/logCoordination] Creating sheet...')
 
-                await todaySheet.loadCells('A1:K1')
+            const templateSheet = doc.sheetsByTitle['Template']
+            await templateSheet.copyToSpreadsheet(
+                process.env
+                    .REACT_APP_GOOGLE_SPREADSHEET_ACTIONS_COORDINATION_SHEET_ID!
+            )
 
-                const columnCount = todaySheet.columnCount
+            await doc.loadInfo()
+            const copyOfTemplate = doc.sheetsByTitle['Copy of Template']
+            await copyOfTemplate.updateProperties({
+                title: tomorrowDate,
+            })
 
-                for (let i = 0; i < columnCount; i++) {
-                    const cell = todaySheet.getCell(0, i)
-                    cell.backgroundColor = {
-                        red: 0.3,
-                        green: 0.4,
-                        blue: 0.8,
-                        alpha: 0.5,
-                    }
-                    cell.horizontalAlignment = 'CENTER'
-                    cell.textFormat = {
-                        fontSize: 11,
-                        bold: true,
-                    }
-                }
+            console.log('Created sheet for Tomorrow')
+            await doc.loadInfo()
 
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 160,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 0,
-                        endIndex: 2,
-                    }
-                )
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 100,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 3,
-                        endIndex: 7,
-                    }
-                )
-                todaySheet.updateDimensionProperties(
-                    'COLUMNS',
-                    {
-                        pixelSize: 160,
-                        hiddenByUser: false,
-                        hiddenByFilter: false,
-                        developerMetadata: [],
-                    },
-                    {
-                        startIndex: 7,
-                        endIndex: 10,
-                    }
-                )
-                await todaySheet.saveUpdatedCells()
-                console.log('Created sheet for today')
-            }
-
-            const todaySheet = doc.sheetsByTitle[dayjs().format('DD.MM.YYYY')]
-
+            const tomorrowCoordinationSheet = doc.sheetsByTitle[tomorrowDate]
             const plans = [...kyiv_plan, ...mio_plan, ...small_plan]
 
             const coordinationTime = dayjs().format('HH:mm:ss DD.MM.YYYY')
             const { name, surname } = (getState() as RootState).user
 
-            for (const plan of plans) {
-                const {
-                    city,
-                    bonusSizeIncrease,
-                    capacitySizeIncrease,
-                    bonusReason,
-                    wetStartSlot,
-                    wetFinishSlot,
-                    challenges,
-                    saturationBotMode,
-                    mode,
-                    date,
-                } = plan
+            const rows: ICoordinationRow[] = plans.map((plan) => {
+                const doteForLink =
+                    dayjs().format('YYYY') +
+                    '-' +
+                    plan.date.split('.').reverse().join('-')
 
-                const logRow = {
-                    'Coordination time': coordinationTime,
+                const row: ICoordinationRow = {
+                    Time: coordinationTime,
+                    Applied: false,
+                    Confirmed: false,
                     Name: `${name} ${surname}`,
-                    Onion: city,
-                    Slots: `${wetStartSlot} - ${wetFinishSlot}`,
-                    'Bonus +%': bonusSizeIncrease,
-                    'Bonus reason': bonusReason,
-                    'Capacity +%': capacitySizeIncrease,
-                    Challenges: challenges,
-                    'Saturation bot': saturationBotMode,
-                    Mode: mode,
-                    'Date of schedule': date,
+                    Onion: plan.city,
+                    Slots: `${plan.wetStartSlot} - ${plan.wetFinishSlot}`,
+                    'Bonus +%': plan.bonusSizeIncrease,
+                    'Bonus reason': plan.bonusReason,
+                    'Capacity +%': plan.capacitySizeIncrease,
+                    Challenges: plan.challenges,
+                    'Saturation bot': plan.saturationBotMode,
+                    Mode: plan.mode,
+                    'OM/GS': plan.responsibleStaffTGNick,
+                    Date: doteForLink,
                 }
-                const row = await todaySheet.addRow(logRow)
-                const columnCount = todaySheet.columnCount
 
-                // console.log(
-                //     '[logScheduleAction] Row for updating formatting:',
-                //     row.rowIndex
-                // )
-                const lastRow = {
-                    startRowIndex: row.rowIndex - 1,
-                    endRowIndex: row.rowIndex,
-                    startColumnIndex: 0,
-                    endColumnIndex: columnCount,
-                }
-                // console.log(
-                //     '[logScheduleAction] Row for updating formatting:',
-                //     row.rowIndex
-                // )
+                return row
+            })
 
-                // console.log('property', lastRow)
-                await todaySheet.loadCells(lastRow)
-                await logs.updateRangeFormatting(todaySheet, lastRow)
-            }
+            await tomorrowCoordinationSheet.addRows(rows as unknown as TRow)
         } catch (error: any) {
             console.log('Error', error)
-            alertService.error(`[logScheduleAction] \n ${error.message}`)
+            alertService.error(`[logScheduleActions] \n ${error.message}`)
         }
     }
 )
+
+export interface IPropsGetConfirmedOnionCoordination {
+    date: string
+}
+
+export const getConfirmedOnionsCoordination = createAsyncThunk<
+    IConfirmedCoordinationRow[],
+    IPropsGetConfirmedOnionCoordination,
+    {
+        rejectValue: MyKnownError
+    }
+>(
+    'logs/getConfirmedOnionsCoordination',
+    async function ({ date }, { getState }) {
+        try {
+            const doc = new GoogleSpreadsheet(
+                process.env.REACT_APP_GOOGLE_SPREADSHEET_ACTIONS_COORDINATION_SHEET_ID
+            )
+
+            await doc.useServiceAccountAuth({
+                client_email:
+                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL!,
+                private_key:
+                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!.replace(
+                        /\\n/g,
+                        '\n'
+                    ),
+            })
+
+            await doc.loadInfo()
+            const coordinationSheet = doc.sheetsByTitle[date]
+            const rows = await coordinationSheet.getRows()
+
+            const confirmedCoordinations = rows.filter((coordination) => {
+                return (
+                    coordination['Confirmed'] === 'TRUE' &&
+                    coordination['Applied'] === 'FALSE'
+                )
+            })
+
+            confirmedCoordinations.forEach((coordination) => {
+                coordination['sheetRowIndex'] = coordination.rowIndex
+            })
+
+            // console.log('ConfirmedCoordinations', confirmedCoordinations)
+            return confirmedCoordinations as unknown as IConfirmedCoordinationRow[]
+        } catch (error: any) {
+            console.log('Error', error)
+            alertService.error(`[logScheduleActions] \n ${error.message}`)
+            throw new Error(error.message)
+        }
+    }
+)
+
+export interface IConfirmedCoordinationRow {
+    Time: string
+    Applied: string
+    Confirmed: string
+    Name: string
+    Onion: string
+    Slots: string
+    'Bonus +%': string
+    'Bonus reason': string
+    'Capacity +%': string
+    Challenges: string
+    'Saturation bot': string
+    Mode: string
+    Date: string
+    sheetRowIndex: number
+}
+
+export const testSheetFunc = createAsyncThunk<
+    void,
+    void,
+    {
+        rejectValue: MyKnownError
+    }
+>('logs/testSheetFunc', async function (_) {
+    try {
+        const doc = new GoogleSpreadsheet(
+            process.env.REACT_APP_GOOGLE_SPREADSHEET_ACTIONS_COORDINATION_SHEET_ID
+        )
+
+        await doc.useServiceAccountAuth({
+            client_email:
+                process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL!,
+            private_key:
+                process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!.replace(
+                    /\\n/g,
+                    '\n'
+                ),
+        })
+
+        await doc.loadInfo() // loads document properties and worksheets
+        const tomorrowDate = dayjs().add(1, 'days').format('DD.MM.YYYY')
+        const oldTomorrowCoordinationSheet = doc.sheetsByTitle[tomorrowDate]
+        oldTomorrowCoordinationSheet &&
+            (await doc.deleteSheet(oldTomorrowCoordinationSheet.sheetId))
+
+        console.log('Creating sheet...')
+
+        await doc.loadInfo() // loads document properties and worksheets
+        const templateSheet = doc.sheetsByTitle['Template']
+        await templateSheet.copyToSpreadsheet(
+            process.env
+                .REACT_APP_GOOGLE_SPREADSHEET_ACTIONS_COORDINATION_SHEET_ID!
+        )
+
+        await doc.loadInfo()
+        const copyOfTemplate = doc.sheetsByTitle['Copy of Template']
+        await copyOfTemplate.updateProperties({
+            title: tomorrowDate,
+        })
+
+        console.log('Created sheet for today')
+        await doc.loadInfo()
+
+        const tomorrowCoordinationSheet = doc.sheetsByTitle[tomorrowDate]
+
+        const logRow1: ICoordinationRow = {
+            Time: '13:13;13 13.13.2013',
+            Applied: false,
+            Confirmed: true,
+            Name: `${'name'} ${'surname'}`,
+            Onion: 'ZHY',
+            Slots: `${'10:00'} - ${'11:00'}`,
+            'Bonus +%': 1,
+            'Bonus reason': 'BW',
+            'Capacity +%': 0,
+            Challenges: '-',
+            'Saturation bot': 'NORMAL',
+            Mode: 'Normal',
+            'OM/GS': '@arsenii',
+            Date: '2022-02-13',
+        }
+        const rows = [logRow1, logRow1, logRow1, logRow1]
+
+        await tomorrowCoordinationSheet.addRows(rows as unknown as TRow)
+    } catch (error: any) {
+        console.log('Error', error)
+        alertService.error(`[logScheduleActions] \n ${error.message}`)
+        throw new Error(error.message)
+    }
+})
+
+export interface IPropsGetConfirmedOnionCoordination {
+    date: string
+}
+
+export const markCoordinationAsApplied = createAsyncThunk<
+    void,
+    IConfirmedCoordinationRow,
+    {
+        rejectValue: MyKnownError
+    }
+>(
+    'logs/markCoordinationsAsApplied',
+    async function (confirmedCoordinationRow, { getState }) {
+        try {
+            const doc = new GoogleSpreadsheet(
+                process.env.REACT_APP_GOOGLE_SPREADSHEET_ACTIONS_COORDINATION_SHEET_ID
+            )
+
+            await doc.useServiceAccountAuth({
+                client_email:
+                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_CLIENT_EMAIL!,
+                private_key:
+                    process.env.REACT_APP_AIDE_SHEETS_SERVICE_PRIVATE_KEY!.replace(
+                        /\\n/g,
+                        '\n'
+                    ),
+            })
+            const tomorrowDate = dayjs().add(1, 'days').format('DD.MM.YYYY')
+            await doc.loadInfo()
+            const coordinationSheet = doc.sheetsByTitle[tomorrowDate]
+
+            const rows = await coordinationSheet.getRows()
+
+            rows.forEach((row) => {
+                const coordinationIsApplied =
+                    row.rowIndex === +confirmedCoordinationRow.sheetRowIndex
+                coordinationIsApplied && (row['Applied'] = 'TRUE') && row.save()
+            })
+        } catch (error: any) {
+            console.log('Error', error)
+            alertService.error(`[logScheduleActions] \n ${error.message}`)
+            throw new Error(error.message)
+        }
+    }
+)
+
+const initialState: ILogsState = {
+    status: null,
+    error: null,
+    coordination: {
+        hasOnionsToApplyBonus: false,
+        confirmedCoordinations: [],
+    },
+}
 
 const logsSlice = createSlice({
     name: 'onionsSlots',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(logScheduleAction.rejected, (state) => {
+        builder.addCase(logScheduleActions.rejected, (state) => {
             state.status = StateStatus.error
         })
-        builder.addCase(logScheduleAction.pending, (state) => {
+        builder.addCase(logScheduleActions.pending, (state) => {
             state.status = StateStatus.loading
         })
-        builder.addCase(logScheduleAction.fulfilled, (state) => {
+        builder.addCase(logScheduleActions.fulfilled, (state) => {
             state.status = StateStatus.success
         })
         builder.addCase(logCoordination.rejected, (state) => {
@@ -363,6 +424,28 @@ const logsSlice = createSlice({
         builder.addCase(logCoordination.fulfilled, (state) => {
             state.status = StateStatus.success
         })
+        builder.addCase(testSheetFunc.rejected, (state) => {
+            state.status = StateStatus.error
+        })
+        builder.addCase(testSheetFunc.pending, (state) => {
+            state.status = StateStatus.loading
+        })
+        builder.addCase(testSheetFunc.fulfilled, (state) => {
+            state.status = StateStatus.success
+        })
+        builder.addCase(getConfirmedOnionsCoordination.rejected, (state) => {
+            state.status = StateStatus.error
+        })
+        builder.addCase(getConfirmedOnionsCoordination.pending, (state) => {
+            state.status = StateStatus.loading
+        })
+        builder.addCase(
+            getConfirmedOnionsCoordination.fulfilled,
+            (state, action) => {
+                state.coordination.confirmedCoordinations = action.payload
+                state.status = StateStatus.success
+            }
+        )
     },
 })
 

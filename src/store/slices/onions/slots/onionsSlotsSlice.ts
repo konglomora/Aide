@@ -1,3 +1,4 @@
+import { ActionReasons, logScheduleActions } from './../../sheets/logsSlice'
 import dayjs from 'dayjs'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
@@ -22,7 +23,6 @@ import {
 import { BonusReasons } from 'store/helpers/Bonus'
 import { aideApiAxios } from 'api'
 import { IDataForScheduleActionLog } from 'store/slices/sheets/types'
-import { logScheduleAction } from 'store/slices/sheets/logsSlice'
 
 export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
     IOnionScheduleSlotsResponse[],
@@ -64,7 +64,7 @@ export const axiosGetOnionWorkingSlotsInfo = createAsyncThunk<
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
             const workingSlots = onionScheduleSlotsResponse.data.filter(
-                (slot) => slot.bonusReasons.length > 0
+                (slot) => slot.capacity > 0
             )
 
             return workingSlots
@@ -124,7 +124,7 @@ export const axiosGetOnionScheduleSlots = createAsyncThunk<
                 throw new Error(onionScheduleSlotsResponse.statusText)
             }
             const workingSlots = onionScheduleSlotsResponse.data.filter(
-                (slot) => slot.bonusReasons.length > 0
+                (slot) => slot.capacity > 0
             )
             const onionScheduleStartSlots = workingSlots.map(
                 (slot) => slot.startTime
@@ -185,6 +185,7 @@ export const updateOnionSlots = createAsyncThunk<
                 capacityPercentage,
                 workingSlots,
             } = state.onionsSlots
+
             console.log('workingSlots', workingSlots)
             console.log('startTimeOfPeriod', startTimeOfPeriod)
 
@@ -280,8 +281,9 @@ export const updateOnionSlots = createAsyncThunk<
                 const startPeriodSlot = getValidSlotFormat(startTimeOfPeriod)
                 const endPeriodSlot = getValidSlotFormat(endTimeOfPeriod)
 
-                const logData: IDataForScheduleActionLog = {
+                const logRow: IDataForScheduleActionLog = {
                     actionTime: currentMoment,
+                    actionReason: ActionReasons.manual,
                     userName: `${name} ${surname}`,
                     onionCode: selectedOnionCode,
                     period: `${startPeriodSlot} - ${endPeriodSlot}`,
@@ -291,8 +293,8 @@ export const updateOnionSlots = createAsyncThunk<
                     dateOfSchedule: date,
                 }
 
-                console.log('Starting log to sheet logData', logData)
-                await dispatch(logScheduleAction(logData))
+                console.log('Starting log to sheet logRow', logRow)
+                await dispatch(logScheduleActions([logRow]))
             }
 
             await dispatch(

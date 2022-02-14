@@ -14,7 +14,7 @@ import { ReportSlider } from 'components/animated'
 import { SaturationReasonAnalysis } from '../cards/SaturationReasonAnalysis'
 import TitleWrapper from 'components/styled/TitleWrapper'
 import { Roles } from 'pages/authentication/userRoles'
-import { FormBackGrounds } from 'components/themes'
+import { ThemeGif } from 'components/themes'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -72,7 +72,7 @@ const SaturationByPeriodPage = () => {
 
     useEffect(() => {
         const { gif, size } = status
-            ? FormBackGrounds[theme][status]
+            ? ThemeGif[theme].status[status]
             : { gif: '', size: '' }
         setFormBackGround(gif)
         setFormBackGroundSize(size)

@@ -1,6 +1,7 @@
 import { TStateStatus } from '../../helpers/Status'
 export interface IDataForScheduleActionLog {
     actionTime: string
+    actionReason: string
     userName: string
     onionCode: string
     period: string
@@ -19,4 +20,8 @@ export interface IDataForCoordinationLog extends IDataForScheduleActionLog {
 export interface ILogsState {
     status: TStateStatus
     error: null
+    coordination: {
+        hasOnionsToApplyBonus: boolean
+        confirmedCoordinations: IConfirmedCoordinationRow[]
+    }
 }

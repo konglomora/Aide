@@ -1,3 +1,4 @@
+import { IOnionScheduleSlotsResponse } from '../onions/slots/types'
 import { GsTelegramNick } from './../../../services/coordination/AreasInfo'
 import { OpsManagersTelegramNick } from './../../../services/coordination/TelegramData'
 export interface PropsGetPrecipitatedOnionsByDay {
@@ -25,6 +26,7 @@ export interface IOnionWeatherAnalysis extends IOnionWeatherAnalysisResponse {
     mode: string
     challenges: string
     responsibleStaffTGNick: string
+    wetSchedulePeriod: IOnionScheduleSlotsResponse[]
 }
 
 export interface IOnionWeather {

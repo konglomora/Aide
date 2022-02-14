@@ -13,6 +13,7 @@ import userSlice from './slices/user/userSlice'
 import scheduleSlice from './slices/onions/schedule/scheduleSlice'
 import onionsSlotsSlice from './slices/onions/slots/onionsSlotsSlice'
 import themeSlice from './slices/theme/themeSlice'
+import logsSlice from './slices/sheets/logsSlice'
 
 const authPersistConfig = { key: 'user', storage: storageSession }
 const themePersistConfig = { key: 'theme', storage: storage }
@@ -20,6 +21,7 @@ const themePersistConfig = { key: 'theme', storage: storage }
 const rootReducer = combineReducers({
     user: persistReducer(authPersistConfig, userSlice),
     theme: persistReducer(themePersistConfig, themeSlice),
+    logs: logsSlice,
     saturationPeriodReport: saturationPeriodReportSlice,
     selectedOnionsReport: saturationSelectedOnionsSlice,
     weatherActionPlan: weatherActionPlanSlice,
