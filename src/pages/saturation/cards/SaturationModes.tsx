@@ -27,7 +27,6 @@ const SaturationModes = () => {
                     return (
                         <DataCardWrapper width="100%">
                             <TextBlock fWeight={600} fSize={'1.2em'}>
-                                {' '}
                                 {onions.join('/')} - {mode}
                             </TextBlock>
                         </DataCardWrapper>
