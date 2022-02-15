@@ -26,7 +26,7 @@ const SaturationModes = () => {
                 if (onions.length > 0) {
                     return (
                         <DataCardWrapper width="100%">
-                            <TextBlock>
+                            <TextBlock fWeight={600} fSize={'1.2em'}>
                                 {' '}
                                 {onions.join('/')} - {mode}
                             </TextBlock>
@@ -43,7 +43,9 @@ const SaturationModes = () => {
     return (
         <SaturationModeCardWrapper>
             {allOnionsOnNormalMode ? (
-                <TextBlock>All onions - NORMAL</TextBlock>
+                <TextBlock fWeight={600} fSize={'1.2em'}>
+                    All onions - NORMAL
+                </TextBlock>
             ) : (
                 <>{modeCards}</>
             )}
