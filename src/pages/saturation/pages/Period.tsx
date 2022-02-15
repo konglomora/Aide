@@ -17,6 +17,7 @@ import { Roles } from 'pages/authentication/userRoles'
 import { ThemeGif } from 'components/themes'
 import { FooterSlider } from 'components/animated/FooterSlider'
 import { SiGooglesheets } from 'react-icons/si'
+import SaturationModes from '../cards/SaturationModes'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -28,6 +29,7 @@ const SaturationByPeriodPage = () => {
         reportIsEmpty,
     } = useAppSelector((state) => state.saturationPeriodReport)
     const theme = useAppSelector((state) => state.theme.theme)
+
     const [formBackGround, setFormBackGround] = useState('')
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
 
@@ -78,6 +80,7 @@ const SaturationByPeriodPage = () => {
             : { gif: '', size: '' }
         setFormBackGround(gif)
         setFormBackGroundSize(size)
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status, reportIsEmpty])
 
@@ -111,6 +114,7 @@ const SaturationByPeriodPage = () => {
                     titleText={`Saturation report from ${periodStart}:00 to ${periodEnd}:00`}
                     theme={theme}
                 />
+                <SaturationModes />
                 <SaturationReasonAnalysis
                     theme={theme}
                     analysis={lessCouriers}

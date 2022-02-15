@@ -10,6 +10,7 @@ import {
 } from 'store/slices/sheets/logsSlice'
 import HeaderSlider from 'components/animated/HeaderSlider'
 import { applyConfirmedCoordination } from 'store/slices/weather/actionCoordinationSlice'
+import { getSaturationModes } from 'store/slices/sheets/modesSlice'
 
 const Experiments = () => {
     const dispatch = useAppDispatch()
@@ -76,14 +77,25 @@ const Experiments = () => {
         )
     }
 
+    const getModes = () => {
+        alertService.loading(dispatch(getSaturationModes()), {
+            pending: 'Getting saturation modes...',
+            success: 'Done!',
+            error: 'Rejected',
+        })
+    }
+
     return (
-        <Flex margin=" 0 0 0 22em" width="50%">
+        <Flex margin=" 0 0 0 42em" width="70%">
             <HeaderSlider>
                 <Button onClick={sheetLog}>Log to sheet</Button>
                 <Button onClick={showAlert}>Show Alert</Button>
                 <Button disabled={true}>Show Alert</Button>
                 <Button onClick={getSheetInfo}>Get sheet info</Button>
                 <Button onClick={applyCoordination}>Apply confirmed</Button>
+                <Button onClick={getModes} width={'10em'}>
+                    Get saturation modes
+                </Button>
             </HeaderSlider>
         </Flex>
     )

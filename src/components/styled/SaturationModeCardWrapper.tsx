@@ -2,28 +2,30 @@ import { Flex } from 'components/styled'
 import { FC, ReactNode } from 'react'
 import styled from 'styled-components'
 
-interface IDataCardWrapper {
-    border?: string
-    borderColor?: string
-    borderRadius?: string
+interface ISaturationModeCardWrapper {
     padding?: string
     margin?: string
     width?: string
-    backgroundColor?: string
     children: ReactNode
 }
 
-const StyledCardWrapper = styled(Flex)<IDataCardWrapper>`
+const StyledModeCardWrapper = styled(Flex)<ISaturationModeCardWrapper>`
     border: ${({ theme }) => theme.cardBorder};
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align: 'column';
     border-radius: 10px;
     padding: 15px;
     margin: 10px;
-    width: ${({ width }) => width || '30em'};
+    width: '100%';
     background-color: ${({ theme }) => theme.cardBackgroundColor};
     backdrop-filter: ${({ theme }) => theme.cardBackdropFilter};
 `
 
-export const DataCardWrapper: FC<IDataCardWrapper> = (props) => {
+export const SaturationModeCardWrapper: FC<ISaturationModeCardWrapper> = (
+    props
+) => {
     const { children } = props
-    return <StyledCardWrapper {...props}>{children}</StyledCardWrapper>
+    return <StyledModeCardWrapper {...props}>{children}</StyledModeCardWrapper>
 }

@@ -14,6 +14,7 @@ import scheduleSlice from './slices/onions/schedule/scheduleSlice'
 import onionsSlotsSlice from './slices/onions/slots/onionsSlotsSlice'
 import themeSlice from './slices/theme/themeSlice'
 import logsSlice from './slices/sheets/logsSlice'
+import modesSlice from './slices/sheets/modesSlice'
 
 const authPersistConfig = { key: 'user', storage: storageSession }
 const themePersistConfig = { key: 'theme', storage: storage }
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     weatherActionPlan: weatherActionPlanSlice,
     schedule: scheduleSlice,
     onionsSlots: onionsSlotsSlice,
+    modes: modesSlice,
 })
 
 // Disabling logs
