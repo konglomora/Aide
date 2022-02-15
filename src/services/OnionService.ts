@@ -1,6 +1,9 @@
 import { BonusReasons } from 'store/helpers/Bonus'
 import { getValidSlotFormat } from 'pages/onions/slots/cards/SlotsUpdate'
-import { IOnionScheduleSlotsResponse } from 'store/slices/onions/slots/types'
+import {
+    IOnionScheduleSlotsResponse,
+    ISlotForUpdate,
+} from 'store/slices/onions/slots/types'
 import { IConfirmedCoordinationRow } from 'store/slices/sheets/logsSlice'
 
 interface IOnionService {
@@ -212,7 +215,7 @@ class OnionService implements IOnionService {
     getUpdatedSlotsBYCoordinationRow(
         coordination: IConfirmedCoordinationRow,
         workingSlots: IOnionScheduleSlotsResponse[]
-    ): IOnionScheduleSlotsResponse[] {
+    ): ISlotForUpdate[] {
         const { wetSchedulePeriod } = this.getWetPeriod(
             coordination.Slots,
             workingSlots
@@ -231,10 +234,13 @@ class OnionService implements IOnionService {
             const newBonusReason = BonusReasons[sheetBonusReason]
             const newCapacity =
                 slot.capacity +
-                slot.capacity * (+coordination['Capacity +%'] / 100)
+                Math.round(slot.capacity * (+coordination['Capacity +%'] / 100))
 
             return {
-                ...slot,
+                id: slot.id,
+                // ...slot,
+                excellence: slot.excellence,
+                guarantee: slot.guarantee,
                 bonus: newBonus,
                 bonusReasons: [newBonusReason],
                 capacity: newCapacity,
