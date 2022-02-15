@@ -89,7 +89,7 @@ const SaturationByPeriodPage = () => {
             direction={'column'}
             align={'center'}
             justify="center"
-            margin={'4em 0 0 12em'}
+            margin={'4em 0 6em 12em'}
             width="100%"
         >
             <ReportPeriodSelectCard
