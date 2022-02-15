@@ -5,12 +5,12 @@ import { useAppDispatch } from 'hooks'
 import { IDataForScheduleActionLog } from 'store/slices/sheets/types'
 import {
     ActionReasons,
-    getConfirmedOnionsCoordination,
     logScheduleActions,
     testSheetFunc,
 } from 'store/slices/sheets/logsSlice'
 import HeaderSlider from 'components/animated/HeaderSlider'
 import { applyConfirmedCoordination } from 'store/slices/weather/actionCoordinationSlice'
+import { getSaturationModes } from 'store/slices/sheets/modesSlice'
 
 const Experiments = () => {
     const dispatch = useAppDispatch()
@@ -65,20 +65,10 @@ const Experiments = () => {
         })
     }
 
-    const getApprovedCoordinations = () => {
-        alertService.loading(
-            dispatch(getConfirmedOnionsCoordination({ date: '14.02.2022' })),
-            {
-                pending: 'Getting approved coordination...',
-                success: 'Done!',
-                error: 'Rejected',
-            }
-        )
-    }
-
     const applyCoordination = () => {
+        const tomorrowDate = dayjs().format('DD.MM.YYYY')
         alertService.loading(
-            dispatch(applyConfirmedCoordination({ date: '14.02.2022' })),
+            dispatch(applyConfirmedCoordination({ date: tomorrowDate })),
             {
                 pending: 'Applying approved coordination...',
                 success: 'Done!',
@@ -87,17 +77,25 @@ const Experiments = () => {
         )
     }
 
+    const getModes = () => {
+        alertService.loading(dispatch(getSaturationModes()), {
+            pending: 'Getting saturation modes...',
+            success: 'Done!',
+            error: 'Rejected',
+        })
+    }
+
     return (
-        <Flex margin=" 0 0 0 22em" width="50%">
+        <Flex margin=" 0 0 0 42em" width="70%">
             <HeaderSlider>
                 <Button onClick={sheetLog}>Log to sheet</Button>
                 <Button onClick={showAlert}>Show Alert</Button>
                 <Button disabled={true}>Show Alert</Button>
                 <Button onClick={getSheetInfo}>Get sheet info</Button>
-                {/* <Button onClick={getApprovedCoordinations}>
-                    Get approved coordination
-                </Button> */}
                 <Button onClick={applyCoordination}>Apply confirmed</Button>
+                <Button onClick={getModes} width={'10em'}>
+                    Get saturation modes
+                </Button>
             </HeaderSlider>
         </Flex>
     )

@@ -1,3 +1,4 @@
+import { getSaturationModes } from 'store/slices/sheets/modesSlice'
 import { onionService } from 'services'
 import { RootState } from '../../index'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
@@ -138,7 +139,7 @@ export const getSaturationReport = createAsyncThunk(
                 saturationService.isReportEmpty(saturationReport)
             )
         )
-
+        await dispatch(getSaturationModes())
         await dispatch(
             sortReportBySaturationReasons({
                 saturationReport,

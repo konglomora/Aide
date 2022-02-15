@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { slotsRegular } from 'helpers/slots'
-import { Flex } from 'components/styled'
+import { Flex, GlovoColors } from 'components/styled'
 import {
     getSaturationReport,
     setPeriodOfReport,
@@ -15,6 +15,9 @@ import { SaturationReasonAnalysis } from '../cards/SaturationReasonAnalysis'
 import TitleWrapper from 'components/styled/TitleWrapper'
 import { Roles } from 'pages/authentication/userRoles'
 import { ThemeGif } from 'components/themes'
+import { FooterSlider } from 'components/animated/FooterSlider'
+import { SiGooglesheets } from 'react-icons/si'
+import SaturationModes from '../cards/SaturationModes'
 
 const SaturationByPeriodPage = () => {
     const dispatch = useAppDispatch()
@@ -26,6 +29,7 @@ const SaturationByPeriodPage = () => {
         reportIsEmpty,
     } = useAppSelector((state) => state.saturationPeriodReport)
     const theme = useAppSelector((state) => state.theme.theme)
+
     const [formBackGround, setFormBackGround] = useState('')
     const [formBackGroundSize, setFormBackGroundSize] = useState('')
 
@@ -76,6 +80,7 @@ const SaturationByPeriodPage = () => {
             : { gif: '', size: '' }
         setFormBackGround(gif)
         setFormBackGroundSize(size)
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status, reportIsEmpty])
 
@@ -109,6 +114,7 @@ const SaturationByPeriodPage = () => {
                     titleText={`Saturation report from ${periodStart}:00 to ${periodEnd}:00`}
                     theme={theme}
                 />
+                <SaturationModes />
                 <SaturationReasonAnalysis
                     theme={theme}
                     analysis={lessCouriers}
@@ -138,6 +144,15 @@ const SaturationByPeriodPage = () => {
                     />
                 )}
             </ReportSlider>
+            <FooterSlider
+                href={
+                    process.env
+                        .REACT_APP_GOOGLE_SPREADSHEET_GLOVO_ONION_SATURATION_MODES_SHEET_LINK!
+                }
+                icon={<SiGooglesheets size={35} fill={GlovoColors.green} />}
+                title={`Saturation modes`}
+                theme={theme}
+            />
         </Flex>
     )
 }
