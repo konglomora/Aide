@@ -33,6 +33,10 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
     const linkColor =
         theme === Theme.aide ? AideColors.violet : GlovoColors.yellow
     const prepStr = `Probability of rainfall at ${slots} equals ${precipitation}`
+    const capacityStr =
+        capacitySizeIncrease > 0
+            ? ` ${capacitySizeIncrease}% for ${wetPeriod}`
+            : ' -'
 
     return (
         <DataCardWrapper>
@@ -51,9 +55,7 @@ const OnionPrecipitationCard: FC<IOnionWeatherAnalysis> = ({
                 <TextBlock>
                     Bonus: {bonusSizeIncrease}% {bonusReason} for {wetPeriod}
                 </TextBlock>
-                <TextBlock>
-                    Capacity: {capacitySizeIncrease}% for {wetPeriod}
-                </TextBlock>
+                <TextBlock>Capacity: {capacityStr}</TextBlock>
                 <TextBlock>Challenges: {challenges} </TextBlock>
                 <TextBlock>Saturation Bot: {saturationBotMode}</TextBlock>
                 <TextBlock>Mode: {mode}</TextBlock>

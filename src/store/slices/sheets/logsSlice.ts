@@ -237,6 +237,7 @@ export const getConfirmedOnionsCoordination = createAsyncThunk<
             const confirmedCoordinations = rows.filter((coordination) => {
                 return (
                     coordination['Confirmed'] === 'TRUE' &&
+                    coordination['Irrelevant'] === 'FALSE' &&
                     coordination['Applied'] === 'FALSE'
                 )
             })

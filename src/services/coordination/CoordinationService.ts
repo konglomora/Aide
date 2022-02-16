@@ -29,7 +29,7 @@ export class CoordinationService {
     resourcesByCapacity: IResourcesByCapacity = {
         KYIV: {
             bonusIncrease: {
-                full: 10,
+                full: 20,
                 partial: 20,
                 empty: 30,
             },
@@ -46,7 +46,7 @@ export class CoordinationService {
         },
         SATELLITE: {
             bonusIncrease: {
-                full: 10,
+                full: 20,
                 partial: 20,
                 empty: 30,
             },
@@ -63,7 +63,7 @@ export class CoordinationService {
         },
         MIO: {
             bonusIncrease: {
-                full: 15,
+                full: 20,
                 partial: 20,
                 empty: 40,
             },
@@ -80,7 +80,7 @@ export class CoordinationService {
         },
         SMALL: {
             bonusIncrease: {
-                full: 15,
+                full: 20,
                 partial: 20,
                 empty: 40,
             },
